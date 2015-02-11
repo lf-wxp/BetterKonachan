@@ -1,0 +1,51 @@
+.rate{
+    cursor: pointer;
+    i {
+        margin-right: 0px;
+        font-size: pxToRem(16px);
+    }
+    &.big i {
+        font-size: pxToRem(20px);
+    }
+    &.large i {
+        font-size: pxToRem(24px);
+    }
+    &.small i {
+        font-size: pxToRem(14px);
+    }
+    .icon:before {
+        @include transition;
+        content: "\f006";
+    }
+    .icon {
+        color: #999999;
+        // @include transition;
+    }
+    .icon.hover, .icon.active {
+        opacity: 1;
+        color: #FFB70A;
+    }
+    .icon.hover.active {
+        @include transition;
+        color: darken(#FFB70A, 5%);
+    }
+    .icon.active:before {
+        content: '\f005';
+    }
+}
+.rate.heart {
+    .icon.active:before {
+        content: "\f004";
+    }
+    .icon:before {
+        content: "\f08a";
+    }
+    .icon.hover, .icon.active {
+        opacity: 1;
+        color: red;
+    }
+    .icon.hover.active {
+        @include transition;
+        color: darken(red, 5%);
+    }
+}

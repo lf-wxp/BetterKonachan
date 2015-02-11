@@ -1,0 +1,240 @@
+@import "../base/_normalize";
+@import "../help/_helper";
+@import "../components/_form";
+@import "../layout/_layout";
+@import "../components/_icon";
+@import "../components/_font";
+@import "../components/_colors";
+@import "../components/_buttons";
+@import "../components/_pagebar";
+
+body > header {
+    padding-left: 40px;
+    @include boxsizing(border-box);
+    h1, a {
+        @include inlineblock;
+        height: 100%;
+        line-height: 50px;
+    }
+    h1 {
+        color: white;
+        position: relative;
+        &:after {
+            content: "";
+            width: 3px;
+            height: 50%;
+            background: $aqua;
+            display: block;
+            position: absolute;
+            right: -25px;
+            top: 0px;
+            @include transform(translateY(50%));
+        }
+    }
+    a {
+        color: darken(white, 5%);
+        margin-left: 50px;
+    }
+}
+
+.fragment.ng-enter, .fragment.ng-leave {
+    @include transition($way: cubic-bezier(0.25, 0.46, 0.45, 0.94), $time: 1s);
+    display: block;
+    width: 100%;
+    position: absolute;
+    top: 43px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.fragment.ng-enter {
+    left: 100%;
+}
+
+.fragment.ng-enter.ng-enter-active {
+    left: 0;
+}
+
+.fragment.ng-leave.ng-leave-active {
+    left: -100%;
+}
+
+.admin-left {
+    perspective: 800px;
+    transform-style: preserver-3d;
+}
+
+.threeD.fragment.ng-enter, .threeD.fragment.ng-leave {
+    @include transition($way: cubic-bezier(0.25, 0.46, 0.45, 0.94), $time: 1s);
+    transform-origin: left center;
+    display: block;
+    width: 100%;
+    position: absolute;
+    top: 43px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.threeD.fragment.ng-enter {
+    left: 100%;
+}
+
+.threeD.fragment.ng-enter.ng-enter-active {
+    left: 0;
+}
+
+.threeD.fragment.ng-leave.ng-leave-active {
+    @include transform(rotateY(90deg));
+    opacity: 0;
+}
+
+.animateFade .ng-enter {
+    @include transition;
+    opacity: 0;
+}
+
+.animateFade.ng-enter.ng-enter-active {
+    @include transition;
+    opacity: 1;
+}
+
+
+.fragment .inner{
+    min-height: 500px;
+    color: #999999;
+    position:relative;
+    a {
+        color: #999999;
+    }
+    ul {
+        font-size: 0px;
+        
+    }
+    li {
+        display: inline-block;
+        vertical-align:top;
+        margin: 0px 20px 20px 0px;
+        font-size: 16px;
+        width: 150px;
+        .img {
+            width: 150px;
+            height: 85px;
+            overflow: hidden;
+            box-shadow:1px 1px 2px #ededed;
+            border-radius: 2px;
+            display: block;
+        }
+        img {
+            display: block;
+            width: 150px;
+        }
+        span {
+            display: block;
+            text-align: center;
+            width: 100%;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            box-sizing:border-box;
+            margin-top: 0px;
+        }
+    }
+    .dimmer {
+        opacity: 0;
+        visibility: hidden;
+        background:rgba(255,255,255,0.5);
+        width: 100%;
+        height: 100%;
+        position:absolute;
+        left: 0px;
+        top: 0px;
+        @include transition;
+        
+    }
+    .dimmer.active {
+        opacity: 1;
+        visibility: visible;
+        @include transition;
+    }
+    .loading.icon {
+        display: block;
+        margin: auto;
+        margin-top: 200px;
+        font-size: 50px;
+        color: #666666;
+        width: 50px;
+        height: 50px;
+    }
+}
+.pager {
+    color: #666666;
+    font-size: 0px;
+    padding:10px;
+    span {
+        color: #666666;
+        display: inline-block;
+        font-size: 14px;
+    }
+    ul {
+        display: inline-block;
+        font-size: 0px;
+    }
+    li {
+        font-size: 14px;
+        padding:5px 10px;
+        margin: 5px;
+        display: inline-block;
+        background:#dddddd;
+        background: rgb(221, 221, 221);
+        @include transition;
+        cursor:pointer;
+        border-radius:2px;
+        &:hover {
+            background: darken(rgb(221, 221, 221),5%);
+        }
+        &.active {
+            background:darken(rgb(221, 221, 221),15%);
+        }
+    }
+    form {
+        display: inline-block;
+        font-size: 0px;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    input {
+        font-size: 14px;
+        border:1px solid #dddddd;
+        border-radius:2px;
+        padding:5px;
+        width: 50px;
+        color: #333333;
+    }
+    button {
+        margin-left: 10px;
+        margin-top: 0px;
+        color: #666666;
+    }
+}
+
+.ngdialog-content {
+    width: 300px !important;
+}
+
+.popConfirm, .notify {
+    p {
+        margin-top: 20px;
+        font-size: pxToRem(16px);
+        text-align: left;
+        margin-bottom: 20px;
+    }
+    text-align: right;
+}
+
+.notify p {
+    text-align: center;
+}
+

@@ -1,0 +1,180 @@
+.btn3d {
+    -moz-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    @include transition;
+    vertical-align: top;
+    &:hover {
+        @include transform(rotateX(90deg) translateZ(0px));
+        @include transition;
+    }
+    button, span {
+        color: $textcol;
+        @include textshadow( 2px 2px 2px #dcdcdc);
+        padding: 5px;
+        text-align: center;
+        border: 1px solid #dcdcdc;
+        border-radius: 5px;
+        font-size: pxToRem(14px);
+        background: white;
+        cursor: pointer;
+        box-sizing: border-box;
+        @include transform(translateZ(15px));
+        display: block;
+    }
+    span {
+        position: absolute;
+        left: 0px;
+        right: 0px;
+    }
+    button {
+        @include transform(rotateX(-90deg) translateZ(15px));
+        @include transition;
+    }
+}
+
+.btn {
+    background:#66b4ff;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px rgba(220, 220, 220, 0.5);
+    color: white;
+    box-sizing: border-box;
+    display: inline-block;
+    margin-top: 10px;
+    font-size: pxToRem(14px);
+    padding: 5px;
+    text-shadow: 1px 1px 1px rgba(220, 220, 220, 0.5);
+    cursor: pointer;
+    border: 1px solid gainsboro;
+    @include transition;
+    &:hover {
+        background: darken(#66b4ff,5%);
+    }
+}
+
+.yes.btn {
+    background: #428bca;
+    border-color: #357ebd;
+    color: white;
+    @include transition;
+    &:before {
+        content: "\f00c";
+        display: inline-block;
+        opacity: 0.75;
+        margin: 0em 0.25em 0em 0em;
+        width: 1.23em;
+        height: 1em;
+        font-family: 'Icons';
+        font-style: normal;
+        line-height: 1;
+        font-weight: normal;
+        text-decoration: inherit;
+        text-align: center;
+        speak: none;
+        -ms-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+        -moz-font-smoothing: antialiased;
+        font-smoothing: antialiased;
+    }
+    &:hover {
+        @include transition;
+        background: #3071a9;
+        border-color: #285e8e;
+    }
+}
+
+.no.btn {
+    background: #d9534f;
+    border-color: #d43f3a;
+    @include transition;
+    color: white;
+    &:before {
+        content: "\f00d";
+        display: inline-block;
+        opacity: 0.75;
+        margin: 0em 0.25em 0em 0em;
+        width: 1.23em;
+        height: 1em;
+        font-family: 'Icons';
+        font-style: normal;
+        line-height: 1;
+        font-weight: normal;
+        text-decoration: inherit;
+        text-align: center;
+        speak: none;
+        -ms-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+        -moz-font-smoothing: antialiased;
+        font-smoothing: antialiased;
+    }
+    &:hover {
+        @include transition;
+        background: #c9302c;
+        border-color: #ac2925;
+    }
+}
+
+.btn.flat {
+    background: #5bc0de;
+    // border-color: #46b8da;
+    @include transition;
+    color: white!important;
+    &:before {
+        display: inline-block;
+        opacity: 0.75;
+        margin: 0em 0.25em 0em 0em;
+        width: 1.23em;
+        height: 1em;
+        font-family: 'Icons';
+        font-style: normal;
+        line-height: 1;
+        font-weight: normal;
+        text-decoration: inherit;
+        text-align: center;
+        speak: none;
+        -ms-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+        -moz-font-smoothing: antialiased;
+        font-smoothing: antialiased;
+    }
+    &:hover {
+        @include transition;
+        background: #31b0d5;
+        // border-color: #269abc;
+    }
+}
+.btn.sliver {
+    background: rgb(221, 221, 221);
+    &:hover {
+        background: darken(rgb(221, 221, 221),5%);
+    }
+}
+.add.btn {
+    &:before{
+        content: "\f067";
+    }
+}
+.back.btn {
+    &:before {
+        content: "\f100";
+    }
+}
+.upload.btn {
+    &:before {
+        content: "\f093";
+    }
+}
+.download.btn {
+    &:before {
+        content: "\f019";
+    }
+}

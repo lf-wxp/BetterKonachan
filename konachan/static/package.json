@@ -1,0 +1,19 @@
+{
+  "name": "front",
+  "version": "0.0.0",
+  "description": "front =====",
+  "main": "Gruntfile.js",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-autoprefixer": "^0.7.5",
+    "grunt-browser-sync": "^0.9.1",
+    "grunt-contrib-coffee": "^0.10.1",
+    "grunt-contrib-compass": "^0.8.0",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-requirejs": "^0.4.4",
+    "grunt-contrib-sass": "^0.7.3",
+    "grunt-contrib-watch": "^0.6.1"
+  },
+  "author": "",
+  "license": "ISC"
+}

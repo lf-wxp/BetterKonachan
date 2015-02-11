@@ -1,0 +1,40 @@
+<nav>
+    <a ui-sref="." >
+        POST <i class="icon dashboard"></i>
+    </a>
+</nav>
+<div class="admin-right">
+    <div class="fragment">
+        <section class="dash view">
+            <header>
+                <h4>
+                Post
+                </h4>
+            </header>
+            <div class="inner">
+                <ul>
+                    <li ng-repeat="post in posts">
+                        <span class="img"><img src="{{post.prev_url}}" alt=""></span>
+                        <span>{{post.width}}<strong>x</strong> {{post.height}}</span>
+                        <a href="{{post.url}}" download="{{post.name}}" class="btn flat download">Download</a>
+                    </li>
+                </ul>
+                <div class="dimmer" ng-class="{active:noFinish}">
+                    <i class="loading spinner icon"></i>
+                </div>
+            </div>
+            <div class="pager">
+                <span class="btn sliver" ng-click="prev()">prev</span>
+                <ul>
+                    <li ng-class="{active:i==current}" ng-repeat="i in navpage" ng-click="invoke(i)">{{i}}</li>
+                </ul>
+                <span class="btn sliver" ng-click="next()">next</span>
+                <form action="" novalidate>
+                    <input type="number" min="0" max="{{allpages}}" ng-model="jumpData">
+                    <button class="btn sliver" ng-click="jump()" type="button">跳转</button>
+                </form>
+                <span>{{allpages}}</span>
+            </div>
+        </section>
+    </div>
+</div>

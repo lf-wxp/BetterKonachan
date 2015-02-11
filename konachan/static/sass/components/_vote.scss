@@ -1,0 +1,163 @@
+@keyframes heart {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+        top: -30px;
+        @include transform(rotateY(360deg));
+    }
+    100% {
+        opacity: 1;
+        top: 5px;
+    }
+}
+
+
+@-webkit-keyframes heart {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+        top: -30px;
+        @include transform(rotateY(360deg));
+    }
+    100% {
+        opacity: 1;
+        top: 5px;
+    }
+}
+
+
+@-moz-keyframes heart {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+        top: -30px;
+        @include transform(rotateY(360deg));
+    }
+    100% {
+        opacity: 1;
+        top: 5px;
+    }
+}
+
+
+.vote {
+    text-align: center;
+    @include inlineblock;
+    a {
+        font-size: 14px;
+        padding: 5px 5px 5px 30px;
+        border: 1px solid #cfcfcf;
+        @include inlineblock;
+        position: relative;
+        perspective: 800px;
+        transform-style: preserver-3d;
+        &:before {}
+        &:after {
+            content: "\f08a";
+        }
+        &:after, &:before {
+            display: inline-block;
+            opacity: 0.75;
+            margin: 0em 0.25em 0em 0em;
+            width: 1.23em;
+            height: 1em;
+            font-family: "Icons";
+            font-style: normal;
+            line-height: 1;
+            font-weight: normal;
+            text-decoration: inherit;
+            text-align: center;
+            box-sizing: border-box;
+            position: absolute;
+            left: 5px;
+            top: 10px;
+        }
+        &.active:before {
+            content: "\f004";
+            color: red;
+            @include transform(rotateY(30deg));
+            @include animate($ani: heart, $time: 2s, $way: ease-in-out);
+            @include transition;
+        }
+        &.active:after {
+            opacity: 0;
+            @include transition($delay: 2s);
+        }
+    }
+    span {
+        background: white;
+        @include inlineblock;
+        padding: 5px;
+        color: #757d83;
+        border: 1px solid #cfcfcf;
+        position: relative;
+        font-size: 14px;
+        margin-left: 10px;
+        &:before, &:after {
+            content: "";
+            width: 0px;
+            height: 0px;
+            position: absolute;
+            border-style: solid;
+            border-width: 8px;
+            border-top-color: transparent;
+            border-bottom-color: transparent;
+            border-left-color: transparent;
+            top: 5px;
+        }
+        &:before {
+            border-right-color: white;
+            left: -16px;
+            z-index: 5;
+        }
+        &:after {
+            left: -17px;
+            border-right-color: #cfcfcf;
+            z-index: 4;
+        }
+    }
+}
+
+.vote1 {
+    text-align: center;
+    @include inlineblock;
+    a {
+        font-size: 14px;
+        width: 16px;
+        height: 15px;
+        position:relative;
+        @include inlineblock;
+        &:after, &:before {
+            content: "\f004";
+            display: inline-block;
+            opacity: 1;
+            width: 1.23em;
+            height: 1em;
+            font-family: "Icons";
+            font-style: normal;
+            line-height: 1;
+            font-weight: normal;
+            text-decoration: inherit;
+            text-align: center;
+            box-sizing: border-box;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            @include transition($time:0.2s,$way:ease-in-out);
+        }
+        &:before {
+            color: red;
+            
+        }
+        &:hover:after {
+            @include transform(scale(0));
+            opacity: 0;
+        }
+    }
+}
