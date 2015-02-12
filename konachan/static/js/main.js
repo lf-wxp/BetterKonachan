@@ -11,18 +11,9 @@ require.config({
         'angular-animate': [
             '/static/lib/angular/angular-animate.min'
         ],
-        'angular-sanitize': [
-            '/static/lib/angular/angular-sanitize.min'
-        ],
         'angular-ui-router': [
             // '//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.min',
             '/static/lib/other/angular-ui-router.min'
-        ],
-        'checklist': [
-            '/static/lib/other/checklist'
-        ],
-        'dropdown': [
-            '/static/lib/other/dropdown'
         ],
         'ngDialog': [
             '/static/lib/other/ngDialog.min'

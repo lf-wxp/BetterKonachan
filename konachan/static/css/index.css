@@ -1,3 +1,6 @@
+@import url(ngDialog-theme-default.min.css);
+@import url(ngDialog.min.css);
+@import url(checkbox.css);
 * { margin: 0px; padding: 0px; outline: none; font-family: "Quantico", "mf_yuehei", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", STHeiti, "Microsoft YaHei", sans-serif; }
 
 a { color: #3d4450; text-decoration: none; transition: color 0.3s ease-in 0s; }
@@ -1620,7 +1623,6 @@ i.icon.weixin:before { content: "\f1d7"; }
 body > header { padding-left: 40px; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; }
 body > header h1, body > header a { display: inline-block; *display: inline; *zoom: 1; vertical-align: top; height: 100%; line-height: 50px; }
 body > header h1 { color: white; position: relative; }
-body > header h1:after { content: ""; width: 3px; height: 50%; background: #7FDBFF; display: block; position: absolute; right: -25px; top: 0px; -webkit-transform: translateY(50%); -moz-transform: translateY(50%); -ms-transform: translateY(50%); -o-transform: translateY(50%); transform: translateY(50%); }
 body > header a { color: #f2f2f2; margin-left: 50px; }
 
 .fragment.ng-enter, .fragment.ng-leave { -webkit-transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; -moz-transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; -ms-transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; -o-transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; display: block; width: 100%; position: absolute; top: 43px; left: 0; right: 0; bottom: 0; }

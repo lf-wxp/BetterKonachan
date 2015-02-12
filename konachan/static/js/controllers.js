@@ -1,10 +1,22 @@
 define(['app', 'services', 'ngDialog', 'angular-ui-router'], function(app) {
     app.
-    controller('indexCtr', ['$scope', '$window', 'ngDialog', 'Post', 'PageStorage',
-        function($scope, $window, ngDialog, Post, PageStorage) {
+    controller('indexCtr', ['$scope', '$window', 'ngDialog', 'Post', 'PageStorage', 'LocalSetting',
+        function($scope, $window, ngDialog, Post, PageStorage, LocalSetting) {
             var navSize = 5;
             var isFinish = true;
             $scope.noFinish = true;
+            $scope.isSafe = LocalSetting.getSetting('isSafe') || false;
+
+            if (LocalSetting.getSetting('support')=='false') { // 弹出检测download属性
+                ngDialog.open({
+                    template: 'notify'
+                });
+            }
+
+            $scope.$watch('isSafe', function(newValue, oldValue) {
+                LocalSetting.setSetting('isSafe',newValue);
+                invoke(PageStorage.getCurrentPage());
+            });
 
             function creatNavPage() {
                 current = PageStorage.getCurrentPage();
@@ -36,7 +48,8 @@ define(['app', 'services', 'ngDialog', 'angular-ui-router'], function(app) {
                 isFinish = false;
                 $scope.noFinish = true;
                 Post.query({
-                    'page': page
+                    'page': page,
+                    'isSafe':LocalSetting.getSetting('isSafe')
                 }, function(d) {
                     PageStorage.setCurrentPage(page);
                     $scope.posts = d.images;
