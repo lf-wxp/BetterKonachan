@@ -7,14 +7,14 @@ define(['app', 'services', 'ngDialog', 'angular-ui-router'], function(app) {
             $scope.noFinish = true;
             $scope.isSafe = LocalSetting.getSetting('isSafe') || false;
 
-            if (LocalSetting.getSetting('support')=='false') { // 弹出检测download属性
+            if (LocalSetting.getSetting('support') == 'false') { // 弹出检测download属性
                 ngDialog.open({
                     template: 'notify'
                 });
             }
 
             $scope.$watch('isSafe', function(newValue, oldValue) {
-                LocalSetting.setSetting('isSafe',newValue);
+                LocalSetting.setSetting('isSafe', newValue);
                 invoke(PageStorage.getCurrentPage());
             });
 
@@ -49,12 +49,21 @@ define(['app', 'services', 'ngDialog', 'angular-ui-router'], function(app) {
                 $scope.noFinish = true;
                 Post.query({
                     'page': page,
-                    'isSafe':LocalSetting.getSetting('isSafe')
+                    'isSafe': LocalSetting.getSetting('isSafe')
                 }, function(d) {
                     PageStorage.setCurrentPage(page);
                     $scope.posts = d.images;
                     $scope.current = page;
                     $scope.allpages = d.pages;
+                    if (d.success == "false") { //超时提醒。
+                        var dialog = ngDialog.open({
+                            template: 'timeout',
+
+                        });
+                        dialog.closePromise.then(function(data) { //重新请求
+                            invoke(PageStorage.getCurrentPage());
+                        });
+                    }
                     PageStorage.setAllPages(d.pages);
                     creatNavPage();
                     isFinish = true;
@@ -62,6 +71,18 @@ define(['app', 'services', 'ngDialog', 'angular-ui-router'], function(app) {
                 });
             }
 
+            function checkNumType(value) {
+                if (value == undefined) {
+                    if (arguments[1]){
+                        arguments[1].target.blur();
+                    }
+                    ngDialog.open({
+                        template: 'numbererror'
+                    });
+                } else {
+                    invoke(value);
+                }
+            }
             $scope.invoke = invoke;
             firstpage = PageStorage.getCurrentPage() || 1;
             invoke(firstpage);
@@ -76,7 +97,12 @@ define(['app', 'services', 'ngDialog', 'angular-ui-router'], function(app) {
                 }
             };
             $scope.jump = function() {
-                invoke($scope.jumpData);
+                checkNumType($scope.jumpData);
+            };
+            $scope.keyjump = function(event) {
+                if (event.keyCode == 13) {
+                    checkNumType($scope.jumpData,event);
+                }
             };
         }
     ]);

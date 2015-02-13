@@ -2,7 +2,7 @@ require.config({
     baseUrl: "/static/js",
     paths: {
         'angular': [
-            // '//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.9/angular.min',
+            // '//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.13/angular.min',
             '/static/lib/angular/angular'
         ],
         'angular-resource': [

@@ -1,5 +1,6 @@
 body {
     background: #efefef;
+    min-width: 445px;
 }
 
 body > header {
@@ -8,10 +9,16 @@ body > header {
     background: $basecol;
     left: 0px;
     top: 0px;
+    padding:0px 5%;
+    @include boxsizing(border-box);
+    text-align: right;
+    h1 {
+        font-size: pxToRem(14px);
+    }
 }
 
 body > article {
-    width: 80%;
+    width: 90%;
     margin: auto;
 }
 
@@ -81,6 +88,13 @@ body > footer {
 }
 
 @include respond-to(small) {
+    body > header {
+        padding:0px 0px 0px 50px;
+        text-align: left;
+        h1 {
+            font-size: pxToRem(24px);
+        }
+    }
     #admin {
         min-height: calc(100vh - 50px);
         display: flex;
@@ -133,6 +147,9 @@ body > footer {
 
 
 @include respond-to(medium) {
+    body>header {
+        padding-left:145px;
+    }
     #admin {
         nav {
             flex: 0 1 150px;

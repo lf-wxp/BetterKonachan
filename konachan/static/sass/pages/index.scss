@@ -12,8 +12,6 @@
 @import "checkbox.css";
 
 body > header {
-    padding-left: 40px;
-    @include boxsizing(border-box);
     h1, a {
         @include inlineblock;
         height: 100%;
@@ -107,7 +105,7 @@ body > header {
     li {
         display: inline-block;
         vertical-align:top;
-        margin: 0px 20px 20px 0px;
+        margin: 0px 10px 20px 10px;
         font-size: 16px;
         width: 150px;
         .img {

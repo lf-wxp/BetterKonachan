@@ -10,6 +10,7 @@ import re
 blueprint = Blueprint('view', __name__, template_folder='templates')
 URL = "http://konachan.com/post.xml?page="
 PERPAGE = 21
+TIMEOUT = 180
 # rating  safe questionable explicit
 
 
@@ -36,7 +37,7 @@ class postAPI(Resource, postParams):
         isSafe = request.args.get('isSafe', 'false')
         page = int(request.args.get('page', 1))
         try:
-            r = requests.get(URL + str(page), timeout=180).text
+            r = requests.get(URL + str(page), timeout=TIMEOUT).text
         except Exception:
             return {"success": "false", "reason": "timeout"}
         bs = BeautifulSoup(r, 'lxml')

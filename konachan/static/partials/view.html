@@ -1,5 +1,5 @@
 <nav>
-    <a ui-sref="." >
+    <a ui-sref="." class="active">
         POST <i class="icon dashboard"></i>
     </a>
 </nav>
@@ -30,8 +30,8 @@
                     <li ng-class="{active:i==current}" ng-repeat="i in navpage" ng-click="invoke(i)">{{i}}</li>
                 </ul>
                 <span class="btn sliver" ng-click="next()">next</span>
-                <form action="" novalidate>
-                    <input type="number" min="0" max="{{allpages}}" ng-model="jumpData">
+                <form novalidate>
+                    <input type="number" min="0" max="{{allpages}}" ng-model="jumpData" ng-keypress="keyjump($event)">
                     <button class="btn sliver" ng-click="jump()" type="button">跳转</button>
                 </form>
                 <span>{{allpages}}</span>
@@ -42,5 +42,15 @@
 <script type="text/ng-template" id="notify">
     <div class="notify">
         <p>该浏览器不支持直接点击下载，请换最新的chrome或firefox</p>
+    </div>
+</script>
+<script type="text/ng-template" id="timeout">
+    <div class="notify">
+        <p>获取数据超时或错误，程序会自动刷新</p>
+    </div>
+</script>
+<script type="text/ng-template" id="numbererror">
+    <div class="notify">
+        <p>请求页数必须为数字</p>
     </div>
 </script>
