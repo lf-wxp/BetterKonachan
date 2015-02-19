@@ -2,7 +2,7 @@ define(['angular', 'angular-resource'], function(angular) {
     var myService = angular.module('myService', ['ngResource']);
     myService.
     factory('Post', ['$resource', '$window',
-        function($resource,$window) {
+        function($resource, $window) {
             return $resource("/post?page=:page&isSafe=:isSafe", {
                 page: '@page'
             }, {
@@ -11,6 +11,13 @@ define(['angular', 'angular-resource'], function(angular) {
                     isArray: false
                 }
             });
+        }
+    ]).
+    factory('GetPic', ['$resource',
+        function($resource) {
+            return $resource("/pic",{},{'post':{
+                method:"POST"
+            }});
         }
     ]).
     service('PageStorage', ['$window',

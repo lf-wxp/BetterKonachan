@@ -7,6 +7,7 @@ import time
 import requests
 import math
 import re
+import base64
 blueprint = Blueprint('view', __name__, template_folder='templates')
 URL = "http://konachan.com/post.xml?page="
 PERPAGE = 21
@@ -24,6 +25,25 @@ class postParams:
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
         self.reqparse.add_argument('page', type=str, help="NO username")
+
+
+class picParams:
+
+    def __init__(self):
+        self.reqparse = reqparse.RequestParser()
+        self.reqparse.add_argument('url', type=str, help="NO picture url")
+
+
+class picAPI(Resource, picParams):
+
+    """docstring for picAPI"""
+
+    def post(self):
+        args = self.reqparse.parse_args()
+        img = requests.get(args['url'])
+        encodedata = base64.b64encode(img.content).decode('utf-8')
+        data_url = 'data:image/jpg;base64,{}'.format(encodedata)
+        return {'data_url': data_url}
 
 
 class postAPI(Resource, postParams):
@@ -54,12 +74,16 @@ class postAPI(Resource, postParams):
                 if not isSafe == 'true' or rating == 's':
                     url = img['file_url']
                     prev_url = img['preview_url']
+                    sample = img['sample_url']
+                    sample_height = img['sample_height']
+                    sample_width = img['sample_width']
                     md5 = img['md5']
                     filetype = re.findall(reg, url)[0]
                     width = img['width']
                     height = img['height']
                     data['images'].append(
-                        {"url": url, "prev_url": prev_url, "name": md5 + "." + filetype, "width": width, "height": height})
+                        {"url": url, "prev_url": prev_url, "sample": sample, "sample_height": sample_height, "sample_width": sample_width, "name": md5 + "." + filetype, "width": width, "height": height})
             return data
 api = Api(blueprint)
 api.add_resource(postAPI, "/post", endpoint="post")
+api.add_resource(picAPI, "/pic", endpoint="pic")

@@ -100,7 +100,7 @@ body > header {
     }
     ul {
         font-size: 0px;
-        
+
     }
     li {
         display: inline-block;
@@ -115,6 +115,26 @@ body > header {
             box-shadow:1px 1px 2px #ededed;
             border-radius: 2px;
             display: block;
+            position: relative;
+            cursor: zoom-in;
+            &:hover i {
+                visibility: visible;
+                opacity: 1;
+                @include transition;
+            }
+            i {
+                position: absolute;
+                font-size: pxToRem(20px);
+                height: 20px;
+                width: 20px;
+                left: 50%;
+                top: 50%;
+                @include transform(translate(-50%,-50%));
+                color: white;
+                visibility: hidden;
+                opacity: 0;
+                @include transition;
+            }
         }
         img {
             display: block;
@@ -142,7 +162,7 @@ body > header {
         left: 0px;
         top: 0px;
         @include transition;
-        
+
     }
     .dimmer.active {
         opacity: 1;
@@ -210,7 +230,7 @@ body > header {
     }
 }
 
-.ngdialog-content {
+.ngdialog-text .ngdialog-content {
     width: 300px !important;
 }
 
@@ -223,8 +243,31 @@ body > header {
     }
     text-align: right;
 }
-
+.preview {
+    position: relative;
+    min-height: 50px;
+    @include transition;
+    overflow: hidden;
+    img {
+        display: block;
+        width: 100%;
+    }
+    i {
+        font-size: pxToRem(40px);
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        display: block;
+        left: 50%;
+        top: 10%;
+        @include transform(translate(-50%,-50%));
+    }
+}
 .notify p {
     text-align: center;
+}
+.ngdialog-preview .ngdialog-content {
+    max-width: 80vw!important;
+    width: auto!important;
 }
 

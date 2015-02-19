@@ -1654,7 +1654,9 @@ body > header a { color: #f2f2f2; margin-left: 50px; }
 .fragment .inner a { color: #999999; }
 .fragment .inner ul { font-size: 0px; }
 .fragment .inner li { display: inline-block; vertical-align: top; margin: 0px 10px 20px 10px; font-size: 16px; width: 150px; }
-.fragment .inner li .img { width: 150px; height: 85px; overflow: hidden; box-shadow: 1px 1px 2px #ededed; border-radius: 2px; display: block; }
+.fragment .inner li .img { width: 150px; height: 85px; overflow: hidden; box-shadow: 1px 1px 2px #ededed; border-radius: 2px; display: block; position: relative; cursor: zoom-in; }
+.fragment .inner li .img:hover i { visibility: visible; opacity: 1; -webkit-transition: all 0.3s ease-in 0s; -moz-transition: all 0.3s ease-in 0s; -ms-transition: all 0.3s ease-in 0s; -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; }
+.fragment .inner li .img i { position: absolute; font-size: 1.66667rem; height: 20px; width: 20px; left: 50%; top: 50%; -webkit-transform: translate(-50%, -50%); -moz-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); -o-transform: translate(-50%, -50%); transform: translate(-50%, -50%); color: white; visibility: hidden; opacity: 0; -webkit-transition: all 0.3s ease-in 0s; -moz-transition: all 0.3s ease-in 0s; -ms-transition: all 0.3s ease-in 0s; -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; }
 .fragment .inner li img { display: block; width: 150px; }
 .fragment .inner li span { display: block; text-align: center; width: 100%; }
 .fragment .inner li .btn { display: block; width: 100%; box-sizing: border-box; margin-top: 0px; }
@@ -1672,11 +1674,17 @@ body > header a { color: #f2f2f2; margin-left: 50px; }
 .pager input { font-size: 14px; border: 1px solid #dddddd; border-radius: 2px; padding: 5px; width: 50px; color: #333333; }
 .pager button { margin-left: 10px; margin-top: 0px; color: #666666; }
 
-.ngdialog-content { width: 300px !important; }
+.ngdialog-text .ngdialog-content { width: 300px !important; }
 
 .popConfirm, .notify { text-align: right; }
 .popConfirm p, .notify p { margin-top: 20px; font-size: 1.33333rem; text-align: left; margin-bottom: 20px; }
 
+.preview { position: relative; min-height: 50px; -webkit-transition: all 0.3s ease-in 0s; -moz-transition: all 0.3s ease-in 0s; -ms-transition: all 0.3s ease-in 0s; -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; overflow: hidden; }
+.preview img { display: block; width: 100%; }
+.preview i { font-size: 3.33333rem; width: 40px; height: 40px; position: absolute; display: block; left: 50%; top: 10%; -webkit-transform: translate(-50%, -50%); -moz-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); -o-transform: translate(-50%, -50%); transform: translate(-50%, -50%); }
+
 .notify p { text-align: center; }
+
+.ngdialog-preview .ngdialog-content { max-width: 80vw !important; width: auto !important; }
 
 /*# sourceMappingURL=index.css.map */

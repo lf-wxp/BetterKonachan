@@ -9,7 +9,8 @@ define(['app', 'services', 'ngDialog', 'angular-ui-router'], function(app) {
 
             if (LocalSetting.getSetting('support') == 'false') { // 弹出检测download属性
                 ngDialog.open({
-                    template: 'notify'
+                    template: 'notify',
+                    className: 'ngdialog-theme-default ngdialog-text'
                 });
             }
 
@@ -73,11 +74,12 @@ define(['app', 'services', 'ngDialog', 'angular-ui-router'], function(app) {
 
             function checkNumType(value) {
                 if (value == undefined) {
-                    if (arguments[1]){
+                    if (arguments[1]) {
                         arguments[1].target.blur();
                     }
                     ngDialog.open({
-                        template: 'numbererror'
+                        template: 'numbererror',
+                        className: 'ngdialog-theme-default ngdialog-text'
                     });
                 } else {
                     invoke(value);
@@ -101,9 +103,25 @@ define(['app', 'services', 'ngDialog', 'angular-ui-router'], function(app) {
             };
             $scope.keyjump = function(event) {
                 if (event.keyCode == 13) {
-                    checkNumType($scope.jumpData,event);
+                    checkNumType($scope.jumpData, event);
                 }
             };
+            document.querySelector('.inner ul').addEventListener('click', function(event) {
+                if (/^img$/ig.test(event.target.tagName)) {
+                    img = event.target.dataset.sample;
+                    width = event.target.dataset.width;
+                    height = event.target.dataset.height;
+                    ngDialog.open({
+                        template: 'preview',
+                        data: {
+                            img: img,
+                            width: width,
+                            height: height
+                        },
+                        className: 'ngdialog-theme-default ngdialog-preview'
+                    });
+                }
+            }, false);
         }
     ]);
 });

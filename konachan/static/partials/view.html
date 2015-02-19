@@ -15,7 +15,7 @@
             <div class="inner">
                 <ul>
                     <li ng-repeat="post in posts">
-                        <span class="img"><img src="{{post.prev_url}}" alt=""></span>
+                        <span class="img"><img ng-src="{{post.prev_url}}" alt=""  data-sample="{{post.sample}}" data-height="{{post.sample_height}}" data-width="{{post.sample_width}}"><i class="icon zoom"></i></span>
                         <span>{{post.width}}<strong>x</strong> {{post.height}}</span>
                         <a href="{{post.url}}" download="{{post.name}}" class="btn flat download">Download</a>
                     </li>
@@ -52,5 +52,10 @@
 <script type="text/ng-template" id="numbererror">
     <div class="notify">
         <p>请求页数必须为数字</p>
+    </div>
+</script>
+<script type="text/ng-template" id="preview">
+    <div class="preview">
+        <img url="{{ngDialogData.img}}" alt="" noredirect src="" data-height="{{ngDialogData.height}}" data-width="{{ngDialogData.width}}">
     </div>
 </script>
