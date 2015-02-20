@@ -12,7 +12,8 @@
     "grunt-contrib-jshint": "^0.10.0",
     "grunt-contrib-requirejs": "^0.4.4",
     "grunt-contrib-sass": "^0.7.3",
-    "grunt-contrib-watch": "^0.6.1"
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-contrib-cssmin": "^0.12.1"
   },
   "author": "",
   "license": "ISC"

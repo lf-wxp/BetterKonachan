@@ -3,7 +3,7 @@ require.config({
     paths: {
         'angular': [
             // '//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.13/angular.min',
-            '/static/lib/angular/angular'
+            '/static/lib/angular/angular.min'
         ],
         'angular-resource': [
             '/static/lib/angular/angular-resource.min'
