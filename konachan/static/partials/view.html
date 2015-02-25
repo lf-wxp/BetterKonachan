@@ -1,19 +1,21 @@
-<nav>
-    <a ui-sref="." class="active">
+<nav dash-for>
+    <a ui-sref=".">
         POST <i class="icon dashboard"></i>
+    </a>
+    <a ui-sref=".setting">
+        SETTING <i class="icon setting"></i>
     </a>
 </nav>
 <div class="admin-right">
-    <div class="fragment">
+    <div class="fragment" ui-view>
         <section class="dash view">
             <header>
                 <h4>
                 Post
                 </h4>
-                <toggle ng-model='isSafe'>safe mode</toggle>
             </header>
             <div class="inner">
-                <ul>
+                <ul ng-click="previewFun($event)">
                     <li ng-repeat="post in posts">
                         <span class="img"><img ng-src="{{post.prev_url}}" alt=""  data-sample="{{post.sample}}" data-height="{{post.sample_height}}" data-width="{{post.sample_width}}"><i class="icon zoom"></i></span>
                         <span>{{post.width}}<strong>x</strong> {{post.height}}</span>
@@ -56,6 +58,7 @@
 </script>
 <script type="text/ng-template" id="preview">
     <div class="preview">
+        <a href="{{ngDialogData.source}}" class="download flat btn show" download="{{ngDialogData.name}}"></a>
         <img url="{{ngDialogData.img}}" alt="" noredirect src="" data-height="{{ngDialogData.height}}" data-width="{{ngDialogData.width}}">
     </div>
 </script>

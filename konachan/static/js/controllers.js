@@ -5,21 +5,20 @@ define(['app', 'services', 'ngDialog', 'angular-ui-router'], function(app) {
             var navSize = 5;
             var isFinish = true;
             $scope.noFinish = true;
-            $scope.isSafe = LocalSetting.getSetting('isSafe') || false;
+            $scope.isSafe = LocalSetting.getSetting('isSafe');
 
-            if (LocalSetting.getSetting('support') == 'false') { // 弹出检测download属性
+            if (LocalSetting.getSetting('support') === 'false') { // 弹出检测download属性
                 ngDialog.open({
                     template: 'notify',
                     className: 'ngdialog-theme-default ngdialog-text'
                 });
             }
 
-            $scope.$watch('isSafe', function(newValue, oldValue) {
-                LocalSetting.setSetting('isSafe', newValue);
+            $scope.$on('isSafeChange', function() { //监听isSafeChange事件
                 invoke(PageStorage.getCurrentPage());
             });
 
-            function creatNavPage() {
+            function creatNavPage() { // 创建分页的导航页
                 current = PageStorage.getCurrentPage();
                 allpages = PageStorage.getAllPages();
                 half = Math.floor(navSize / 2);
@@ -53,10 +52,13 @@ define(['app', 'services', 'ngDialog', 'angular-ui-router'], function(app) {
                     'isSafe': LocalSetting.getSetting('isSafe')
                 }, function(d) {
                     PageStorage.setCurrentPage(page);
+                    if (LocalSetting.getSetting('isRememberPage') === 'true') {
+                        LocalSetting.setSetting('localCurrent', page);
+                    }
                     $scope.posts = d.images;
                     $scope.current = page;
                     $scope.allpages = d.pages;
-                    if (d.success == "false") { //超时提醒。
+                    if (d.success === "false") { //超时提醒。
                         var dialog = ngDialog.open({
                             template: 'timeout',
 
@@ -72,12 +74,12 @@ define(['app', 'services', 'ngDialog', 'angular-ui-router'], function(app) {
                 });
             }
 
-            function checkNumType(value) {
-                if (value == undefined) {
+            function checkNumType(value) { //检测输入数字跳转功能中的值是不是为数字
+                if (value === undefined) {
                     if (arguments[1]) {
                         arguments[1].target.blur();
                     }
-                    ngDialog.open({
+                    ngDialog.open({ //不是数字提醒
                         template: 'numbererror',
                         className: 'ngdialog-theme-default ngdialog-text'
                     });
@@ -85,6 +87,7 @@ define(['app', 'services', 'ngDialog', 'angular-ui-router'], function(app) {
                     invoke(value);
                 }
             }
+
             $scope.invoke = invoke;
             firstpage = PageStorage.getCurrentPage() || 1;
             invoke(firstpage);
@@ -102,26 +105,49 @@ define(['app', 'services', 'ngDialog', 'angular-ui-router'], function(app) {
                 checkNumType($scope.jumpData);
             };
             $scope.keyjump = function(event) {
-                if (event.keyCode == 13) {
+                if (event.keyCode === 13) {
                     checkNumType($scope.jumpData, event);
                 }
             };
-            document.querySelector('.inner ul').addEventListener('click', function(event) {
+            $scope.previewFun = function(event) { //preview and download function
                 if (/^img$/ig.test(event.target.tagName)) {
                     img = event.target.dataset.sample;
                     width = event.target.dataset.width;
                     height = event.target.dataset.height;
+                    parentli = event.target.parentNode.parentNode;
+                    source = parentli.querySelector('a.download').href;
+                    name = parentli.querySelector('a.download').download;
                     ngDialog.open({
                         template: 'preview',
+                        scope: $scope,
                         data: {
                             img: img,
                             width: width,
-                            height: height
+                            height: height,
+                            source: source,
+                            name: name
                         },
                         className: 'ngdialog-theme-default ngdialog-preview'
                     });
                 }
-            }, false);
+            };
+        }
+    ]).
+    controller("settingCtr", ["$scope", "$rootScope", "$window", "LocalSetting",
+        function($scope, $rootScope, $window, LocalSetting) {
+            $scope.isSafe = LocalSetting.getSetting('isSafe');
+            $scope.isRememberPage = LocalSetting.getSetting('isRememberPage');
+            $scope.$watch('isSafe', function(newValue, oldValue) {
+                if (newValue !== oldValue) {
+                    LocalSetting.setSetting('isSafe', newValue);
+                    $scope.$emit("isSafeChange", 'data'); //当isSafe值变化时，触发isSafeChange事件
+                }
+            });
+            $scope.$watch('isRememberPage', function(newValue, oldValue) {
+                if (newValue !== oldValue) {
+                    LocalSetting.setSetting('isRememberPage', newValue);
+                }
+            });
         }
     ]);
 });

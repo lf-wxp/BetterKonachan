@@ -6,9 +6,11 @@ require.config({
             '/static/lib/angular/angular.min'
         ],
         'angular-resource': [
+            // '//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.13/angular-resource.min',
             '/static/lib/angular/angular-resource.min'
         ],
         'angular-animate': [
+            // '//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.13/angular-animate.min',
             '/static/lib/angular/angular-animate.min'
         ],
         'angular-ui-router': [
@@ -16,6 +18,7 @@ require.config({
             '/static/lib/other/angular-ui-router.min'
         ],
         'ngDialog': [
+            // '//cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.3.10/js/ngDialog.min',
             '/static/lib/other/ngDialog.min'
         ],
         "services": 'services'
@@ -31,10 +34,6 @@ require.config({
         'angular-animate': {
             deps: ['angular'],
             exports: 'angular-animate'
-        },
-        'angular-sanitize': {
-            deps: ['angular'],
-            exports: 'angular-sanitize'
         },
         'angular-ui-router': {
             deps: ['angular'],

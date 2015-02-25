@@ -13,11 +13,24 @@ define(['angular', 'angular-resource'], function(angular) {
             });
         }
     ]).
-    factory('GetPic', ['$resource',
-        function($resource) {
-            return $resource("/pic",{},{'post':{
-                method:"POST"
-            }});
+    factory('GetPic', ["$q", "$http", //图片预览服务。
+        function($q, $http) {
+            var timeoutPromise = null;
+            return {
+                get: function(data) {
+                    if (timeoutPromise) {
+                        timeoutPromise.resolve();
+                    }
+                    timeoutPromise = $q.defer();
+                    return $http.post("/pic", data, {
+                        timeout: timeoutPromise.promise
+                    });
+                },
+                abort: function() {
+                    timeoutPromise.resolve();
+                    timeoutPromise = $q.defer(); //这里需要新建一个$q对象才能再次请求
+                }
+            };
         }
     ]).
     service('PageStorage', ['$window',

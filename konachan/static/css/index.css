@@ -46,9 +46,9 @@ body > footer { background: #8A9697; margin-top: 20px; width: 100%; height: 300p
 #admin > nav a { height: 100%; display: inline-block; *display: inline; *zoom: 1; vertical-align: top; font-size: 0px; line-height: 60px; padding: 0px 10px; }
 #admin > nav a i { font-size: 1.66667rem; color: white; }
 #admin .admin-right { position: relative; overflow: hidden; background: white; min-height: calc(100vh - 50px); -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; }
-#admin .admin-right .view { padding: 20px; background: #FFF; }
-#admin .admin-right .view header { margin-bottom: 10px; }
-#admin .admin-right .view h4 { font-size: 1.5rem; font-weight: bold; color: #666666; }
+#admin .admin-right .dash { padding: 20px; background: #FFF; }
+#admin .admin-right .dash header { margin-bottom: 10px; }
+#admin .admin-right .dash h4 { font-size: 1.5rem; font-weight: bold; color: #666666; }
 #admin .admin-right .inner { padding: 10px; border-top: 1px solid #EBEBEB; }
 
 @media (min-width: 767px) { body > header { padding: 0px 0px 0px 50px; text-align: left; }
@@ -1628,7 +1628,7 @@ body > header h1, body > header a { display: inline-block; *display: inline; *zo
 body > header h1 { color: white; position: relative; }
 body > header a { color: #f2f2f2; margin-left: 50px; }
 
-.fragment.ng-enter, .fragment.ng-leave { -webkit-transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; -moz-transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; -ms-transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; -o-transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; display: block; width: 100%; position: absolute; top: 43px; left: 0; right: 0; bottom: 0; }
+.fragment.ng-enter, .fragment.ng-leave { -webkit-transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; -moz-transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; -ms-transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; -o-transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; display: block; width: 100%; position: absolute; top: 0px; left: 0; right: 0; bottom: 0; }
 
 .fragment.ng-enter { left: 100%; }
 
@@ -1637,6 +1637,8 @@ body > header a { color: #f2f2f2; margin-left: 50px; }
 .fragment.ng-leave.ng-leave-active { left: -100%; }
 
 .admin-left { perspective: 800px; transform-style: preserver-3d; }
+
+.ui.toggle { display: block; margin: 5px 0px; }
 
 .threeD.fragment.ng-enter, .threeD.fragment.ng-leave { -webkit-transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; -moz-transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; -ms-transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; -o-transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; transform-origin: left center; display: block; width: 100%; position: absolute; top: 43px; left: 0; right: 0; bottom: 0; }
 
@@ -1650,7 +1652,9 @@ body > header a { color: #f2f2f2; margin-left: 50px; }
 
 .animateFade.ng-enter.ng-enter-active { -webkit-transition: all 0.3s ease-in 0s; -moz-transition: all 0.3s ease-in 0s; -ms-transition: all 0.3s ease-in 0s; -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; opacity: 1; }
 
-.fragment .inner { min-height: 500px; color: #999999; position: relative; }
+.view .inner { min-height: 500px; }
+
+.fragment .inner { color: #999999; position: relative; }
 .fragment .inner a { color: #999999; }
 .fragment .inner ul { font-size: 0px; }
 .fragment .inner li { display: inline-block; vertical-align: top; margin: 0px 10px 20px 10px; font-size: 16px; width: 150px; }
@@ -1669,7 +1673,7 @@ body > header a { color: #f2f2f2; margin-left: 50px; }
 .pager ul { display: inline-block; font-size: 0px; }
 .pager li { font-size: 14px; padding: 5px 10px; margin: 5px; display: inline-block; background: #dddddd; background: #dddddd; -webkit-transition: all 0.3s ease-in 0s; -moz-transition: all 0.3s ease-in 0s; -ms-transition: all 0.3s ease-in 0s; -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; cursor: pointer; border-radius: 2px; }
 .pager li:hover { background: #d0d0d0; }
-.pager li.active { background: #b7b7b7; }
+.pager li.active { background: #b7b7b7; pointer-events: none; }
 .pager form { display: inline-block; font-size: 0px; margin-left: 20px; margin-right: 20px; }
 .pager input { font-size: 14px; border: 1px solid #dddddd; border-radius: 2px; padding: 5px; width: 50px; color: #333333; }
 .pager button { margin-left: 10px; margin-top: 0px; color: #666666; }
@@ -1680,11 +1684,14 @@ body > header a { color: #f2f2f2; margin-left: 50px; }
 .popConfirm p, .notify p { margin-top: 20px; font-size: 1.33333rem; text-align: left; margin-bottom: 20px; }
 
 .preview { position: relative; min-height: 50px; -webkit-transition: all 0.3s ease-in 0s; -moz-transition: all 0.3s ease-in 0s; -ms-transition: all 0.3s ease-in 0s; -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; overflow: hidden; }
+.preview a.download { font-size: 1rem; position: absolute; top: 20px; border: none; right: 0px; box-shadow: none; visibility: hidden; opacity: 0; -webkit-transition: all 0.3s ease-in 0s; -moz-transition: all 0.3s ease-in 0s; -ms-transition: all 0.3s ease-in 0s; -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; }
+.preview a.download:before { margin: 0px; }
 .preview img { display: block; width: 100%; }
 .preview i { font-size: 3.33333rem; width: 40px; height: 40px; position: absolute; display: block; left: 50%; top: 10%; -webkit-transform: translate(-50%, -50%); -moz-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); -o-transform: translate(-50%, -50%); transform: translate(-50%, -50%); }
+.preview:hover .download { visibility: visible; opacity: 1; }
 
 .notify p { text-align: center; }
 
-.ngdialog-preview .ngdialog-content { max-width: 80vw !important; width: auto !important; }
+.ngdialog-preview .ngdialog-content { max-width: 90vw !important; width: auto !important; }
 
 /*# sourceMappingURL=index.css.map */

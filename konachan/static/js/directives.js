@@ -1,5 +1,5 @@
 define(['app', 'ngDialog'], function(app) {
-    app.directive('toggle', ['LocalSetting',
+    app.directive('toggle', ['LocalSetting', //radio 表单指令
         function(LocalSetting) {
             return {
                 restrict: 'E',
@@ -12,7 +12,7 @@ define(['app', 'ngDialog'], function(app) {
                 link: function(scope, element, attrs) {
                     var label = element.find('label')[0];
                     var radio = element.find('input')[0];
-                    if (LocalSetting.getSetting('isSafe') == 'true') {
+                    if (scope.model == 'true') {
                         radio.checked = true;
                     }
                     label.addEventListener("click", function(event) {
@@ -20,13 +20,13 @@ define(['app', 'ngDialog'], function(app) {
                             element.removeClass('checked');
                             radio.checked = false;
                             scope.$apply(function() {
-                                scope.model = false;
+                                scope.model = 'false';
                             });
                         } else {
                             element.addClass('checked');
                             radio.checked = true;
                             scope.$apply(function() {
-                                scope.model = true;
+                                scope.model = 'true';
                             });
                         }
                     }, false);
@@ -34,16 +34,12 @@ define(['app', 'ngDialog'], function(app) {
             };
         }
     ]).
-    directive('noredirect', ['GetPic',
+    directive('noredirect', ['GetPic', //通过a标签的src属性获取konachan sample图片会被重定向，所以只能从新通过服务器再获取一次。
         function(GetPic) {
             return {
                 restrict: 'A',
-                scope: {
-                    'url': '@'
-                },
+                scope: true,
                 link: function(scope, element, attrs) {
-                    var pic = new GetPic();
-                    pic.url = scope.url;
                     var i = document.createElement("i");
                     i.className = 'loading spinner icon';
                     var preview = element.parent('.preview');
@@ -53,10 +49,13 @@ define(['app', 'ngDialog'], function(app) {
                         'height': '0px',
                         'opacity': '0'
                     });
+                    element[0].previousElementSibling.style.display = "none";
                     preview.css('height', '0px');
                     preview.append(i);
-                    pic.$post({}, function(success) {
-                        url = success['data_url'];
+                    GetPic.get({ //调用GetPic服务获取预览图片
+                        url: attrs['url']
+                    }).then(function(result) {
+                        url = result['data']['data_url'];
                         i.remove();
                         comWidth = parseFloat(window.getComputedStyle(element[0]).width);
                         comHeight = sample_height * comWidth / sample_width;
@@ -64,11 +63,35 @@ define(['app', 'ngDialog'], function(app) {
                             'height': comHeight + "px",
                             'opacity': '1'
                         });
+                        element[0].previousElementSibling.style.display = "block";
                         preview.css('height', comHeight + "px");
                         element.attr('src', url);
                     });
                 }
-            }
+            };
         }
-    ])
+    ]).
+    directive('dashFor', ['$location', //一个简单左侧菜单栏高亮指令
+        function($location) {
+            return {
+                restrict: 'AE',
+                scope: '=',
+                link: function(scope, elem, attrs) {
+                    scope.$on('$viewContentLoaded', function() {
+                        as = elem.find('a');
+                        for (var i = 0; i < as.length; i++) {
+                            index = as[i].href.indexOf('/', 10) ? as[i].href.indexOf('/', 10) : 0;
+                            localurl = as[i].href.slice(index);
+                            if (localurl == $location.path()) {
+                                as[i].classList.add('active');
+                            } else {
+                                as[i].classList.remove('active');
+                            }
+
+                        }
+                    });
+                }
+            };
+        }
+    ]);
 });

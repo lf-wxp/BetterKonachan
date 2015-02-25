@@ -6,13 +6,21 @@ define(['angular', 'angular-resource', 'angular-animate', 'ngDialog', 'angular-u
             if ((typeof a.download) != "undefined") {
                 LocalSetting.setSetting('support', 'true');
             }
-            if ($window.sessionStorage["current"]) {
-                PageStorage.setCurrentPage(Number($window.sessionStorage["current"]));
-            } else {
-                PageStorage.setCurrentPage(null);
-            }
             for (key in $window.localStorage) {
                 LocalSetting.setSetting(key, $window.localStorage[key]);
+            }
+            if (!$window.localStorage.hasOwnProperty('isSafe')) { //默认开启安全模式
+                LocalSetting.setSetting('isSafe', 'true');
+            }
+            if (!$window.localStorage.hasOwnProperty('isRememberPage')) { //默认关闭记录页数
+                LocalSetting.setSetting('isRememberPage', 'false');
+            }
+            if ($window.sessionStorage["current"]) {
+                PageStorage.setCurrentPage(Number($window.sessionStorage["current"]));
+            } else if ($window.localStorage['isRememberPage'] == "true") {
+                PageStorage.setCurrentPage(Number($window.localStorage["localCurrent"]));
+            } else {
+                PageStorage.setCurrentPage(null);
             }
         }
     ]);

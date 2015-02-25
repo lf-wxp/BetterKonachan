@@ -18,6 +18,9 @@ TIMEOUT = 180
 @blueprint.route('/')
 def index():
     return render_template('index.html')
+@blueprint.route('/setting')
+def setting():
+    return index()
 
 
 class postParams:

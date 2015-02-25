@@ -68,7 +68,7 @@ body > footer {
         background: white;
         min-height: calc(100vh - 50px);
         @include boxsizing(border-box);
-        .view {
+        .dash {
             padding: 20px;
             background: #FFF;
             header {
