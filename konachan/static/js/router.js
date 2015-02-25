@@ -7,7 +7,7 @@ define(['app', 'angular-ui-router'], function(app) {
                 templateUrl: 'static/partials/view.html',
                 controller: 'indexCtr'
             }).
-            state('view.setting', {
+            state('setting', {
                 url: 'setting',
                 templateUrl: 'static/partials/setting.html',
                 controller: 'settingCtr'

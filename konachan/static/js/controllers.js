@@ -90,7 +90,7 @@ define(['app', 'services', 'ngDialog', 'angular-ui-router'], function(app) {
 
             $scope.invoke = invoke;
             firstpage = PageStorage.getCurrentPage() || 1;
-            invoke(firstpage);
+            // invoke(firstpage);
             $scope.next = function() {
                 if (PageStorage.getCurrentPage() + 1 <= PageStorage.getAllPages()) {
                     invoke(PageStorage.getCurrentPage() + 1);

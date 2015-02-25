@@ -1,64 +1,52 @@
-<nav dash-for>
-    <a ui-sref=".">
-        POST <i class="icon dashboard"></i>
-    </a>
-    <a ui-sref=".setting">
-        SETTING <i class="icon setting"></i>
-    </a>
-</nav>
-<div class="admin-right">
-    <div class="fragment" ui-view>
-        <section class="dash view">
-            <header>
-                <h4>
-                Post
-                </h4>
-            </header>
-            <div class="inner">
-                <ul ng-click="previewFun($event)">
-                    <li ng-repeat="post in posts">
-                        <span class="img"><img ng-src="{{post.prev_url}}" alt=""  data-sample="{{post.sample}}" data-height="{{post.sample_height}}" data-width="{{post.sample_width}}"><i class="icon zoom"></i></span>
-                        <span>{{post.width}}<strong>x</strong> {{post.height}}</span>
-                        <a href="{{post.url}}" download="{{post.name}}" class="btn flat download">Download</a>
-                    </li>
-                </ul>
-                <div class="dimmer" ng-class="{active:noFinish}">
-                    <i class="loading spinner icon"></i>
-                </div>
-            </div>
-            <div class="pager">
-                <span class="btn sliver" ng-click="prev()">prev</span>
-                <ul>
-                    <li ng-class="{active:i==current}" ng-repeat="i in navpage" ng-click="invoke(i)">{{i}}</li>
-                </ul>
-                <span class="btn sliver" ng-click="next()">next</span>
-                <form novalidate>
-                    <input type="number" min="0" max="{{allpages}}" ng-model="jumpData" ng-keypress="keyjump($event)">
-                    <button class="btn sliver" ng-click="jump()" type="button">跳转</button>
-                </form>
-                <span>{{allpages}}</span>
-            </div>
-        </section>
+<section class="dash view">
+    <header>
+        <h4>
+        Post
+        </h4>
+    </header>
+    <div class="inner">
+        <ul ng-click="previewFun($event)">
+            <li ng-repeat="post in posts">
+                <span class="img"><img ng-src="{{post.prev_url}}" alt=""  data-sample="{{post.sample}}" data-height="{{post.sample_height}}" data-width="{{post.sample_width}}"><i class="icon zoom"></i></span>
+                <span>{{post.width}}<strong>x</strong> {{post.height}}</span>
+                <a href="{{post.url}}" download="{{post.name}}" class="btn flat download">Download</a>
+            </li>
+        </ul>
+        <div class="dimmer" ng-class="{active:noFinish}">
+            <i class="loading spinner icon"></i>
+        </div>
     </div>
-</div>
+    <div class="pager">
+        <span class="btn sliver" ng-click="prev()">prev</span>
+        <ul>
+            <li ng-class="{active:i==current}" ng-repeat="i in navpage" ng-click="invoke(i)">{{i}}</li>
+        </ul>
+        <span class="btn sliver" ng-click="next()">next</span>
+        <form novalidate>
+            <input type="number" min="0" max="{{allpages}}" ng-model="jumpData" ng-keypress="keyjump($event)">
+            <button class="btn sliver" ng-click="jump()" type="button">跳转</button>
+        </form>
+        <span>{{allpages}}</span>
+    </div>
+</section>
 <script type="text/ng-template" id="notify">
-    <div class="notify">
-        <p>该浏览器不支持直接点击下载，请换最新的chrome或firefox</p>
-    </div>
+<div class="notify">
+    <p>该浏览器不支持直接点击下载，请换最新的chrome或firefox</p>
+</div>
 </script>
 <script type="text/ng-template" id="timeout">
-    <div class="notify">
-        <p>获取数据超时或错误，程序会自动刷新</p>
-    </div>
+<div class="notify">
+    <p>获取数据超时或错误，程序会自动刷新</p>
+</div>
 </script>
 <script type="text/ng-template" id="numbererror">
-    <div class="notify">
-        <p>请求页数必须为数字</p>
-    </div>
+<div class="notify">
+    <p>请求页数必须为数字</p>
+</div>
 </script>
 <script type="text/ng-template" id="preview">
-    <div class="preview">
-        <a href="{{ngDialogData.source}}" class="download flat btn show" download="{{ngDialogData.name}}"></a>
-        <img url="{{ngDialogData.img}}" alt="" noredirect src="" data-height="{{ngDialogData.height}}" data-width="{{ngDialogData.width}}">
-    </div>
+<div class="preview">
+    <a href="{{ngDialogData.source}}" class="download flat btn show" download="{{ngDialogData.name}}"></a>
+    <img url="{{ngDialogData.img}}" alt="" noredirect src="" data-height="{{ngDialogData.height}}" data-width="{{ngDialogData.width}}">
+</div>
 </script>
