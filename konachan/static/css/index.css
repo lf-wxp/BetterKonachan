@@ -46,15 +46,17 @@ body > footer { background: #8A9697; margin-top: 20px; width: 100%; height: 300p
 #admin > nav a { height: 100%; display: inline-block; *display: inline; *zoom: 1; vertical-align: top; font-size: 0px; line-height: 60px; padding: 0px 10px; }
 #admin > nav a i { font-size: 1.66667rem; color: white; }
 #admin .admin-right { position: relative; overflow: hidden; background: white; min-height: calc(100vh - 50px); -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; }
+#admin .admin-right canvas { position: absolute; width: 100%; height: 100%; left: 0px; top: 0px; }
 #admin .admin-right .dash { padding: 20px; background: #FFF; }
 #admin .admin-right .dash header { margin-bottom: 10px; }
 #admin .admin-right .dash h4 { font-size: 1.5rem; font-weight: bold; color: #666666; }
 #admin .admin-right .inner { padding: 10px; border-top: 1px solid #EBEBEB; }
+#admin .admin-right .inner canvas { z-index: 0 !important; }
 
 @media (min-width: 767px) { body > header { padding: 0px 0px 0px 50px; text-align: left; }
   body > header h1 { font-size: 2rem; }
   #admin { min-height: calc(100vh - 50px); display: flex; flex-flow: row nowrap; justify: center; align-items: flex-start; align-content: stretch; align-items: stretch; width: 100%; margin-top: 0px; }
-  #admin .admin-right { background: white; font-size: 1.33333rem; flex: 1 1 calc(100% - 50px); }
+  #admin .admin-right { font-size: 1.33333rem; flex: 1 1 calc(100% - 50px); }
   #admin > nav { flex: 0 1 50px; background: #f7f7f7; border-right: 1px solid #ebebeb; margin: 0px; height: auto; }
   #admin > nav a { font-size: 0px; display: block; line-height: 40px; height: 42px; text-align: center; padding: 0px; width: 100%; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; color: #3d4450; -webkit-transition: all 0.3s ease-in 0s; -moz-transition: all 0.3s ease-in 0s; -ms-transition: all 0.3s ease-in 0s; -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; border-top: 1px solid #ebebeb; }
   #admin > nav a:hover, #admin > nav a.active { box-shadow: 1px 0 0 white, inset 5px 0 0 -1px #ea533f; background: white; }
@@ -1625,7 +1627,8 @@ i.icon.weixin:before { content: "\f1d7"; }
 @keyframes pace-spinner { 0% { transform: rotate(0deg); transform: rotate(0deg); }
   100% { transform: rotate(360deg); transform: rotate(360deg); } }
 body > header h1, body > header a { display: inline-block; *display: inline; *zoom: 1; vertical-align: top; height: 100%; line-height: 50px; }
-body > header h1 { color: white; position: relative; }
+body > header h1 { color: white; position: relative; -webkit-text-shadow: 2px 2px 2px #666666; -moz-text-shadow: 2px 2px 2px #666666; -ms-text-shadow: 2px 2px 2px #666666; -o-text-shadow: 2px 2px 2px #666666; text-shadow: 2px 2px 2px #666666; -webkit-transition: all 0.3s ease-in 0s; -moz-transition: all 0.3s ease-in 0s; -ms-transition: all 0.3s ease-in 0s; -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; }
+body > header h1:hover { -webkit-text-shadow: 4px 4px 4px #333333; -moz-text-shadow: 4px 4px 4px #333333; -ms-text-shadow: 4px 4px 4px #333333; -o-text-shadow: 4px 4px 4px #333333; text-shadow: 4px 4px 4px #333333; }
 body > header a { color: #f2f2f2; margin-left: 50px; }
 
 .fragment.ng-enter, .fragment.ng-leave { -webkit-transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; -moz-transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; -ms-transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; -o-transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; display: block; width: 100%; position: absolute; top: 0px; left: 0; right: 0; bottom: 0; }
@@ -1662,8 +1665,8 @@ body > header a { color: #f2f2f2; margin-left: 50px; }
 .fragment .inner li .img:hover i { visibility: visible; opacity: 1; -webkit-transition: all 0.3s ease-in 0s; -moz-transition: all 0.3s ease-in 0s; -ms-transition: all 0.3s ease-in 0s; -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; }
 .fragment .inner li .img i { position: absolute; font-size: 1.66667rem; height: 20px; width: 20px; left: 50%; top: 50%; -webkit-transform: translate(-50%, -50%); -moz-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); -o-transform: translate(-50%, -50%); transform: translate(-50%, -50%); color: white; visibility: hidden; opacity: 0; -webkit-transition: all 0.3s ease-in 0s; -moz-transition: all 0.3s ease-in 0s; -ms-transition: all 0.3s ease-in 0s; -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; }
 .fragment .inner li img { display: block; width: 150px; }
-.fragment .inner li span { display: block; text-align: center; width: 100%; }
-.fragment .inner li .btn { display: block; width: 100%; box-sizing: border-box; margin-top: 0px; }
+.fragment .inner li span { display: block; text-align: center; width: 100%; position: relative; }
+.fragment .inner li .btn { display: block; width: 100%; box-sizing: border-box; margin-top: 0px; position: relative; }
 .fragment .inner .dimmer { opacity: 0; visibility: hidden; background: rgba(255, 255, 255, 0.5); width: 100%; height: 100%; position: absolute; left: 0px; top: 0px; -webkit-transition: all 0.3s ease-in 0s; -moz-transition: all 0.3s ease-in 0s; -ms-transition: all 0.3s ease-in 0s; -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; }
 .fragment .inner .dimmer.active { opacity: 1; visibility: visible; -webkit-transition: all 0.3s ease-in 0s; -moz-transition: all 0.3s ease-in 0s; -ms-transition: all 0.3s ease-in 0s; -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; }
 .fragment .inner .loading.icon { display: block; margin: auto; margin-top: 200px; font-size: 50px; color: #666666; width: 50px; height: 50px; }

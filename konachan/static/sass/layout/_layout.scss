@@ -63,6 +63,13 @@ body > footer {
         }
     }
     .admin-right {
+        canvas {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                left: 0px;
+                top: 0px;
+        }
         position: relative;
         overflow: hidden;
         background: white;
@@ -83,6 +90,9 @@ body > footer {
         .inner {
             padding: 10px;
             border-top: 1px solid #EBEBEB;
+            canvas {
+                z-index: 0!important;
+            }
         }
     }
 }
@@ -106,7 +116,7 @@ body > footer {
         width: 100%;
         margin-top: 0px;
         .admin-right {
-            background: white;
+            // background: white;
             font-size: pxToRem(16px);
             flex: 1 1 calc(100% - 50px);
         }

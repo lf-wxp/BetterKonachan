@@ -21,6 +21,9 @@ require.config({
             // '//cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.3.10/js/ngDialog.min',
             '/static/lib/other/ngDialog.min'
         ],
+        'canvasBg':[
+            '/static/lib/other/canvasBg'
+        ],
         "services": 'services'
     },
     shim: {

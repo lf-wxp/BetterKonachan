@@ -5,6 +5,7 @@
         </h4>
     </header>
     <div class="inner">
+        <canvas></canvas>
         <ul ng-click="previewFun($event)">
             <li ng-repeat="post in posts">
                 <span class="img"><img ng-src="{{post.prev_url}}" alt=""  data-sample="{{post.sample}}" data-height="{{post.sample_height}}" data-width="{{post.sample_width}}"><i class="icon zoom"></i></span>

@@ -1,4 +1,4 @@
-define(['app', 'services', 'ngDialog', 'angular-ui-router'], function(app) {
+define(['app', 'canvasBg','services', 'ngDialog', 'angular-ui-router'], function(app,canvasBg) {
     app.
     controller('indexCtr', ['$scope', '$window', 'ngDialog', 'Post', 'PageStorage', 'LocalSetting',
         function($scope, $window, ngDialog, Post, PageStorage, LocalSetting) {
@@ -13,6 +13,9 @@ define(['app', 'services', 'ngDialog', 'angular-ui-router'], function(app) {
                     className: 'ngdialog-theme-default ngdialog-text'
                 });
             }
+
+            var can3 = new canvasBg('.inner canvas');
+            can3.renderFillStrokeRect("#ffffff", can3.getRects(20, 20));
 
             $scope.$on('isSafeChange', function() { //监听isSafeChange事件
                 invoke(PageStorage.getCurrentPage());
@@ -90,7 +93,7 @@ define(['app', 'services', 'ngDialog', 'angular-ui-router'], function(app) {
 
             $scope.invoke = invoke;
             firstpage = PageStorage.getCurrentPage() || 1;
-            // invoke(firstpage);
+            invoke(firstpage);
             $scope.next = function() {
                 if (PageStorage.getCurrentPage() + 1 <= PageStorage.getAllPages()) {
                     invoke(PageStorage.getCurrentPage() + 1);
