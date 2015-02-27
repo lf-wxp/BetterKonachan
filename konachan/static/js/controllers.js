@@ -1,10 +1,12 @@
-define(['app', 'canvasBg','services', 'ngDialog', 'angular-ui-router'], function(app,canvasBg) {
+define(['app', 'canvasBg', 'services', 'ngDialog', 'angular-ui-router'], function(app, canvasBg) {
     app.
     controller('indexCtr', ['$scope', '$window', 'ngDialog', 'Post', 'PageStorage', 'LocalSetting',
         function($scope, $window, ngDialog, Post, PageStorage, LocalSetting) {
             var navSize = 5;
             var isFinish = true;
             $scope.noFinish = true;
+            $scope.render = true;
+            $scope.resize = true;
             $scope.isSafe = LocalSetting.getSetting('isSafe');
 
             if (LocalSetting.getSetting('support') === 'false') { // 弹出检测download属性
@@ -14,12 +16,38 @@ define(['app', 'canvasBg','services', 'ngDialog', 'angular-ui-router'], function
                 });
             }
 
-            var can3 = new canvasBg('.inner canvas');
-            can3.renderFillStrokeRect("#ffffff", can3.getRects(20, 20));
+
 
             $scope.$on('isSafeChange', function() { //监听isSafeChange事件
                 invoke(PageStorage.getCurrentPage());
             });
+
+            $scope.$on('$viewContentLoaded', function() {
+                $scope.render = true;
+            });
+
+            $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {//当ng-repeat最后一个渲染完成之后触发的事件，由onFinishRender指令触发
+                if ($scope.render) {
+                    renderCanvasBg();
+                    $scope.render = false;
+                }
+            });
+
+            var w = angular.element($window);
+            var handler;
+            w.bind('resize', function() {//当窗口resize时，重新绘制背景
+                if (handler) {
+                    clearTimeout(handler);
+                }
+                handler = setTimeout(function() {
+                    renderCanvasBg();
+                }, 100);
+            });
+
+            function renderCanvasBg() {
+                var can3 = new canvasBg('.inner canvas');
+                can3.renderFillStrokeRect("#ffffff", can3.getRects(10, 10));
+            }
 
             function creatNavPage() { // 创建分页的导航页
                 current = PageStorage.getCurrentPage();
@@ -70,6 +98,7 @@ define(['app', 'canvasBg','services', 'ngDialog', 'angular-ui-router'], function
                             invoke(PageStorage.getCurrentPage());
                         });
                     }
+
                     PageStorage.setAllPages(d.pages);
                     creatNavPage();
                     isFinish = true;

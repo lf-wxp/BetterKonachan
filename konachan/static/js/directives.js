@@ -93,5 +93,17 @@ define(['app', 'ngDialog'], function(app) {
                 }
             };
         }
-    ]);
+    ]).
+    directive('onFinishRender', function($timeout) {//ng-repeat最后一个渲染完成。触发时间
+        return {
+            restrict: 'A',
+            link: function(scope, element, attr) {
+                if (scope.$last === true) {
+                    $timeout(function() {
+                        scope.$emit('ngRepeatFinished');
+                    });
+                }
+            }
+        };
+    });
 });
