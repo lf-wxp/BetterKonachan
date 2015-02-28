@@ -10,6 +10,7 @@ body > header {
     left: 0px;
     top: 0px;
     padding:0px 5%;
+    position: relative;
     @include boxsizing(border-box);
     text-align: right;
     h1 {

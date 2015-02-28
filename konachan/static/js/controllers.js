@@ -16,8 +16,6 @@ define(['app', 'canvasBg', 'services', 'ngDialog', 'angular-ui-router'], functio
                 });
             }
 
-
-
             $scope.$on('isSafeChange', function() { //监听isSafeChange事件
                 invoke(PageStorage.getCurrentPage());
             });
@@ -26,7 +24,7 @@ define(['app', 'canvasBg', 'services', 'ngDialog', 'angular-ui-router'], functio
                 $scope.render = true;
             });
 
-            $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {//当ng-repeat最后一个渲染完成之后触发的事件，由onFinishRender指令触发
+            $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) { //当ng-repeat最后一个渲染完成之后触发的事件，由onFinishRender指令触发
                 if ($scope.render) {
                     renderCanvasBg();
                     $scope.render = false;
@@ -35,18 +33,39 @@ define(['app', 'canvasBg', 'services', 'ngDialog', 'angular-ui-router'], functio
 
             var w = angular.element($window);
             var handler;
-            w.bind('resize', function() {//当窗口resize时，重新绘制背景
+            w.bind('resize', function() { //当窗口resize时，重新绘制背景
                 if (handler) {
                     clearTimeout(handler);
                 }
                 handler = setTimeout(function() {
                     renderCanvasBg();
+                    renderHeaderCanvasBg();
                 }, 100);
             });
 
+            function renderHeaderCanvasBg() {
+                var can1 = new canvasBg('body header canvas');
+                can1.renderAnimateRandomFillStroke('rect', "#A66BBE", can1.getShape('doubleRect', {
+                    w: 20,
+                    h: 20,
+                    sw: 10,
+                    sh: 10
+                }), 5);
+
+            }
+
             function renderCanvasBg() {
-                var can3 = new canvasBg('.inner canvas');
-                can3.renderFillStrokeRect("#ffffff", can3.getRects(10, 10));
+                var can = new canvasBg('.inner canvas');
+                var shape1 = ['line', 'double', 'rect', 'path'];
+                var shape2 = ['rect', 'hexagon', 'string', 'doubleRect'];
+                var fishape1 = shape1[Math.floor(Math.random() * shape1.length)];
+                var fishape2 = shape2[Math.floor(Math.random() * shape2.length)];
+                can.renderAnimateRandomFillStroke(fishape1, "#ffffff", can.getShape(fishape2, {
+                    w: 20,
+                    h: 20,
+                    sw: 10,
+                    sh: 10
+                }), 5);
             }
 
             function creatNavPage() { // 创建分页的导航页
@@ -119,7 +138,7 @@ define(['app', 'canvasBg', 'services', 'ngDialog', 'angular-ui-router'], functio
                     invoke(value);
                 }
             }
-
+            renderHeaderCanvasBg();
             $scope.invoke = invoke;
             firstpage = PageStorage.getCurrentPage() || 1;
             invoke(firstpage);
