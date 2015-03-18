@@ -20,28 +20,30 @@ define(['app', 'canvasBg', 'services', 'ngDialog', 'angular-ui-router'], functio
                 invoke(PageStorage.getCurrentPage());
             });
 
-            $scope.$on('$viewContentLoaded', function() {
-                $scope.render = true;
-            });
+            if ($window.sessionStorage['isMobile'] !== "true") {
+                renderHeaderCanvasBg();
+                $scope.$on('$viewContentLoaded', function() {
+                    $scope.render = true;
+                });
 
-            $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) { //当ng-repeat最后一个渲染完成之后触发的事件，由onFinishRender指令触发
-                if ($scope.render) {
-                    renderCanvasBg();
-                    $scope.render = false;
-                }
-            });
-
-            var w = angular.element($window);
-            var handler;
-            w.bind('resize', function() { //当窗口resize时，重新绘制背景
-                if (handler) {
-                    clearTimeout(handler);
-                }
-                handler = setTimeout(function() {
-                    renderCanvasBg();
-                    renderHeaderCanvasBg();
-                }, 100);
-            });
+                $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) { //当ng-repeat最后一个渲染完成之后触发的事件，由onFinishRender指令触发
+                    if ($scope.render) {
+                        renderCanvasBg();
+                        $scope.render = false;
+                    }
+                });
+                var w = angular.element($window);
+                var handler;
+                w.bind('resize', function() { //当窗口resize时，重新绘制背景
+                    if (handler) {
+                        clearTimeout(handler);
+                    }
+                    handler = setTimeout(function() {
+                        renderCanvasBg();
+                        renderHeaderCanvasBg();
+                    }, 100);
+                });
+            }
 
             function renderHeaderCanvasBg() {
                 var can1 = new canvasBg('body header canvas');
@@ -138,7 +140,7 @@ define(['app', 'canvasBg', 'services', 'ngDialog', 'angular-ui-router'], functio
                     invoke(value);
                 }
             }
-            renderHeaderCanvasBg();
+
             $scope.invoke = invoke;
             firstpage = PageStorage.getCurrentPage() || 1;
             invoke(firstpage);

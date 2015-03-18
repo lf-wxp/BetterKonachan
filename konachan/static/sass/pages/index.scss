@@ -30,6 +30,9 @@ body > header {
         color: darken(white, 5%);
         margin-left: 50px;
     }
+    canvas {
+        position: absolute;
+    }
 }
 
 .fragment.ng-enter, .fragment.ng-leave {
@@ -112,6 +115,7 @@ body > header {
     }
     ul {
         font-size: 0px;
+        width: 100%;
     }
     li {
         display: inline-block;

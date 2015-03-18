@@ -34,7 +34,7 @@ body > header h1 { font-size: 1.16667rem; }
 
 body > article { width: 90%; margin: auto; }
 
-body > article > nav { width: 100%; border-radius: 5px; }
+body > article > nav { width: 100%; border-radius: 5px; position: relative; }
 
 body > article > section { background: white; width: 100%; margin: 20px auto; border-radius: 5px; font-size: 0px; }
 
@@ -1630,6 +1630,7 @@ body > header h1, body > header a { display: inline-block; *display: inline; *zo
 body > header h1 { color: white; position: relative; -webkit-text-shadow: 2px 2px 2px #666666; -moz-text-shadow: 2px 2px 2px #666666; -ms-text-shadow: 2px 2px 2px #666666; -o-text-shadow: 2px 2px 2px #666666; text-shadow: 2px 2px 2px #666666; -webkit-transition: all 0.3s ease-in 0s; -moz-transition: all 0.3s ease-in 0s; -ms-transition: all 0.3s ease-in 0s; -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; }
 body > header h1:hover { -webkit-text-shadow: 4px 4px 4px #333333; -moz-text-shadow: 4px 4px 4px #333333; -ms-text-shadow: 4px 4px 4px #333333; -o-text-shadow: 4px 4px 4px #333333; text-shadow: 4px 4px 4px #333333; }
 body > header a { color: #f2f2f2; margin-left: 50px; }
+body > header canvas { position: absolute; }
 
 .fragment.ng-enter, .fragment.ng-leave { -webkit-transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; -moz-transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; -ms-transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; -o-transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s; display: block; width: 100%; position: absolute; top: 0px; left: 0; right: 0; bottom: 0; }
 
@@ -1659,7 +1660,7 @@ body > header a { color: #f2f2f2; margin-left: 50px; }
 
 .fragment .inner { color: #999999; position: relative; }
 .fragment .inner a { color: #999999; }
-.fragment .inner ul { font-size: 0px; }
+.fragment .inner ul { font-size: 0px; width: 100%; }
 .fragment .inner li { display: inline-block; vertical-align: top; margin: 0px 10px 20px 10px; font-size: 16px; width: 150px; }
 .fragment .inner li .img { width: 150px; height: 85px; overflow: hidden; box-shadow: 1px 1px 2px #ededed; border-radius: 2px; display: block; position: relative; cursor: zoom-in; }
 .fragment .inner li .img:hover i { visibility: visible; opacity: 1; -webkit-transition: all 0.3s ease-in 0s; -moz-transition: all 0.3s ease-in 0s; -ms-transition: all 0.3s ease-in 0s; -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; }
