@@ -309,3 +309,7 @@ body > header {
     max-width: 90vw !important;
     width: auto !important;
 }
+.toggle.checkbox {
+    font-size: pxToRem(14px);
+    color: #3d4450!important;
+}

@@ -17,7 +17,17 @@ body > header {
         font-size: pxToRem(14px);
     }
 }
-
+body > footer {
+    background: #3d4450;
+    height: 50px;
+    line-height: 50px;
+    color: white;
+    font-size: pxToRem(16px);
+    text-align: center;
+    a {
+        color: white;
+    }
+}
 body > article {
     width: 90%;
     margin: auto;
@@ -35,13 +45,6 @@ body > article > section {
     margin: 20px auto;
     border-radius: 5px;
     font-size: 0px;
-}
-
-body > footer {
-    background: $footercol;
-    margin-top: 20px;
-    width: 100%;
-    height: 300px;
 }
 
 /* mobile first,so the default style is for mobile */
@@ -75,7 +78,7 @@ body > footer {
         position: relative;
         overflow: hidden;
         background: white;
-        min-height: calc(100vh - 50px);
+        min-height: calc(100vh - 100px);
         @include boxsizing(border-box);
         .dash {
             padding: 20px;
@@ -108,11 +111,10 @@ body > footer {
         }
     }
     #admin {
-        min-height: calc(100vh - 50px);
+        min-height: calc(100vh - 100px);
         display: flex;
         flex-flow: row nowrap;
-        justify: center;
-        align-items: flex-start;
+        justify-content:center;
         align-content: stretch;
         align-items: stretch;
         width: 100%;
