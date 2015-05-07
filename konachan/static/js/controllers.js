@@ -3,8 +3,7 @@ define(['app', 'canvasBg', 'services', 'ngDialog', 'angular-ui-router'], functio
     controller('indexCtr', ['$scope', '$window', 'ngDialog', 'Post', 'PageStorage', 'LocalSetting',
         function($scope, $window, ngDialog, Post, PageStorage, LocalSetting) {
             var navSize = 5,
-                isFinish = true, //是否请求完成，避免多次请求数据。
-                canvasParentWidth, canvasParentHeight;
+                isFinish = true; //是否请求完成，避免多次请求数据。
             $scope.noFinish = true; //前端进度条显示判断的依据
             $scope.render = false; //当数据列表渲染完成才开始绘制canvas背景
             $scope.resize = true; //只有当窗口变化的时候才重绘canvas背景
@@ -35,19 +34,19 @@ define(['app', 'canvasBg', 'services', 'ngDialog', 'angular-ui-router'], functio
                 }), 5);
             }
 
-            function canvasParentSizeChange(selector,canvasParentWidth,canvasParentHeight) { //判断canvas的父元素窗口大小是否发生改变
+            function canvasParentSizeChange(selector) { //判断canvas的父元素窗口大小是否发生改变
                 var canvasParent = document.querySelector(selector);
                 var nowWith = canvasParent.clientWidth;
                 var nowHeight = canvasParent.clientHeight;
-                if (canvasParentWidth == undefined && canvasParentHeight == undefined) {
-                    canvasParentWidth = nowWith;
-                    canvasParentHeight = nowHeight;
+                if ($scope.canvasParentWidth == undefined && $scope.canvasParentHeight == undefined) {
+                    $scope.canvasParentWidth = nowWith;
+                    $scope.canvasParentHeight = nowHeight;
                     return true;
-                } else if (canvasParentWidth == nowWith && canvasParentHeight == nowHeight) {
+                } else if ($scope.canvasParentWidth == nowWith && $scope.canvasParentHeight == nowHeight) {
                     return false;
                 } else {
-                    canvasParentWidth = nowWith;
-                    canvasParentHeight = nowHeight;
+                    $scope.canvasParentWidth = nowWith;
+                    $scope.canvasParentHeight = nowHeight;
                     return true;
                 }
             }
@@ -140,7 +139,7 @@ define(['app', 'canvasBg', 'services', 'ngDialog', 'angular-ui-router'], functio
                 });
 
                 $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) { //当ng-repeat最后一个渲染完成之后触发的事件，由onFinishRender指令触发
-                    var isChange = canvasParentSizeChange('.inner',canvasParentWidth,canvasParentHeight)
+                    var isChange = canvasParentSizeChange('.inner');
                     if ($scope.render && isChange) { //当包含canvas的父元素窗口大小改变时，才重绘canvas背景
                         renderCanvasBg();
                     }

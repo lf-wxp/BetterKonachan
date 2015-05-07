@@ -100,8 +100,8 @@ define(['mobileDetect', 'canvasBg', 'angular', 'angular-resource', 'angular-anim
                         }
                     }, 1000);
                 });
+                renderHeaderCanvasBg();
             }
-            renderHeaderCanvasBg();
             setTimeout(renderCover, 5000); //放入记时器中，异步执行。
         }
     ]);
