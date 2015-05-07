@@ -8,13 +8,13 @@
         <canvas></canvas>
         <ul ng-click="previewFun($event)">
             <li ng-repeat="post in posts" on-finish-render="ngRepeatFinished">
-                <span class="img"><img ng-src="{{post.prev_url}}" alt=""  data-sample="{{post.sample}}" data-height="{{post.sample_height}}" data-width="{{post.sample_width}}"><i class="icon zoom"></i></span>
+                <span class="img"><img ng-src="{{post.prev_url}}" alt=""  data-sample="{{post.sample}}" data-height="{{post.sample_height}}" data-width="{{post.sample_width}}"><i class="fa fa-search-plus"></i></span>
                 <span>{{post.width}}<strong>x</strong> {{post.height}}</span>
-                <a href="{{post.url}}" download="{{post.name}}" class="btn flat download">Download</a>
+                <a href="{{post.url}}" download="{{post.name}}" class="btn btn3e download">Download</a>
             </li>
         </ul>
         <div class="dimmer" ng-class="{active:noFinish}">
-            <i class="loading spinner icon"></i>
+            <div class="loader-inner line-scale"><div></div><div></div><div></div><div></div><div></div></div>
         </div>
     </div>
     <div class="pager">
@@ -24,7 +24,7 @@
         </ul>
         <span class="btn sliver" ng-click="next()">next</span>
         <form novalidate>
-            <input type="number" min="0" max="{{allpages}}" ng-model="jumpData" ng-keypress="keyjump($event)">
+            <input type="number" min="1" max="{{allpages}}" ng-model="jumpData" ng-keypress="keyjump($event)">
             <button class="btn sliver" ng-click="jump()" type="button">跳转</button>
         </form>
         <span>{{allpages}}</span>

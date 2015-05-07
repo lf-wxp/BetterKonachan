@@ -10,7 +10,7 @@ module.exports = function(grunt) {
                     // '!sass/*reset*.scss',
                     // '!sass/{6*,9*}.scss'
                 ],
-                tasks: ['sass','cssmin']
+                tasks: ['sass','autoprefixer','cssmin']
             },
             // js: {
             //   files: [
@@ -121,7 +121,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-browser-sync');
     grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
-    // grunt.loadNpmTasks('grunt-autoprefixer');
+    grunt.loadNpmTasks('grunt-autoprefixer');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-jshint');

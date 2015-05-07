@@ -1,33 +1,81 @@
 body {
-    background: #efefef;
+    background: white;
     min-width: 445px;
 }
 
 body > header {
     width: 100%;
-    height: 50px;
-    background: $basecol;
+    height: 100px;
     left: 0px;
     top: 0px;
-    padding:0px 5%;
     position: relative;
-    @include boxsizing(border-box);
+    box-sizing: border-box;
     text-align: right;
+    backface-visibility: hidden;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+    transform: translate3d(0, -25px, 0) skewY(-2deg);
+    overflow: hidden;
     h1 {
         font-size: pxToRem(14px);
+        color: white;
+        position: absolute;
+        backface-visibility: hidden;
+        left: 50%;
+        top: 50%;
+        transform: perspective(1px) skewY(2deg) translateX(-50%);
+        -webkit-font-smoothing: subpixel-antialiased;
+    }
+    div {
+        backface-visibility: hidden;
+        box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        height: 120%;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center 30%;
+        transform: skewY(2deg) translateZ(0);
+    }
+    canvas {
+        transform: skewY(2deg) translateZ(0);
     }
 }
+
 body > footer {
-    background: #3d4450;
-    height: 50px;
-    line-height: 50px;
+    height: 100px;
     color: white;
     font-size: pxToRem(16px);
     text-align: center;
+    overflow: hidden;
+    & > div {
+        backface-visibility: hidden;
+        height: 100%;
+        box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+        transform: skewY(-2deg) translateY(26px);
+        overflow: hidden;
+    }
+    & > div > div {
+        backface-visibility: hidden;
+        box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        height: 120%;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center calc(30% - 100px * 0.7);
+        transform: skewY(2deg) translateY(-26px);
+    }
+    p {
+        position: absolute;
+        line-height: normal;
+        height: 50px;
+        left: 50%;
+        top: 33%;
+        transform: skewY(2deg) translateX(-50%);
+    }
     a {
         color: white;
     }
 }
+
 body > article {
     width: 90%;
     margin: auto;
@@ -50,77 +98,79 @@ body > article > section {
 /* mobile first,so the default style is for mobile */
 #admin {
     display: block;
-    margin-top: -50px;
+    min-height: calc(100vh - 200px);
     & > nav {
         font-size: pxToRem(16px);
-        @include boxsizing(border-box);
-        height: 50px;
+        box-sizing: border-box;
+        height: 30px;
+        padding: 0px 10px;
         a {
             height: 100%;
-            @include inlineblock;
+            display: inline-block;
             font-size: 0px;
-            line-height: 60px;
+            line-height: 30px;
             padding: 0px 10px;
             i {
                 font-size: pxToRem(20px);
-                color: white;
+                color: $textcol;
+                vertical-align: middle;
             }
         }
     }
     .admin-right {
-        canvas {
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                left: 0px;
-                top: 0px;
-        }
         position: relative;
         overflow: hidden;
         background: white;
-        min-height: calc(100vh - 100px);
-        @include boxsizing(border-box);
-        .dash {
-            padding: 20px;
-            background: #FFF;
-            header {
-                margin-bottom: 10px;
-            }
-            h4 {
-                font-size: pxToRem(18px);
-                font-weight: bold;
-                color: #666666;
-            }
+        height: auto;
+        box-sizing: border-box;
+        canvas {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0px;
+            top: 0px;
         }
-        .inner {
-            padding: 10px;
-            border-top: 1px solid #EBEBEB;
-            canvas {
-                z-index: 0!important;
-            }
+    }
+    .dash {
+        padding: 0px 20px 20px 20px;
+        background: #FFF;
+        header {
+            margin-bottom: 10px;
+        }
+        h4 {
+            font-size: pxToRem(18px);
+            font-weight: bold;
+            color: #666666;
+        }
+    }
+    .inner {
+        padding: 10px;
+        border-top: 1px solid #EBEBEB;
+        min-height: calc(100vh - 200px - 129px);
+        canvas {
+            z-index: 0 !important;
         }
     }
 }
 
 @include respond-to(small) {
     body > header {
-        padding:0px 0px 0px 50px;
         text-align: left;
+        height: 150px;
         h1 {
             font-size: pxToRem(24px);
         }
     }
     #admin {
-        min-height: calc(100vh - 100px);
+        min-height: calc(100vh - 250px);
         display: flex;
         flex-flow: row nowrap;
-        justify-content:center;
+        justify-content: center;
         align-content: stretch;
         align-items: stretch;
         width: 100%;
         margin-top: 0px;
         .admin-right {
-            // background: white;
             font-size: pxToRem(16px);
             flex: 1 1 calc(100% - 50px);
         }
@@ -130,6 +180,7 @@ body > article > section {
             border-right: 1px solid rgb(235, 235, 235);
             margin: 0px;
             height: auto;
+            padding: 0px;
             a {
                 font-size: 0px;
                 display: block;
@@ -138,7 +189,7 @@ body > article > section {
                 text-align: center;
                 padding: 0px;
                 width: 100%;
-                @include boxsizing(border-box);
+                box-sizing: border-box;
                 color: $textcol;
                 @include transition;
                 border-top: 1px solid rgb(235, 235, 235);
@@ -156,15 +207,22 @@ body > article > section {
                 }
             }
         }
+        .inner {
+            min-height: calc(100vh - 250px - 129px);
+        }
+    }
+    body > footer > div > div {
+        background-position: center calc(30% - 150px * 0.7);
     }
 }
 
 
 @include respond-to(medium) {
-    body>header {
-        padding-left:145px;
+    body > header {
+        height: 200px;
     }
     #admin {
+        min-height: calc(100vh - 300px);
         nav {
             flex: 0 1 150px;
             a {
@@ -183,6 +241,12 @@ body > article > section {
         .admin-right {
             flex: 1 1 calc(100% - 150px);
         }
+        .inner {
+            min-height: calc(100vh - 300px - 129px);
+        }
+    }
+    body > footer > div > div {
+        background-position: center calc(30% - 200px * 0.7);
     }
 }
 

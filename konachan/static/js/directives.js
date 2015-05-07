@@ -40,8 +40,6 @@ define(['app', 'ngDialog'], function(app) {
                 restrict: 'A',
                 scope: true,
                 link: function(scope, element, attrs) {
-                    var i = document.createElement("i");
-                    i.className = 'loading spinner icon';
                     var preview = element.parent('.preview');
                     var sample_width = parseFloat(attrs['width']);
                     var sample_height = parseFloat(attrs['height']);
@@ -51,12 +49,12 @@ define(['app', 'ngDialog'], function(app) {
                     });
                     element[0].previousElementSibling.style.display = "none";
                     preview.css('height', '0px');
-                    preview.append(i);
+                    preview[0].insertAdjacentHTML('beforeEnd', '<div class="loader-inner line-scale"><div></div><div></div><div></div><div></div><div></div></div>');
                     GetPic.get({ //调用GetPic服务获取预览图片
                         url: attrs['url']
                     }).then(function(result) {
                         url = result['data']['data_url'];
-                        i.remove();
+                        preview[0].removeChild(preview[0].querySelector('.loader-inner'));
                         comWidth = parseFloat(window.getComputedStyle(element[0]).width);
                         comHeight = sample_height * comWidth / sample_width;
                         element.css({
@@ -94,7 +92,7 @@ define(['app', 'ngDialog'], function(app) {
             };
         }
     ]).
-    directive('onFinishRender', function($timeout) {//ng-repeat最后一个渲染完成。触发时间
+    directive('onFinishRender', function($timeout) { //ng-repeat最后一个渲染完成。触发时间
         return {
             restrict: 'A',
             link: function(scope, element, attr) {

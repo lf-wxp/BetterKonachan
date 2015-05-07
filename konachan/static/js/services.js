@@ -33,6 +33,23 @@ define(['angular', 'angular-resource'], function(angular) {
             };
         }
     ]).
+    factory('GetOneBg', ['$q', '$http',
+        function($q, $http) {
+            return {
+                get: function() {
+                    var deferred = $q.defer();
+                    $http.get("/pic", {
+                        'data': 'string',
+                        'async': true,
+                        'cache': true
+                    }).success(function(data) {
+                        deferred.resolve(data);
+                    })
+                    return deferred.promise;
+                }
+            };
+        }
+    ]).
     service('PageStorage', ['$window',
         function($window) {
             this.pages = {};

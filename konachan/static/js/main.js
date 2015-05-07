@@ -24,10 +24,9 @@ require.config({
         'mobileDetect': [
             '/static/lib/other/mobileDetect'
         ],
-        'canvasBg':[
+        'canvasBg': [
             '/static/lib/other/canvasBg'
-        ],
-        "services": 'services'
+        ]
     },
     shim: {
         'angular': {

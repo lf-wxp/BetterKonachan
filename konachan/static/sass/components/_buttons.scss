@@ -10,7 +10,7 @@
     }
     button, span {
         color: $textcol;
-        @include textshadow( 2px 2px 2px #dcdcdc);
+        @include textshadow(2px 2px 2px #dcdcdc);
         padding: 5px;
         text-align: center;
         border: 1px solid #dcdcdc;
@@ -34,7 +34,7 @@
 }
 
 .btn {
-    background:#66b4ff;
+    background: #66b4ff;
     border-radius: 5px;
     box-shadow: 1px 1px 1px rgba(220, 220, 220, 0.5);
     color: white;
@@ -47,8 +47,8 @@
     cursor: pointer;
     border: 1px solid gainsboro;
     @include transition;
-    &:hover {
-        background: darken(#66b4ff,5%);
+    &:hover,&:active {
+        background: darken(#66b4ff, 5%);
     }
 }
 
@@ -64,7 +64,7 @@
         margin: 0em 0.25em 0em 0em;
         width: 1.23em;
         height: 1em;
-        font-family: 'Icons';
+        font-family: 'FontAwesome';
         font-style: normal;
         line-height: 1;
         font-weight: normal;
@@ -98,7 +98,7 @@
         margin: 0em 0.25em 0em 0em;
         width: 1.23em;
         height: 1em;
-        font-family: 'Icons';
+        font-family: 'FontAwesome';
         font-style: normal;
         line-height: 1;
         font-weight: normal;
@@ -124,14 +124,14 @@
     background: #5bc0de;
     // border-color: #46b8da;
     @include transition;
-    color: white!important;
+    color: white !important;
     &:before {
         display: inline-block;
         opacity: 0.75;
         margin: 0em 0.25em 0em 0em;
         width: 1.23em;
         height: 1em;
-        font-family: 'Icons';
+        font-family: 'FontAwesome';
         font-style: normal;
         line-height: 1;
         font-weight: normal;
@@ -150,31 +150,81 @@
         @include transition;
         background: #31b0d5;
         // border-color: #269abc;
+   
     }
 }
+
 .btn.sliver {
     background: rgb(221, 221, 221);
     &:hover {
-        background: darken(rgb(221, 221, 221),5%);
+        background: darken(rgb(221, 221, 221), 5%);
     }
 }
+
 .add.btn {
-    &:before{
+    &:before {
         content: "\f067";
     }
 }
+
 .back.btn {
     &:before {
         content: "\f100";
     }
 }
+
 .upload.btn {
     &:before {
         content: "\f093";
     }
 }
+
 .download.btn {
     &:before {
         content: "\f019";
+    }
+}
+
+.btn3e {
+    &:before {
+        right: 10px;
+        z-index: 2;
+        position: absolute;
+        height: 100%;
+        top: 0;
+        line-height: 30px;
+        font-size: 18px;
+        width: 18px;
+        display: inline-block;
+        font-family: 'FontAwesome';
+        font-style: normal;
+        font-weight: normal;
+        text-decoration: inherit;
+        text-align: center;
+        speak: none;
+    }
+    &:after {
+        width: 30%;
+        height: 200%;
+        background: rgba(255, 255, 255, 0.1);
+        z-index: 1;
+        right: 0;
+        top: 0;
+        margin: -5px 0 0 -5px;
+        transform-origin: 0 0;
+        transform: rotate(-20deg);
+        content: '';
+        position: absolute;
+        transition: all 0.3s;
+        box-sizing: border-box;
+    }
+    &:hover {
+        transition: all 0.3s ease-in-out;
+        &:after {
+            width:40%;
+        }
+    }
+    &:active {
+        top: 1px;
     }
 }

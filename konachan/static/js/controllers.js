@@ -2,52 +2,17 @@ define(['app', 'canvasBg', 'services', 'ngDialog', 'angular-ui-router'], functio
     app.
     controller('indexCtr', ['$scope', '$window', 'ngDialog', 'Post', 'PageStorage', 'LocalSetting',
         function($scope, $window, ngDialog, Post, PageStorage, LocalSetting) {
-            var navSize = 5;
-            var isFinish = true;
-            $scope.noFinish = true;
-            $scope.render = true;
-            $scope.resize = true;
+            var navSize = 5,
+                isFinish = true, //是否请求完成，避免多次请求数据。
+                canvasParentWidth, canvasParentHeight;
+            $scope.noFinish = true; //前端进度条显示判断的依据
+            $scope.render = false; //当数据列表渲染完成才开始绘制canvas背景
+            $scope.resize = true; //只有当窗口变化的时候才重绘canvas背景
             $scope.isSafe = LocalSetting.getSetting('isSafe');
-
-            if (LocalSetting.getSetting('support') === 'false') { // 弹出检测download属性
-                ngDialog.open({
-                    template: 'notify',
-                    className: 'ngdialog-theme-default ngdialog-text'
-                });
-            }
-
-            $scope.$on('isSafeChange', function() { //监听isSafeChange事件
-                invoke(PageStorage.getCurrentPage());
-            });
-
-            if ($window.sessionStorage['isMobile'] !== "true") {
-                renderHeaderCanvasBg();
-                $scope.$on('$viewContentLoaded', function() {
-                    $scope.render = true;
-                });
-
-                $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) { //当ng-repeat最后一个渲染完成之后触发的事件，由onFinishRender指令触发
-                    if ($scope.render) {
-                        renderCanvasBg();
-                        $scope.render = false;
-                    }
-                });
-                var w = angular.element($window);
-                var handler;
-                w.bind('resize', function() { //当窗口resize时，重新绘制背景
-                    if (handler) {
-                        clearTimeout(handler);
-                    }
-                    handler = setTimeout(function() {
-                        renderCanvasBg();
-                        renderHeaderCanvasBg();
-                    }, 100);
-                });
-            }
 
             function renderHeaderCanvasBg() {
                 var can1 = new canvasBg('body header canvas');
-                can1.renderAnimateRandomFillStroke('rect', "#A66BBE", can1.getShape('doubleRect', {
+                can1.renderAnimateRandomFillStroke('rect', "transparent", can1.getShape('doubleRect', {
                     w: 20,
                     h: 20,
                     sw: 10,
@@ -68,6 +33,23 @@ define(['app', 'canvasBg', 'services', 'ngDialog', 'angular-ui-router'], functio
                     sw: 10,
                     sh: 10
                 }), 5);
+            }
+
+            function canvasParentSizeChange(selector,canvasParentWidth,canvasParentHeight) { //判断canvas的父元素窗口大小是否发生改变
+                var canvasParent = document.querySelector(selector);
+                var nowWith = canvasParent.clientWidth;
+                var nowHeight = canvasParent.clientHeight;
+                if (canvasParentWidth == undefined && canvasParentHeight == undefined) {
+                    canvasParentWidth = nowWith;
+                    canvasParentHeight = nowHeight;
+                    return true;
+                } else if (canvasParentWidth == nowWith && canvasParentHeight == nowHeight) {
+                    return false;
+                } else {
+                    canvasParentWidth = nowWith;
+                    canvasParentHeight = nowHeight;
+                    return true;
+                }
             }
 
             function creatNavPage() { // 创建分页的导航页
@@ -93,7 +75,7 @@ define(['app', 'canvasBg', 'services', 'ngDialog', 'angular-ui-router'], functio
                 $scope.navpage = navpage;
             }
 
-            function invoke(page) {
+            function invoke(page) { //获取具体哪一页
                 if (!isFinish) {
                     return false;
                 }
@@ -139,6 +121,36 @@ define(['app', 'canvasBg', 'services', 'ngDialog', 'angular-ui-router'], functio
                 } else {
                     invoke(value);
                 }
+            }
+
+            if (LocalSetting.getSetting('support') === 'false') { // 弹出检测download属性
+                ngDialog.open({
+                    template: 'notify',
+                    className: 'ngdialog-theme-default ngdialog-text'
+                });
+            }
+
+            $scope.$on('isSafeChange', function() { //监听isSafeChange事件
+                invoke(PageStorage.getCurrentPage());
+            });
+
+            if ($window.sessionStorage['isMobile'] !== "true") { //手机端检测
+                $scope.$on('$viewContentLoaded', function() {
+                    $scope.render = true;
+                });
+
+                $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) { //当ng-repeat最后一个渲染完成之后触发的事件，由onFinishRender指令触发
+                    var isChange = canvasParentSizeChange('.inner',canvasParentWidth,canvasParentHeight)
+                    if ($scope.render && isChange) { //当包含canvas的父元素窗口大小改变时，才重绘canvas背景
+                        renderCanvasBg();
+                    }
+
+                });
+
+                $scope.$on('contentRender', function() { //窗口resize时重绘canvasbg
+                    renderCanvasBg();
+                })
+
             }
 
             $scope.invoke = invoke;
@@ -193,7 +205,6 @@ define(['app', 'canvasBg', 'services', 'ngDialog', 'angular-ui-router'], functio
             $scope.$watch('isSafe', function(newValue, oldValue) {
                 if (newValue !== oldValue) {
                     LocalSetting.setSetting('isSafe', newValue);
-                    $scope.$emit("isSafeChange", 'data'); //当isSafe值变化时，触发isSafeChange事件
                 }
             });
             $scope.$watch('isRememberPage', function(newValue, oldValue) {
