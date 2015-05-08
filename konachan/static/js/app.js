@@ -1,7 +1,7 @@
-define(['mobileDetect', 'canvasBg', 'angular', 'angular-resource', 'angular-animate', 'ngDialog', 'angular-ui-router', 'services'], function(mobileDetect, canvasBg) {
-    var myAdmin = angular.module('view', ['ui.router', 'ngResource', 'ngAnimate', 'myService', 'ngDialog']);
-    myAdmin.run(["$window", '$rootScope', '$state', "PageStorage", "LocalSetting", "GetOneBg",
-        function($window, $rootScope, $state, PageStorage, LocalSetting, GetOneBg) {
+define(['mobileDetect', 'canvasBg','angular-animate'], function(mobileDetect, canvasBg) {
+    var myAdmin = angular.module('view', ['ui.router', 'ngResource', 'ngAnimate', 'myService', 'ngDialog','pascalprecht.translate']);
+    myAdmin.run(["$window", '$rootScope', "PageStorage", "LocalSetting", "GetOneBg",
+        function($window, $rootScope, PageStorage, LocalSetting, GetOneBg) {
             if (mobileDetect()) { // detect the platform whether is mobile
                 $window.sessionStorage['isMobile'] = 'true';
             } else {

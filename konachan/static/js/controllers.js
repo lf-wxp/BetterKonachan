@@ -1,4 +1,4 @@
-define(['app', 'canvasBg', 'services', 'ngDialog', 'angular-ui-router'], function(app, canvasBg) {
+define(['app', 'canvasBg', 'services'], function(app, canvasBg) {
     app.
     controller('indexCtr', ['$scope', '$window', 'ngDialog', 'Post', 'PageStorage', 'LocalSetting',
         function($scope, $window, ngDialog, Post, PageStorage, LocalSetting) {
@@ -82,7 +82,7 @@ define(['app', 'canvasBg', 'services', 'ngDialog', 'angular-ui-router'], functio
                 $scope.noFinish = true;
                 Post.query({
                     'page': page,
-                    'isSafe': LocalSetting.getSetting('isSafe')
+                    'isSafe': $scope.isSafe
                 }, function(d) {
                     PageStorage.setCurrentPage(page);
                     if (LocalSetting.getSetting('isRememberPage') === 'true') {
@@ -212,5 +212,32 @@ define(['app', 'canvasBg', 'services', 'ngDialog', 'angular-ui-router'], functio
                 }
             });
         }
-    ]);
+    ]).
+    controller("langCtrl", ['$scope', '$window', 'LocalSetting', '$translate',
+        function($scope, $window, LocalSetting, $translate) {
+            function setLang(lang) {
+                if (lang == 'en') {
+                    $translate.use('en');
+                    $scope.en = true;
+                    $scope.zh = false;
+                }
+                if (lang == 'zh') {
+                    $translate.use('zh');
+                    $scope.zh = true;
+                    $scope.en = false;
+                }
+            }
+            var lang;
+            if (LocalSetting.getSetting('language')) {
+                lang = LocalSetting.getSetting('language');
+            } else {
+                lang = 'zh';
+            }
+            setLang(lang);
+            $scope.language = function(lang) {
+                setLang(lang);
+                LocalSetting.setSetting('language', lang);
+            }
+        }
+    ])
 });

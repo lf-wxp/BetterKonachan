@@ -20,12 +20,16 @@
     </header>
     <article id="admin">
         <nav dash-for>
-            <a ui-sref="view">
-                POST <i class="fa fa-tachometer"></i>
+            <a ui-sref="view" >
+                <span translate>Post</span><i class="fa fa-tachometer"></i>
             </a>
-            <a ui-sref="setting">
-                SETTING <i class="fa fa-cog"></i>
+            <a ui-sref="setting" >
+                <span translate>Setting</span><i class="fa fa-cog"></i>
             </a>
+            <div ng-controller="langCtrl" class="language">
+                <button class="btn flat" ng-class="{active:zh}" ng-click="language('zh')">简体中文</button>
+                <button class="btn flat" ng-class="{active:en}" ng-click="language('en')">English</button>
+            </div>
         </nav>
         <div class="admin-right">
             <div class="fragment" ui-view>
@@ -35,7 +39,7 @@
     <footer>
         <div>
             <div class="cover"></div>
-            <p>Any Question,Contact me:<a href="mailto:franciscowxp@gmail.com" title="">franciscowxp@gmail.com</a></p>
+            <p><span translate>Any Question,Contact me</span>:<a href="mailto:franciscowxp@gmail.com" title="">franciscowxp@gmail.com</a></p>
         </div>
     </footer>
 </body>

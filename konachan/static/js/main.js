@@ -24,6 +24,9 @@ require.config({
         'mobileDetect': [
             '/static/lib/other/mobileDetect'
         ],
+        'angular-translate': [
+            '/static/lib/other/angular-translate.min'
+        ],
         'canvasBg': [
             '/static/lib/other/canvasBg'
         ]
@@ -43,10 +46,14 @@ require.config({
         'angular-ui-router': {
             deps: ['angular'],
             exports: 'angular-ui-router'
+        },
+        'angular-translate': {
+            deps: ['angular'],
+            exports: 'angular-translate'
         }
     }
 });
-require(['angular', 'app', 'router', 'controllers', 'directives'], function(angular) {
+require(['angular', 'app', 'router', 'controllers', 'directives', 'translate'], function(angular) {
     // 启动ng
     // angular.bootstrap(document, ['view']);
     angular.element(document).ready(function() {
