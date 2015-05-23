@@ -1,3 +1,5 @@
+button::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner { border:none; padding:0; }
 .btn3d {
     -moz-style: preserve-3d;
     -webkit-transform-style: preserve-3d;

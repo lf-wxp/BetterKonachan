@@ -102,7 +102,7 @@ body > article > section {
     & > nav {
         font-size: pxToRem(16px);
         box-sizing: border-box;
-        height: 30px;
+        height: 45px;
         padding: 0px 10px;
         a {
             height: 100%;
@@ -150,6 +150,20 @@ body > article > section {
         canvas {
             z-index: 0 !important;
         }
+    }
+}
+
+.language {
+    display: inline-block;
+    vertical-align: middle;
+    button {
+            font-size: pxToRem(12px);
+            border: none;
+            box-shadow: none;
+            text-shadow: none;
+            &.active {
+                background: #31b0d5;
+            }
     }
 }
 
@@ -214,6 +228,9 @@ body > article > section {
     body > footer > div > div {
         background-position: center calc(30% - 150px * 0.7);
     }
+    .language {
+        text-align: center;
+    }
 }
 
 
@@ -247,6 +264,13 @@ body > article > section {
     }
     body > footer > div > div {
         background-position: center calc(30% - 200px * 0.7);
+    }
+    .language {
+        margin-top: 20px;
+        width: 100%;
+        button {
+            font-size: pxToRem(14px);
+        }
     }
 }
 

@@ -39,7 +39,7 @@ body > article > section { background: white; width: 100%; margin: 20px auto; bo
 
 /* mobile first,so the default style is for mobile */
 #admin { display: block; min-height: -webkit-calc(100vh - 200px); min-height: calc(100vh - 200px); }
-#admin > nav { font-size: 1.33333rem; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; height: 30px; padding: 0px 10px; }
+#admin > nav { font-size: 1.33333rem; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; height: 45px; padding: 0px 10px; }
 #admin > nav a { height: 100%; display: inline-block; font-size: 0px; line-height: 30px; padding: 0px 10px; }
 #admin > nav a i { font-size: 1.66667rem; color: #3d4450; vertical-align: middle; }
 #admin .admin-right { position: relative; overflow: hidden; background: white; height: auto; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
@@ -49,6 +49,10 @@ body > article > section { background: white; width: 100%; margin: 20px auto; bo
 #admin .dash h4 { font-size: 1.5rem; font-weight: bold; color: #666666; }
 #admin .inner { padding: 10px; border-top: 1px solid #EBEBEB; min-height: -webkit-calc(100vh - 200px - 129px); min-height: calc(100vh - 200px - 129px); }
 #admin .inner canvas { z-index: 0 !important; }
+
+.language { display: inline-block; vertical-align: middle; }
+.language button { font-size: 1rem; border: none; -webkit-box-shadow: none; box-shadow: none; text-shadow: none; }
+.language button.active { background: #31b0d5; }
 
 @media (min-width: 767px) { body > header { text-align: left; height: 150px; }
   body > header h1 { font-size: 2rem; }
@@ -60,7 +64,8 @@ body > article > section { background: white; width: 100%; margin: 20px auto; bo
   #admin > nav a:last-of-type { border-bottom: 1px solid #ebebeb; }
   #admin > nav a i { font-size: 1.33333rem; color: #3d4450; text-indent: 0px; }
   #admin .inner { min-height: -webkit-calc(100vh - 250px - 129px); min-height: calc(100vh - 250px - 129px); }
-  body > footer > div > div { background-position: center -webkit-calc(30% - 150px * 0.7); background-position: center calc(30% - 150px * 0.7); } }
+  body > footer > div > div { background-position: center -webkit-calc(30% - 150px * 0.7); background-position: center calc(30% - 150px * 0.7); }
+  .language { text-align: center; } }
 @media (min-width: 992px) { body > header { height: 200px; }
   #admin { min-height: -webkit-calc(100vh - 300px); min-height: calc(100vh - 300px); }
   #admin nav { -webkit-box-flex: 0; -webkit-flex: 0 1 150px; -ms-flex: 0 1 150px; flex: 0 1 150px; }
@@ -68,7 +73,9 @@ body > article > section { background: white; width: 100%; margin: 20px auto; bo
   #admin nav a i { position: absolute; text-indent: 0px; right: 10px; top: 12px; }
   #admin .admin-right { -webkit-box-flex: 1; -webkit-flex: 1 1 -webkit-calc(100% - 150px); -ms-flex: 1 1 calc(100% - 150px); flex: 1 1 calc(100% - 150px); }
   #admin .inner { min-height: -webkit-calc(100vh - 300px - 129px); min-height: calc(100vh - 300px - 129px); }
-  body > footer > div > div { background-position: center -webkit-calc(30% - 200px * 0.7); background-position: center calc(30% - 200px * 0.7); } }
+  body > footer > div > div { background-position: center -webkit-calc(30% - 200px * 0.7); background-position: center calc(30% - 200px * 0.7); }
+  .language { margin-top: 20px; width: 100%; }
+  .language button { font-size: 1.16667rem; } }
 @media (min-width: 1200px) { #admin .admin-right { -webkit-box-flex: 1; -webkit-flex: 1 1 90%; -ms-flex: 1 1 90%; flex: 1 1 90%; min-width: 790px; }
   #admin > nav { -webkit-box-flex: 1; -webkit-flex: 1 1 10%; -ms-flex: 1 1 10%; flex: 1 1 10%; min-width: 150px; }
   #admin > nav a { text-indent: 2rem; } }
@@ -256,6 +263,8 @@ body > article > section { background: white; width: 100%; margin: 20px auto; bo
 
 .stroke-black { stroke: #111; }
 
+button::-moz-focus-inner, input[type="button"]::-moz-focus-inner { border: none; padding: 0; }
+
 .btn3d { -moz-style: preserve-3d; -webkit-transform-style: preserve-3d; transform-style: preserve-3d; -webkit-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; vertical-align: top; }
 .btn3d:hover { -webkit-transform: rotateX(90deg) translateZ(0px); -ms-transform: rotateX(90deg) translateZ(0px); transform: rotateX(90deg) translateZ(0px); -webkit-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; }
 .btn3d button, .btn3d span { color: #3d4450; -webkit-text-shadow: 2px 2px 2px #dcdcdc; -moz-text-shadow: 2px 2px 2px #dcdcdc; -ms-text-shadow: 2px 2px 2px #dcdcdc; -o-text-shadow: 2px 2px 2px #dcdcdc; text-shadow: 2px 2px 2px #dcdcdc; padding: 5px; text-align: center; border: 1px solid #dcdcdc; border-radius: 5px; font-size: 1.16667rem; background: white; cursor: pointer; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; -webkit-transform: translateZ(15px); -ms-transform: translateZ(15px); transform: translateZ(15px); display: block; }
@@ -400,9 +409,5 @@ body > header canvas { position: absolute; }
 .line-scale > div { background-color: #A66BBE; width: 4px; height: 35px; border-radius: 2px; margin: 2px; -webkit-animation-fill-mode: both; animation-fill-mode: both; display: inline-block; }
 
 .loader-inner { position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px; margin: auto; width: 50px; height: 50px; }
-
-.language { margin-top: 20px; text-align: center; }
-.language button { font-size: 12px; border: none; -webkit-box-shadow: none; box-shadow: none; text-shadow: none; }
-.language button.active { background: #31b0d5; }
 
 /*# sourceMappingURL=index.css.map */
