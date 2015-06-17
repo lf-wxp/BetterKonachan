@@ -3,12 +3,15 @@ define(['app', 'canvasBg', 'services'], function(app, canvasBg) {
     controller('indexCtr', ['$scope', '$window', 'ngDialog', 'Post', 'PageStorage', 'LocalSetting',
         function($scope, $window, ngDialog, Post, PageStorage, LocalSetting) {
             var navSize = 5,
-                isFinish = true; //是否请求完成，避免多次请求数据。
+                isFinish = true, //是否请求完成，避免多次请求数据。
+                historyArray = []; //配合window.history来增加浏览记录支持
             $scope.noFinish = true; //前端进度条显示判断的依据
             $scope.render = false; //当数据列表渲染完成才开始绘制canvas背景
             $scope.resize = true; //只有当窗口变化的时候才重绘canvas背景
             $scope.isSafe = LocalSetting.getSetting('isSafe');
-
+            $scope.current = PageStorage.getCurrentPage();
+            historyArray.push($scope.current);
+            
             function renderHeaderCanvasBg() {
                 var can1 = new canvasBg('body header canvas');
                 can1.renderAnimateRandomFillStroke('rect', "transparent", can1.getShape('doubleRect', {
@@ -51,6 +54,14 @@ define(['app', 'canvasBg', 'services'], function(app, canvasBg) {
                 }
             }
 
+            function pushState(page) {
+                var state = {
+                    "page": page
+                };
+
+                $window.history.pushState(state, "", "");
+            }
+
             function creatNavPage() { // 创建分页的导航页
                 current = PageStorage.getCurrentPage();
                 allpages = PageStorage.getAllPages();
@@ -88,9 +99,14 @@ define(['app', 'canvasBg', 'services'], function(app, canvasBg) {
                     if (LocalSetting.getSetting('isRememberPage') === 'true') {
                         LocalSetting.setSetting('localCurrent', page);
                     }
+                    if ($scope.current != page && historyArray.indexOf(page)==-1) { //当请求和当前页数相同时，不添加记录到历史记录里面
+                        pushState(page);
+                        historyArray.push(page);
+                    }
                     $scope.posts = d.images;
                     $scope.current = page;
                     $scope.allpages = d.pages;
+
                     if (d.success === "false") { //超时提醒。
                         var dialog = ngDialog.open({
                             template: 'timeout',
@@ -121,6 +137,13 @@ define(['app', 'canvasBg', 'services'], function(app, canvasBg) {
                     invoke(value);
                 }
             }
+
+            $window.addEventListener('popstate', function(event) {
+                var state = event.state;
+                if (state && state.page) {
+                    invoke(state.page)
+                }
+            });
 
             if (LocalSetting.getSetting('support') === 'false') { // 弹出检测download属性
                 ngDialog.open({
@@ -165,7 +188,7 @@ define(['app', 'canvasBg', 'services'], function(app, canvasBg) {
                     invoke(PageStorage.getCurrentPage() - 1);
                 }
             };
-            $scope.jump = function() {
+            $scope.jumpAction = function() {
                 checkNumType($scope.jumpData);
             };
             $scope.keyjump = function(event) {
@@ -201,6 +224,8 @@ define(['app', 'canvasBg', 'services'], function(app, canvasBg) {
         function($scope, $rootScope, $window, LocalSetting) {
             $scope.isSafe = LocalSetting.getSetting('isSafe');
             $scope.isRememberPage = LocalSetting.getSetting('isRememberPage');
+            $scope.max = '10';
+            $scope.testsub = function() {};
             $scope.$watch('isSafe', function(newValue, oldValue) {
                 if (newValue !== oldValue) {
                     LocalSetting.setSetting('isSafe', newValue);

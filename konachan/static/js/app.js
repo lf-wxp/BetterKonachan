@@ -102,7 +102,7 @@ define(['mobileDetect', 'canvasBg','angular-animate'], function(mobileDetect, ca
                 });
                 renderHeaderCanvasBg();
             }
-            setTimeout(renderCover, 5000); //放入记时器中，异步执行。
+            // setTimeout(renderCover, 5000); //放入记时器中，异步执行。
         }
     ]);
     return myAdmin;

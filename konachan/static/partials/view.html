@@ -17,15 +17,16 @@
             <div class="loader-inner line-scale"><div></div><div></div><div></div><div></div><div></div></div>
         </div>
     </div>
-    <div class="pager">
+
+    <div class="pager" ng-show="allpages">
         <span class="btn sliver" ng-click="prev()">{{'prev' | translate }}</span>
         <ul>
             <li ng-class="{active:i==current}" ng-repeat="i in navpage" ng-click="invoke(i)">{{i}}</li>
         </ul>
         <span class="btn sliver" ng-click="next()">{{'next' | translate }}</span>
-        <form novalidate>
-            <input type="number" min="1" max="{{allpages}}" ng-model="jumpData" ng-keypress="keyjump($event)">
-            <button class="btn sliver" ng-click="jump()" type="button">{{'jump' | translate }}</button>
+        <form novalidate name='jumpForm' ng-submit="jumpAction()" >
+            <input type="number" ng-min="1" ng-max="{{allpages}}" min="1" max="{{allpages}}" ng-model="jumpData" name='jumpPage' ng-keypress="keyjump($event)" required />
+            <button class="btn sliver" ng-disabled="jumpForm.jumpPage.$invalid">{{'jump' | translate }}</button>
         </form>
         <span>{{allpages}}</span>
     </div>
