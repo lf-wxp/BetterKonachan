@@ -3,14 +3,19 @@
         <h4>
         {{'Post' | translate }}
         </h4>
+        <form ng-submit="searchFun()" novalidate name="search">
+            <input type="search" placeholder="{{'searchtext' | translate}}" name="tags" ng-model='tags' required>
+            <button class="btn flat" ng-disabled="search.$invalid">{{ 'search' | translate }}</button>
+        </form>
     </header>
     <div class="inner">
         <canvas></canvas>
         <ul ng-click="previewFun($event)">
             <li ng-repeat="post in posts" on-finish-render="ngRepeatFinished">
-                <span class="img"><img ng-src="{{post.prev_url}}" alt=""  data-sample="{{post.sample}}" data-height="{{post.sample_height}}" data-width="{{post.sample_width}}"><i class="fa fa-search-plus"></i></span>
+                <span class="img"><img ng-src="{{post.prev_url}}" alt=""  data-sample="{{post.sample}}" data-height="{{post.sample_height}}" data-width="{{post.sample_width}}"><svg class="icon"><use xlink:href="/static/images/icon.svg#icon-zoom-in"></use></svg></span>
                 <span>{{post.width}}<strong>x</strong> {{post.height}}</span>
-                <a href="{{post.url}}" download="{{post.name}}" class="btn btn3e download">Download</a>
+                <a href="{{post.url}}" download="{{post.name}}" class="btn btn3e">{{'Download' | translate }}<svg class="icon"><use xlink:href="/static/images/icon.svg#icon-download"></use></svg>
+                </a>
             </li>
         </ul>
         <div class="dimmer" ng-class="{active:noFinish}">
@@ -48,7 +53,15 @@
 </script>
 <script type="text/ng-template" id="preview">
 <div class="preview">
-    <a href="{{ngDialogData.source}}" class="download flat btn show" download="{{ngDialogData.name}}"></a>
+    <a href="{{ngDialogData.source}}" class="flat btn show" download="{{ngDialogData.name}}">
+        <svg class="icon"><use xlink:href="/static/images/icon.svg#icon-download"></use></svg>
+    </a>
     <img url="{{ngDialogData.img}}" alt="" noredirect src="" data-height="{{ngDialogData.height}}" data-width="{{ngDialogData.width}}">
+</div>
+</script>
+
+<script type="text/ng-template" id="noResult">
+<div class="notify">
+    <p>{{'no result' | translate }}</p>
 </div>
 </script>

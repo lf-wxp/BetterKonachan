@@ -20,7 +20,6 @@ define(['app', 'canvasBg', 'services'], function(app, canvasBg) {
                     sw: 10,
                     sh: 10
                 }), 5);
-
             }
 
             function renderCanvasBg() {
@@ -93,6 +92,7 @@ define(['app', 'canvasBg', 'services'], function(app, canvasBg) {
                 $scope.noFinish = true;
                 Post.query({
                     'page': page,
+                    'tags': $scope.tags,
                     'isSafe': $scope.isSafe
                 }, function(d) {
                     PageStorage.setCurrentPage(page);
@@ -107,16 +107,20 @@ define(['app', 'canvasBg', 'services'], function(app, canvasBg) {
                     $scope.current = page;
                     $scope.allpages = d.pages;
 
-                    if (d.success === "false") { //超时提醒。
+                    if (d.success === "false" && d.timeOut) { //超时提醒。
                         var dialog = ngDialog.open({
-                            template: 'timeout',
-
+                            template: 'timeout'
                         });
                         dialog.closePromise.then(function(data) { //重新请求
                             invoke(PageStorage.getCurrentPage());
                         });
                     }
-
+                    if (d.success === "false" && d.noResult) {
+                        var noResult = ngDialog.open({
+                            template: 'noResult'
+                        });
+                    }
+                    
                     PageStorage.setAllPages(d.pages);
                     creatNavPage();
                     isFinish = true;
@@ -202,8 +206,8 @@ define(['app', 'canvasBg', 'services'], function(app, canvasBg) {
                     width = event.target.dataset.width;
                     height = event.target.dataset.height;
                     parentli = event.target.parentNode.parentNode;
-                    source = parentli.querySelector('a.download').href;
-                    name = parentli.querySelector('a.download').download;
+                    source = parentli.querySelector('a.btn3e').href;
+                    name = parentli.querySelector('a.btn3e').download;
                     ngDialog.open({
                         template: 'preview',
                         scope: $scope,
@@ -218,6 +222,9 @@ define(['app', 'canvasBg', 'services'], function(app, canvasBg) {
                     });
                 }
             };
+            $scope.searchFun = function(){
+                invoke(1,$scope.tags);
+            }
         }
     ]).
     controller("settingCtr", ["$scope", "$rootScope", "$window", "LocalSetting",

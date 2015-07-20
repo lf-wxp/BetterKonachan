@@ -1,18 +1,15 @@
 button::-moz-focus-inner,
 input[type="button"]::-moz-focus-inner { border:none; padding:0; }
 .btn3d {
-    -moz-style: preserve-3d;
-    -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
-    @include transition;
+    transition: all 0.2s ease-in-out;
     vertical-align: top;
     &:hover {
-        @include transform(rotateX(90deg) translateZ(0px));
-        @include transition;
+        transform: rotateX(90deg) translateX(0px);
+        transition: all 0.2s ease-in-out;
     }
     button, span {
-        color: $textcol;
-        @include textshadow(2px 2px 2px #dcdcdc);
+        color: $textcol;    
         padding: 5px;
         text-align: center;
         border: 1px solid #dcdcdc;
@@ -21,7 +18,7 @@ input[type="button"]::-moz-focus-inner { border:none; padding:0; }
         background: white;
         cursor: pointer;
         box-sizing: border-box;
-        @include transform(translateZ(15px));
+        transform:translateX(15px);
         display: block;
     }
     span {
@@ -30,25 +27,23 @@ input[type="button"]::-moz-focus-inner { border:none; padding:0; }
         right: 0px;
     }
     button {
-        @include transform(rotateX(-90deg) translateZ(15px));
-        @include transition;
+        transform: rotateX(-90deg) translateX(15px);
+        transition: all 0.2s ease-in-out;
     }
 }
 
 .btn {
     background: #66b4ff;
-    border-radius: 5px;
-    box-shadow: 1px 1px 1px rgba(220, 220, 220, 0.5);
+    border-radius: 2px;
     color: white;
     box-sizing: border-box;
     display: inline-block;
     margin-top: 10px;
     font-size: pxToRem(14px);
     padding: 5px;
-    text-shadow: 1px 1px 1px rgba(220, 220, 220, 0.5);
     cursor: pointer;
-    border: 1px solid gainsboro;
-    @include transition;
+    border: none;
+    transition: all 0.2s ease-in-out;
     &:hover,&:active {
         background: darken(#66b4ff, 5%);
     }
@@ -58,7 +53,7 @@ input[type="button"]::-moz-focus-inner { border:none; padding:0; }
     background: #428bca;
     border-color: #357ebd;
     color: white;
-    @include transition;
+    transition: all 0.2s ease-in-out;
     &:before {
         content: "\f00c";
         display: inline-block;
@@ -82,7 +77,7 @@ input[type="button"]::-moz-focus-inner { border:none; padding:0; }
         font-smoothing: antialiased;
     }
     &:hover {
-        @include transition;
+        transition: all 0.2s ease-in-out;
         background: #3071a9;
         border-color: #285e8e;
     }
@@ -91,7 +86,7 @@ input[type="button"]::-moz-focus-inner { border:none; padding:0; }
 .no.btn {
     background: #d9534f;
     border-color: #d43f3a;
-    @include transition;
+    transition: all 0.2s ease-in-out;
     color: white;
     &:before {
         content: "\f00d";
@@ -116,7 +111,7 @@ input[type="button"]::-moz-focus-inner { border:none; padding:0; }
         font-smoothing: antialiased;
     }
     &:hover {
-        @include transition;
+        transition: all 0.2s ease-in-out;
         background: #c9302c;
         border-color: #ac2925;
     }
@@ -125,7 +120,7 @@ input[type="button"]::-moz-focus-inner { border:none; padding:0; }
 .btn.flat {
     background: #5bc0de;
     // border-color: #46b8da;
-    @include transition;
+    transition: all 0.2s ease-in-out;
     color: white !important;
     &:before {
         display: inline-block;
@@ -149,7 +144,7 @@ input[type="button"]::-moz-focus-inner { border:none; padding:0; }
         font-smoothing: antialiased;
     }
     &:hover {
-        @include transition;
+        transition: all 0.2s ease-in-out;
         background: #31b0d5;
         // border-color: #269abc;
    
@@ -188,22 +183,10 @@ input[type="button"]::-moz-focus-inner { border:none; padding:0; }
 }
 
 .btn3e {
-    &:before {
+    svg {
+        fill:white;
+        position:absolute;
         right: 10px;
-        z-index: 2;
-        position: absolute;
-        height: 100%;
-        top: 0;
-        line-height: 30px;
-        font-size: 18px;
-        width: 18px;
-        display: inline-block;
-        font-family: 'FontAwesome';
-        font-style: normal;
-        font-weight: normal;
-        text-decoration: inherit;
-        text-align: center;
-        speak: none;
     }
     &:after {
         width: 30%;

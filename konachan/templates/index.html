@@ -9,7 +9,6 @@
         <script  data-pace-options='{ "elements": true }' src="/static/lib/other/pace.min.js" ></script>
         <script data-main="/static/js/main" src="/static/lib/other/require.js"></script>
         <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon">
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="/static/css/index.min.css">
     </head>
     <body>
@@ -21,10 +20,10 @@
     <article id="admin">
         <nav dash-for>
             <a ui-sref="view" >
-                <span translate>Post</span><i class="fa fa-tachometer"></i>
+                <span translate>Post</span><svg class="icon"><use xlink:href="/static/images/icon.svg#icon-home"></use></svg>
             </a>
             <a ui-sref="setting" >
-                <span translate>Setting</span><i class="fa fa-cog"></i>
+                <span translate>Setting</span><svg class="icon"><use xlink:href="/static/images/icon.svg#icon-cog"></use></svg>
             </a>
             <div ng-controller="langCtrl" class="language">
                 <button class="btn flat" ng-class="{active:zh}" ng-click="language('zh')">简体中文</button>

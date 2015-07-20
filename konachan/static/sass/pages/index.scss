@@ -1,25 +1,26 @@
 @import "../base/_normalize";
 @import "../help/_helper";
-@import "../layout/_layout";
 @import "../components/_font";
+@import "../components/_form";
+@import "../components/_icon";
 @import "../components/_colors";
 @import "../components/_buttons";
 @import "../components/_pagebar";
-@import "ngDialog-theme-default.min.css";
-@import "ngDialog.min.css";
-@import "checkbox.css";
+@import "../layout/_layout";
 
-body > header {
-    h1, a {
-        display: inline-block;
-        line-height: 50px;
-    }
-    a {
-        color: darken(white, 5%);
-        margin-left: 50px;
-    }
-    canvas {
-        position: absolute;
+body {
+    > header {
+        h1, a {
+            display: inline-block;
+            line-height: 50px;
+        }
+        a {
+            color: darken(white, 5%);
+            margin-left: 50px;
+        }
+        canvas {
+            position: absolute;
+        }
     }
 }
 
@@ -91,7 +92,6 @@ body > header {
     opacity: 1;
 }
 
-
 .fragment .inner {
     color: #999999;
     position: relative;
@@ -118,12 +118,12 @@ body > header {
             display: block;
             position: relative;
             cursor: zoom-in;
-            &:hover i {
+            &:hover svg {
                 visibility: visible;
                 opacity: 1;
                 @include transition;
             }
-            i {
+            svg {
                 position: absolute;
                 font-size: pxToRem(20px);
                 height: 20px;
@@ -153,7 +153,7 @@ body > header {
             box-sizing: border-box;
             margin-top: 0px;
             position: relative;
-            border:none;
+            border: none;
             box-shadow: none;
             text-shadow: none;
             border-radius: 2px;
@@ -259,7 +259,7 @@ body > header {
     min-height: 50px;
     @include transition;
     overflow: hidden;
-    a.download {
+    >a {
         font-size: pxToRem(12px);
         position: absolute;
         top: 20px;
@@ -277,17 +277,7 @@ body > header {
         display: block;
         width: 100%;
     }
-    i {
-        font-size: pxToRem(40px);
-        width: 40px;
-        height: 40px;
-        position: absolute;
-        display: block;
-        left: 50%;
-        top: 10%;
-        @include transform(translate(-50%, -50%));
-    }
-    &:hover .download {
+    &:hover a {
         visibility: visible;
         opacity: 1;
     }
@@ -301,10 +291,12 @@ body > header {
     max-width: 90vw !important;
     width: auto !important;
 }
+
 .toggle.checkbox {
     font-size: pxToRem(14px);
-    color: #3d4450!important;
+    color: #3d4450 !important;
 }
+
 /* loader.css */
 @-webkit-keyframes line-scale {
     0% {
@@ -373,6 +365,7 @@ body > header {
     animation-fill-mode: both;
     display: inline-block;
 }
+
 .loader-inner {
     position: absolute;
     left: 0px;

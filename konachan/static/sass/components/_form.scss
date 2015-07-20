@@ -1,60 +1,39 @@
-%inputfocus {
+@mixin inputfocus {
     border: 1px solid $bordercol;
-    border-radius: 5px;
+    border-radius: 2px;
     padding: 3px 10px;
     color: $textcol;
-    @extend %transition;
+    transition: all 0.2s ease-in-out;
     &:focus {
-        @extend %transition;
-        border-color: $hovercol;
-        // box-shadow: 1px 1px 1px $hovercol, -1px -1px 1px $hovercol;
+        transition: all 0.2s ease-in-out;
+        border-color: #5bc0de;
+   
     }
-    &.ng-invalid.ng-dirty{
-        @extend %transition;
-        border-color: red;
-        // box-shadow: 1px 1px 1px red, -1px -1px 1px red;
-    }
-    &.ng-invalid.ng-dirty~.valid {
-        color: red;
-    }
-    &~.valid {
+    // &.ng-invalid.ng-dirty {
+    //     transition: all 0.2s ease-in-out;
+    //     border-color: red;
+   
+    // }
+    // &.ng-invalid.ng-dirty ~ .valid {
+    //     color: red;
+    // }
+    & ~ .valid {
         padding: 5px;
     }
 }
 
-@keyframes tick{
+@keyframes tick {
     0% {
-        @include transform(scale(1))
+        @include transform(scale(1));
     }
-     50% {
-        @include transform(scale(1.5))
+    50% {
+        @include transform(scale(1.5));
     }
-     100% {
-        @include transform(scale(1))
+    100% {
+        @include transform(scale(1));
     }
 }
-@-webkit-keyframes tick{
-    0% {
-        @include transform(scale(1))
-    }
-     50% {
-        @include transform(scale(1.5))
-    }
-     100% {
-        @include transform(scale(1))
-    }
-}
-@-moz-keyframes tick{
-    0% {
-        @include transform(scale(1))
-    }
-     50% {
-        @include transform(scale(1.5))
-    }
-     100% {
-        @include transform(scale(1))
-    }
-}
+
 
 @mixin checkbox($top: 0px, $left: 2px) {
     left: $left;
@@ -88,11 +67,11 @@
         top: 2px;
         opacity: 0;
         color: $hovercol;
-        cursor:pointer;
-        @include transition($time:0.1s);
+        cursor: pointer;
+        transition: all 0.1s ease-in-out;
     }
     &.selected:after {
-        @include animate($ani:tick,$time:0.5s);
+        animation: tick 0.5s ease-in-out;
         opacity: 1;
     }
     input {

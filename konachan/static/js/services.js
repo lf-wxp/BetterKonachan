@@ -3,8 +3,9 @@ define(['angular', 'angular-resource'], function(angular) {
     myService.
     factory('Post', ['$resource', '$window',
         function($resource, $window) {
-            return $resource("/post?page=:page&isSafe=:isSafe", {
-                page: '@page'
+            return $resource("/post?page=:page&isSafe=:isSafe&tags=:tags", {
+                page: '@page',
+                tags: '@tags'
             }, {
                 'query': {
                     method: 'GET',

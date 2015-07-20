@@ -13,7 +13,11 @@ define(['app', 'angular-translate'], function(app) {
                 'smode': '安全模式',
                 'prev':'上一页',
                 'next':'下一页',
-                'remember page': '是否记住浏览页数'
+                'remember page': '是否记住浏览页数',
+                'Download':'下载',
+                'searchtext':'这里搜索',
+                'search':'搜索',
+                'no result':'搜索没有结果'
             });
 
             $translateProvider.translations('en', {
@@ -28,7 +32,11 @@ define(['app', 'angular-translate'], function(app) {
                 'smode': 'Security mode',
                 'prev':'prev',
                 'next':'next',
-                'remember page': 'Remember the last page you visited'
+                'remember page': 'Remember the last page you visited',
+                'Download':'Download',
+                'searchtext':'search here',
+                'search':'search',
+                'no result':'There is no results'
             });
             
             $translateProvider.useSanitizeValueStrategy('escaped');

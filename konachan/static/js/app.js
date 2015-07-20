@@ -1,6 +1,6 @@
-define(['mobileDetect', 'canvasBg','angular-animate'], function(mobileDetect, canvasBg) {
-    var myAdmin = angular.module('view', ['ui.router', 'ngResource', 'ngAnimate', 'myService', 'ngDialog','pascalprecht.translate']);
-    myAdmin.run(["$window", '$rootScope', "PageStorage", "LocalSetting", "GetOneBg",
+define(['mobileDetect', 'canvasBg', 'angular-animate'], function(mobileDetect, canvasBg) {
+    var myAdmin = angular.module('view', ['ui.router', 'ngResource', 'ngAnimate', 'myService', 'ngDialog', 'pascalprecht.translate']);
+    myAdmin.run(["$window", "$rootScope", "PageStorage", "LocalSetting", "GetOneBg",
         function($window, $rootScope, PageStorage, LocalSetting, GetOneBg) {
             if (mobileDetect()) { // detect the platform whether is mobile
                 $window.sessionStorage['isMobile'] = 'true';
@@ -33,15 +33,15 @@ define(['mobileDetect', 'canvasBg','angular-animate'], function(mobileDetect, ca
                 setBgImg('../images/bg.jpg');
             }
 
-            function canvasParentSizeChange(selector,place) { //判断canvas的父元素窗口大小是否发生改变
+            function canvasParentSizeChange(selector, place) { //判断canvas的父元素窗口大小是否发生改变
                 var canvasParent = document.querySelector(selector);
                 var nowWith = canvasParent.clientWidth;
                 var nowHeight = canvasParent.clientHeight;
-                if (place=="header") {
+                if (place == "header") {
                     var width = "headerWidth";
                     var height = "headerHeight";
-                } 
-                if (place=="content") {
+                }
+                if (place == "content") {
                     var width = "contentWidth";
                     var height = "contentHeight";
                 }
@@ -90,19 +90,19 @@ define(['mobileDetect', 'canvasBg','angular-animate'], function(mobileDetect, ca
                         clearTimeout(handler);
                     }
                     handler = setTimeout(function() {
-                        var isHeaderChange = canvasParentSizeChange('body>header','header');
-                        var isContentChange = canvasParentSizeChange('.inner','content')
+                        var isHeaderChange = canvasParentSizeChange('body>header', 'header');
+                        var isContentChange = canvasParentSizeChange('.inner', 'content')
                         if (isHeaderChange) {
                             renderHeaderCanvasBg();
                         }
                         if (isContentChange) {
                             $rootScope.$broadcast('contentRender');
                         }
-                    }, 1000);
+                    }, 100);
                 });
                 renderHeaderCanvasBg();
             }
-            setTimeout(renderCover, 5000); //放入记时器中，异步执行。
+            // setTimeout(renderCover, 5000); //放入记时器中，异步执行。
         }
     ]);
     return myAdmin;

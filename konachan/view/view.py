@@ -25,23 +25,27 @@ def index():
 def setting():
     return index()
 
+
 @blueprint.app_errorhandler(404)
 def error(error):
     return index()
 
-def getXmlData(isSafe, page):
+
+def getXmlData(isSafe, page, tags=""):
     try:
-        r = requests.get(URL + str(page), timeout=TIMEOUT).text
+        r = requests.get(URL + str(page)+'&tags='+tags, timeout=TIMEOUT).text
     except Exception:
-        return {"success": "false", "reason": "timeout"}
+        return {"success": "false", "reason": "timeout","timeOut":"true"}
     bs = BeautifulSoup(r, 'lxml')
     imgs = bs.find_all('post')
     posts = bs.find("posts")
     count = math.ceil(int(posts['count']) / 21)
+    if count == 0:
+        return {"success":"false","reason":"no result","noResult":"true"}
     if page > count:
-        return {"success": "false", "reason": "out of range"}
+        return {"success": "false", "reason": "out of range","outRange":"true"}
     data = {"pages": count, "images": []}
-    reg = re.compile(r'http://.+\.(jpg|png|jpeg)')
+    reg = re.compile(r'http://.+\.(jpg|png|jpeg|gif|svg|bmp|webp|bpg)')
     if len(imgs):
         for img in imgs:
             rating = img['rating']
@@ -65,6 +69,7 @@ class postParams:
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
         self.reqparse.add_argument('page', type=str, help="NO username")
+        self.reqparse.add_argument('tags', type=str, help="NO tags")
 
 
 class picParams:
@@ -85,7 +90,7 @@ class picAPI(Resource, picParams):
         data_url = 'data:image/jpg;base64,{}'.format(encodedata)
         return {'data_url': data_url}
 
-    def get(sefl):
+    def get(self):
         isSafe = 'true'
         page = 1
         data = getXmlData(isSafe, page)
@@ -106,7 +111,8 @@ class postAPI(Resource, postParams):
     def get(self):
         isSafe = request.args.get('isSafe', 'false')
         page = int(request.args.get('page', 1))
-        return getXmlData(isSafe, page)
+        tags = request.args.get('tags','')
+        return getXmlData(isSafe, page, tags)
 api = Api(blueprint)
 api.add_resource(postAPI, "/post", endpoint="post")
 api.add_resource(picAPI, "/pic", endpoint="pic")
