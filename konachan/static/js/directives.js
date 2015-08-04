@@ -51,8 +51,7 @@ define(['app', 'ngDialog'], function(app) {
                         'opacity': '0'
                     });
                     element[0].previousElementSibling.style.display = "none";
-                    preview.css('height', '0px');
-                    preview[0].insertAdjacentHTML('beforeEnd', '<div class="loader-inner line-scale"><div></div><div></div><div></div><div></div><div></div></div>');
+                    preview[0].insertAdjacentHTML('beforeEnd', '<div class="loader-inner pacman"><div></div><div></div><div></div><div></div><div></div></div>');
                     GetPic.get({ //调用GetPic服务获取预览图片
                         url: attrs['url']
                     }).then(function(result) {
@@ -72,37 +71,67 @@ define(['app', 'ngDialog'], function(app) {
             };
         }
     ]).
-    directive('dashFor', ['$location', //一个简单左侧菜单栏高亮指令
-        function($location) {
-            return {
-                restrict: 'AE',
-                scope: '=',
-                link: function(scope, elem, attrs) {
-                    scope.$on('$viewContentLoaded', function() {
-                        as = elem.find('a');
-                        for (var i = 0; i < as.length; i++) {
-                            index = as[i].href.indexOf('/', 10) ? as[i].href.indexOf('/', 10) : 0;
-                            localurl = as[i].href.slice(index);
-                            if (localurl == $location.path()) {
-                                as[i].classList.add('active');
-                            } else {
-                                as[i].classList.remove('active');
-                            }
-
-                        }
-                    });
-                }
-            };
-        }
-    ]).
-    directive('onFinishRender', function($timeout) { //ng-repeat最后一个渲染完成。触发时间
+    directive('navbar', function() {
+        return {
+            restrict: 'AE',
+            scope: {},
+            link: function(scope, elem, attrs) {
+                var nav = document.querySelector('body>nav'),
+                    pusher = document.querySelector('.pusher');
+                elem.on('click', function() {
+                    pusher.className = 'active pusher';
+                    nav.className = "active";
+                })
+                pusher.addEventListener('click', function() {
+                    pusher.className = 'pusher';
+                    nav.className = "";
+                }, false)
+            }
+        };
+    }).
+    directive('onFinishRender', function($timeout, $window) { //ng-repeat最后一个渲染完成。触发事件
         return {
             restrict: 'A',
-            link: function(scope, element, attr) {
+            link: function(scope, elem, attr) {
                 if (scope.$last === true) {
-                    $timeout(function() {
-                        scope.$emit('ngRepeatFinished');
-                    });
+                    var ul = elem[0].parentNode,
+                        lis = ul.querySelectorAll('li'),
+                        num = 6,
+                        final = 0;
+
+                    function getW(num) {
+                        if (num >= 3) {
+                            var ulW = ul.clientWidth,
+                                perW = ulW / num;
+                            if (perW >= 250 && perW <= 300) {
+                                final = perW;
+                            } else {
+                                getW(num - 1);
+                            }
+                        }
+                    }
+                    getW(num);
+                    if (final) {
+                        for (var i = 0; i < lis.length; i++) {
+                            lis[i].style.width = final + "px";
+                        };
+                    }
+                    var w = angular.element($window),
+                        handler;
+
+                    w.bind('resize', function() {
+                        if (handler) {
+                            clearTimeout(handler);
+                        }
+                        handler = setTimeout(function() {
+                            getW(num);
+                            if (final) {
+                                for (var i = 0; i < lis.length; i++) {
+                                    lis[i].style.width = final + "px";
+                                };
+                            }
+                        }, 500);
+                    })
                 }
             }
         };
@@ -153,5 +182,5 @@ define(['app', 'ngDialog'], function(app) {
                 ctrl.$formatters.push(maxValidator);
             }
         };
-    });
+    })
 });

@@ -24,13 +24,13 @@
 
 @keyframes tick {
     0% {
-        @include transform(scale(1));
+        transform: scale(1);
     }
     50% {
-        @include transform(scale(1.5));
+        transform: scale(1.5);
     }
     100% {
-        @include transform(scale(1));
+        transform: scale(1);
     }
 }
 

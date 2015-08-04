@@ -57,7 +57,7 @@ gulp.task('server', ['sass'], function() {
     browserSync.init({
         server: "./"
     });
-    gulp.watch('./sass/*.scss', ['concat']);
+    gulp.watch('./sass/**/*.scss', ['concat']);
     // gulp.watch("app/*.html").on('change', browserSync.reload);
 });
 

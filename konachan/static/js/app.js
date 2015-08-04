@@ -1,9 +1,11 @@
 define(['mobileDetect', 'canvasBg', 'angular-animate'], function(mobileDetect, canvasBg) {
     var myAdmin = angular.module('view', ['ui.router', 'ngResource', 'ngAnimate', 'myService', 'ngDialog', 'pascalprecht.translate']);
-    myAdmin.run(["$window", "$rootScope", "PageStorage", "LocalSetting", "GetOneBg",
-        function($window, $rootScope, PageStorage, LocalSetting, GetOneBg) {
+    myAdmin.run(["$window", "$rootScope", "PageStorage", "LocalSetting",
+        function($window, $rootScope, PageStorage, LocalSetting) {
             if (mobileDetect()) { // detect the platform whether is mobile
                 $window.sessionStorage['isMobile'] = 'true';
+                var body  = document.querySelector('body');
+                body.classList.add('mobile');
             } else {
                 $window.sessionStorage['isMobile'] = 'false';
             }
@@ -27,82 +29,6 @@ define(['mobileDetect', 'canvasBg', 'angular-animate'], function(mobileDetect, c
             } else {
                 PageStorage.setCurrentPage(null);
             }
-            if (LocalSetting.getSetting('cover')) { //header 和footer 的backgroundImg 设置
-                setBgImg(LocalSetting.getSetting('cover'))
-            } else {
-                setBgImg('../images/bg.jpg');
-            }
-
-            function canvasParentSizeChange(selector, place) { //判断canvas的父元素窗口大小是否发生改变
-                var canvasParent = document.querySelector(selector);
-                var nowWith = canvasParent.clientWidth;
-                var nowHeight = canvasParent.clientHeight;
-                if (place == "header") {
-                    var width = "headerWidth";
-                    var height = "headerHeight";
-                }
-                if (place == "content") {
-                    var width = "contentWidth";
-                    var height = "contentHeight";
-                }
-                if ($rootScope[width] == undefined && $rootScope[height] == undefined) {
-                    $rootScope[width] = nowWith;
-                    $rootScope[height] = nowHeight;
-                    return true;
-                } else if ($rootScope[width] == nowWith && $rootScope[height] == nowHeight) {
-                    return false;
-                } else {
-                    $rootScope[width] = nowWith;
-                    $rootScope[height] = nowHeight;
-                    return true;
-                }
-            }
-
-            function renderHeaderCanvasBg() {
-                var can1 = new canvasBg('body header canvas');
-                can1.renderAnimateRandomFillStroke('rect', "transparent", can1.getShape('doubleRect', {
-                    w: 20,
-                    h: 20,
-                    sw: 10,
-                    sh: 10
-                }), 5);
-
-            }
-
-            function setBgImg(url) {
-                var covers = document.querySelectorAll('.cover');
-                [].forEach.call(covers, function(elem) {
-                    elem.style.backgroundImage = "url(" + url + ")";
-                })
-            }
-
-            function renderCover() { //远程获取一张图片当作header和footer的背景，并存入localstorage中
-                GetOneBg.get().then(function(data) {
-                    setBgImg(data);
-                    LocalSetting.setSetting('cover', data);
-                })
-            }
-            if ($window.sessionStorage['isMobile'] !== "true") {
-                var w = angular.element($window);
-                var handler;
-                w.bind('resize', function() { //当窗口resize时，重新绘制背景
-                    if (handler) {
-                        clearTimeout(handler);
-                    }
-                    handler = setTimeout(function() {
-                        var isHeaderChange = canvasParentSizeChange('body>header', 'header');
-                        var isContentChange = canvasParentSizeChange('.inner', 'content')
-                        if (isHeaderChange) {
-                            renderHeaderCanvasBg();
-                        }
-                        if (isContentChange) {
-                            $rootScope.$broadcast('contentRender');
-                        }
-                    }, 100);
-                });
-                renderHeaderCanvasBg();
-            }
-            // setTimeout(renderCover, 5000); //放入记时器中，异步执行。
         }
     ]);
     return myAdmin;

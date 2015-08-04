@@ -1,107 +1,11 @@
-@mixin build-prefix($property, $value, $prefixes: $prefixes) {
-    @each $prefix in $prefixes {
-        -#{$prefix}-#{$property}: $value;
-    }
-    #{$property}: $value;
-}
-
-@mixin keyframes($name) {
-    @-moz-keyframes #{$name} {
-        @content;
-    }
-    @-webkit-keyframes #{$name} {
-        @content;
-    }
-    @-o-keyframes #{$name} {
-        @content;
-    }
-    @keyframes #{$name} {
-        @content;
-    }
-}
-
-@mixin transition($property: all, $time: 0.3s, $way: ease-in, $delay: 0s) {
-    $value: $property $time  $way $delay;
-    @include build-prefix("transition", $value);
-}
-
-@mixin transform($value...) {
-    @include build-prefix("transform", $value);
-}
-@mixin transform-origin($value) {
-    @include build-prefix("transform-origin",$value);
-}
-
-@mixin textshadow($value){
-    @include build-prefix("text-shadow",$value);
-}
-
-@mixin boxsizing($value) {
-    @include build-prefix("box-sizing",$value); 
-}
-
-@mixin boxshow {
-    box-shadow: 2px 2px 2px #dcdcdc;
-    border-radius: 5px;
-}
-@mixin abghover {
-    @include transition(background);
-    &:hover {
-        background: $hovercol;
-        @include transition(background);
-    }
-}
-
 @mixin ellipsis {
     overflow: hidden;
     white-space: nowrap;
     text-overflow:ellipsis;
 }
 
-@mixin animate($ani, $time: 0.8s, $way: cubic-bezier(0.42, 0, 0.58, 1), $delay: 0s, $recycle: 1, $alternate: normal) {
-    $value: $ani $time $way $delay $recycle $alternate;
-    @include build-prefix("animation", $value);
-}
-
-@mixin inlineblock {
-    display: inline-block;
-    *display: inline;
-    *zoom: 1;
-    vertical-align: top;
-}
-
-@mixin linear($value...){
-    @each $prefix in $prefixes {
-        background: -#{$prefix}-linear-gradient($value);
-    }
-    background:linear-gradient($value);
-}
-@mixin radial($value...){
-    @each $prefix in $prefixes {
-        background: -#{$prefix}-radial-gradient($value);
-    }
-    background:radial-gradient($value);
-}
-@mixin repeatlinear($value...){
-    @each $prefix in $prefixes {
-        background: -#{$prefix}-repeating-linear-gradient($value);
-    }
-    background:repeating-linear-gradient($value);
-}
-
 @function pxToRem($px) {
     @return $px / $rootfont * 1rem;
-}
-
-%inlineblock{
-    display: inline-block;
-    vertical-align: top;
-    *display: inline;
-    *zoom: 1;
-}
-
-%transition{
-    @include build-prefix("transition", all 0.3s ease-in 0s);
 }
 
 @mixin respond-to($name) {

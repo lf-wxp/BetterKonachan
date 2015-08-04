@@ -12,34 +12,90 @@
         <link rel="stylesheet" href="/static/css/index.min.css">
     </head>
     <body>
-    <header>
-        <div class="cover"></div>
-        <canvas></canvas>
-        <h1>BetterKonachan</h1>
-    </header>
-    <article id="admin">
-        <nav dash-for>
-            <a ui-sref="view" >
-                <span translate>Post</span><svg class="icon"><use xlink:href="/static/images/icon.svg#icon-home"></use></svg>
-            </a>
-            <a ui-sref="setting" >
-                <span translate>Setting</span><svg class="icon"><use xlink:href="/static/images/icon.svg#icon-cog"></use></svg>
-            </a>
-            <div ng-controller="langCtrl" class="language">
+        <header ng-controller='headCtr'>
+            <div class="cover"></div>
+            <canvas></canvas>
+            <h1>BetterKonachan</h1>
+            <div class="search">
+                <div class="blur cover"></div>
+                <form ng-submit="searchFun()" novalidate name="search" ng-controller='searchCtr'>
+                    <input type="search" placeholder="{{'searchtext' | translate}}" name="tags" ng-model='tags' required>
+                    <button class="btn flat" ng-disabled="search.$invalid">{{'search' | translate}}</button>
+                </form>
+            </div>
+            <svg class="icon" navbar><use xlink:href="/static/images/icon.svg#icon-bars"></use></svg>
+        </header>
+        <nav ng-controller='setCtr'>
+            <h3>{{'language'| translate}}</h3>
+            <div class="language">
                 <button class="btn flat" ng-class="{active:zh}" ng-click="language('zh')">简体中文</button>
                 <button class="btn flat" ng-class="{active:en}" ng-click="language('en')">English</button>
             </div>
+            <h3>{{'Setting' | translate}}</h3>
+            <form novalidate>
+                <toggle ng-model='isSafe'>{{'smode' | translate}}</toggle>
+                <toggle ng-model='isRememberPage'>{{'remember page' | translate}}</toggle>
+            </form>
         </nav>
-        <div class="admin-right">
-            <div class="fragment" ui-view>
+        <div class="pusher"></div>
+        <article class="content" ng-controller="viewCtr">
+            <div class="inner">
+                        <ul ng-click="previewFun($event)">
+                            <li ng-repeat="post in posts" on-finish-render="ngRepeatFinished">
+                                <span class="img"><img ng-src="{{post.prev_url}}" alt=""  data-sample="{{post.sample}}" data-height="{{post.sample_height}}" data-width="{{post.sample_width}}"><svg class="icon"><use xlink:href="/static/images/icon.svg#icon-zoom-in"></use></svg></span>
+                                <span class="info">{{post.width}}<strong>x</strong> {{post.height}}</span>
+                                <a href="{{post.url}}" download="{{post.name}}" class="btn btn3e">{{'Download' | translate }}<svg class="icon"><use xlink:href="/static/images/icon.svg#icon-download"></use></svg>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="dimmer" ng-class="{active:noFinish}">
+                            <div class="loader-inner pacman"><div></div><div></div><div></div><div></div><div></div></div>
+                        </div>
             </div>
-        </div>
-    </article>
-    <footer>
-        <div>
+            <div class="pager" ng-show="allpages">
+                        <span class="btn sliver" ng-click="prev()">{{'prev' | translate }}</span>
+                        <ul>
+                            <li ng-class="{active:i==current}" ng-repeat="i in navpage" ng-click="invoke(i)">{{i}}</li>
+                        </ul>
+                        <span class="btn sliver" ng-click="next()">{{'next' | translate }}</span>
+                        <form novalidate name='jumpForm' ng-submit="jumpAction()" >
+                            <input type="number" ng-min="1" ng-max="{{allpages}}" min="1" max="{{allpages}}" ng-model="jumpData" name='jumpPage' ng-keypress="keyjump($event)" required />
+                            <button class="btn sliver" ng-disabled="jumpForm.jumpPage.$invalid">{{'jump' | translate }}</button>
+                        </form>
+                        <span>{{allpages}}</span>
+            </div>
+        </article>
+        <footer>
             <div class="cover"></div>
             <p><span translate>Any Question,Contact me</span>:<a href="mailto:franciscowxp@gmail.com" title="">franciscowxp@gmail.com</a></p>
-        </div>
-    </footer>
-</body>
+        </footer>
+        <script type="text/ng-template" id="notify">
+            <div class="notify">
+                <p>{{'browser not support' | translate }}</p>
+            </div>
+        </script>
+        <script type="text/ng-template" id="timeout">
+            <div class="notify">
+                <p>{{'data timeout' | translate }}</p>
+            </div>
+        </script>
+        <script type="text/ng-template" id="numbererror">
+            <div class="notify">
+                <p>{{'page number only' | translate }}</p>
+            </div>
+        </script>
+        <script type="text/ng-template" id="preview">
+            <div class="preview">
+                <a href="{{ngDialogData.source}}" class="flat btn show" download="{{ngDialogData.name}}">
+                    <svg class="icon"><use xlink:href="/static/images/icon.svg#icon-download"></use></svg>
+                </a>
+                <img url="{{ngDialogData.img}}" alt="" noredirect src="" data-height="{{ngDialogData.height}}" data-width="{{ngDialogData.width}}">
+            </div>
+        </script>
+        <script type="text/ng-template" id="noResult">
+            <div class="notify">
+                <p>{{'no result' | translate }}</p>
+            </div>
+        </script>
+    </body>
 </html>

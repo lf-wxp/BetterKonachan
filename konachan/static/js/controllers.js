@@ -1,57 +1,14 @@
 define(['app', 'canvasBg', 'services'], function(app, canvasBg) {
     app.
-    controller('indexCtr', ['$scope', '$window', 'ngDialog', 'Post', 'PageStorage', 'LocalSetting',
+    controller('viewCtr', ['$scope', '$window', 'ngDialog', 'Post', 'PageStorage', 'LocalSetting',
         function($scope, $window, ngDialog, Post, PageStorage, LocalSetting) {
             var navSize = 5,
                 isFinish = true, //是否请求完成，避免多次请求数据。
                 historyArray = []; //配合window.history来增加浏览记录支持
             $scope.noFinish = true; //前端进度条显示判断的依据
-            $scope.render = false; //当数据列表渲染完成才开始绘制canvas背景
-            $scope.resize = true; //只有当窗口变化的时候才重绘canvas背景
             $scope.isSafe = LocalSetting.getSetting('isSafe');
             $scope.current = PageStorage.getCurrentPage();
             historyArray.push($scope.current);
-            
-            function renderHeaderCanvasBg() {
-                var can1 = new canvasBg('body header canvas');
-                can1.renderAnimateRandomFillStroke('rect', "transparent", can1.getShape('doubleRect', {
-                    w: 20,
-                    h: 20,
-                    sw: 10,
-                    sh: 10
-                }), 5);
-            }
-
-            function renderCanvasBg() {
-                var can = new canvasBg('.inner canvas');
-                var shape1 = ['line', 'double', 'rect', 'path'];
-                var shape2 = ['rect', 'hexagon', 'string', 'doubleRect'];
-                var fishape1 = shape1[Math.floor(Math.random() * shape1.length)];
-                var fishape2 = shape2[Math.floor(Math.random() * shape2.length)];
-                can.renderAnimateRandomFillStroke(fishape1, "#ffffff", can.getShape(fishape2, {
-                    w: 20,
-                    h: 20,
-                    sw: 10,
-                    sh: 10
-                }), 5);
-            }
-
-            function canvasParentSizeChange(selector) { //判断canvas的父元素窗口大小是否发生改变
-                var canvasParent = document.querySelector(selector);
-                var nowWith = canvasParent.clientWidth;
-                var nowHeight = canvasParent.clientHeight;
-                if ($scope.canvasParentWidth == undefined && $scope.canvasParentHeight == undefined) {
-                    $scope.canvasParentWidth = nowWith;
-                    $scope.canvasParentHeight = nowHeight;
-                    return true;
-                } else if ($scope.canvasParentWidth == nowWith && $scope.canvasParentHeight == nowHeight) {
-                    return false;
-                } else {
-                    $scope.canvasParentWidth = nowWith;
-                    $scope.canvasParentHeight = nowHeight;
-                    return true;
-                }
-            }
 
             function pushState(page) {
                 var state = {
@@ -99,7 +56,7 @@ define(['app', 'canvasBg', 'services'], function(app, canvasBg) {
                     if (LocalSetting.getSetting('isRememberPage') === 'true') {
                         LocalSetting.setSetting('localCurrent', page);
                     }
-                    if ($scope.current != page && historyArray.indexOf(page)==-1) { //当请求和当前页数相同时，不添加记录到历史记录里面
+                    if ($scope.current != page && historyArray.indexOf(page) == -1) { //当请求和当前页数相同时，不添加记录到历史记录里面
                         pushState(page);
                         historyArray.push(page);
                     }
@@ -120,7 +77,7 @@ define(['app', 'canvasBg', 'services'], function(app, canvasBg) {
                             template: 'noResult'
                         });
                     }
-                    
+
                     PageStorage.setAllPages(d.pages);
                     creatNavPage();
                     isFinish = true;
@@ -156,28 +113,10 @@ define(['app', 'canvasBg', 'services'], function(app, canvasBg) {
                 });
             }
 
-            $scope.$on('isSafeChange', function() { //监听isSafeChange事件
+            $scope.$on('isSafeChange', function(event,args) { //监听isSafeChange事件
+                $scope.isSafe = args.isSafe;
                 invoke(PageStorage.getCurrentPage());
             });
-
-            if ($window.sessionStorage['isMobile'] !== "true") { //手机端检测
-                $scope.$on('$viewContentLoaded', function() {
-                    $scope.render = true;
-                });
-
-                $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) { //当ng-repeat最后一个渲染完成之后触发的事件，由onFinishRender指令触发
-                    var isChange = canvasParentSizeChange('.inner');
-                    if ($scope.render && isChange) { //当包含canvas的父元素窗口大小改变时，才重绘canvas背景
-                        renderCanvasBg();
-                    }
-
-                });
-
-                $scope.$on('contentRender', function() { //窗口resize时重绘canvasbg
-                    renderCanvasBg();
-                })
-
-            }
 
             $scope.invoke = invoke;
             firstpage = PageStorage.getCurrentPage() || 1;
@@ -201,11 +140,12 @@ define(['app', 'canvasBg', 'services'], function(app, canvasBg) {
                 }
             };
             $scope.previewFun = function(event) { //preview and download function
-                if (/^img$/ig.test(event.target.tagName)) {
-                    img = event.target.dataset.sample;
-                    width = event.target.dataset.width;
-                    height = event.target.dataset.height;
-                    parentli = event.target.parentNode.parentNode;
+                if (/^span$/ig.test(event.target.tagName)) {
+                    imgDom = event.target.querySelector('img');
+                    img = imgDom.dataset.sample;
+                    width = imgDom.dataset.width;
+                    height = imgDom.dataset.height;
+                    parentli = event.target.parentNode;
                     source = parentli.querySelector('a.btn3e').href;
                     name = parentli.querySelector('a.btn3e').download;
                     ngDialog.open({
@@ -222,19 +162,23 @@ define(['app', 'canvasBg', 'services'], function(app, canvasBg) {
                     });
                 }
             };
-            $scope.searchFun = function(){
-                invoke(1,$scope.tags);
-            }
+            $scope.$on('searchEvent', function(evnet, args) {
+                $scope.tags = args.tags;
+                invoke(1);
+            })
+            $scope.$on('searchTagsChangeEvent', function(event, args) {
+                $scope.tags = args.tags;
+            })
+
         }
     ]).
-    controller("settingCtr", ["$scope", "$rootScope", "$window", "LocalSetting",
-        function($scope, $rootScope, $window, LocalSetting) {
+    controller("setCtr", ["$scope", "$rootScope", "$window", "LocalSetting", '$translate',
+        function($scope, $rootScope, $window, LocalSetting, $translate) {
             $scope.isSafe = LocalSetting.getSetting('isSafe');
             $scope.isRememberPage = LocalSetting.getSetting('isRememberPage');
-            $scope.max = '10';
-            $scope.testsub = function() {};
             $scope.$watch('isSafe', function(newValue, oldValue) {
                 if (newValue !== oldValue) {
+                    $rootScope.$broadcast('isSafeChange',{isSafe:newValue});
                     LocalSetting.setSetting('isSafe', newValue);
                 }
             });
@@ -243,10 +187,7 @@ define(['app', 'canvasBg', 'services'], function(app, canvasBg) {
                     LocalSetting.setSetting('isRememberPage', newValue);
                 }
             });
-        }
-    ]).
-    controller("langCtrl", ['$scope', '$window', 'LocalSetting', '$translate',
-        function($scope, $window, LocalSetting, $translate) {
+            /* change the language */
             function setLang(lang) {
                 if (lang == 'en') {
                     $translate.use('en');
@@ -270,6 +211,87 @@ define(['app', 'canvasBg', 'services'], function(app, canvasBg) {
                 setLang(lang);
                 LocalSetting.setSetting('language', lang);
             }
+        }
+    ]).
+    controller("searchCtr", ['$scope', '$rootScope',
+        function($scope, $rootScope) {
+            $scope.searchFun = function() {
+                $rootScope.$broadcast("searchEvent", {
+                    tags: $scope.tags
+                })
+            }
+            $scope.$watch('tags', function(newValue, oldValue) {
+                $rootScope.$broadcast("searchTagsChangeEvent", {
+                    tags: newValue
+                })
+            })
+        }
+    ]).
+    controller("headCtr", ['$scope', '$window', 'LocalSetting', 'GetOneBg',
+        function($scope, $window, LocalSetting, GetOneBg) {
+
+            if (LocalSetting.getSetting('cover')) { //header 和footer 的backgroundImg 设置
+                setBgImg(LocalSetting.getSetting('cover'))
+            } else {
+                setBgImg('../images/bg.jpg');
+            }
+
+            function canvasParentSizeChange(selector, place) { //判断canvas的父元素窗口大小是否发生改变
+                var canvasParent = document.querySelector(selector),
+                    nowWith = canvasParent.clientWidth,
+                    nowHeight = canvasParent.clientHeight,
+                    width = "headerWidth",
+                    height = "headerHeight";
+                if ($rootScope[width] == undefined && $rootScope[height] == undefined) {
+                    $rootScope[width] = nowWith;
+                    $rootScope[height] = nowHeight;
+                    return true;
+                } else if ($rootScope[width] == nowWith && $rootScope[height] == nowHeight) {
+                    return false;
+                } else {
+                    $rootScope[width] = nowWith;
+                    $rootScope[height] = nowHeight;
+                    return true;
+                }
+            }
+
+            function renderHeaderCanvasBg() {
+                var can = new canvasBg('body header canvas');
+                can.renderAnimate('pathCloseFill', "transparent", can.getShape('doubleHexagon', {w: 20}));
+            }
+
+            function setBgImg(url) {
+                var covers = document.querySelectorAll('.cover'),
+                    blur = document.querySelector('.blur');
+                [].forEach.call(covers, function(elem) {
+                    elem.style.backgroundImage = "url(" + url + ")";
+                })
+                blur.src = url;
+            }
+
+            function renderCover() { //远程获取一张图片当作header和footer的背景，并存入localstorage中
+                GetOneBg.get().then(function(data) {
+                    setBgImg(data);
+                    LocalSetting.setSetting('cover', data);
+                })
+            }
+            if ($window.sessionStorage['isMobile'] !== "true") {
+                var w = angular.element($window);
+                var handler;
+                w.bind('resize', function() { //当窗口resize时，重新绘制背景
+                    if (handler) {
+                        clearTimeout(handler);
+                    }
+                    handler = setTimeout(function() {
+                        var isHeaderChange = canvasParentSizeChange('body>header', 'header');
+                        if (isHeaderChange) {
+                            renderHeaderCanvasBg();
+                        }
+                    }, 500);
+                });
+                renderHeaderCanvasBg();
+            }
+            setTimeout(renderCover, 5000); //放入记时器中，异步执行。
         }
     ])
 });

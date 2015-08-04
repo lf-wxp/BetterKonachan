@@ -68,12 +68,7 @@ input[type="button"]::-moz-focus-inner { border:none; padding:0; }
         text-decoration: inherit;
         text-align: center;
         speak: none;
-        -ms-box-sizing: border-box;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
         box-sizing: border-box;
-        -webkit-font-smoothing: antialiased;
-        -moz-font-smoothing: antialiased;
         font-smoothing: antialiased;
     }
     &:hover {
@@ -102,12 +97,7 @@ input[type="button"]::-moz-focus-inner { border:none; padding:0; }
         text-decoration: inherit;
         text-align: center;
         speak: none;
-        -ms-box-sizing: border-box;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
         box-sizing: border-box;
-        -webkit-font-smoothing: antialiased;
-        -moz-font-smoothing: antialiased;
         font-smoothing: antialiased;
     }
     &:hover {
@@ -135,12 +125,7 @@ input[type="button"]::-moz-focus-inner { border:none; padding:0; }
         text-decoration: inherit;
         text-align: center;
         speak: none;
-        -ms-box-sizing: border-box;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
         box-sizing: border-box;
-        -webkit-font-smoothing: antialiased;
-        -moz-font-smoothing: antialiased;
         font-smoothing: antialiased;
     }
     &:hover {
@@ -210,6 +195,6 @@ input[type="button"]::-moz-focus-inner { border:none; padding:0; }
         }
     }
     &:active {
-        top: 1px;
+        transform: translateY(-1px);
     }
 }

@@ -2,7 +2,7 @@ define(['app', 'angular-translate'], function(app) {
     app.config(['$translateProvider',
         function($translateProvider) {
             $translateProvider.translations('zh', {
-                'Post': '列表',
+                'language':'语言',
                 'Setting': '设置',
                 'Any Question,Contact me': '任何问题请联系我',
                 'browser not support': '该浏览器不支持直接点击下载，请换最新的chrome或firefox',
@@ -21,7 +21,7 @@ define(['app', 'angular-translate'], function(app) {
             });
 
             $translateProvider.translations('en', {
-                'Post': 'POST',
+                'language':'LANGUAGE',
                 'Setting': 'SETTING',
                 'Any Question,Contact me': 'Any Question,Contact me',
                 'browser dnot support': 'The browser you use does not support direct click download, please change the newest chrome or firefox',

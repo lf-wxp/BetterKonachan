@@ -1,5 +1,5 @@
 body {
-    background: white;
+    background: #0a0a0a;
     min-width: 445px;
     > header {
         width: 100%;
@@ -11,7 +11,6 @@ body {
         text-align: right;
         backface-visibility: hidden;
         box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
-        transform: translate3d(0, -25px, 0) skewY(-2deg);
         overflow: hidden;
         h1 {
             font-size: pxToRem(14px);
@@ -20,10 +19,10 @@ body {
             backface-visibility: hidden;
             left: 50%;
             top: 50%;
-            transform: perspective(1px) skewY(2deg) translateX(-50%);
+            transform: translate(-50%, -50%);
             -webkit-font-smoothing: subpixel-antialiased;
         }
-        div {
+        > div {
             backface-visibility: hidden;
             box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
             width: 100%;
@@ -31,11 +30,22 @@ body {
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center 30%;
-            transform: skewY(2deg) translateZ(0);
             transition: all 0.2s ease-in-out;
         }
-        canvas {
-            transform: skewY(2deg) translateZ(0);
+        svg {
+            position: absolute;
+            left: 14%;
+            top: 30%;
+            background: white;
+            padding: 5px 5px 5px 7px;
+            font-size: pxToRem(18px);
+            cursor: pointer;
+            transition: color 0.2s ease;
+            border-radius: 2px;
+            z-index: 1;
+            &:hover {
+                color: #5bc0de;
+            }
         }
     }
     > footer {
@@ -44,136 +54,143 @@ body {
         font-size: pxToRem(16px);
         text-align: center;
         overflow: hidden;
+        position: relative;
         & > div {
             backface-visibility: hidden;
-            height: 100%;
             box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
-            transform: skewY(-2deg) translateY(26px);
             overflow: hidden;
-        }
-        & > div > div {
-            backface-visibility: hidden;
             box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
             width: 100%;
-            height: 120%;
+            height: 100%;
             background-repeat: no-repeat;
             background-size: cover;
-            background-position: center calc(30% - 100px * 0.7);
-            transform: skewY(2deg) translateY(-26px);
+            background-position: center calc(30% - 100px);
         }
         p {
             position: absolute;
             line-height: normal;
-            height: 50px;
             left: 50%;
-            top: 33%;
-            transform: skewY(2deg) translateX(-50%);
+            top: 50%;
+            transform: translate(-50%, -50%);
         }
         a {
             color: white;
         }
     }
-    > article {
-        width: 90%;
-        margin: auto;
-        > nav {
-            width: 100%;
-            border-radius: 5px;
-            position: relative;
-        }
-        > section {
-            background: white;
-            width: 100%;
-            margin: 20px auto;
-            border-radius: 5px;
-            font-size: 0px;
-        }
+}
+
+.search {
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    height: 40px;
+    text-align: right;
+    box-sizing: border-box;
+    overflow: hidden;
+    .blur {
+        position: absolute;
+        filter: blur(10px) grayscale(1);
+        transform: translateZ(0px);
+        width: 100%;
+        box-sizing: border-box;
+        left: 0px;
+        bottom: 0px;
+        z-index: 1;
+        height: 100%;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center calc(30% - 100px);
+    }
+    form {
+        display: inline-block;
+        font-size: 0px;
+        position: relative;
+        z-index: 2;
+        margin: 5px;
+    }
+    input[name='tags'] {
+        @include inputfocus;
+        padding: 5px 10px 4px 10px;
+        border-right: none;
+        border-bottom-right-radius: 0px;
+        border-top-right-radius: 0px;
+        border-color: transparent;
+        color: #868686;
+        background: #222222;
+    }
+    button {
+        border-bottom-left-radius: 0px;
+        border-top-left-radius: 0px;
+        margin-top: 0px;
+    }
+}
+
+.pusher {
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 4;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.2s ease-in-out;
+    &.active {
+        visibility: visible;
+        opacity: 1;
     }
 }
 
 /* mobile first,so the default style is for mobile */
-#admin {
-    display: block;
-    min-height: calc(100vh - 200px);
-    & > nav {
-        font-size: pxToRem(16px);
-        box-sizing: border-box;
-        height: 45px;
-        padding: 0px 10px;
-        a {
-            height: 100%;
-            display: inline-block;
-            font-size: 0px;
-            line-height: 30px;
-            padding: 0px 10px;
-            svg {
-                font-size: pxToRem(20px);
-                color: $textcol;
-                vertical-align: middle;
-            }
-        }
-    }
-    .admin-right {
-        position: relative;
-        overflow: hidden;
-        background: white;
-        height: auto;
-        box-sizing: border-box;
-        canvas {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            left: 0px;
-            top: 0px;
-        }
-    }
-    .dash {
-        padding: 0px 20px 20px 20px;
-        background: #FFF;
-        header {
-            margin-bottom: 10px;
-            display:flex;
-            flex-flow: row nowrap;
-            justify-content: space-between;
-            align-items: center;
-        }
-        h4 {
-            font-size: pxToRem(18px);
-            font-weight: bold;
-            color: #666666;
-            display: inline-block;
-            flex: 0 0 auto;
-        }
-        form {
-            display: inline-block;
-            font-size: 0px;
-            flex: 0 0 auto;
-        }
-        input[name='tags'] {
-            @include inputfocus;
-            padding:5px 10px 4px 10px;
-            border-right:none;
-            border-bottom-right-radius: 0px;
-            border-top-right-radius: 0px;
-            color:#666666;
-        }
-        button {
-            border-bottom-left-radius: 0px;
-            border-top-left-radius: 0px;
-        }
-    }
-    .inner {
-        padding: 10px;
-        border-top: 1px solid #EBEBEB;
-        min-height: calc(100vh - 200px - 129px);
-        canvas {
-            z-index: 0 !important;
-        }
-        strong {
-            margin-left:5px;
-        }
+.content {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    
+    canvas {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0px;
+        top: 0px;
     }
 }
+.inner {
+    min-height: calc(100vh - 200px);
+}
+nav {
+    font-size: pxToRem(14px);
+    box-sizing: border-box;
+    height: 100vh;
+    padding: 20px 10px;
+    width: 15em;
+    display: inline-block;
+    position: fixed;
+    transform: translate3d(-100%, 0, 0);
+    will-change: transform;
+    transition: transform 0.5s ease;
+    left: 0px;
+    top: 0px;
+    background: white;
+    z-index: 5;
+    background: rgba(#1B1C1D, 0.9);
+    color: rgba(255, 255, 255, 0.9);
+    h3 {
+        padding-bottom: 10px;
+        margin-top: 20px;
+        font-size: pxToRem(14px);
+        color: rgba(255, 255, 255, 0.9);
+        border-bottom: 1px solid currentColor;
+    }
+    span {
+        color: rgba(255, 255, 255, 0.9);
+    }
+    &.active {
+        transform: translate3d(0, 0, 0);
+    }
+}
+
 
 .language {
     display: inline-block;
@@ -190,125 +207,60 @@ body {
 }
 
 @include respond-to(small) {
-    body > header {
-        text-align: left;
-        height: 150px;
-        h1 {
-            font-size: pxToRem(24px);
-        }
-    }
-    #admin {
-        min-height: calc(100vh - 250px);
-        display: flex;
-        flex-flow: row nowrap;
-        justify-content: center;
-        align-content: stretch;
-        align-items: stretch;
-        width: 100%;
-        margin-top: 0px;
-        .admin-right {
-            font-size: pxToRem(16px);
-            flex: 1 1 calc(100% - 50px);
-        }
-        & > nav {
-            flex: 0 1 50px;
-            background: rgb(247, 247, 247);
-            border-right: 1px solid rgb(235, 235, 235);
-            margin: 0px;
-            height: auto;
-            padding: 0px;
-            a {
-                font-size: 0px;
-                display: block;
-                line-height: 40px;
-                height: 42px;
-                text-align: center;
-                padding: 0px;
-                width: 100%;
-                box-sizing: border-box;
-                color: $textcol;
-                @include transition;
-                border-top: 1px solid rgb(235, 235, 235);
-                &:hover, &.active {
-                    box-shadow: 1px 0 0 rgb(255, 255, 255), inset 5px 0 0 -1px rgb(234, 83, 63);
-                    background: white;
-                }
-                &:last-of-type {
-                    border-bottom: 1px solid rgb(235, 235, 235);
-                }
-                svg {
-                    font-size: pxToRem(16px);
-                    color: $textcol;
-                    text-indent: 0px;
-                }
+    body {
+        > header {
+            height: 200px;
+            h1 {
+                font-size: pxToRem(18px);
             }
         }
-        .inner {
-            min-height: calc(100vh - 250px - 129px);
+        > footer {
+            > div {
+                background-position: center calc(30% - 200px);
+            }
         }
     }
-    body > footer > div > div {
-        background-position: center calc(30% - 150px * 0.7);
-    }
-    .language {
-        text-align: center;
+    .inner {
+        min-height: calc(100vh - 300px);
     }
 }
 
 
 @include respond-to(medium) {
-    body > header {
-        height: 200px;
-    }
-    #admin {
-        min-height: calc(100vh - 300px);
-        nav {
-            flex: 0 1 150px;
-            a {
-                font-size: pxToRem(16px);
-                position: relative;
-                text-indent: 2rem;
-                padding-right: 40px;
-                svg {
-                    position: absolute;
-                    text-indent: 0px;
-                    right: 10px;
-                    top: 12px;
-                }
+    body {
+        > header {
+            height: 300px;
+            h1 {
+                font-size: pxToRem(22px);
             }
         }
-        .admin-right {
-            flex: 1 1 calc(100% - 150px);
-        }
-        .inner {
-            min-height: calc(100vh - 300px - 129px);
+        > footer {
+            > div {
+                background-position: center calc(30% - 300px);
+            }
         }
     }
-    body > footer > div > div {
-        background-position: center calc(30% - 200px * 0.7);
-    }
-    .language {
-        margin-top: 20px;
-        width: 100%;
-        button {
-            font-size: pxToRem(14px);
-        }
+    .inner {
+        min-height: calc(100vh - 400px);
     }
 }
 
 
 @include respond-to(large) {
-    #admin {
-        .admin-right {
-            flex: 1 1 90%;
-            min-width: 790px;
-        }
-        & > nav {
-            flex: 1 1 10%;
-            min-width: 150px;
-            a {
-                text-indent: 2rem;
+    body {
+        > header {
+            height: 400px;
+            h1 {
+                font-size: pxToRem(28px);
             }
         }
+        > footer {
+            > div {
+                background-position: center calc(30% - 400px);
+            }
+        }
+    }
+    .inner {
+        min-height: calc(100vh - 500px);
     }
 }
