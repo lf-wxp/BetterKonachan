@@ -263,7 +263,7 @@ button::-moz-focus-inner, input[type="button"]::-moz-focus-inner { border: none;
 
 @keyframes pace-spinner { 0% { -webkit-transform: rotate(0deg); transform: rotate(0deg); -webkit-transform: rotate(0deg); transform: rotate(0deg); }
   100% { -webkit-transform: rotate(360deg); transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg); } }
-body { background: #0a0a0a; min-width: 445px; }
+body { background: #0a0a0a; min-width: 300px; }
 body > header { width: 100%; height: 100px; left: 0px; top: 0px; position: relative; box-sizing: border-box; text-align: right; -webkit-backface-visibility: hidden; backface-visibility: hidden; box-shadow: 0 0 1px rgba(0, 0, 0, 0.1); overflow: hidden; }
 body > header h1 { font-size: 1.16667rem; color: white; position: absolute; -webkit-backface-visibility: hidden; backface-visibility: hidden; left: 50%; top: 50%; -webkit-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%); -webkit-font-smoothing: subpixel-antialiased; }
 body > header > div { -webkit-backface-visibility: hidden; backface-visibility: hidden; box-shadow: 0 0 1px rgba(0, 0, 0, 0.1); width: 100%; height: 120%; background-repeat: no-repeat; background-size: cover; background-position: center 30%; -webkit-transition: all 0.2s ease-in-out; transition: all 0.2s ease-in-out; }
@@ -409,7 +409,7 @@ body > footer:hover .cover { -webkit-filter: grayscale(0); filter: grayscale(0);
 
 .pacman > div:nth-child(3), .pacman > div:nth-child(4), .pacman > div:nth-child(5), .pacman > div:nth-child(6) { background-color: #5bc0de; width: 15px; height: 15px; border-radius: 100%; margin: 2px; width: 10px; height: 10px; position: absolute; -webkit-transform: translate(0, -6.25px); -ms-transform: translate(0, -6.25px); transform: translate(0, -6.25px); top: 25px; left: 70px; }
 
-.loader-inner { position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; margin: auto; width: 100px; height: 50px; }
+.loader-inner { position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; margin: auto; width: 100px; height: 50px; -webkit-transform: translate(50%, 0); -ms-transform: translate(50%, 0); transform: translate(50%, 0); }
 
 
 
