@@ -113,7 +113,7 @@ define(['app', 'canvasBg', 'services'], function(app, canvasBg) {
                 });
             }
 
-            $scope.$on('isSafeChange', function(event,args) { //监听isSafeChange事件
+            $scope.$on('isSafeChange', function(event, args) { //监听isSafeChange事件
                 $scope.isSafe = args.isSafe;
                 invoke(PageStorage.getCurrentPage());
             });
@@ -178,7 +178,9 @@ define(['app', 'canvasBg', 'services'], function(app, canvasBg) {
             $scope.isRememberPage = LocalSetting.getSetting('isRememberPage');
             $scope.$watch('isSafe', function(newValue, oldValue) {
                 if (newValue !== oldValue) {
-                    $rootScope.$broadcast('isSafeChange',{isSafe:newValue});
+                    $rootScope.$broadcast('isSafeChange', {
+                        isSafe: newValue
+                    });
                     LocalSetting.setSetting('isSafe', newValue);
                 }
             });
@@ -227,8 +229,8 @@ define(['app', 'canvasBg', 'services'], function(app, canvasBg) {
             })
         }
     ]).
-    controller("headCtr", ['$scope', '$window', 'LocalSetting', 'GetOneBg',
-        function($scope, $window, LocalSetting, GetOneBg) {
+    controller("headCtr", ['$scope', '$rootScope', '$window', 'LocalSetting', 'GetOneBg',
+        function($scope, $rootScope, $window, LocalSetting, GetOneBg) {
 
             if (LocalSetting.getSetting('cover')) { //header 和footer 的backgroundImg 设置
                 setBgImg(LocalSetting.getSetting('cover'))
@@ -257,7 +259,9 @@ define(['app', 'canvasBg', 'services'], function(app, canvasBg) {
 
             function renderHeaderCanvasBg() {
                 var can = new canvasBg('body header canvas');
-                can.renderAnimate('pathCloseFill', "transparent", can.getShape('doubleHexagon', {w: 20}));
+                can.renderAnimate('pathCloseFill', "transparent", can.getShape('doubleHexagon', {
+                    w: 20
+                }));
             }
 
             function setBgImg(url) {
