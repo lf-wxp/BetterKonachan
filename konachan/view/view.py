@@ -10,7 +10,7 @@ import math
 import re
 import base64
 blueprint = Blueprint('view', __name__, template_folder='templates')
-URL = "http://konachan.com/post.xml?page="
+URL = "http://konachan.net/post.xml?page="
 PERPAGE = 21
 TIMEOUT = 180
 # rating  safe questionable explicit
