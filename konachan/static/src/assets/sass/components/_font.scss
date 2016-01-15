@@ -1,0 +1,36 @@
+@font-face {
+    font-family: 'lobster_twoitalic';
+    src: url(./assets/fonts/lobster_two_italic-webfont.eot);
+    src: url(./assets/fonts/lobster_two_italic-webfont.eot?#iefix) format('embedded-opentype'),
+         url(./assets/fonts/lobster_two_italic-webfont.svg#lobster_twoitalic) format('svg'),
+         url(./assets/fonts/lobster_two_italic-webfont.woff2) format('woff2'),
+         url(./assets/fonts/lobster_two_italic-webfont.woff) format('woff'),
+         url(./assets/fonts/lobster_two_italic-webfont.ttf) format('truetype');
+   font-style: normal;
+   font-weight: normal;
+   font-variant: normal;
+   text-decoration: inherit;
+   text-transform: none;
+}
+
+@font-face {
+    font-family: 'mf_yuehei';
+    src: url(./assets/fonts/MFYueHei_Noncommercial-Regular.otf) format("opentype"); //chinese font can't transform to webfont
+    // src: url(./assets/fonts/mfyuehei.eot);
+    // src: url(./assets/fonts/mfyuehei.eot?#iefix) format('embedded-opentype'),
+    //      url(./assets/fonts/mfyuehei.woff2) format('woff2'),
+    //      url(./assets/fonts/mfyuehei.woff) format('woff'),
+    //      url(./assets/fonts/mfyuehei.ttf) format('truetype'),
+    //      url(./assets/fonts/mfyuehei.svg#mf_yuehei_noncommercial_regRg) format('svg');
+   font-style: normal;
+   font-weight: normal;
+   font-variant: normal;
+   text-decoration: inherit;
+   text-transform: none;
+ }
+ @font-face {
+  font-family: 'Quantico';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Quantico'), local('Quantico-Regular'), url(./assets/fonts/Quantico.woff) format('woff');
+}
