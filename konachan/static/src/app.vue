@@ -1,62 +1,46 @@
 <template>
   <div id="wrap">
     <article>
-      <v-header></v-header>
-      <v-music :mplayer='mplayer'></v-music>
-      <v-search></v-search>
+        <v-header></v-header>
+        <v-music></v-music>
+        <v-search></v-search>
     </article>
     <article>
-      <section id="pager"></section>
-      <section id="list"></section>
+        <v-pager></v-pager>
+        <v-list></v-list>
     </article>
     <article>
-      <section id="setting"></section>
-      <section id="footer"></section>
+        <v-setting></v-setting>
+        <v-footer></v-footer>
     </article>
   </div>
 </template>
 
 <script>
-    const listSongs = [
-        {
-            track: 'http://m2.music.126.net/iAc8wPI00faApKXLDyYxpQ==/5748246790021526.mp3',
-            title: 'song of 树海',
-            pic: 'http://p4.music.126.net/-eutzq1FdXH-HFTRLR6IYg==/4425534301808090.jpg',
-            artist: '树海'
-        }, {
-            track: 'http://m2.music.126.net/x7guWXyvnyca8XURgxfHeQ==/2840038534552546.mp3',
-            title: 'さよならソリティア',
-            pic: 'http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg',
-            artist: '千葉紗子'
-        }, {
-            track: 'http://m2.music.126.net/G-c-mFpq0xhNHV_RKX9cUQ==/3275445146899527.mp3',
-            title: 'Eternal Flower',
-            pic: 'http://p4.music.126.net/HDmP_UJP2z5vWmFypBO49g==/1364493964967804.jpg',
-            artist: '寺田はるひ'
-        }, {
-            track: 'http://m2.music.126.net/xkKtlx24OevXwjaBlAmPtA==/5744948255135159.mp3',
-            title: 'radiance',
-            pic: 'http://p3.music.126.net/1mawHaWZo97tsb0M6Hm1YQ==/931286348726485.jpg',
-            artist: '川田まみ'
-        }
-    ];
     import vHeader from './components/vHeader.vue';
     import vMusic from './components/vMusic.vue';
     import vSearch from './components/vSearch.vue';
+    import vPager from './components/vPager.vue';
+    import vList from './components/vList.vue';
+    import vSetting from './components/vSetting.vue';
+    import vFooter from './components/vFooter.vue';
     export default {
-        data() {
-            return {
-                msg: 'Hello from vue-loader!',
-                mplayer: {
-                    listSongs,
-                    autoplay: true
-                }
-            };
-        },
         components: {
             vHeader,
             vMusic,
-            vSearch
+            vSearch,
+            vPager,
+            vList,
+            vSetting,
+            vFooter
+        },
+        ready() {
+            this.$on('listReady', (data) => {
+                this.$broadcast('listReady', data);
+            });
+            this.$on('invoke', (data) => {
+                this.$broadcast('invoke', data);
+            });
         }
     };
 
@@ -69,14 +53,16 @@
     #wrap {
         font-size: 20px;
         background: #282828;
-        article {
+        height: 100%;
+        >article {
             display: flex;
             flex-flow: row nowrap;
             justify-content:space-between;
             align-items: stretch;
-            height: 250px;
-            border-bottom:1px solid black;
             width: 100%;
+            &:nth-of-type(2) {
+                min-height:calc(100vh - 364px);
+            }
         }
         section {
             position: relative;
@@ -86,6 +72,7 @@
             box-sizing:border-box;
             background-size:cover;
             background-repeat:no-repeat;
+            margin-bottom: 0px;
             &:after {
                 position: absolute;
                 right: 10px;
@@ -102,4 +89,22 @@
             }
         }
     }
+    ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+        background-color: #F5F5F5;
+    }
+
+    /*定义滚动条轨道 内阴影+圆角*/
+    ::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
+        background-color: #F5F5F5;
+    }
+
+    /*定义滑块 内阴影+圆角*/
+    ::-webkit-scrollbar-thumb {
+        -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
+        background-color: #555;
+    }
 </style>
+

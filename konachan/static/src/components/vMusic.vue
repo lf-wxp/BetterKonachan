@@ -29,10 +29,10 @@
                 </div>
             </div>
         </div>
+        <v-loading :show='showLoading'></v-loading>
     </section>
 </template>
 <script>
-    // import rgbimg from '../assets/images/4425534301808090.jpg';
     // import Vibrant from 'node-vibrant';
     // const v = new Vibrant(rgbimg, {});
     // v.getPalette((err, palette) => {
@@ -224,6 +224,8 @@
             return is2b(min) + ':' + is2b(sec);
         }
     }
+    import { getMusic } from '../servers/servers.js';
+    import vLoading from './vLoading2.vue';
     const initData = {
         bufferedPercentage: { width: '0%' },
         playedPercentage: { width: '0%' },
@@ -246,8 +248,12 @@
         data() {
             return {
                 initData,
-                mPlayer: new Mplayer(Object.assign({}, this.mplayer, { vueData: initData }))
+                mPlayer: null,
+                showLoading: true
             };
+        },
+        components: {
+            vLoading
         },
         methods: {
             pickTime(event) {
@@ -274,112 +280,20 @@
         },
         props: ['mplayer'],
         ready() {
-            this.mPlayer.init();
+            getMusic((response) => {
+                this.mPlayer = new Mplayer(Object.assign({}, { listSongs: response.data }, { vueData: initData }));
+                this.showLoading = false;
+                this.mPlayer.init();
+            });
         }
     };
 
 </script>
 <style lang="sass">
     @import "../assets/sass/components/_colors";
+    @import "../assets/sass/components/_icon";
 
-    $icon-loop: "\e028";
-    $icon-pause: "\e034";
-    $icon-play_arrow: "\e037";
-    $icon-repeat: "\e040";
-    $icon-repeat_one: "\e041";
-    $icon-replay: "\e042";
-    $icon-shuffle: "\e043";
-    $icon-skip_next: "\e044";
-    $icon-skip_previous: "\e045";
-    $icon-volume_off: "\e04f";
-    $icon-volume_up: "\e050";
-    $icon-media-pause: "\e900";
-    @font-face {
-        font-family: 'icomoon';
-        src:    url('../assets/fonts/icomoon.eot?d0fho6');
-        src:    url('../assets/fonts/icomoon.eot?d0fho6#iefix') format('embedded-opentype'),
-            url('../assets/fonts/icomoon.ttf?d0fho6') format('truetype'),
-            url('../assets/fonts/icomoon.woff?d0fho6') format('woff'),
-            url('../assets/fonts/icomoon.svg?d0fho6#icomoon') format('svg');
-        font-weight: normal;
-        font-style: normal;
-    }
 
-    i {
-        /* use !important to prevent issues with browser extensions that change fonts */
-        font-family: 'icomoon' !important;
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        transition:transform 0.2s ease;
-        /* Better Font Rendering =========== */
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-    }
-
-    .icon-loop {
-        &:before {
-            content: $icon-loop;
-        }
-    }
-    .icon-pause {
-        &:before {
-            content: $icon-pause;
-        }
-    }
-    .icon-play_arrow {
-        &:before {
-            content: $icon-play_arrow;
-        }
-    }
-    .icon-repeat {
-        &:before {
-            content: $icon-repeat;
-        }
-    }
-    .icon-repeat_one {
-        &:before {
-            content: $icon-repeat_one;
-        }
-    }
-    .icon-replay {
-        &:before {
-            content: $icon-replay;
-        }
-    }
-    .icon-shuffle {
-        &:before {
-            content: $icon-shuffle;
-        }
-    }
-    .icon-skip_next {
-        &:before {
-            content: $icon-skip_next;
-        }
-    }
-    .icon-skip_previous {
-        &:before {
-            content: $icon-skip_previous;
-        }
-    }
-    .icon-volume_off {
-        &:before {
-            content: $icon-volume_off;
-        }
-    }
-    .icon-volume_up {
-        &:before {
-            content: $icon-volume_up;
-        }
-    }
-    .icon-media-pause {
-        &:before {
-            content: $icon-media-pause;
-        }
-    }
     i {
         cursor: pointer;
     }
@@ -392,6 +306,10 @@
         flex:0 0 $mWidth!important;
         margin-left: 0px!important;
         margin-right: 0px!important;
+        &:after {
+            content:"\e310"!important;
+            color: white;
+        }
     }
     .MplayerContain {
         overflow: hidden;
@@ -422,6 +340,7 @@
         font-size: 12px;
         font-weight:normal;
         width:100%;
+        font-family:"Microsoft YaHei","Open sans", "Segoe UI", "Segoe WP", Helvetica, Arial, sans-serif;
     }
     .mName {
         font-size: 16px;
@@ -430,6 +349,10 @@
         width: 100%;
         i {
             color:white;
+            transition: color 0.2s ease;
+            &:hover {
+                color:$teal;
+            }
         }
     }
     .mProcessBar {

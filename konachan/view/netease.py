@@ -20,7 +20,7 @@ import logger
 import hashlib
 import random
 import base64
-from config import Config
+Config = {"music_quality":2}
 # 歌曲榜单地址
 top_list_all = {
     0: ['云音乐新歌榜', '/discover/toplist?id=3779629'],
@@ -133,8 +133,7 @@ def uniq(arr):
 
 # 获取高音质mp3 url
 def geturl(song):
-    config = Config()
-    quality = Config().get_item("music_quality")
+    quality = Config.get_item("music_quality")
     if song['hMusic'] and quality <= 0:
         music = song['hMusic']
         quality = 'HD'

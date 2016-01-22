@@ -49,8 +49,8 @@ body {
     // background: repeating-linear-gradient(top left -30deg, nth($bodybg, 2), nth($bodybg, 2) 1px, nth($bodybg, 1) 1px, nth($bodybg, 1) 5px);
     background: white;
 }
-button[disabled='disabled'] {
-    cursor: not-allowed;
+button[disabled] {
+    cursor: not-allowed!important;
 }
 button::-moz-focus-inner,
 input[type="button"]::-moz-focus-inner {

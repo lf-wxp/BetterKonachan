@@ -5,24 +5,10 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
         <title>BetterKonachan</title>
-        <base href="/">
-        <script  data-pace-options='{ "elements": true }' src="/static/src/lib/other/pace.min.js" ></script>
-        <script  data-pace-options='{ "elements": true }' src="/static/src/js/rgbaster.js" ></script>
         <link rel="shortcut icon" href="/static/dist/images/favicon.ico" type="image/x-icon">
-        <link rel="stylesheet" href="/static/dist/css/index.min.css">
     </head>
     <body>
-        <img src="/static/src/assets/images/4425534301808090.jpg" alt="">
-        <script>
-            var img = document.querySelector('img');
-            RGBaster.colors(img, {
-              paletteSize: 30, // 调色板大小
-              exclude: [ 'rgb(255,255,255)' ],  // 不包括白色
-              success: function(payload){
-                // 包含一些颜色信息(payload)的回调
-                console.log(payload);
-              }
-            })
-        </script>
+        <app></app>
+        <script src="/static/dist/build.js"></script>
     </body>
 </html>

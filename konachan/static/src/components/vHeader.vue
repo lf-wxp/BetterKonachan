@@ -1,15 +1,20 @@
 <template>
     <section id="header">
+        <canvas></canvas>
         <h1>BetterKonachan</h1>
-        <p></p>
     </section>
 </template>
 <script>
+    import Bubble from '../lib/bubbleBg.js';
     export default {
         data() {
             return {
-                title: 'BetterKonachan'
+                title: 'BetterKonachan',
+                isDialog: false
             };
+        },
+        ready() {
+            new Bubble(document.querySelector('#header canvas'));
         }
     };
 </script>
@@ -17,11 +22,18 @@
     #header {
         background-image: url('../assets/images/headerBg.jpg');
         height: 220px;
+        position: relative;
+        overflow: hidden;
+        canvas {
+            position: absolute;
+        }
         h1 {
-            font-size: 40px;
-            color:white;
+            font-size: 80px;
+            color:#C0CDDC;
             text-align: center;
-            margin-top: 20px;
+            margin-top: 60px;
+            font-family: 'diner-regularregular';
+            letter-spacing: 4px;
         }
         &:after {
             color: white;

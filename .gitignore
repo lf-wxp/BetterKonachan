@@ -54,5 +54,3 @@ docs/_build/
 target/
 konachan/static/node_modules/
 konachan/static/.sass-cache/
-!konachan/lib/
-!konachan/static/lib/

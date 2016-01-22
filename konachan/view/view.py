@@ -3,27 +3,33 @@ from flask.ext.restful import Api, Resource, reqparse
 from datetime import datetime
 from bs4 import BeautifulSoup
 from random import choice
+from .netease import NetEase
 import simplejson as json
 import time
 import requests
 import math
 import re
 import base64
+# for development
+from flask.ext.cors import CORS
 blueprint = Blueprint('view', __name__, template_folder='templates')
+CORS(blueprint)
 URL = "http://konachan.net/post.xml?page="
 PERPAGE = 21
 TIMEOUT = 180
 # rating  safe questionable explicit
-
+myMusic = NetEase()
+@blueprint.route('/music')
+def music():
+    songs = []
+    data = myMusic.playlist_detail(95815468)
+    for song in data:
+        songs.append({ 'track': song['mp3Url'], 'title': song['name'], 'pic': song['album']['picUrl'], 'artist': song['artists'][0]['name'] })
+    return json.dumps(songs)
 
 @blueprint.route('/')
 def index():
     return render_template('index.html')
-
-
-@blueprint.route('/setting')
-def setting():
-    return index()
 
 
 @blueprint.app_errorhandler(404)
