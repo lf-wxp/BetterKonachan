@@ -32,8 +32,6 @@ function getLocal(key) {
         return true;
     } else if (value === 'false') {
         return false;
-    } else if (value === undefined) {
-        return false;
     } else {
         return value;
     }
@@ -48,8 +46,6 @@ function getSession(key) {
     if (value === 'true') {
         return true;
     } else if (value === 'false') {
-        return false;
-    } else if (value === undefined) {
         return false;
     } else {
         return value;

@@ -5,7 +5,7 @@
                 <img :src="item.prev_url" alt="">
                 <div class="listAction"><span>{{ item.width }}x{{ item.height }}</span>
                 <a href="" @click.prevent="viewSampleImg(item)" >preview<i class="icon-remove_red_eye"></i></a>
-                <a href="" download="{{ item.url }}">download<i class="icon-get_app"></i></a></div>
+                <a href="{{ item.url }}" download="123.png">download<i class="icon-get_app"></i></a></div>
             </li>
         </ul>
         <v-loading :show='showLoading'></v-loading>
@@ -101,12 +101,18 @@
             };
             setSession('tags', '');
             let initPage = 1;
+            let isSafe = true;
             if (getLocal('rememberPage')) {
                 initPage = getLocal('currentPage') ? getLocal('currentPage') : 1;
             } else {
                 initPage = getSession('currentPage') ? getSession('currentPage') : 1;
             }
-            getData(initPage, getLocal('securityMode'), '');
+            if (getLocal('securityMode') !== undefined) {
+                isSafe = getLocal('securityMode');
+            } else {
+                setLocal('securityMode', true);
+            }
+            getData(initPage, isSafe, '');
             this.$on('invoke', (data) => {
                 const tags = getSession('tags');
                 const isSafe = getLocal('securityMode');

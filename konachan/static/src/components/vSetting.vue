@@ -15,12 +15,9 @@
     export default {
         data() {
             return {
-                securityMode: getLocal('securityMode'),
+                securityMode: getLocal('securityMode') === undefined ? true : getLocal('securityMode'),
                 rememberPage: getLocal('rememberPage')
             };
-        },
-        ready() {
-
         },
         watch: {
             securityMode(val) {

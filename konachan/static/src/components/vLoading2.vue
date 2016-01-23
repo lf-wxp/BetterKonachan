@@ -41,9 +41,9 @@
             border-radius:20px;
             background:blue;
             content:'';
+            left: 0px;
             position:absolute;
             background:#2ecc71;
-            left:22px;
             animation: loadingAfter 1.5s infinite ease-in-out;
         }
         &:before {
@@ -52,6 +52,7 @@
             border-radius:20px;
             background:blue;
             content:'';
+            left: 0px;
             position:absolute;
             background:#9b59b6;
             animation: loadingBefore 1.5s infinite ease-in-out;
