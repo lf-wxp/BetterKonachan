@@ -51,10 +51,10 @@
         },
         methods: {
             invoke(page) {
-                this.$dispatch('invoke', { currentPage: page });
+                this.$dispatch('invoke', { currentPage: Number(page) });
             },
             goTo() {
-                this.$dispatch('invoke', { currentPage: this.goToPage });
+                this.$dispatch('invoke', { currentPage: Number(this.goToPage) });
             }
         },
         ready() {

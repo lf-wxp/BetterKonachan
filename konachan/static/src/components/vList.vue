@@ -112,7 +112,7 @@
             } else {
                 setLocal('securityMode', true);
             }
-            getData(initPage, isSafe, '');
+            getData(Number(initPage), isSafe, '');
             this.$on('invoke', (data) => {
                 const tags = getSession('tags');
                 const isSafe = getLocal('securityMode');
@@ -197,7 +197,7 @@
             font-size: 14px;
             font-family: inherit;
             color:white;
-            texttransform:uppercase;
+            text-transform:uppercase;
             border:0px;
             vertical-align: top;
             box-sizing:border-box;
