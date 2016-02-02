@@ -77,6 +77,9 @@
         width: 120px;
         flex:0 0 auto!important;
         background-image:url('../assets/images/pagerBg.jpg');
+        display: flex;
+        justify-content: center;
+        flex-flow: column nowrap;
         &:before {
             content:'';
             position: absolute;
@@ -85,6 +88,7 @@
             height: 100%;
             z-index: 0;
             border-radius:5px;
+            top: 0px;
         }
         &:after {
             content:"\e41d"!important;
@@ -92,11 +96,10 @@
         }
     }
     .pagerCon {
-        margin:auto;
         width: 100%;
-        height: 100%;
         padding-top: 40px;
         position: relative;
+        flex:0 0 auto;
         i,li {
             display: block;
             color:white;
@@ -129,6 +132,7 @@
         width:100%;
         padding-bottom:40px;
         position: relative;
+        flex:0 0 auto;
         span,input,button {
             width: 40px;
             height: 40px;
