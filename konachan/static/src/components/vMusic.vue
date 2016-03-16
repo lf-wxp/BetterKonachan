@@ -289,7 +289,7 @@
     };
 
 </script>
-<style lang="sass">
+<style lang="sass" scoped>
     @import "../assets/sass/components/_colors";
     @import "../assets/sass/components/_icon";
 
@@ -303,9 +303,9 @@
     #Mmusic {
         height: $mHeight;
         position:relative;
-        flex:0 0 $mWidth!important;
-        margin-left: 0px!important;
-        margin-right: 0px!important;
+        flex:0 0 $mWidth;
+        margin-left: 0px;
+        margin-right: 0px;
         &:after {
             content:"\e310"!important;
             color: white;

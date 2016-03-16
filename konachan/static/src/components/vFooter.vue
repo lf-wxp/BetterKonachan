@@ -6,11 +6,15 @@
 <script>
 
 </script>
-<style lang="sass">
+<style lang="sass" scoped >
     #footer {
         background-image: url('../assets/images/footerBg.jpg');
-        margin-bottom: 10px!important;
-        margin-left: 0px!important;
+        margin-bottom: 10px;
+        margin-left: 0px;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        padding: 20px;
         &:before {
             content:'';
             position: absolute;
@@ -27,13 +31,17 @@
             color: white;
         }
         p {
-            position: relative;
             text-align: center;
-            margin-top: 50px;
+            position: relative;
+            display:block;
+            width:100%;
+            height:100%;
+            flex: 0 0 auto;
+            
         }
         a,span {
             color:white;
-            display: inline-block;
+            display:block;
         }
         span {
             margin-right: 20px;

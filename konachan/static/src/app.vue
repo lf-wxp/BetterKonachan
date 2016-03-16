@@ -54,6 +54,7 @@
         font-size: 20px;
         background: #282828;
         height: 100%;
+        min-width: 460px;
         >article {
             display: flex;
             flex-flow: row nowrap;
@@ -87,6 +88,36 @@
                 line-height: 1;
                 -webkit-font-smoothing: antialiased;
             }
+        }
+    }
+    @media screen and (max-width:745px) {
+        article {
+            &:nth-of-type(3),&:nth-of-type(1)  {
+                flex-wrap:wrap!important;
+            }
+        }
+        #footer {
+            margin-left: 10px!important;
+        }
+    }
+    @media screen and (max-width:745px) {
+        article {
+            &:nth-of-type(3)  {
+                flex-wrap:wrap!important;
+            }
+        }
+        #footer {
+            margin-left: 10px!important;
+        }
+        #Mmusic {
+            flex:1 0 360px!important;
+            margin-right: 10px!important;
+        }
+    }
+    @media screen and (max-width:705px) {
+        #Mmusic {
+            margin-right:10px!important;
+            margin-left: 10px!important; 
         }
     }
     ::-webkit-scrollbar {

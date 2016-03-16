@@ -31,11 +31,15 @@
         }
     };
 </script>
-<style lang="sass">
+<style lang="sass" scoped>
     #setting {
         background-image: url('../assets/images/settingBg.jpg');
         padding:20px;
-        margin-bottom: 10px!important;
+        margin-bottom: 10px;
+        display:flex;
+        justify-content:center;
+        align-items:flex-start;
+        flex-flow:column nowrap;
         &:after {
             content:"\e8b8"!important;
             color: white;
@@ -55,6 +59,7 @@
     .toggle {
         position: relative;
         margin-bottom: 10px;
+        flex:1 1 auto;
         input {
             display: none;
             &:not(:checked) + label {

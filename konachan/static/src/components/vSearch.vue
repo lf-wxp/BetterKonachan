@@ -75,6 +75,7 @@
             transition:all 0.2s ease;
             margin-left:auto;
             margin-right:auto;
+            width:100%;
             &:focus {
                 background-color:rgba($teal,0.3);
                 color:white;

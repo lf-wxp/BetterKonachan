@@ -63,6 +63,29 @@
                 this.pageArray = creatNavPage(data.currentPage, data.pages, 5);
                 this.total = data.pages;
             });
+            var vuethis = this;
+            // use arrow left and arrow right key to navigate the page
+            document.addEventListener("keydown",function(event){
+                var keyPager;
+                switch (event.keyCode) {
+                    case 37:
+                        if (vuethis.page - 1 > 0) {
+                            keyPager = vuethis.page - 1;
+                        } else {
+                            return false;
+                        }
+                    case 39:
+                        if (vuethis.page + 1 < vuethis.total) {
+                            keyPager = vuethis.page + 1;
+                        } else {
+                            return false;
+                        }
+                    case null:
+                        event.preventDefault();
+                        vuethis.invoke(keyPager);
+                        break;
+                }
+            });
         },
         validators: {
             /* 自定义 验证规则 */
@@ -72,10 +95,10 @@
         }
     };
 </script>
-<style lang="sass">
+<style lang="sass" scoped>
     #pager {
         width: 120px;
-        flex:0 0 auto!important;
+        flex:0 0 auto;
         background-image:url('../assets/images/pagerBg.jpg');
         display: flex;
         justify-content: center;

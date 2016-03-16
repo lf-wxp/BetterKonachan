@@ -2,7 +2,7 @@
     <section id="list">
         <ul class="listCon">
             <li v-for="item in listData" transition="staggered" stagger="10">
-                <img :src="item.prev_url" alt="">
+                <img :src="item.prev_url" alt="" @error="loadError($event)">
                 <div class="listAction"><span>{{ item.width }}x{{ item.height }}</span>
                 <a href="" @click.prevent="viewSampleImg(item)" >preview<i class="icon-remove_red_eye"></i></a>
                 <a href="{{ item.url }}" download="123.png">download<i class="icon-get_app"></i></a></div>
@@ -20,6 +20,7 @@
     import { setSession, getSession, getLocal, setLocal, getPost, getSampleImg } from '../servers/servers.js';
     import vDialog from './vDialog.vue';
     import vLoading from './vLoading4.vue';
+    import errorImage from '../assets/images/loaderror.png';
     function fitSize(width, height) { /* 根据窗口大小 调整弹出框大小 */
         const wW = window.innerWidth - 120;
         const wH = window.innerHeight - 120;
@@ -78,6 +79,10 @@
                     this.sampleSize.width = size.fitW + 'px';
                     this.sampleSize.height = size.fitH + 'px';
                 }, item.sample);
+            },
+            loadError(event) {
+                event.target.src = errorImage;
+                event.target.style.objectFit = 'contain';
             }
         },
         watch: {
@@ -122,9 +127,9 @@
         }
     };
 </script>
-<style lang="sass" scope>
+<style lang="sass" scoped>
     #list {
-        margin-left: 0px!important;
+        margin-left: 0px;
         width: 100%;
         background: repeating-linear-gradient(-55deg,#222,#222 10px,#333 10px,#333 20px);
         position: relative;
