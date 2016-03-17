@@ -34,6 +34,8 @@
         }
         h1 {
             font-size: 80px;
+            width:100%;
+            height:100%;
             color:#C0CDDC;
             text-align: center;
             margin-top: 60px;
@@ -44,5 +46,4 @@
             color: white;
         }
     }
-
 </style>

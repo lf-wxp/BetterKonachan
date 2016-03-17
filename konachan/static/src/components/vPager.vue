@@ -96,6 +96,8 @@
     };
 </script>
 <style lang="sass" scoped>
+    @import "../assets/sass/components/_icon";
+
     #pager {
         width: 120px;
         flex:0 0 auto;
@@ -112,6 +114,7 @@
             z-index: 0;
             border-radius:5px;
             top: 0px;
+            left: 0px;
         }
         &:after {
             content:"\e41d"!important;
@@ -195,4 +198,64 @@
         opacity: 0;
         will-change:opacity;
     }
+    @media screen and (max-width:745px) {
+        #pager {
+            flex-flow:row nowrap;
+            padding: 20px 0px;
+            order:1;
+        }
+        #list {
+            order:2;
+        }
+        .pagerCon,.pagerGoto {
+            vertical-align:middle;
+            padding:0px;
+            display:inline-block;
+            width:auto;
+        }
+        .pagerCon {
+            font-size: 0px;
+            li,i,ul {
+                display:inline-block;
+                vertical-align: middle;
+                margin-bottom: 0px;
+            }
+            li,i {
+                margin-right: 5px;
+            }
+        }
+        .pagerGoto {
+            font-size: 0px;
+            span,input,button {
+                display:inline-block;
+                vertical-align:middle;
+                margin-right: 5px;
+                margin-bottom: 0px;
+            }
+            span {
+                font-size: 20px;
+            }
+            button {
+                margin-right: 0px;
+            }
+        }
+        i {
+            transition:transform 0.5s ease;
+        }
+        .icon-keyboard_arrow_down {
+            transform:rotate(270deg);
+        }
+        .icon-keyboard_arrow_up {
+            transform:rotate(-90deg);
+        }
+    }
+    @media screen and (max-width:470px) {
+         #pager {
+            flex-wrap:wrap;
+         }
+         .pagerCon {
+            margin-bottom: 20px;
+         }
+    }
+
 </style>

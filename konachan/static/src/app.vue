@@ -92,12 +92,13 @@
     }
     @media screen and (max-width:745px) {
         article {
-            &:nth-of-type(3),&:nth-of-type(1)  {
-                flex-wrap:wrap!important;
-            }
+            flex-wrap:wrap!important;
         }
         #footer {
             margin-left: 10px!important;
+        }
+        #pager {
+            flex:1 1 auto!important;
         }
     }
     @media screen and (max-width:745px) {
