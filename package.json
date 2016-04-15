@@ -1,0 +1,42 @@
+{
+  "name": "betterkonachan",
+  "version": "1.0.0",
+  "description": "a manga website based on javascript",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Franciscowxp/BetterKonachan/tree/nodejs"
+  },
+  "keywords": [
+    "manga",
+    "nodejs",
+    "wallpaper",
+    "cartoon"
+  ],
+  "author": "Franciscowxp",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.9.1",
+    "babel-core": "^6.7.6",
+    "babel-preset-es2015-node5": "^1.2.0",
+    "babel-preset-stage-3": "^6.5.0",
+    "cheerio": "^0.20.0",
+    "koa": "^2.0.0",
+    "koa-bodyparser": "^3.0.0",
+    "koa-logger": "^2.0.0",
+    "koa-router": "^7.0.1",
+    "koa-static": "^3.0.0",
+    "koa-views": "^5.0.1",
+    "request": "^2.71.0",
+    "swig": "^1.4.2"
+  },
+  "devDependencies": {
+    "eslint": "^2.7.0",
+    "eslint-config-airbnb": "^7.0.0",
+    "eslint-plugin-jsx-a11y": "^0.6.2",
+    "eslint-plugin-react": "^4.3.0"
+  }
+}
