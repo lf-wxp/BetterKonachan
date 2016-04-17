@@ -14,3 +14,4 @@ The wallpaper data of this project base on [konachan.net](http://konachan.net/)
 * albume background image fade-in and fade-out animation of music component
 * image list flip animation of list component
 * new layout 
+* github avatar link 
