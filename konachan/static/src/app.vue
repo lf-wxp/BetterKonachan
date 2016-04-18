@@ -1,8 +1,7 @@
 <template>
   <div id="wrap">
-    <article>
+<!--     <article>
         <v-header></v-header>
-        <v-music></v-music>
         <v-search></v-search>
     </article>
     <article>
@@ -10,9 +9,10 @@
         <v-list></v-list>
     </article>
     <article>
-        <v-setting></v-setting>
         <v-footer></v-footer>
-    </article>
+    </article> -->
+        <v-music></v-music>
+        <v-setting></v-setting>
   </div>
 </template>
 
@@ -53,8 +53,16 @@
     #wrap {
         font-size: 20px;
         background: #282828;
-        height: 100%;
+        min-height: 100vh;
         min-width: 460px;
+        padding:1px;
+        overflow: hidden;
+        box-sizing: border-box;
+        background-image: url('./assets/images/b3.jpg');
+        background-repeat: no-repeat;
+        background-size:cover; 
+        background-color:#252323;
+        background-blend-mode:multiply;
         >article {
             display: flex;
             flex-flow: row nowrap;
@@ -67,27 +75,11 @@
         }
         section {
             position: relative;
-            margin:10px;
-            flex:1 1 auto;
-            border-radius: 5px;
             box-sizing:border-box;
             background-size:cover;
             background-repeat:no-repeat;
             margin-bottom: 0px;
-            &:after {
-                position: absolute;
-                right: 10px;
-                top: 10px;
-                content:"\e1ad";
-                font-family: 'icomoon' !important;
-                speak: none;
-                font-style: normal;
-                font-weight: normal;
-                font-variant: normal;
-                text-transform: none;
-                line-height: 1;
-                -webkit-font-smoothing: antialiased;
-            }
+
         }
     }
     @media screen and (max-width:745px) {

@@ -301,15 +301,14 @@
     $mWidth:360px;
     $mHeight:220px;
     #Mmusic {
-        height: $mHeight;
+        height:360px;
+        width:360px;
         position:relative;
-        flex:0 0 $mWidth;
         margin-left: 0px;
         margin-right: 0px;
-        &:after {
-            content:"\e310"!important;
-            color: white;
-        }
+        transform:rotate(45deg);
+        margin:100px;
+
     }
     .MplayerContain {
         overflow: hidden;

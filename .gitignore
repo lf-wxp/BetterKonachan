@@ -52,7 +52,7 @@ docs/_build/
 
 # PyBuilder
 target/
-konachan/static/node_modules/
-konachan/static/.sass-cache/
+node_modules
+.sass-cache/
 !konachan/static/build/
 !konachan/static/src/lib

@@ -45,3 +45,31 @@
     font-style: normal;
 
 }
+
+
+@font-face {
+    font-family: 'NanoCore-Medium';
+    src: url(./assets/fonts/NanoCore-Medium.eot);
+    src: url(./assets/fonts/NanoCore-Medium.eot?#iefix) format('embedded-opentype'),
+         url(./assets/fonts/NanoCore-Medium.svg#NanoCore-Medium) format('svg'),
+         url(./assets/fonts/NanoCore-Medium.woff) format('woff'),
+         url(./assets/fonts/NanoCore-Medium.ttf) format('truetype');
+   font-style: normal;
+   font-weight: normal;
+   font-variant: normal;
+   text-decoration: inherit;
+   text-transform: none;
+}
+@font-face {
+    font-family: 'NanoCore';
+    src: url(./assets/fonts/NanoCore.eot);
+    src: url(./assets/fonts/NanoCore.eot?#iefix) format('embedded-opentype'),
+         url(./assets/fonts/NanoCore.svg#NanoCore) format('svg'),
+         url(./assets/fonts/NanoCore.woff) format('woff'),
+         url(./assets/fonts/NanoCore.ttf) format('truetype');
+   font-style: normal;
+   font-weight: normal;
+   font-variant: normal;
+   text-decoration: inherit;
+   text-transform: none;
+}

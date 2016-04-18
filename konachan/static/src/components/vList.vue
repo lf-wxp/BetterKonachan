@@ -162,6 +162,7 @@
             position: relative;
             overflow: hidden;
             transition:all 0.2s ease;
+            background:white;
             &:hover {
                 .listAction {
                     transform: translateY(0%);
@@ -182,6 +183,7 @@
             min-width: 100px;
             border-radius:5px;
             transition: all 0.2s ease;
+                    // opacity:0;
         }
     }
     .listAction {

@@ -1,12 +1,14 @@
 <template>
-    <section id="setting">
+    <section id="setting" :class="[isOptionShow ? 'active' : '']">
+        <div class="mask" @click="showOption">
+        </div>
         <div class="toggle">
             <input type="checkbox" id="security" v-model='securityMode' :checked="securityMode">
-            <label for="security">Security mode<span></span> </label>
+            <label for="security" data-title="Security mode"><span></span> </label>
         </div>
         <div class="toggle">
             <input type="checkbox" id="page" v-model="rememberPage" :checked="rememberPage">
-            <label for="page">Remember the last page you visited <span></span> </label>
+            <label for="page" data-title="Remember page"><span></span> </label>
         </div>
     </section>
 </template>
@@ -16,7 +18,8 @@
         data() {
             return {
                 securityMode: getLocal('securityMode') === undefined ? true : getLocal('securityMode'),
-                rememberPage: getLocal('rememberPage')
+                rememberPage: getLocal('rememberPage'),
+                isOptionShow: false
             };
         },
         watch: {
@@ -28,38 +31,102 @@
             rememberPage(val) {
                 setLocal('rememberPage', val);
             }
+        },
+        methods: {
+            showOption() {
+                this.isOptionShow = !this.isOptionShow;
+            }
         }
     };
 </script>
-<style lang="sass" scoped>
+<style lang="sass">
     #setting {
-        background-image: url('../assets/images/settingBg.jpg');
-        padding:20px;
-        margin-bottom: 10px;
-        display:flex;
-        justify-content:center;
-        align-items:flex-start;
-        flex-flow:column nowrap;
+        width:40px;
+        height:40px;
+        transform:rotate(45deg);
+        margin:200px;
+        position:relative;
+        &.active {
+            div {
+                &:nth-of-type(2) {
+                    left:100%;
+                }
+                &:nth-of-type(3) {
+                    top:-100%;
+                }
+            }
+            .mask {
+                &:after {
+                    background:lighten(teal,10%);
+                }
+            }
+            span {
+                &:after,&:before {
+                    opacity: 1;
+
+                }
+            }
+            label {
+                &:after {
+                    opacity:1;
+                }
+            }
+        }
+    }
+    .mask {
+        position: absolute;
+        left:0px;
+        top:0px;
+        background:#252323;
+        width:100%;
+        height:100%;
+        border: 5px solid teal;
+        z-index: 2;
+        cursor: pointer;
+        box-sizing: border-box;
         &:after {
-            content:"\e8b8"!important;
-            color: white;
+            content:'';
+            position:absolute;
+            background:darken(teal,10%);
+            width:30%;
+            height:30%;
+            left: 0px;
+            right:0px;
+            top: 0px;
+            bottom:0px;
+            margin: auto;
+            transition:all 0.2s ease-in-out;
+            animation: breath 2s ease-in-out alternate infinite;
         }
         &:before {
             content:'';
-            position: absolute;
-            background-color:rgba(#737a8f,0.5);
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            border-radius:5px;
+            position:absolute;
+            background:black;
+            width:70%;
+            height:70%;
             left: 0px;
+            right:0px;
             top: 0px;
+            bottom:0px;
+            margin: auto;
         }
     }
     .toggle {
-        position: relative;
-        margin-bottom: 10px;
-        flex:1 1 auto;
+        position: absolute;
+        width:100%;
+        height:100%;
+        left: 0px;
+        top: 0px;
+        box-sizing: border-box;
+        background:#252323;
+        z-index: 1;
+        border: 5px solid black;
+        font-size: 0px;
+        cursor:pointer;
+        transition:all 0.2s ease-in-out;
+        &:nth-of-type(2) {
+            transition-delay: 0.1s;
+        }
         input {
             display: none;
             &:not(:checked) + label {
@@ -67,25 +134,17 @@
                     content:"off";
                     color:#7F8C9A;
                     position: absolute;
-                    left: 38px;
-                    top: 6px;
+                    left: 180%;
                     font-size: 16px;
                 }
             }
-            &:checked +label {
-                &:before {
-                    background:rgba(#34495E,0.5);
-                }
-                &:after {
-                    background: #39D2B4;
-                    left: 40px;
-                }
+            &:checked + label {
+                background:teal;
                 span:before {
                     content:"on";
                     color:#39D2B4;
                     position: absolute;
-                    left: 8px;
-                    top: 6px;
+                    left: 180%;
                     font-size: 16px;
                 }
             }
@@ -93,31 +152,59 @@
         label {
             color:#C0CDDC;
             cursor: pointer;
-            position: relative;
-            padding-left:75px;
-            font-family:"Open sans", "Segoe UI", "Segoe WP", Helvetica, Arial, sans-serif;
-            font-size: 20px;
+            // position: relative;
+            font-family:"NanoCore","Open sans", "Segoe UI", "Segoe WP", Helvetica, Arial, sans-serif;
+            width:60%;
+            height:60%;
+            background:darken(teal,50%);
+            position:absolute;
+            left:0px;
+            top:0px;
+            right:0px;
+            bottom:0px;
+            margin:auto;
+            transition:all 0.2s ease;
             &:after {
-                content:"";
-                position:absolute;
-                width: 20px;
-                height: 20px;
-                transition: all .2s;
-                border-radius: 50%;
-                top: 5px;
-                left: 5px;
-                background:#7F8C9A;
+                position: absolute;
+                content:attr(data-title);
+                font-size: 16px;
+                width:140px;
+                opacity:0;
+                transition:all 0.2s ease-in-out 0.2s;
             }
-            &:before {
-                content:"";
-                position:absolute;
-                background: rgba(#ddd,0.5);
-                width: 65px;
-                height: 30px;
-                left: 0px;
-                border-radius:15px;
-                transition: background-color 0.2s ease;
+            &[for='page']{
+                &:after {
+                    bottom: 100%;
+                    transform:rotate(-90deg);
+                    transform-origin: left top;
+                }
             }
+             &[for='security']{
+                &:after {
+                    top: 180%;
+                    transform:rotate(-90deg) translate(-100%);
+                    transform-origin: left top;
+                    text-align: right;
+                }
+            }
+            span {
+                font-family: inherit;
+                width:100%;
+                height:100%;
+                display:block;
+                &:after,&:before {
+                    opacity:0;
+                    transition:all 0.2s ease-in-out 0.2s;
+                }
+            }
+        }
+    }
+    @keyframes breath {
+        0% {
+            background:#004d4d;
+        }
+        100% {
+            background:lighten(teal,20%);
         }
     }
 </style>
