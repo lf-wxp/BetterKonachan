@@ -35,6 +35,7 @@
         margin:auto;
         width:20px;
         height: 20px;
+        transform:rotate(-45deg);
         &:after {
             width:20px;
             height:20px;

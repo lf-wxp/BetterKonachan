@@ -152,7 +152,6 @@
         label {
             color:#C0CDDC;
             cursor: pointer;
-            // position: relative;
             font-family:"NanoCore","Open sans", "Segoe UI", "Segoe WP", Helvetica, Arial, sans-serif;
             width:60%;
             height:60%;
