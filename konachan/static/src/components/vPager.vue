@@ -1,19 +1,23 @@
 <template>
-    <section id="pager">
+    <section id="pager" :class="[ isActive ? 'active':'']">
+        <i class="icon-keyboard_arrow_up" @click="invoke(page - 1)" v-if="page - 1"></i>
+        <i class="icon-keyboard_arrow_down" @click="invoke(page + 1)" v-if="total - page > 0"></i>
         <div class="pagerCon">
-            <i class="icon-keyboard_arrow_up" @click="invoke(page - 1)" v-if="page - 1"></i>
             <ul>
-                <li @click="invoke(item)" v-for="item in pageArray" transition="staggered" stagger="50" :class="[ page == item ? 'current' : '']" >{{item}}</li>
+                <li @click="invoke(item)" v-for="item in pageArray" transition="staggered" stagger="50" :class="[ page == item ? 'current' : '']" ><span>{{item}}</span></li>
             </ul>
-            <i class="icon-keyboard_arrow_down" @click="invoke(page + 1)" v-if="total - page > 0"></i>
         </div>
         <validator name="goToValidation">
             <form class="pagerGoto">
-                <span>{{total}}</span>
-                <input type="text" placeholder="page" v-model='goToPage' v-validate:goToPage="['required', 'numeric']">
-                <button :disabled="$goToValidation.invalid" @click.prevent="goTo">Go</button>
+                <em></em>
+                <div><span>{{total}}</span></div>
+                <div>
+                    <input type="text"  placeholder="page" v-model='goToPage' v-validate:goToPage="['required', 'numeric']">
+                </div>
+                <button :disabled="$goToValidation.invalid" @click.prevent="goTo"><span>Go</span></button>
             </form>
         </validator>
+        <div class="placeholder" @click='isActiveFun'></div>
     </section>
 </template>
 <script>
@@ -46,7 +50,8 @@
                 pageArray: [],
                 page: 1,
                 total: 1,
-                goToPage: ''
+                goToPage: '',
+                isActive: false
             };
         },
         methods: {
@@ -55,12 +60,15 @@
             },
             goTo() {
                 this.$dispatch('invoke', { currentPage: Number(this.goToPage) });
+            },
+            isActiveFun() {
+                this.isActive = !this.isActive;
             }
         },
         ready() {
             this.$on('listReady', (data) => {
                 this.page = data.currentPage;
-                this.pageArray = creatNavPage(data.currentPage, data.pages, 5);
+                this.pageArray = creatNavPage(data.currentPage, data.pages, 4);
                 this.total = data.pages;
             });
             var vuethis = this;
@@ -97,92 +105,224 @@
 </script>
 <style lang="sass" scoped>
     @import "../assets/sass/components/_icon";
-
+    $itemSize:40px;
+    $commonBg:rgba(255,255,255,0.2);
+    $base:#39CCCC;
+    $hoverBg:rgba(#39CCCC,0.5);
+    $darkBg1:darken(#39CCCC,5%);
+    $darkBg2:darken(#39CCCC,10%);
     #pager {
-        width: 120px;
-        flex:0 0 auto;
-        background-image:url('../assets/images/pagerBg.jpg');
-        display: flex;
-        justify-content: center;
-        flex-flow: column nowrap;
-        &:before {
-            content:'';
-            position: absolute;
-            background-color:rgba(#2e3b4b,0.8);
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            border-radius:5px;
-            top: 0px;
+        width: 3 * $itemSize;
+        height:3 * $itemSize;
+        transform:rotate(45deg);
+        margin:200px;
+        position: relative;
+        animation:spin 2s linear infinite;
+        &.active {
+            animation:none;
+            >i {
+                &:first-of-type{
+                    transform:translate(-100%,100%);
+                }
+                &:last-of-type{
+                    transform:translate(100%,-100%);
+                }
+            }
+            .pagerCon {
+                li {
+                    &:nth-child(1) {
+                        left: 0px;
+                        top: 0px;
+                    }
+                    &:nth-child(2) {
+                        left: $itemSize;
+                        top: 0px;
+                        transition-delay: 0.1s;
+                    }
+                    &:nth-child(3) {
+                        left:0px;
+                        top: $itemSize;
+                        transition-delay: 0.2s;
+                    }
+                }
+            }
+            .pagerGoto {
+                div {
+                    &:first-of-type {
+                        left:$itemSize;
+                        top: 0px;
+                    }
+                    &:last-of-type {
+                        top: $itemSize;
+                        left:0px;
+                        transition-delay: 0.1s;
+                    }
+                }
+                button {
+                    top:$itemSize;
+                    left:$itemSize;
+                    transition-delay: 0.2s;
+                }
+            }
+            .placeholder {
+                visibility: hidden;
+                opacity:0;
+            }
+        }
+        >i {
+            width:$itemSize;
+            height:$itemSize;
+            position:absolute;
+            display: inline-block;
+            color:white;
+            font-size: 30px;
+            line-height: 40px;
+            text-align: center;
+            background-color:$commonBg;
+            border-radius: 2px;
+            cursor: pointer;
+            transition:all 0.3s ease;
+            bottom:$itemSize;
+            left: $itemSize;
+            &:before {
+                width:100%;
+                height:100%;
+                display:block;
+                transform:rotate(-135deg);
+            }
+            &:last-of-type {
+                &:before {
+                    transform:rotate(225deg);
+                }
+            }
+        }
+    }
+    .placeholder {
+        width:$itemSize;
+        height:$itemSize;
+        position:absolute;
+        background-color:$base;
+        z-index: 3;
+        left:$itemSize;
+        top:$itemSize;
+        cursor:pointer;
+        transition:all 0.2s 0.5s ease-in-out;
+        animation: breathPage 2s 4s ease-in-out alternate infinite;
+        &:after,&:before {
+            content:"";
             left: 0px;
+            top:0px;
+            right:0px;
+            bottom:0px;
+            margin:auto;
+            position:absolute;
         }
         &:after {
-            content:"\e41d"!important;
-            color: white;
+            width:40%;
+            height:40%;
+            background-color:$darkBg2;
+            animation: breathPage2 2s ease-in-out alternate infinite;
+        }
+        &:before {
+            width:70%;
+            height:70%;
+            background-color:$darkBg1;
+            animation: breathPage1 2s 2s ease-in-out alternate infinite;
         }
     }
     .pagerCon {
-        width: 100%;
-        padding-top: 40px;
-        position: relative;
-        flex:0 0 auto;
-        i,li {
-            display: block;
-            color:white;
-            font-family: 'diner-regularregular';
-            font-size: 30px;
-            width: 40px;
-            height: 40px;
-            line-height: 40px;
-            text-align: center;
-            background-color:rgba(255,255,255,0.2);
-            border-radius: 2px;
-            margin:auto;
-            margin-bottom:5px;
-            cursor: pointer;
-            transition:all 0.2s ease;
-            &:hover,&.current {
-                background-color:rgba(57, 204, 204,0.5);
-            }
-            &.current {
-                cursor: not-allowed;
-                ponter-evnets:none;
-            }
+        width: 2 * $itemSize;
+        height: 2 * $itemSize;
+        position:absolute;
+        left: 0px;
+        top: 0px;
+        z-index: 2;
+        ul {
+            width:100%;
+            height:100%;
+            font-size: 0px;
+            position:relative;
         }
-        li {
+        span {
+            display: block;
+            width:100%;
+            height:100%;
+            font-family: "diner-regularregular";
+            transform:rotate(-45deg);
             line-height: 46px;
             letter-spacing: 2px;
         }
+        li {
+            position:absolute;
+            color:white;
+            font-size: 30px;
+            width: $itemSize;
+            height: $itemSize;
+            left:$itemSize;
+            top: $itemSize;
+            line-height: 40px;
+            text-align: center;
+            background-color:$commonBg;
+            border-radius: 2px;
+            cursor: pointer;
+            transition:all 0.2s ease;
+            &:hover,&.current {
+                background-color:$hoverBg;
+            }
+            &.current {
+                cursor: not-allowed;
+                pointer-events:none;
+            }
+        }
     }
     .pagerGoto {
-        width:100%;
-        padding-bottom:40px;
-        position: relative;
-        flex:0 0 auto;
-        span,input,button {
-            width: 40px;
-            height: 40px;
+        width:2 * $itemSize;
+        height:2 * $itemSize;
+        position:absolute;
+        font-size: 0px;
+        left:$itemSize;
+        top:$itemSize;
+        z-index: 1;
+        div,button,em {
+            width: $itemSize;
+            height: $itemSize;
             box-sizing:border-box;
-            border:none;
             border-radius:2px;
-            display: block;
+            display: inline-block;
+            position:absolute;
             margin:auto;
+            border:none;
+            left:0px;
+            top: 0px;
+            vertical-align: top;
+            background-color:$commonBg;
+            transition:all 0.2s ease;
+        }
+        em {
+            background:none;
+        }
+
+        span,input {
+            line-height: 45px;
+            text-align: center;
+            font-size:30px;
             font-family: 'diner-regularregular';
+            display:block;
+            color:white;
+            width:100%;
+            height:100%;
             text-transform:uppercase;
             letter-spacing: 2px;
-            background-color:rgba(255,255,255,0.2);
-            color:white;
-            text-align: center;
-            line-height: 45px;
-            margin-bottom: 5px;
+            border:none;
+            background:none;
+            transform:rotate(-45deg);
         }
         button {
             font-size: 30px;
             margin-bottom: 0px;
             cursor: pointer;
-            transition:all 0.2s ease;
             &:hover {
-                background-color:rgba(57, 204, 204,0.5);
+                background-color:$hoverBg;
             }
         }
         input {
@@ -198,64 +338,39 @@
         opacity: 0;
         will-change:opacity;
     }
-    @media screen and (max-width:745px) {
-        #pager {
-            flex-flow:row nowrap;
-            padding: 20px 0px;
-            order:1;
+    @keyframes breathPage {
+        0% {
+            background-color:$base;
         }
-        #list {
-            order:2;
-        }
-        .pagerCon,.pagerGoto {
-            vertical-align:middle;
-            padding:0px;
-            display:inline-block;
-            width:auto;
-        }
-        .pagerCon {
-            font-size: 0px;
-            li,i,ul {
-                display:inline-block;
-                vertical-align: middle;
-                margin-bottom: 0px;
-            }
-            li,i {
-                margin-right: 5px;
-            }
-        }
-        .pagerGoto {
-            font-size: 0px;
-            span,input,button {
-                display:inline-block;
-                vertical-align:middle;
-                margin-right: 5px;
-                margin-bottom: 0px;
-            }
-            span {
-                font-size: 20px;
-            }
-            button {
-                margin-right: 0px;
-            }
-        }
-        i {
-            transition:transform 0.5s ease;
-        }
-        .icon-keyboard_arrow_down {
-            transform:rotate(270deg);
-        }
-        .icon-keyboard_arrow_up {
-            transform:rotate(-90deg);
+        100% {
+            background-color:$darkBg2;
         }
     }
-    @media screen and (max-width:470px) {
-         #pager {
-            flex-wrap:wrap;
-         }
-         .pagerCon {
-            margin-bottom: 20px;
-         }
+    @keyframes breathPage1 {
+        0% {
+            background-color:$darkBg1;
+        }
+        50% {
+            background-color:$darkBg2;
+        }
+        100% {
+            background-color:$base;
+        }
     }
-
+    @keyframes breathPage2 {
+        0% {
+            background-color:$darkBg2;
+        }
+        100% {
+            background-color:$base;
+        }
+    }
+    @keyframes spin {
+        0% {
+            transform:rotate(0deg);
+        }
+        100% {
+            transform:rotate(360deg);
+        }
+    }
 </style>

@@ -63,12 +63,14 @@
             span {
                 &:after,&:before {
                     opacity: 1;
+                    visibility:visible;
 
                 }
             }
             label {
                 &:after {
                     opacity:1;
+                    visibility: visible;
                 }
             }
         }
@@ -96,7 +98,7 @@
             bottom:0px;
             margin: auto;
             transition:all 0.2s ease-in-out;
-            animation: breath 2s ease-in-out alternate infinite;
+            animation: breathSet 2s ease-in-out alternate infinite;
         }
         &:before {
             content:'';
@@ -169,6 +171,7 @@
                 font-size: 16px;
                 width:140px;
                 opacity:0;
+                visibility: hidden;
                 transition:all 0.2s ease-in-out 0.2s;
             }
             &[for='page']{
@@ -193,12 +196,13 @@
                 display:block;
                 &:after,&:before {
                     opacity:0;
+                    visibility:hidden;
                     transition:all 0.2s ease-in-out 0.2s;
                 }
             }
         }
     }
-    @keyframes breath {
+    @keyframes breathSet {
         0% {
             background:#004d4d;
         }
