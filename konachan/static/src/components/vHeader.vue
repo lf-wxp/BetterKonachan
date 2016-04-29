@@ -25,22 +25,25 @@
 </script>
 <style lang="sass">
     #header {
-        // background-image: url('../assets/images/headerBg.jpg');
-        height: 220px;
-        position: relative;
-        overflow: hidden;
+        background-size:cover;
+        transform:rotate(45deg);
+        width:400px;
+        height:100px;
+        position:relative;
+        overflow:hidden;
+        margin: 200px;
         canvas {
-            position: absolute;
+            position:absolute;
         }
         h1 {
-            font-size: 80px;
-            width:100%;
             height:100%;
+            width:100%;
+            line-height: 100px;
+            font-size:40px;
             color:#C0CDDC;
-            text-align: center;
-            margin-top: 60px;
-            font-family: 'diner-regularregular';
-            letter-spacing: 4px;
+            text-align:center;
+            font-family:'ZnikomitNo24';
+            letter-spacing:4px;
         }
         &:after {
             color: white;

@@ -1,7 +1,7 @@
 <!-- <v-dialog :show.sync='isDialog' :message='message' :loadSuccess></v-dialog> -->
 <template>
     <div id="dialog" :class="[show ? 'show' : '']" >
-        <div class="dialogWrap">
+        <div class="dialogWrap" :class="[loadSuccess ? 'completed' : '']" :style="position">
             <div class="dialogCon" :class="[show ? 'show' : '']">
                 <div class="dialogCustom">
                     <slot name="message">
@@ -10,7 +10,7 @@
                     </slot>
                     <v-loading :show='showLoading'></v-loading>
                 </div>
-                <button class="dialogClear" @click.prevent="hideOff">close</button>
+                <button class="dialogClear" @click.prevent="hideOff"><i class="icon-cross"></i></button>
             </div>
         </div>
     </div>
@@ -21,9 +21,10 @@
         data() {
             return {
                 showLoading: false,
+                position: {}
             };
         },
-        props: ['loadSuccess', 'show', 'message'],
+        props: ['loadSuccess', 'show', 'message', 'sampleSize', 'samplePosition'],
         watch: {
             show(val) {
                 if (val) {
@@ -39,6 +40,14 @@
         components: {
             vLoading
         },
+        computed: {
+            position() {
+                return {
+                    top: this.samplePosition.top + 'px',
+                    left: this.samplePosition.left + 'px'
+                }
+            }
+        },
         methods: {
             hideOff() {
                 this.showLoading = false;
@@ -48,6 +57,7 @@
     };
 </script>
 <style lang="sass" scope>
+    @import "../assets/sass/components/_icon";
     #dialog {
         position: fixed;
         background: rgba(25, 41, 62, 0.5);
@@ -58,8 +68,8 @@
         top: 0px;
         visibility: hidden;
         opacity: 0;
+        transform-origin:left top;
         transition: all 0.2s ease;
-        display: table;
         &.show {
             visibility: visible;
             opacity: 1;
@@ -67,29 +77,37 @@
 
     }
     .dialogWrap {
-        display: table-cell;
         vertical-align: middle;
         text-align: center;
+        box-sizing: content-box;
+        width:150px;
+        height:150px;
+        position:absolute;
+        transform-origin:center center;
+        transition:all 0.2s ease;
+        // transform:rotate(45deg) scale(1.1) ;
+        &.completed {
+            transform:rotate(-45deg) translate(-106.25px,-118px);
+        }
 
     }
     .dialogCon {
-        opacity: 0;
+        opacity: 1;
         box-sizing:border-box;
         transform:scale(2);
-        display: inline-flex;
         transition:all 0.2s ease;
         border-radius: 2px;
-        background-color:rgba(#39CCCC,0.9);
+        // background-color:rgba(#39CCCC,0.9);
         position: relative;
-        min-height: 200px;
-        min-width: 300px;
+        min-height: 150px;
+        min-width: 150px;
         color:white;
-        flex-flow: column nowrap;
-        justify-content: space-between;
-        align-items: stretch;
         &.show {
             transform: scale(1);
             opacity: 1;
+        }
+        &.completed {
+            transform:scale(1) rotate(-45deg);
         }
         p {
             font-size: 16px;
@@ -99,13 +117,12 @@
         }
     }
     .dialogCustom {
-        padding:20px;
+        // padding:20px;
         box-sizing:border-box;
-        flex:1 1 auto;
         position: relative;
+        display:inline-block;
     }
     .dialogClear {
-        flex:0 0 auto;
         display: block;
         width:100%;
         background-color: darken(#39CCCC,10%);
@@ -113,16 +130,24 @@
         border-radius: 2px;
         color: white;
         cursor: pointer;
-        font-family: 'diner-regularregular';
-        padding: 10px 20px 5px 20px;
         box-sizing: border-box;
         font-size: 20px;
-        font-weight: bold;
-        letter-spacing: 5px;
         transition: all 0.2s ease;
         margin: auto;
-        border-bottom-left-radius:2px;
-        border-bottom-right-radius:2px;
+        width:35px;
+        height:35px;
+        right:0px;
+        top: 0px;
+        transform:translate(100%);
+        position:absolute;
+        i {
+            display:block;
+            width:100%;
+            height:100%;
+            text-align: center;
+            line-height: 35px;
+            transform:rotate(-45deg);
+        }
         &:hover {
             background-color: darken(#39CCCC,15%);
         }

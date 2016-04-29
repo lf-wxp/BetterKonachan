@@ -13,7 +13,7 @@
                     <div class="mPlayedBar" :style="initData.playedPercentage"></div>
                 </div>
                 <div class="mVolume">
-                    <i :class="initData.muted ? 'icon-volume_off' : 'icon-volume_up'" @click.stop="muted()"></i>
+                    <i :class="initData.muted ? 'icon-mute' : 'icon-volume'" @click.stop="muted()"></i>
                     <div class="mVolumeBar">
                         <div class="mActiveBar" :class="initData.muted ? 'muted' : ''" :style="initData.volumePercentage"></div>
                         <div class="mFeakeBar" @click.stop="pickVolume($event)"></div>
@@ -21,7 +21,7 @@
                 </div>
                 <div class="mAction">
                     <i class="skip_previous" @click.stop="prevSong"></i>
-                    <i :class="initData.paused ? 'icon-pause' : 'icon-play_arrow'" @click.stop="playPause"></i>
+                    <i :class="initData.paused ? 'icon-pause' : 'icon-play'" @click.stop="playPause"></i>
                     <i class="skip_next" @click.stop="nextSong"></i>
                     <i :class="initData.playOrder" @click.stop="switchPlayOrder"></i>
                 </div>
@@ -242,7 +242,7 @@
         artist: '',
         playOrder: {
             'icon-repeat': true,
-            'icon-repeat_one': false,
+            'icon-reload': false,
             'icon-shuffle': false
         }
 

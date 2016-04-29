@@ -1,5 +1,5 @@
 <template>
-    <section id="footer" class="active1">
+    <section id="footer" class="active">
         <div class="content">
             <p><span>Any Question,Contact me!</span><a href="mailto:franciscowxp@outlook.com" title="">franciscowxp@outlook.com</a></p>
         </div>

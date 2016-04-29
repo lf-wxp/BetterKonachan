@@ -2,19 +2,23 @@
     <section id="list">
         <ul class="listCon">
             <li v-for="item in listData" transition="staggered" stagger="10">
-                <img :src="item.prev_url" alt="" @error="loadError($event)">
-                <div class="listAction"><span>{{ item.width }}x{{ item.height }}</span>
-                <a href="" @click.prevent="viewSampleImg(item)" >preview<i class="icon-remove_red_eye"></i></a>
-                <a href="{{ item.url }}" download="123.png">download<i class="icon-get_app"></i></a></div>
+                <div class="infoW"><span>{{ item.width }}</span></div>
+                <div class="infoH"><span>{{ item.height }}</span></div>
+                <a href="" @click.prevent="viewSampleImg(item)" ><i class="icon-eye"></i></a>
+                <a href="{{ item.url }}" download="123.png"><i class="icon-download"></i></a>
+                <div class="imgCon" @click.stop="clickActive($event)">
+                    <img :src="item.prev_url" alt="" @error="loadError($event)" >
+                </div>
             </li>
+            <div class="bgDimmer"></div>
         </ul>
         <v-loading :show='showLoading'></v-loading>
-        <v-dialog :show.sync='isDialog' :load-success='loadSampleSuccess'>
-            <div class="sampleCon" :class="loadSampleSuccess ? 'showOff' : ''" slot="image" :style="sampleSize">
-                <img :src="sampleDataUrl" alt="">
-            </div>
-        </v-dialog>
     </section>
+    <v-dialog :show.sync='isDialog' :load-success='loadSampleSuccess' :sample-size="sampleSize" :sample-position="samplePosition" >
+        <div class="sampleCon" :class="loadSampleSuccess ? 'showOff' : ''" slot="image" :style="sampleSize">
+            <img :src="sampleDataUrl" alt="">
+        </div>
+    </v-dialog>
 </template>
 <script>
     import { setSession, getSession, getLocal, setLocal, getPost, getSampleImg } from '../servers/servers.js';
@@ -56,8 +60,11 @@
                 loadSampleSuccess: false,
                 sampleDataUrl: '',
                 sampleSize: {
-                    width: '300px',
-                    height: '200px'
+                    width: '150px',
+                    height: '150px'
+                },
+                samplePosition:{
+
                 }
             };
         },
@@ -70,19 +77,30 @@
                 this.isDialog = true;
                 this.loadSampleSuccess = false;
                 this.sampleDataUrl = '';
-                this.sampleSize.width = '300px';
-                this.sampleSize.height = '200px';
+                this.sampleSize.width = '150px';
+                this.sampleSize.height = '150px';
                 const size = fitSize(item.sample_width, item.sample_height);
-                getSampleImg((reponse) => {
-                    this.sampleDataUrl = reponse.data.data_url;
-                    this.loadSampleSuccess = true;
-                    this.sampleSize.width = size.fitW + 'px';
-                    this.sampleSize.height = size.fitH + 'px';
-                }, item.sample);
+                this.sampleDataUrl = item.prev_url;
+                // getSampleImg((reponse) => {
+                //     this.sampleDataUrl = reponse.data.data_url;
+                //     this.loadSampleSuccess = true;
+                //     this.sampleSize.width = size.fitW + 'px';
+                //     this.sampleSize.height = size.fitH + 'px';
+                // }, item.sample);
             },
             loadError(event) {
                 event.target.src = errorImage;
                 event.target.style.objectFit = 'contain';
+            },
+            clickActive(event) {
+                let target = event.target;
+                let parent = target.parentNode;
+                let ancestor = parent.parentNode;;
+                this.samplePosition = parent.getBoundingClientRect();
+                console.log(this.samplePosition);
+                let dimmer = document.querySelector('.bgDimmer');
+                dimmer.classList.toggle('active');
+                ancestor.classList.toggle('active');
             }
         },
         watch: {
@@ -128,117 +146,145 @@
     };
 </script>
 <style lang="sass" scoped>
+    @import "../assets/sass/components/_icon";
+    $transitionTime: 0.2s;
+    $transitionDelay:0.1s;
+    $itemSize:150px;
+    $itemMargin:2px;
+    $itemNum:4;
     #list {
         margin-left: 0px;
-        width: 100%;
-        background: repeating-linear-gradient(-55deg,#222,#222 10px,#333 10px,#333 20px);
+        width: ($itemSize + $itemMargin * 2) * $itemNum;
+        height:($itemSize + $itemMargin * 2) * $itemNum;
+        margin-left:500px;
+        transform-origin:left top;
+        // transform:rotate(45deg);
+        // background: repeating-linear-gradient(-55deg,#222,#222 10px,#333 10px,#333 20px);
         position: relative;
-        &:before {
-            content:"";
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-color:rgba(0,0,0,0.7);
-            border-radius:5px;
-            z-index: 0;
-        }
-        &:after {
-            content:"\e8a7"!important;
-            color: white;
-        }
     }
     .listCon {
-        display: flex;
-        justify-content: space-between;
-        flex-flow: row wrap;
-        align-items: stretch;
         position:relative;
+        font-size: 0px;
+        font-family:'Aldo-SemiBold';
+        width:100%;
+        height:100%;
+        transform-style:preserve-3d;
+        perspective:1000px;
+
         li {
-            flex:1 0 auto;
             border-radius: 5px;
-            margin-bottom: 10px;
+            margin-bottom: $itemMargin * 2;
+            margin: $itemMargin;
+            width:150px;
+            display:inline-block;
             height: 150px;
-            margin: 5px;
             position: relative;
-            overflow: hidden;
             transition:all 0.2s ease;
             background:white;
-            &:hover {
-                .listAction {
-                    transform: translateY(0%);
-                    opacity: 1;
+            cursor:pointer;
+            transform-origin:center center;
+            transition:all $transitionTime ease;
+            font-size: 16px;
+            &.active {
+                transform:translateZ(10px) scale(1.1);
+                z-index: 2;
+                .infoW {
+                    transform:translateX(-100%);
+                    transition-delay: $transitionDelay;
                 }
-                img {
-                    transform: translateY(-34px);
-                    border-bottom-left-radius: 0px;
-                    border-bottom-right-radius:0px;
+                .infoH {
+                    transform:translateY(-100%);
+                    transition-delay: $transitionDelay * 2;
+                }
+                >a {
+                    &:first-of-type {
+                        transform:translateY(-100%);
+                        transition-delay: $transitionDelay * 3;
+                    }
+                    &:last-of-type {
+                        transform:translateX(100%);
+                        transition-delay: $transitionDelay * 4;
+                    }
+                }
+            }
+            $actionSize:35px;
+            >a {
+                width:$actionSize;
+                height:$actionSize;
+                background:teal;
+                position:absolute;
+                right: 0px;
+                top:0px;
+                transition: all $transitionTime ease;
+                color:white;
+                i {
+                    width:100%;
+                    height:100%;
+                    transform:rotate(-45deg);
+                    position:absolute;
+                    text-align: center;
+                    line-height: $actionSize;
                 }
             }
         }
         img {
             display: block;
+            transform:rotate(-45deg) translateY(-20.56%);
             object-fit: cover;
-            width: 100%;
-            height: 100%;
+            width: 141%;
+            height: 141%;
             min-width: 100px;
             border-radius:5px;
-            transition: all 0.2s ease;
-                    // opacity:0;
+            transition: all $transitionTime ease;
+        }
+        div[class^='info'] {
+            $infoSize:35px;
+            span {
+                width:141%;
+                height:141%;
+                font-family: 'ZagRegular';
+                display:block;
+                text-align: center;
+                line-height: 1.41 * $infoSize;
+                transform:rotate(-45deg) translateY(-20.56%);
+            }
+            font-size: 14px;
+            width:$infoSize;
+            height:$infoSize;
+            color:white;
+            background:teal;
+            position:absolute;
+            left: 0px;
+            top:0px;
+            transition:all $transitionTime ease;
+        }
+        .infoW {
+
+        }
+        .infoH {
+
         }
     }
-    .listAction {
-        font-size: 0px;
-        font-family: 'diner-regularregular';
-        position: absolute;
-        bottom:0px;
-        left: 0px;
-        width: 100%;
-        box-sizing:border-box;
-        opacity: 0;
-        transform: translateY(100%);
-        transition: all 0.2s ease;
-        border-bottom-left-radius: 5px;
-        border-bottom-right-radius:5px;
-        span,a {
-            display: inline-block;
-            font-size: 14px;
-            font-family: inherit;
-            color:white;
-            text-transform:uppercase;
-            border:0px;
-            vertical-align: top;
-            box-sizing:border-box;
-            text-align: center;
-            height: 34px;
-
+    .bgDimmer {
+        background:rgba(0,0,0,0.7);
+        position:absolute;
+        width:100%;
+        height:100%;
+        left:0px;
+        top:0px;
+        visibility: hidden;
+        opacity:0;
+        transition:all $transitionTime $transitionTime ease;
+        &.active{
+            visibility:visible;
+            opacity:1;
         }
-        span {
-            background-color:rgba(#39CCCC,0.6);
-            line-height: 39px;
-            font-size: 20px;
-            letter-spacing: 3px;
-            width:calc(100% - 180px);
-
-        }
-        a {
-            font-size: 20px;
-            padding: 5px;
-            background-color:rgba(darken(#39CCCC,5%),0.6);
-            cursor: pointer;
-            letter-spacing: 2px;
-            width: 90px;
-            line-height: 30px;
-            transition:all 0.2s ease;
-            &:nth-of-type(2) {
-                background-color:rgba(darken(#39CCCC,10%),0.6);
-            }
-            &:hover {
-                background-color:rgba(#39CCCC,0.8);
-            }
-        }
-        i {
-            margin-left: 3px;
-        }
+    }
+    .imgCon {
+        width:100%;
+        height:100%;
+        overflow:hidden;
+        background: repeating-linear-gradient(-55deg,#222,#222 10px,#333 10px,#333 20px);
     }
     .staggered-transition {
         transition: all 0.5s ease;
@@ -247,11 +293,14 @@
         opacity: 0;
     }
     .sampleCon {
-        transition: all 0.2s ease-in-out;
-        opacity: 0;
+        transition: all $transitionTime ease-in-out;
+        font-size: 0px;
+        opacity: 1;
         img {
             width:100%;
             height: 100%;
+            display:block;
+            object-fit:cover;
         }
         &.showOff {
             opacity: 1;

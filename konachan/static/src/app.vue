@@ -1,15 +1,15 @@
 <template>
   <div id="wrap">
 <!--     <article>
-        <v-search></v-search>
     </article>
     <article>
-        <v-list></v-list>
     </article>
     <article>
     </article> -->
+        <v-list></v-list>
+        <!-- <v-search></v-search> -->
         <!-- <v-header></v-header> -->
-        <v-footer></v-footer>
+        <!-- <v-footer></v-footer> -->
         <!-- <v-pager></v-pager> -->
         <!-- <v-music></v-music> -->
         <!-- <v-setting></v-setting> -->
@@ -76,7 +76,6 @@
         section {
             position: relative;
             box-sizing:border-box;
-            background-size:cover;
             background-repeat:no-repeat;
             margin-bottom: 0px;
 

@@ -40,6 +40,7 @@
         bottom:0px;
         right: 0px;
         margin:auto;
+        transform:rotate(-45deg);
         span {
             display:block;
             bottom:0px;

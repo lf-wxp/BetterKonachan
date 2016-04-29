@@ -47,23 +47,30 @@
     @import '../assets/sass/components/_colors';
     @import '../assets/sass/components/_form';
     @import '../assets/sass/components/_buttons';
+    $size:300px;
     #search {
-        height: 220px;
+        width:$size;
+        height: $size;
+        transform:rotate(45deg);
+        margin:100px;
+        overflow: hidden;
         background-image: url('../assets/images/searchBg.jpg');
-        &:after {
-            content:"\e880"!important;
-            color: white;
-        }
         form {
-            padding: 50px 10px;
+            width:141%;
+            height:141%;
+            transform:rotate(-45deg) translateY(-20.56%);
             box-sizing:border-box;
-            height: 100%;
-            width: 100%;
             display: block;
             background-color:rgba(25,41,62,0.5);
+            display:flex;
+            flex-flow:row wrap;
+            justify-content:center;
+            align-content:center;
+            align-items:space-between;
         }
         input {
             @include inputfocus;
+            flex: 0 0 auto;
             font-size:30px;
             background-color:rgba(255,255,255,0.7);
             display: block;
@@ -74,22 +81,25 @@
             padding:5px 10px;
             transition:all 0.2s ease;
             margin-left:auto;
+            font-family:'Aldo-SemiBold';
             margin-right:auto;
-            width:100%;
+            width:70%;
+            margin-top: 40px;
             &:focus {
                 background-color:rgba($teal,0.3);
                 color:white;
             }
         }
         button {
+            flex: 0 0 auto;
             display: block;
             background-color:rgba($teal,0.5);
             border:none;
             border-radius: 2px;
             color:white;
             cursor: pointer;
-            font-family: 'diner-regularregular';
-            padding:10px 20px 5px 20px;
+            font-family:'Aldo-SemiBold';
+            padding:10px 20px;
             box-sizing:border-box;
             font-size:30px;
             font-weight: bold;
