@@ -19,13 +19,17 @@ PERPAGE = 21
 TIMEOUT = 180
 # rating  safe questionable explicit
 myMusic = NetEase()
+
+
 @blueprint.route('/music')
 def music():
     songs = []
     data = myMusic.playlist_detail(95815468)
     for song in data:
-        songs.append({ 'track': song['mp3Url'], 'title': song['name'], 'pic': song['album']['picUrl'], 'artist': song['artists'][0]['name'] })
+        songs.append({'track': song['mp3Url'], 'title': song['name'], 'pic': song[
+                     'album']['picUrl'], 'artist': song['artists'][0]['name']})
     return json.dumps(songs)
+
 
 @blueprint.route('/')
 def index():
@@ -39,17 +43,18 @@ def error(error):
 
 def getXmlData(isSafe, page, tags=""):
     try:
-        r = requests.get(URL + str(page)+'&tags='+tags, timeout=TIMEOUT).text
+        r = requests.get(URL + str(page) + '&tags=' +
+                         tags, timeout=TIMEOUT).text
     except Exception:
-        return {"success": "false", "reason": "timeout","timeOut":"true"}
+        return {"success": "false", "reason": "timeout", "timeOut": "true"}
     bs = BeautifulSoup(r, 'lxml')
     imgs = bs.find_all('post')
     posts = bs.find("posts")
     count = math.ceil(int(posts['count']) / 21)
     if count == 0:
-        return {"success":"false","reason":"no result","noResult":"true"}
+        return {"success": "false", "reason": "no result", "noResult": "true"}
     if page > count:
-        return {"success": "false", "reason": "out of range","outRange":"true"}
+        return {"success": "false", "reason": "out of range", "outRange": "true"}
     data = {"pages": count, "images": []}
     reg = re.compile(r'http://.+\.(jpg|png|jpeg|gif|svg|bmp|webp|bpg)')
     if len(imgs):
@@ -65,8 +70,10 @@ def getXmlData(isSafe, page, tags=""):
                 filetype = re.findall(reg, url)[0]
                 width = img['width']
                 height = img['height']
+                preview_width = img['actual_preview_width']
+                preview_height = img['actual_preview_height']
                 data['images'].append(
-                    {"url": url, "prev_url": prev_url, "sample": sample, "sample_height": sample_height, "sample_width": sample_width, "name": md5 + "." + filetype, "width": width, "height": height})
+                    {"url": url, "prev_url": prev_url, "sample": sample, "sample_height": sample_height, "sample_width": sample_width, "name": md5 + "." + filetype, "width": width, "height": height, 'preview_width': preview_width, 'preview_height':preview_height})
         return data
 
 
@@ -117,7 +124,7 @@ class postAPI(Resource, postParams):
     def get(self):
         isSafe = request.args.get('isSafe', 'false')
         page = int(request.args.get('page', 1))
-        tags = request.args.get('tags','')
+        tags = request.args.get('tags', '')
         return getXmlData(isSafe, page, tags)
 api = Api(blueprint)
 api.add_resource(postAPI, "/post", endpoint="post")

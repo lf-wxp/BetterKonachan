@@ -6,7 +6,7 @@
     </article>
     <article>
     </article> -->
-        <v-list></v-list>
+        <v-test></v-test>
         <!-- <v-search></v-search> -->
         <!-- <v-header></v-header> -->
         <!-- <v-footer></v-footer> -->
@@ -24,6 +24,8 @@
     import vList from './components/vList.vue';
     import vSetting from './components/vSetting.vue';
     import vFooter from './components/vFooter.vue';
+    import vTest from './components/vTest.vue';
+
     export default {
         components: {
             vHeader,
@@ -32,7 +34,8 @@
             vPager,
             vList,
             vSetting,
-            vFooter
+            vFooter,
+            vTest
         },
         ready() {
             this.$on('listReady', (data) => {

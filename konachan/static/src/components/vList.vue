@@ -1,17 +1,17 @@
 <template>
     <section id="list">
-        <ul class="listCon">
-            <li v-for="item in listData" transition="staggered" stagger="10">
-                <div class="infoW"><span>{{ item.width }}</span></div>
-                <div class="infoH"><span>{{ item.height }}</span></div>
-                <a href="" @click.prevent="viewSampleImg(item)" ><i class="icon-eye"></i></a>
-                <a href="{{ item.url }}" download="123.png"><i class="icon-download"></i></a>
-                <div class="imgCon" @click.stop="clickActive($event)">
-                    <img :src="item.prev_url" alt="" @error="loadError($event)" >
-                </div>
-            </li>
-            <div class="bgDimmer"></div>
-        </ul>
+        <div class="listCon">
+            <waterfall :line-gap="200" :min-line-gap="100" :max-line-gap="300" :single-max-width="300" :watch="listData" :auto-resize="true">
+              <waterfall-slot v-for="item in listData" :width="item.preview_width" :height="item.preview_height" :order="$index"  >
+                    <figure v-origin-style="item">
+                        <!-- <figcaption>{{ item.width }} / {{ item.height }}</figcaption>
+                        <!-- <a href="" @click.prevent="viewSampleImg(item)" ><i class="icon-eye"></i></a> -->
+                        <!-- <a href="{{ item.url }}" download="123.png"><i class="icon-download"></i></a> -->
+                        <img :src="item.prev_url" alt="" @error="loadError($event)" @click.stop="clickActive($event,item)" v-origin-style="item">
+                    </figure>
+              </waterfall-slot>
+            </waterfall>
+        </div>
         <v-loading :show='showLoading'></v-loading>
     </section>
     <v-dialog :show.sync='isDialog' :load-success='loadSampleSuccess' :sample-size="sampleSize" :sample-position="samplePosition" >
@@ -24,7 +24,10 @@
     import { setSession, getSession, getLocal, setLocal, getPost, getSampleImg } from '../servers/servers.js';
     import vDialog from './vDialog.vue';
     import vLoading from './vLoading4.vue';
+    import Waterfall from 'vue-waterfall/lib/waterfall.vue';
+    import WaterfallSlot from 'vue-waterfall/lib/waterfall-slot.vue';
     import errorImage from '../assets/images/loaderror.png';
+
     function fitSize(width, height) { /* 根据窗口大小 调整弹出框大小 */
         const wW = window.innerWidth - 120;
         const wH = window.innerHeight - 120;
@@ -53,6 +56,7 @@
         data() {
             return {
                 listData: [],
+                test:"hahah",
                 pages: 0,
                 currentPage: 1,
                 showLoading: true,
@@ -69,8 +73,16 @@
             };
         },
         components: {
+            Waterfall,
+            WaterfallSlot,
             vDialog,
             vLoading
+        },
+        directives: {
+            originStyle(value) {
+                this.el.style.width = value.preview_width + 'px';
+                this.el.style.height = value.preview_height + 'px';
+            }
         },
         methods: {
             viewSampleImg(item) {/* 弹出框预览图片 */
@@ -92,15 +104,17 @@
                 event.target.src = errorImage;
                 event.target.style.objectFit = 'contain';
             },
-            clickActive(event) {
-                let target = event.target;
-                let parent = target.parentNode;
-                let ancestor = parent.parentNode;;
-                this.samplePosition = parent.getBoundingClientRect();
-                console.log(this.samplePosition);
-                let dimmer = document.querySelector('.bgDimmer');
-                dimmer.classList.toggle('active');
-                ancestor.classList.toggle('active');
+            clickActive(event,item) {
+                const target = event.target;
+                const parent = target.parentNode;
+                const ancestor = parent.parentNode;
+                const size = fitSize(item.sample_width, item.sample_height);
+                parent.style.width = size.fitW + "px";
+                parent.style.height = size.fitH + "px";
+                parent.style.position = 'fixed';
+                target.style.width = size.fitW + "px";
+                target.style.height = size.fitH + "px";
+                parent.classList.toggle('active');
             }
         },
         watch: {
@@ -147,66 +161,38 @@
 </script>
 <style lang="sass" scoped>
     @import "../assets/sass/components/_icon";
-    $transitionTime: 0.2s;
+    $transitionTime: 0.4s;
     $transitionDelay:0.1s;
-    $itemSize:150px;
+    $itemSize:300px;
     $itemMargin:2px;
-    $itemNum:4;
+    $itemColumn:4;
+    $gap : 10px;
+    .vue-waterfall-slot {
+        background: pink;
+    }
     #list {
-        margin-left: 0px;
-        width: ($itemSize + $itemMargin * 2) * $itemNum;
-        height:($itemSize + $itemMargin * 2) * $itemNum;
-        margin-left:500px;
-        transform-origin:left top;
-        // transform:rotate(45deg);
+        margin: auto;
         // background: repeating-linear-gradient(-55deg,#222,#222 10px,#333 10px,#333 20px);
         position: relative;
+        width:($itemColumn - 1) * $gap + $itemColumn * $itemSize;
     }
     .listCon {
         position:relative;
         font-size: 0px;
         font-family:'Aldo-SemiBold';
         width:100%;
-        height:100%;
         transform-style:preserve-3d;
         perspective:1000px;
-
-        li {
+        figure {
             border-radius: 5px;
-            margin-bottom: $itemMargin * 2;
-            margin: $itemMargin;
-            width:150px;
             display:inline-block;
-            height: 150px;
-            position: relative;
-            transition:all 0.2s ease;
             background:white;
             cursor:pointer;
             transform-origin:center center;
-            transition:all $transitionTime ease;
+            transition:all 0.4s ease-in-out;
             font-size: 16px;
-            &.active {
-                transform:translateZ(10px) scale(1.1);
-                z-index: 2;
-                .infoW {
-                    transform:translateX(-100%);
-                    transition-delay: $transitionDelay;
-                }
-                .infoH {
-                    transform:translateY(-100%);
-                    transition-delay: $transitionDelay * 2;
-                }
-                >a {
-                    &:first-of-type {
-                        transform:translateY(-100%);
-                        transition-delay: $transitionDelay * 3;
-                    }
-                    &:last-of-type {
-                        transform:translateX(100%);
-                        transition-delay: $transitionDelay * 4;
-                    }
-                }
-            }
+            margin:5px;
+            position: absolute;
             $actionSize:35px;
             >a {
                 width:$actionSize;
@@ -217,6 +203,7 @@
                 top:0px;
                 transition: all $transitionTime ease;
                 color:white;
+                display:none;
                 i {
                     width:100%;
                     height:100%;
@@ -229,68 +216,18 @@
         }
         img {
             display: block;
-            transform:rotate(-45deg) translateY(-20.56%);
             object-fit: cover;
-            width: 141%;
-            height: 141%;
-            min-width: 100px;
             border-radius:5px;
+            opacity: 0.2;
             transition: all $transitionTime ease;
         }
-        div[class^='info'] {
-            $infoSize:35px;
-            span {
-                width:141%;
-                height:141%;
-                font-family: 'ZagRegular';
-                display:block;
-                text-align: center;
-                line-height: 1.41 * $infoSize;
-                transform:rotate(-45deg) translateY(-20.56%);
-            }
-            font-size: 14px;
-            width:$infoSize;
-            height:$infoSize;
-            color:white;
-            background:teal;
-            position:absolute;
-            left: 0px;
-            top:0px;
-            transition:all $transitionTime ease;
-        }
-        .infoW {
-
-        }
-        .infoH {
-
-        }
-    }
-    .bgDimmer {
-        background:rgba(0,0,0,0.7);
-        position:absolute;
-        width:100%;
-        height:100%;
-        left:0px;
-        top:0px;
-        visibility: hidden;
-        opacity:0;
-        transition:all $transitionTime $transitionTime ease;
-        &.active{
-            visibility:visible;
-            opacity:1;
-        }
-    }
-    .imgCon {
-        width:100%;
-        height:100%;
-        overflow:hidden;
-        background: repeating-linear-gradient(-55deg,#222,#222 10px,#333 10px,#333 20px);
     }
     .staggered-transition {
-        transition: all 0.5s ease;
+        transform:rotateY(0deg);
     }
     .staggered-enter, .staggered-leave {
         opacity: 0;
+        transform:rotateY(90deg);
     }
     .sampleCon {
         transition: all $transitionTime ease-in-out;
