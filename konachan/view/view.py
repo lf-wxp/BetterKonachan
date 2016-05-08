@@ -74,6 +74,7 @@ def getXmlData(isSafe, page, tags=""):
                 preview_height = img['actual_preview_height']
                 data['images'].append(
                     {"url": url, "prev_url": prev_url, "sample": sample, "sample_height": sample_height, "sample_width": sample_width, "name": md5 + "." + filetype, "width": width, "height": height, 'preview_width': preview_width, 'preview_height':preview_height})
+                break
         return data
 
 

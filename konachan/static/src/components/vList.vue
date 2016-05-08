@@ -1,12 +1,12 @@
 <template>
     <section id="list">
         <div class="listCon">
-            <waterfall :line-gap="200" :min-line-gap="100" :max-line-gap="300" :single-max-width="300" :watch="listData" :auto-resize="true">
-              <waterfall-slot v-for="item in listData" :width="item.preview_width" :height="item.preview_height" :order="$index"  >
+            <waterfall :line-gap="300" :min-line-gap="300" :max-line-gap="300" :single-max-width="300" :watch="listData" :auto-resize="true" :align="center">
+              <waterfall-slot v-for="item in listData" :width="item.preview_width" :height="item.preview_height" :order="$index">
                     <figure v-origin-style="item">
-                        <!-- <figcaption>{{ item.width }} / {{ item.height }}</figcaption>
-                        <!-- <a href="" @click.prevent="viewSampleImg(item)" ><i class="icon-eye"></i></a> -->
-                        <!-- <a href="{{ item.url }}" download="123.png"><i class="icon-download"></i></a> -->
+                        <figcaption>{{ item.width }} / {{ item.height }}</figcaption>
+                        <a href="" @click.prevent="viewSampleImg(item)" ><i class="icon-eye"></i></a>
+                        <a href="{{ item.url }}" download="123.png"><i class="icon-download"></i></a>
                         <img :src="item.prev_url" alt="" @error="loadError($event)" @click.stop="clickActive($event,item)" v-origin-style="item">
                     </figure>
               </waterfall-slot>
@@ -56,7 +56,6 @@
         data() {
             return {
                 listData: [],
-                test:"hahah",
                 pages: 0,
                 currentPage: 1,
                 showLoading: true,
@@ -80,8 +79,8 @@
         },
         directives: {
             originStyle(value) {
-                this.el.style.width = value.preview_width + 'px';
-                this.el.style.height = value.preview_height + 'px';
+                this.el.style.width = value.preview_width - 10 + 'px';
+                this.el.style.height = value.preview_height - 10 + 'px';
             }
         },
         methods: {
@@ -163,13 +162,10 @@
     @import "../assets/sass/components/_icon";
     $transitionTime: 0.4s;
     $transitionDelay:0.1s;
-    $itemSize:300px;
+    $itemSize:305px;
     $itemMargin:2px;
     $itemColumn:4;
     $gap : 10px;
-    .vue-waterfall-slot {
-        background: pink;
-    }
     #list {
         margin: auto;
         // background: repeating-linear-gradient(-55deg,#222,#222 10px,#333 10px,#333 20px);
@@ -183,6 +179,9 @@
         width:100%;
         transform-style:preserve-3d;
         perspective:1000px;
+        figcaption {
+            position: absolute;
+        }
         figure {
             border-radius: 5px;
             display:inline-block;
@@ -218,7 +217,6 @@
             display: block;
             object-fit: cover;
             border-radius:5px;
-            opacity: 0.2;
             transition: all $transitionTime ease;
         }
     }
