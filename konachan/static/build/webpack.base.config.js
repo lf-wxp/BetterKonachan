@@ -1,9 +1,25 @@
+var path = require('path');
+var baseUrl = path.join(__dirname, '..');
 module.exports = {
-    entry: './src/main.js',
+    context: baseUrl,
+    entry: ['babel-polyfill','./src/main'],
     output: {
         path: './dist',
         publicPath: 'dist/',
+        sourceMapFilename: '[file].map',
         filename: 'build.js'
+    },
+    // 服务器配置相关，自动刷新!
+    devServer: {
+        historyApiFallback: true,
+        hot: true,
+        inline: true,
+        grogress: true,
+        proxy: {
+            '/post': 'http://localhost:8000',
+            '/pic': 'http://localhost:8000',
+            '/music': 'http://localhost:8000'
+        }
     },
     module: {
         loaders: [{
@@ -11,7 +27,7 @@ module.exports = {
             loader: 'vue'
         }, {
             test: /\.js$/,
-            loader: 'babel!eslint',
+            loader: 'babel',
             // make sure to exclude 3rd party code in node_modules
             exclude: /node_modules/
         }, {
@@ -35,7 +51,7 @@ module.exports = {
     // make sure to adjust your .eslintrc
     vue: {
         loaders: {
-            js: 'babel!eslint'
+            js: 'babel'
         }
     }
 }

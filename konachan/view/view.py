@@ -11,9 +11,9 @@ import math
 import re
 import base64
 # for development
-from flask.ext.cors import CORS
+# from flask.ext.cors import CORS
 blueprint = Blueprint('view', __name__, template_folder='templates')
-CORS(blueprint)
+# CORS(blueprint)
 URL = "http://konachan.net/post.xml?page="
 PERPAGE = 21
 TIMEOUT = 180
@@ -74,7 +74,6 @@ def getXmlData(isSafe, page, tags=""):
                 preview_height = img['actual_preview_height']
                 data['images'].append(
                     {"url": url, "prev_url": prev_url, "sample": sample, "sample_height": sample_height, "sample_width": sample_width, "name": md5 + "." + filetype, "width": width, "height": height, 'preview_width': preview_width, 'preview_height':preview_height})
-                break
         return data
 
 

@@ -1,19 +1,18 @@
 <template>
   <div id="wrap">
-<!--     <article>
+    <article class="top">
+        <v-search></v-search>
+        <v-music></v-music>
+        <v-header></v-header>
     </article>
     <article>
     </article>
     <article>
-    </article> -->
-        <!-- <v-test></v-test> -->
+    </article>
         <v-list></v-list>
-        <!-- <v-search></v-search> -->
-        <!-- <v-header></v-header> -->
-        <!-- <v-footer></v-footer> -->
-        <!-- <v-pager></v-pager> -->
-        <!-- <v-music></v-music> -->
-        <!-- <v-setting></v-setting> -->
+        <v-footer></v-footer>
+        <v-pager></v-pager>
+        <v-setting></v-setting>
   </div>
 </template>
 
@@ -25,7 +24,6 @@
     import vList from './components/vList.vue';
     import vSetting from './components/vSetting.vue';
     import vFooter from './components/vFooter.vue';
-    import vTest from './components/vTest.vue';
 
     export default {
         components: {
@@ -35,8 +33,7 @@
             vPager,
             vList,
             vSetting,
-            vFooter,
-            vTest
+            vFooter
         },
         ready() {
             this.$on('listReady', (data) => {
@@ -70,12 +67,7 @@
         >article {
             display: flex;
             flex-flow: row nowrap;
-            justify-content:space-between;
-            align-items: stretch;
             width: 100%;
-            &:nth-of-type(2) {
-                min-height:calc(100vh - 364px);
-            }
         }
         section {
             position: relative;
@@ -83,6 +75,18 @@
             background-repeat:no-repeat;
             margin-bottom: 0px;
 
+        }
+    }
+    .top {
+        align-items:center;
+        justify-content:center;
+        padding:100px 0px;
+        position:relative;
+        background:radial-gradient(ellipse at center, rgba(51,93,96,1) 0%, rgba(29,32,66,1) 100%);
+        section:nth-of-type(2) {
+            position:absolute!important;
+            right:0px;
+            bottom:-200px;
         }
     }
     @media screen and (max-width:745px) {

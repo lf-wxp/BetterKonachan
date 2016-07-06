@@ -47,34 +47,24 @@
     @import '../assets/sass/components/_colors';
     @import '../assets/sass/components/_form';
     @import '../assets/sass/components/_buttons';
-    $size:300px;
     #search {
-        width:$size;
-        height: $size;
-        transform:rotate(45deg);
-        margin:100px;
+        max-width: 600px;
         overflow: hidden;
-        background-image: url('../assets/images/searchBg.jpg');
         form {
-            width:141%;
-            height:141%;
-            transform:rotate(-45deg) translateY(-20.56%);
             box-sizing:border-box;
             display: block;
-            background-color:rgba(25,41,62,0.5);
             display:flex;
-            flex-flow:row wrap;
+            flex-flow:row nowrap;
             justify-content:center;
             align-content:center;
             align-items:space-between;
         }
         input {
             @include inputfocus;
-            flex: 0 0 auto;
+            flex: 1 1 auto;
             font-size:30px;
             background-color:rgba(255,255,255,0.7);
             display: block;
-            margin-bottom: 20px;
             box-sizing:border-box;
             color:#747474;
             border:none;
@@ -83,8 +73,6 @@
             margin-left:auto;
             font-family:'Aldo-SemiBold';
             margin-right:auto;
-            width:70%;
-            margin-top: 40px;
             &:focus {
                 background-color:rgba($teal,0.3);
                 color:white;

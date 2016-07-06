@@ -26,12 +26,10 @@
 <style lang="sass">
     #header {
         background-size:cover;
-        transform:rotate(45deg);
         width:400px;
         height:100px;
         position:relative;
         overflow:hidden;
-        margin: 200px;
         canvas {
             position:absolute;
         }

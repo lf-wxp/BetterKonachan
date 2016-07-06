@@ -3,13 +3,13 @@ import VueResource from 'vue-resource';
 Vue.use(VueResource);
 
 function getMusic(callback) {
-    Vue.http.get('http://localhost:8000/music').then((response) => {
+    Vue.http.get('/music').then((response) => {
         callback(response);
     });
 }
 
 function getPost(callback, page, isSafe, tags) {
-    Vue.http.get('http://localhost:8000/post', {
+    Vue.http.get('/post', {
         tags,
         page,
         isSafe
@@ -19,7 +19,7 @@ function getPost(callback, page, isSafe, tags) {
 }
 
 function getSampleImg(callback, url) {
-    Vue.http.post('http://localhost:8000/pic', {
+    Vue.http.post('/pic', {
         url
     }).then((response) => {
         callback(response);

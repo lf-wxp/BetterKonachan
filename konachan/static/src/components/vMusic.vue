@@ -318,7 +318,6 @@
                     this.mPlayer.init();
                 });
             }, false);
-            setTimeout(callback, after);
         }
     };
 

@@ -1,24 +1,19 @@
 <template>
     <section id="list">
-        <div class="listCon">
+        <div class="listCon" :class="[isPopUp ? 'popUp' : '']">
             <waterfall :line-gap="300" :min-line-gap="300" :max-line-gap="300" :single-max-width="300" :watch="listData" :auto-resize="true" :align="center">
-              <waterfall-slot v-for="item in listData" :width="item.preview_width" :height="item.preview_height" :order="$index">
-                    <figure v-origin-style="item">
+              <waterfall-slot v-for="item in listData" :width="item.preview_width" :height="item.preview_height" :order="$index" move-class="item-move"
+>
+                    <figure :style="item.position" transition="stagger" stagger="100">
                         <figcaption>{{ item.width }} / {{ item.height }}</figcaption>
-                        <a href="" @click.prevent="viewSampleImg(item)" ><i class="icon-eye"></i></a>
                         <a href="{{ item.url }}" download="123.png"><i class="icon-download"></i></a>
-                        <img :src="item.prev_url" alt="" @error="loadError($event)" @click.stop="clickActive($event,item)" v-origin-style="item">
+                        <img :src="item.current_url" alt="" @error="loadError($event)" @click.stop="clickActive($event,item)" :style="item.fitSize">
                     </figure>
               </waterfall-slot>
             </waterfall>
         </div>
         <v-loading :show='showLoading'></v-loading>
     </section>
-    <v-dialog :show.sync='isDialog' :load-success='loadSampleSuccess' :sample-size="sampleSize" :sample-position="samplePosition" >
-        <div class="sampleCon" :class="loadSampleSuccess ? 'showOff' : ''" slot="image" :style="sampleSize">
-            <img :src="sampleDataUrl" alt="">
-        </div>
-    </v-dialog>
 </template>
 <script>
     import { setSession, getSession, getLocal, setLocal, getPost, getSampleImg } from '../servers/servers.js';
@@ -52,6 +47,17 @@
         }
         return { fitW, fitH };
     }
+    function position(width, height, node) { /* 根据图片大小，确定显示位置*/
+        const rect = node.getBoundingClientRect();
+        const wW = window.innerWidth;
+        const wH = window.innerHeight;
+        let left;
+        let top;
+        left = (wW - width) / 2 - rect.left;
+        top = (wH - height) / 2 - rect.top;
+        return {left, top};
+
+    }
     export default {
         data() {
             return {
@@ -60,6 +66,7 @@
                 currentPage: 1,
                 showLoading: true,
                 isDialog: false,
+                isPopUp: false, 
                 loadSampleSuccess: false,
                 sampleDataUrl: '',
                 sampleSize: {
@@ -77,43 +84,44 @@
             vDialog,
             vLoading
         },
-        directives: {
-            originStyle(value) {
-                this.el.style.width = value.preview_width - 10 + 'px';
-                this.el.style.height = value.preview_height - 10 + 'px';
-            }
-        },
         methods: {
-            viewSampleImg(item) {/* 弹出框预览图片 */
-                this.isDialog = true;
-                this.loadSampleSuccess = false;
-                this.sampleDataUrl = '';
-                this.sampleSize.width = '150px';
-                this.sampleSize.height = '150px';
-                const size = fitSize(item.sample_width, item.sample_height);
-                this.sampleDataUrl = item.prev_url;
-                // getSampleImg((reponse) => {
-                //     this.sampleDataUrl = reponse.data.data_url;
-                //     this.loadSampleSuccess = true;
-                //     this.sampleSize.width = size.fitW + 'px';
-                //     this.sampleSize.height = size.fitH + 'px';
-                // }, item.sample);
-            },
             loadError(event) {
                 event.target.src = errorImage;
                 event.target.style.objectFit = 'contain';
             },
             clickActive(event,item) {
-                const target = event.target;
-                const parent = target.parentNode;
-                const ancestor = parent.parentNode;
-                const size = fitSize(item.sample_width, item.sample_height);
-                parent.style.width = size.fitW + "px";
-                parent.style.height = size.fitH + "px";
-                parent.style.position = 'fixed';
-                target.style.width = size.fitW + "px";
-                target.style.height = size.fitH + "px";
-                parent.classList.toggle('active');
+                if (this.isPopUp) {
+                    item.fitSize = {
+                        width: item.preview_width + 'px',
+                        height: item.preview_height + 'px'
+                    };
+                    item.position = {
+                        width: item.preview_width + 'px',
+                        height: item.preview_height + 'px'
+                    }
+                } else {
+                    const size = fitSize(item.sample_width, item.sample_height);
+                    const pos = position(size.fitW, size.fitH, event.target);
+                    item.fitSize = {
+                        width: size.fitW + 'px',
+                        height: size.fitH + 'px'
+                    };
+                    item.position = {
+                        width: size.fitW + 'px',
+                        height: size.fitH + 'px',
+                        transform: `translate(${pos.left}px,${pos.top}px)`,
+                        position: 'fixed',
+                        zIndex: 10
+                    }
+                    if (!item.loadedSample) {
+                        getSampleImg((reponse) => {
+                            item.current_url = reponse.data.data_url;
+                            item.loadedSample = true;
+                        }, item.sample);
+                    }
+                }
+                this.isPopUp =!this.isPopUp;
+                // parent.classList.toggle('active');
             }
         },
         watch: {
@@ -124,6 +132,17 @@
         ready() {
             const getData = (currentPage, isSafe, tags) => {
                 getPost((response) => {
+                    response.data.images.forEach((val) => {
+                        val.current_url = val.prev_url;
+                        val.fitSize = {
+                            width: val.preview_width + 'px',
+                            height: val.preview_height + 'px'
+                        }
+                        val.position = {
+                            width: val.preview_width + 'px',
+                            height: val.preview_height + 'px'
+                        }
+                    })
                     this.listData = response.data.images;
                     this.pages = response.data.pages;
                     this.showLoading = false;
@@ -131,7 +150,7 @@
                     setSession('currentPage', currentPage);
                     if (getLocal('rememberPage')) {
                         setLocal('currentPage', currentPage);
-                    }
+                    } 
                     this.$dispatch('listReady', { pages: this.pages, currentPage });
                 }, currentPage, isSafe, tags);
             };
@@ -183,14 +202,12 @@
             position: absolute;
         }
         figure {
-            border-radius: 5px;
             display:inline-block;
             background:white;
             cursor:pointer;
             transform-origin:center center;
-            transition:all 0.4s ease-in-out;
+            transition:all 0.4s ease;
             font-size: 16px;
-            margin:5px;
             position: absolute;
             $actionSize:35px;
             >a {
@@ -216,16 +233,16 @@
         img {
             display: block;
             object-fit: cover;
-            border-radius:5px;
             transition: all $transitionTime ease;
         }
+        &.popUp {
+            figure {
+                transform:translateX(-100vw);
+            }
+        }
     }
-    .staggered-transition {
-        transform:rotateY(0deg);
-    }
-    .staggered-enter, .staggered-leave {
-        opacity: 0;
-        transform:rotateY(90deg);
+    .item-move {
+        transition: all .5s cubic-bezier(.55,0,.1,1);
     }
     .sampleCon {
         transition: all $transitionTime ease-in-out;

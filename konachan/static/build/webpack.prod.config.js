@@ -1,6 +1,5 @@
 var webpack = require('webpack')
 var config = require('./webpack.base.config')
-var StringReplacePlugin = require('string-replace-webpack-plugin');
 config.output.publicPath = 'http://acglife.club/static/dist/';
 config.plugins = (config.plugins || []).concat([
   // this allows uglify to strip all warnings
@@ -18,25 +17,8 @@ config.plugins = (config.plugins || []).concat([
     }
   }),
   new webpack.optimize.OccurenceOrderPlugin(),
+  new webpack.optimize.DedupePlugin(),
   new StringReplacePlugin()
 ])
 
-/*
-* replace the test server address
-*/
-config.module.loaders = (config.module.loaders || []).concat([
-    {
-        test: /servers\.js/,
-        loader: StringReplacePlugin.replace({ 
-            replacements: [
-                {
-                    pattern: /http:\/\/localhost:\d+/ig,
-                    replacement: function(match, p1, offset, string) {
-                       return "";
-                    }
-                }
-            ]
-        })
-    }
-])
 module.exports = config
