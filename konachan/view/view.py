@@ -51,7 +51,7 @@ def getXmlData(isSafe, page, tags=""):
     if page > count:
         return {"success": "false", "reason": "out of range","outRange":"true"}
     data = {"pages": count, "images": []}
-    reg = re.compile(r'http://.+\.(jpg|png|jpeg|gif|svg|bmp|webp|bpg)')
+    reg = re.compile(r'//.+\.(jpg|png|jpeg|gif|svg|bmp|webp|bpg)')
     if len(imgs):
         for img in imgs:
             rating = img['rating']
