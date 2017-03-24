@@ -7,10 +7,11 @@
         <meta name="keywords" content="animation, acg, Manga wallpapers, wallpapers, comic" />
         <meta name="description" content=" a website of many great manga wallpapers"/>
         <title>BetterKonachan</title>
-        <link rel="shortcut icon" href="/static/dist/images/favicon.ico" type="image/x-icon">
+        <%=htmlWebpackPlugin.files.webpackManifest%>
     </head>
     <body>
-        <app></app>
-        <script src="dist/build.js"></script>
+        <div id="app">
+
+        </div>
     </body>
 </html>

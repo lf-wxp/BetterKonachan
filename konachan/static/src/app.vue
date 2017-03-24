@@ -2,38 +2,38 @@
   <div id="wrap">
     <article class="top">
         <v-search></v-search>
-        <v-music></v-music>
-        <v-header></v-header>
+<!--         <v-music></v-music>
+        <v-header></v-header> -->
     </article>
     <article>
     </article>
     <article>
     </article>
-        <v-list></v-list>
+<!--         <v-list></v-list>
         <v-footer></v-footer>
         <v-pager></v-pager>
-        <v-setting></v-setting>
+        <v-setting></v-setting> -->
   </div>
 </template>
 
 <script>
-    import vHeader from './components/vHeader.vue';
-    import vMusic from './components/vMusic.vue';
+    // import vHeader from './components/vHeader.vue';
+    // import vMusic from './components/vMusic.vue';
+    // import vPager from './components/vPager.vue';
+    // import vList from './components/vList.vue';
+    // import vSetting from './components/vSetting.vue';
+    // import vFooter from './components/vFooter.vue';
     import vSearch from './components/vSearch.vue';
-    import vPager from './components/vPager.vue';
-    import vList from './components/vList.vue';
-    import vSetting from './components/vSetting.vue';
-    import vFooter from './components/vFooter.vue';
 
     export default {
         components: {
-            vHeader,
-            vMusic,
             vSearch,
-            vPager,
-            vList,
-            vSetting,
-            vFooter
+            // vHeader,
+            // vMusic,
+            // vPager,
+            // vList,
+            // vSetting,
+            // vFooter
         },
         ready() {
             this.$on('listReady', (data) => {
@@ -61,7 +61,7 @@
         box-sizing: border-box;
         background-image: url('./assets/images/b3.jpg');
         background-repeat: no-repeat;
-        background-size:cover; 
+        background-size:cover;
         background-color:#252323;
         background-blend-mode:multiply;
         >article {
@@ -117,7 +117,7 @@
     @media screen and (max-width:705px) {
         #Mmusic {
             margin-right:10px!important;
-            margin-left: 10px!important; 
+            margin-left: 10px!important;
         }
     }
     ::-webkit-scrollbar {
