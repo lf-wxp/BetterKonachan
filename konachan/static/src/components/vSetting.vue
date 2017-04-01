@@ -13,7 +13,7 @@
     </section>
 </template>
 <script>
-    import { getLocal, setLocal, getSession } from '../servers/servers.js';
+    import { getLocal, setLocal, getSession } from 'servers/servers.js';
     export default {
         data() {
             return {

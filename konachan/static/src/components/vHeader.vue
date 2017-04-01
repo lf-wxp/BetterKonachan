@@ -5,7 +5,7 @@
     </section>
 </template>
 <script>
-    import Bubble from '../lib/bubbleBg.js';
+    import Bubble from 'lib/bubbleBg.js';
     export default {
         data() {
             return {
@@ -13,7 +13,7 @@
                 isDialog: false
             };
         },
-        ready() {
+        mounted() {
             /* 由于使用flex 布局，在后面的模块没加载之前是占满整个父元素的，这样计算canvas的宽高有偏差
              * 所以放在定时器里
             */

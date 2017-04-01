@@ -1,12 +1,12 @@
 <template>
     <section id="list">
         <div class="listCon" :class="[isPopUp ? 'popUp' : '']">
-            <waterfall :line-gap="300" :min-line-gap="300" :max-line-gap="300" :single-max-width="300" :watch="listData" :auto-resize="true" :align="center">
-              <waterfall-slot v-for="item in listData" :width="item.preview_width" :height="item.preview_height" :order="$index" move-class="item-move"
+            <waterfall :line-gap="300" :min-line-gap="300" :max-line-gap="300" :single-max-width="300" :watch="listData" :auto-resize="true" align="center">
+              <waterfall-slot v-for="(item,index) in listData" :width="item.preview_width" :height="item.preview_height" :order="index" move-class="item-move"
 >
                     <figure :style="item.position" transition="stagger" stagger="100">
                         <figcaption>{{ item.width }} / {{ item.height }}</figcaption>
-                        <a href="{{ item.url }}" download="123.png"><i class="icon-download"></i></a>
+                        <a :href="item.url" download="123.png"><i class="icon-download"></i></a>
                         <img :src="item.current_url" alt="" @error="loadError($event)" @click.stop="clickActive($event,item)" :style="item.fitSize">
                     </figure>
               </waterfall-slot>
@@ -16,12 +16,13 @@
     </section>
 </template>
 <script>
-    import { setSession, getSession, getLocal, setLocal, getPost, getSampleImg } from '../servers/servers.js';
-    import vDialog from './vDialog.vue';
-    import vLoading from './vLoading4.vue';
+    import { setSession, getSession, getLocal, setLocal, getPost, getSampleImg } from 'servers/servers.js';
+    import { mapActions } from 'vuex';
+    import vDialog from 'components/vDialog.vue';
+    import vLoading from 'components/vLoading4.vue';
     import Waterfall from 'vue-waterfall/lib/waterfall.vue';
     import WaterfallSlot from 'vue-waterfall/lib/waterfall-slot.vue';
-    import errorImage from '../assets/images/loaderror.png';
+    import errorImage from 'images/loaderror.png';
 
     function fitSize(width, height) { /* 根据窗口大小 调整弹出框大小 */
         const wW = window.innerWidth - 120;
@@ -66,7 +67,7 @@
                 currentPage: 1,
                 showLoading: true,
                 isDialog: false,
-                isPopUp: false, 
+                isPopUp: false,
                 loadSampleSuccess: false,
                 sampleDataUrl: '',
                 sampleSize: {
@@ -85,11 +86,12 @@
             vLoading
         },
         methods: {
+            ...mapActions(['setTPage']),
             loadError(event) {
                 event.target.src = errorImage;
                 event.target.style.objectFit = 'contain';
             },
-            clickActive(event,item) {
+            async clickActive(event,item) {
                 if (this.isPopUp) {
                     item.fitSize = {
                         width: item.preview_width + 'px',
@@ -114,66 +116,35 @@
                         zIndex: 10
                     }
                     if (!item.loadedSample) {
-                        getSampleImg((reponse) => {
-                            item.current_url = reponse.data.data_url;
-                            item.loadedSample = true;
-                        }, item.sample);
+                        const response = await getSampleImg('http:' + item.sample);
+                        item.current_url = reponse.data.data_url;
+                        item.loadedSample = true;
                     }
                 }
                 this.isPopUp =!this.isPopUp;
                 // parent.classList.toggle('active');
             }
         },
-        watch: {
-            pages(val) {
-                setSession.pages = val;
-            }
-        },
-        ready() {
-            const getData = (currentPage, isSafe, tags) => {
-                getPost((response) => {
-                    response.data.images.forEach((val) => {
-                        val.current_url = val.prev_url;
-                        val.fitSize = {
-                            width: val.preview_width + 'px',
-                            height: val.preview_height + 'px'
-                        }
-                        val.position = {
-                            width: val.preview_width + 'px',
-                            height: val.preview_height + 'px'
-                        }
-                    })
-                    this.listData = response.data.images;
-                    this.pages = response.data.pages;
-                    this.showLoading = false;
-                    /* storage the page info */
-                    setSession('currentPage', currentPage);
-                    if (getLocal('rememberPage')) {
-                        setLocal('currentPage', currentPage);
-                    } 
-                    this.$dispatch('listReady', { pages: this.pages, currentPage });
-                }, currentPage, isSafe, tags);
+        mounted() {
+            const getData = async (currentPage, isSafe, tags) => {
+                let response = await getPost(currentPage, isSafe, tags);
+                response.data.images.forEach((val) => {
+                    val.current_url = val.prev_url;
+                    val.fitSize = {
+                        width: val.preview_width + 'px',
+                        height: val.preview_height + 'px'
+                    }
+                    val.position = {
+                        width: val.preview_width + 'px',
+                        height: val.preview_height + 'px'
+                    }
+                })
+                // this.listData = response.data.images;
+                this.setTPage(response.data.pages);
+                this.pages = response.data.pages;
+                this.showLoading = false;
             };
-            setSession('tags', '');
-            let initPage = 1;
-            let isSafe = true;
-            if (getLocal('rememberPage')) {
-                initPage = getLocal('currentPage') ? getLocal('currentPage') : 1;
-            } else {
-                initPage = getSession('currentPage') ? getSession('currentPage') : 1;
-            }
-            if (getLocal('securityMode') !== undefined) {
-                isSafe = getLocal('securityMode');
-            } else {
-                setLocal('securityMode', true);
-            }
-            getData(Number(initPage), isSafe, '');
-            this.$on('invoke', (data) => {
-                const tags = getSession('tags');
-                const isSafe = getLocal('securityMode');
-                this.showLoading = true;
-                getData(data.currentPage, isSafe, tags);
-            });
+            getData();
         }
     };
 </script>

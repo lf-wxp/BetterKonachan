@@ -2,38 +2,38 @@
   <div id="wrap">
     <article class="top">
         <v-search></v-search>
-<!--         <v-music></v-music>
-        <v-header></v-header> -->
+         <v-music></v-music>
+        <v-header></v-header>
     </article>
     <article>
     </article>
     <article>
     </article>
-<!--         <v-list></v-list>
+        <v-list></v-list>
         <v-footer></v-footer>
         <v-pager></v-pager>
-        <v-setting></v-setting> -->
+        <v-setting></v-setting>
   </div>
 </template>
 
 <script>
-    // import vHeader from './components/vHeader.vue';
-    // import vMusic from './components/vMusic.vue';
-    // import vPager from './components/vPager.vue';
-    // import vList from './components/vList.vue';
-    // import vSetting from './components/vSetting.vue';
-    // import vFooter from './components/vFooter.vue';
-    import vSearch from './components/vSearch.vue';
+    import vHeader from 'components/vHeader.vue';
+    import vMusic from 'components/vMusic.vue';
+    import vPager from 'components/vPager.vue';
+    import vList from 'components/vList.vue';
+    import vSetting from 'components/vSetting.vue';
+    import vFooter from 'components/vFooter.vue';
+    import vSearch from 'components/vSearch.vue';
 
     export default {
         components: {
             vSearch,
-            // vHeader,
-            // vMusic,
-            // vPager,
-            // vList,
-            // vSetting,
-            // vFooter
+            vHeader,
+            vMusic,
+            vPager,
+            vList,
+            vSetting,
+            vFooter
         },
         ready() {
             this.$on('listReady', (data) => {

@@ -126,6 +126,7 @@ class postAPI(Resource, postParams):
         page = int(request.args.get('page', 1))
         tags = request.args.get('tags', '')
         return getXmlData(isSafe, page, tags)
+
 api = Api(blueprint)
 api.add_resource(postAPI, "/post", endpoint="post")
 api.add_resource(picAPI, "/pic", endpoint="pic")

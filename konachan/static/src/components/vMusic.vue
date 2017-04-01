@@ -226,9 +226,9 @@
             return is2b(min) + ':' + is2b(sec);
         }
     }
-    import { getMusic } from '../servers/servers.js';
-    import vLoading from './vLoading2.vue';
-    import Util from '../lib/util.js';
+    import { getMusic } from 'servers/servers.js';
+    import vLoading from 'components/vLoading2.vue';
+    import Util from 'lib/util.js';
     const initData = {
         bufferedPercentage: { width: '0%' },
         playedPercentage: { width: '0%' },
@@ -307,16 +307,15 @@
             }
         },
         props: ['mplayer'],
-        ready() {
-            // svg stroke animation event 
-            document.querySelector('.strokeAnima rect').addEventListener(Util.whichAnimationEventEnd(), () => {
+        mounted() {
+            // svg stroke animation event
+            document.querySelector('.strokeAnima rect').addEventListener(Util.whichAnimationEventEnd(), async () => {
+                const response = await getMusic();
                 this.showLoading = true;
-                getMusic((response) => {
-                    this.mPlayer = new Mplayer(Object.assign({}, { listSongs: response.data }, { vueData: initData }));
-                    this.showLoading = false;
-                    this.isStrokeAnimationEnd = true;
-                    this.mPlayer.init();
-                });
+                this.mPlayer = new Mplayer(Object.assign({}, { listSongs: response.data }, { vueData: initData }));
+                this.showLoading = false;
+                this.isStrokeAnimationEnd = true;
+                this.mPlayer.init();
             }, false);
         }
     };

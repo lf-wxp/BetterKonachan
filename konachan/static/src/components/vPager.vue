@@ -1,76 +1,75 @@
 <template>
     <section id="pager" :class="[ isActive ? 'active':'']">
-        <i class="icon-keyboard_arrow_up" @click="invoke(page - 1)" v-if="page - 1"></i>
-        <i class="icon-keyboard_arrow_down" @click="invoke(page + 1)" v-if="total - page > 0"></i>
+        <span @click="invoke(cPage - 1)" :class="[cPage - 1 ? '':'disabled']">
+            <i></i>
+        </span>
+        <span @click="invoke(cPage + 1)" :class="[tPage - cPage > 0 ? '':'disabled']">
+            <i></i>
+        </span>
         <div class="pagerCon">
-            <ul>
-                <li @click="invoke(item)" v-for="item in pageArray" transition="staggered" stagger="50" :class="[ page == item ? 'current' : '']" ><span>{{item}}</span></li>
-            </ul>
+            <transition-group tag="ul" name="page">
+                <li @click="invoke(item)" v-for="item in pageArray" :key="item" :class="[ cPage == item ? 'current' : '']" ><span>{{item}}</span></li>
+            </transition-group>
         </div>
-        <validator name="goToValidation">
-            <form class="pagerGoto">
+            <form class="pagerGoto" novalidate>
                 <em></em>
-                <div><span>{{total}}</span></div>
+                <div><span>{{tPage}}</span></div>
                 <div>
-                    <input type="text"  placeholder="page" v-model='goToPage' v-validate:goToPage="['required', 'numeric']">
+                    <input type="text"  placeholder="page" name="pager" v-model='goToPage' v-validate="'required|numeric'">
                 </div>
-                <button :disabled="$goToValidation.invalid" @click.prevent="goTo"><span>Go</span></button>
+                <button :disabled="errors.has('pager')" @click.prevent="goTo"><span>Go</span></button>
             </form>
-        </validator>
         <div class="placeholder" @click='isActiveFun'></div>
     </section>
 </template>
 <script>
-    import Vue from 'vue';
-    import VueValidator from 'vue-validator';
-    Vue.use(VueValidator);
-    function creatNavPage(current, total, size) { // 创建分页的导航页
-        const half = Math.floor(size / 2);
-        const navpage = [];
-        if (current > half && current < total - half) {
-            for (let i = current - half, j = 0; j < size; j++, i++) {
-                navpage.push(i);
-            }
-        }
-        if (current <= half) {
-            for (let i = 1, j = 0; j < size; j++, i++) {
-                navpage.push(i);
-            }
-        }
-        if (current >= total - half) {
-            for (let i = total - size + 1, j = 0; j < size; j++, i++) {
-                navpage.push(i);
-            }
-        }
-        return navpage;
-    }
+    import { mapGetters, mapActions } from 'vuex';
     export default {
         data() {
             return {
-                pageArray: [],
-                page: 1,
-                total: 1,
                 goToPage: '',
+                size: 4,
                 isActive: false
             };
         },
+        computed: {
+            ...mapGetters(['cPage','tPage']),
+            pageArray(){
+                const half = Math.floor(this.size / 2);
+                const navpage = [];
+                const cPage = this.$store.getters.cPage;
+                const tPage = this.$store.getters.tPage;
+                if (cPage > half && cPage < tPage - half) {
+                    for (let i = cPage - half, j = 0; j < this.size; j++, i++) {
+                        navpage.push(i);
+                    }
+                }
+                if (cPage <= half) {
+                    for (let i = 1, j = 0; j < this.size; j++, i++) {
+                        navpage.push(i);
+                    }
+                }
+                if (cPage >= tPage - half) {
+                    for (let i = tPage - this.size + 1, j = 0; j < this.size; j++, i++) {
+                        navpage.push(i);
+                    }
+                }
+                return navpage;
+            }
+        },
         methods: {
+            ...mapActions(['setCPage']),
             invoke(page) {
-                this.$dispatch('invoke', { currentPage: Number(page) });
+                this.setCPage(page);
             },
             goTo() {
-                this.$dispatch('invoke', { currentPage: Number(this.goToPage) });
+                this.setCPage(Number.parseInt(this.goToPage, 10));
             },
             isActiveFun() {
                 this.isActive = !this.isActive;
             }
         },
-        ready() {
-            this.$on('listReady', (data) => {
-                this.page = data.currentPage;
-                this.pageArray = creatNavPage(data.currentPage, data.pages, 4);
-                this.total = data.pages;
-            });
+        mounted() {
             var vuethis = this;
             // use arrow left and arrow right key to navigate the page
             document.addEventListener("keydown",function(event){
@@ -94,19 +93,12 @@
                         break;
                 }
             });
-        },
-        validators: {
-            /* 自定义 验证规则 */
-            numeric(val) {
-                return /^[-+]?[0-9]+$/.test(val) && val > 0 && val <= this.total;
-            }
         }
     };
 </script>
 <style lang="sass" scoped>
-    @import "../assets/sass/components/_icon";
     $itemSize:40px;
-    $commonBg:rgba(255,255,255,0.2);
+    $commonBg:rgba(0,0,0,1);
     $base:#39CCCC;
     $hoverBg:rgba(#39CCCC,0.5);
     $darkBg1:darken(#39CCCC,5%);
@@ -120,7 +112,7 @@
         animation:spin 2s linear infinite;
         &.active {
             animation:none;
-            >i {
+            >span {
                 &:first-of-type{
                     transform:translate(-100%,100%);
                 }
@@ -169,7 +161,7 @@
                 opacity:0;
             }
         }
-        >i {
+        >span {
             width:$itemSize;
             height:$itemSize;
             position:absolute;
@@ -184,16 +176,60 @@
             transition:all 0.3s ease;
             bottom:$itemSize;
             left: $itemSize;
-            &:before {
+            &:hover {
+                background:teal;
+                &:after,&:before {
+                    background:black!important;
+                }
+            }
+            svg {
                 width:100%;
                 height:100%;
                 display:block;
-                transform:rotate(-135deg);
+                transform:rotate(-45deg);
             }
-            &:last-of-type {
-                &:before {
-                    transform:rotate(225deg);
-                }
+            &:after,&:before {
+                transition:all 0.2s ease;
+            }
+            &:nth-of-type(1) {
+                &:after {
+                    content: '';
+                    position:absolute;
+                    left:5px;
+                    bottom:0;
+                    height:5px;
+                    width:calc( 100% - 5px);
+                    background:teal;
+                  }
+                  &:before {
+                    content:'';
+                    position:absolute;
+                    left: 0;
+                    bottom:0;
+                    height:100%;
+                    width:5px;
+                    background:teal;
+                  }
+            }
+            &:nth-of-type(2){
+                &:after {
+                    content: '';
+                    position:absolute;
+                    right:5px;
+                    top:0;
+                    height:5px;
+                    width:calc( 100% - 5px);
+                    background:teal;
+                  }
+                  &:before {
+                    content:'';
+                    position:absolute;
+                    right: 0;
+                    top:0;
+                    height:100%;
+                    width:5px;
+                    background:teal;
+                  }
             }
         }
     }

@@ -4,7 +4,7 @@
         ["es2015", {
             "modules": false
         }],
-        "stage-2"
+        "stage-3"
     ],
     "plugins": ["syntax-dynamic-import"]
 }

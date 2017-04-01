@@ -1,60 +1,58 @@
 import Vue from 'vue';
-import VueResource from 'vue-resource';
-Vue.use(VueResource);
 
-function getMusic(callback) {
-    Vue.http.get('/music').then((response) => {
-        callback(response);
-    });
+function getMusic() {
+    return Vue.http.get('/music');
 }
 
-function getPost(callback, page, isSafe, tags) {
-    Vue.http.get('/post', {
+function getPost(page = 1, isSafe = true, tags= '') {
+    return Vue.http.get('/post', {
         tags,
         page,
         isSafe
-    }).then((response) => {
-        callback(response);
     });
 }
 
-function getSampleImg(callback, url) {
-    Vue.http.post('/pic', {
+function getSampleImg(url) {
+    return Vue.http.post('/pic', {
         url
-    }).then((response) => {
-        callback(response);
     });
 }
 
 function getLocal(key) {
-    const value = window.localStorage[key];
+    const value = window.localStorage.getItem(key);
     if (value === 'true') {
         return true;
     } else if (value === 'false') {
         return false;
     } else {
-        return value;
+        return Number.parseInt(value, 10) || value;
     }
 }
 
 function setLocal(key, value) {
-    window.localStorage[key] = value;
+    window.localStorage.setItem(key,value);
 }
 
 function getSession(key) {
-    const value = window.sessionStorage[key];
+    const value = window.sessionStorage.getItem(key);
     if (value === 'true') {
         return true;
     } else if (value === 'false') {
         return false;
     } else {
-        return value;
+        return Number.parseInt(value, 10) || value;
     }
 }
 
 function setSession(key, value) {
-    window.sessionStorage[key] = value;
+    window.sessionStorage.setItem(key, value);
 }
 export {
-    getMusic, getPost, getSampleImg, getLocal, setLocal, getSession, setSession
+    getMusic,
+    getPost,
+    getSampleImg,
+    getLocal,
+    setLocal,
+    getSession,
+    setSession
 };

@@ -59,11 +59,14 @@ const plugins = [
 
 const resolve = {
     alias: {
-        components: path.join(__dirname, '../components'),
-        modules: path.join(__dirname, '../modules'),
-        sass: path.join(__dirname, '../assets/sass'),
-        fonts: path.join(__dirname, '../assets/fonts'),
-        images: path.join(__dirname, '../assets/images')
+        components: path.join(__dirname, '../src/components'),
+        modules: path.join(__dirname, '../src/modules'),
+        sass: path.join(__dirname, '../src/assets/sass'),
+        fonts: path.join(__dirname, '../src/assets/fonts'),
+        images: path.join(__dirname, '../src/assets/images'),
+        lib: path.join(__dirname, '../src/lib'),
+        servers: path.join(__dirname, '../src/servers'),
+        store: path.join(__dirname, '../src/store')
     },
     modules: [path.resolve(__dirname, '../modules'), 'node_modules'],
     extensions: ['.js', '.scss', '.json', '.vue'],

@@ -8,7 +8,7 @@
     </section>
 </template>
 <script>
-    import { getSession, setSession } from '../servers/servers.js';
+    import { getSession, setSession } from 'servers/servers.js';
     export default {
         data() {
             return {
