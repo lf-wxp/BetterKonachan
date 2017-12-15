@@ -64,14 +64,14 @@ def getXmlData(isSafe, page, tags=""):
                 url = img['file_url']
                 prev_url = img['preview_url']
                 sample = img['sample_url']
-                sample_height = img['sample_height']
-                sample_width = img['sample_width']
+                sample_height = int(img['sample_height'])
+                sample_width = int(img['sample_width'])
                 md5 = img['md5']
                 filetype = re.findall(reg, url)[0]
-                width = img['width']
-                height = img['height']
-                preview_width = img['actual_preview_width']
-                preview_height = img['actual_preview_height']
+                width = int(img['width'])
+                height = int(img['height'])
+                preview_width = int(img['actual_preview_width'])
+                preview_height = int(img['actual_preview_height'])
                 data['images'].append(
                     {"url": url, "prev_url": prev_url, "sample": sample, "sample_height": sample_height, "sample_width": sample_width, "name": md5 + "." + filetype, "width": width, "height": height, 'preview_width': preview_width, 'preview_height':preview_height})
         return data

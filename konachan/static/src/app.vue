@@ -1,18 +1,18 @@
 <template>
   <div id="wrap">
     <article class="top">
-        <v-search></v-search>
-         <v-music></v-music>
-        <v-header></v-header>
+        <!-- <v-search></v-search> -->
+        <!-- <v-music></v-music> -->
+        <!-- <v-header></v-header> -->
     </article>
     <article>
     </article>
     <article>
     </article>
         <v-list></v-list>
-        <v-footer></v-footer>
-        <v-pager></v-pager>
-        <v-setting></v-setting>
+        <!-- <v-footer></v-footer> -->
+        <!-- <v-pager></v-pager> -->
+        <!-- <v-setting></v-setting> -->
   </div>
 </template>
 

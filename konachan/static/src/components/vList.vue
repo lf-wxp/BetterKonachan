@@ -1,16 +1,15 @@
 <template>
     <section id="list">
         <div class="listCon" :class="[isPopUp ? 'popUp' : '']">
-            <waterfall :line-gap="300" :min-line-gap="300" :max-line-gap="300" :single-max-width="300" :watch="listData" :auto-resize="true" align="center">
-              <waterfall-slot v-for="(item,index) in listData" :width="item.preview_width" :height="item.preview_height" :order="index" move-class="item-move"
->
-                    <figure :style="item.position" transition="stagger" stagger="100">
+            <v-waterfall :gap="10" :style="">
+                <v-waterfall-item v-for="(item,index) in listData" :key="item" :width="item.preview_width" :height="item.preview_height" >
+                    <figure :style="item.position">
                         <figcaption>{{ item.width }} / {{ item.height }}</figcaption>
                         <a :href="item.url" download="123.png"><i class="icon-download"></i></a>
                         <img :src="item.current_url" alt="" @error="loadError($event)" @click.stop="clickActive($event,item)" :style="item.fitSize">
                     </figure>
-              </waterfall-slot>
-            </waterfall>
+                </v-waterfall-item>
+            </v-waterfall>
         </div>
         <v-loading :show='showLoading'></v-loading>
     </section>
@@ -20,8 +19,8 @@
     import { mapActions } from 'vuex';
     import vDialog from 'components/vDialog.vue';
     import vLoading from 'components/vLoading4.vue';
-    import Waterfall from 'vue-waterfall/lib/waterfall.vue';
-    import WaterfallSlot from 'vue-waterfall/lib/waterfall-slot.vue';
+    import vWaterfall from 'components/vWaterfall.vue';
+    import vWaterfallItem from 'components/vWaterfallItem.vue';
     import errorImage from 'images/loaderror.png';
 
     function fitSize(width, height) { /* 根据窗口大小 调整弹出框大小 */
@@ -76,12 +75,12 @@
                 },
                 samplePosition:{
 
-                }
+                },
             };
         },
         components: {
-            Waterfall,
-            WaterfallSlot,
+            vWaterfall,
+            vWaterfallItem,
             vDialog,
             vLoading
         },
@@ -139,7 +138,7 @@
                         height: val.preview_height + 'px'
                     }
                 })
-                // this.listData = response.data.images;
+                this.listData = response.data.images;
                 this.setTPage(response.data.pages);
                 this.pages = response.data.pages;
                 this.showLoading = false;

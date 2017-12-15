@@ -1,9 +1,31 @@
 {
-  "extends": "eslint-config-airbnb",
+  "parser": "babel-eslint",
+  "parserOptions": {
+      "sourceType": "module",
+      "allowImportExportEverywhere": true
+  },
+  "extends": "airbnb-base",
+  "plugins": [
+      "import"
+  ],
+  "env": {
+      "browser": true,
+      "es6": true
+  },
   "rules": {
-    // disable requiring trailing commas because it might be nice to revert to
-    // being JSON at some point, and I don't want to make big changes now.
-    "comma-dangle": 0,
-    "indent": [2, 4]
+      //缩进设置为4个空格
+      "indent": ["error", 4],
+      "import/extensions": 0,
+      "import/no-extraneous-dependencies": 0,
+      "import/no-unresolved": 0,
+      "linebreak-style": [0],
+      "max-len": ["error", 150]
+  },
+  "globals": {
+      "jQuery": true,
+      "$": true,
+      "LANG": true,
+      "axios": true
   }
 }
+
