@@ -1,0 +1,16 @@
+{
+    "presets": [
+        ["env", {
+            "target": {
+                "browsers": ["last 2 versions", "ie >=9"]
+            },
+            "modules": false,
+            "useBuildIns": true
+        }]
+    ],
+    "plugins": [
+        "transform-class-properties",
+        "syntax-dynamic-import",
+        "transform-object-rest-spread"
+    ]
+}

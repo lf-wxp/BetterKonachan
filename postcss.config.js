@@ -1,14 +1,11 @@
 module.exports = {
     plugins: [
         require('postcss-import')({
-            path: ['resources/assets/']
-        }),
-        require('postcss-assets')({
-            loadPaths: ['resources/assets/common/'] 
+            path: ['resource/assets/']
         }),
         // require('postcss-url'),
         // require('postcss-simple-vars'),
-        require('postcss-color-function'),
+        // require('postcss-color-function'),
         require('postcss-extend'),
         require('postcss-nested'),
         require('postcss-mixins'),

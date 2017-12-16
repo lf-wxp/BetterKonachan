@@ -1,0 +1,25 @@
+{
+    "parserOptions": {
+        "parser": "babel-eslint",
+        "sourceType": "module",
+        "allowImportExportEverywhere": true
+    },
+    "extends": ["airbnb-base","plugin:vue/recommended"],
+    "plugins": [
+        "import",
+        "vue"
+    ],
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "rules": {
+        "indent": ["error", 4],
+        "vue/html-indent": ["error", 4],
+        "import/extensions": 0,
+        "import/no-extraneous-dependencies": 0,
+        "import/no-unresolved": 0,
+        "linebreak-style": [0],
+        "max-len": ["error", 150]
+    }
+}
