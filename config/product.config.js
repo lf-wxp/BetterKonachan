@@ -25,19 +25,19 @@ base.module.rules.push({
     test: /\.(sass|scss)$/,
     exclude: /node_modules/,
     use: ExtractTextPlugin.extract({
-        use: ['css-loader', 'sass-loader'],
+        use: ['css-loader', 'postcss-loader'],
         fallback: 'style-loader',
         publicPath: '../dist/css/',
     }),
 });
 module.exports = {
-    context: path.resolve(__dirname, '../'),
+    context: path.resolve(__dirname, '../resource/'),
     entry: base.entry,
     output: {
         filename: '[name].[chunkhash:8].js',
         chunkFilename: '[name].[chunkhash:8].js',
         publicPath: '/assets/',
-        path: 'dist',
+        path: path.resolve(__dirname, '../resource/dist'),
     },
     module: base.module,
     devtool: 'cheap-module-source-map',

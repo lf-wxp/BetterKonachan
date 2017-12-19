@@ -4,8 +4,8 @@
         <h1>BetterKonachan</h1>
     </section>
 </template>
-<script>
-    import Bubble from 'modules/bubbleBg.js';
+<script lang="ts">
+    // import Bubble from 'modules/bubbleBg.js';
     export default {
         data() {
             return {
@@ -18,7 +18,7 @@
              * 所以放在定时器里
             */
             setTimeout(() => {
-                new Bubble(document.querySelector('#header canvas'));
+                // new Bubble(document.querySelector('#header canvas'));
             }, 1000);
         }
     };

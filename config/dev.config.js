@@ -11,9 +11,9 @@ const devPlugins = [
     new webpack.NamedModulesPlugin(),
 ];
 base.module.rules.push({
-    test: /\.(sass|scss)$/,
+    test: /\.css$/,
     exclude: /node_modules/,
-    use: ['style-loader', 'css-loader', 'sass-loader'],
+    use: ['style-loader', 'css-loader', 'postcss-loader'],
 });
 module.exports = {
     entry: base.entry,

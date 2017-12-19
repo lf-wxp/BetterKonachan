@@ -3,17 +3,33 @@ const InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin');
 const path = require('path');
 
 const entry = {
-    app: ['babel-polyfill', './app.js'],
+    app: './app.ts',
 };
 
+console.log(path.resolve(__dirname, '../tsconfig.vue.json'));
 const wpModule = {
     rules: [{
         test: /\.js$/,
         exclude: /node_modules/,
         use: ['babel-loader'],
     }, {
+        test: /\.ts$/,
+        exclude: /node_modules/,
+        use: [{
+            loader: 'ts-loader',
+            options: {
+                configFile: path.resolve(__dirname, '../tsconfig.vue.json'),
+                appendTsSuffixTo: [/\.vue$/],
+            },
+        }],
+    }, {
         test: /\.vue$/,
-        use: ['vue-loader'],
+        use: {
+            loader: 'vue-loader',
+            options: {
+                esModule: true,
+            },
+        },
     }, {
         test: /\.(png|jpg|gif)$/,
         use: [{
@@ -62,7 +78,7 @@ const resolve = {
 
     },
     modules: [path.resolve(__dirname, '../resource/modules'), 'node_modules'],
-    extensions: ['.js', '.css', '.json', '.vue'],
+    extensions: ['.ts', '.css', '.json', '.vue', '.js'],
 };
 module.exports = {
     entry,

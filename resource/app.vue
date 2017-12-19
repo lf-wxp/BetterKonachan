@@ -2,7 +2,7 @@
     <div id="wrap">
         <article class="top">
             <!-- <v-search></v-search> -->
-            <v-music/>
+            <!-- <v-music/> -->
             <v-header/>
         </article>
         <article/>
@@ -14,7 +14,9 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
+import Component from 'vue-class-component';
 import vHeader from 'components/vHeader.vue';
 import vMusic from 'components/vMusic.vue';
 // import vPager from 'components/vPager.vue';
@@ -22,7 +24,7 @@ import vMusic from 'components/vMusic.vue';
 // import vSetting from 'components/vSetting.vue';
 // import vFooter from 'components/vFooter.vue';
 // import vSearch from 'components/vSearch.vue';
-export default {
+@Component({
     components: {
     // vSearch,
         vHeader,
@@ -31,15 +33,17 @@ export default {
     // vList,
     // vSetting,
     // vFooter
-    },
+    }
+})
+export default class App extends Vue {
     ready() {
         this.$on('listReady', (data) => {
-            this.$broadcast('listReady', data);
+            this.$emit('listReady', data);
         });
         this.$on('invoke', (data) => {
-            this.$broadcast('invoke', data);
+            this.$emit('invoke', data);
         });
-    },
+    }
 };
 </script>
 

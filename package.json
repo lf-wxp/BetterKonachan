@@ -5,9 +5,9 @@
   "repository": {},
   "license": "MIT",
   "scripts": {
-    "dev": "webpack-dev-server --hot --inline --config config/dev.config.js",
+    "client:dev": "webpack-dev-server --hot --inline --config config/dev.config.js",
     "clearup": "node tools/clearup.js",
-    "build": "node tools/clearup.js && webpack --progress --config config/product.config.js",
+    "client:build": "webpack --progress --config config/product.config.js",
     "server:build": "tsc --p tsconfig.koa.json",
     "server:watch": "tsc --p tsconfig.koa.json --w",
     "server:run": "nodemon dist/app.js"
@@ -36,6 +36,7 @@
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/cheerio": "^0.22.6",
+    "@types/es6-collections": "^0.5.31",
     "@types/koa": "^2.0.43",
     "@types/koa-bodyparser": "^3.0.26",
     "@types/koa-logger": "^3.1.0",
@@ -73,9 +74,11 @@
     "postcss-mixins": "^6.2.0",
     "postcss-nested": "^3.0.0",
     "style-loader": "^0.19.1",
+    "ts-loader": "^3.2.0",
     "tslib": "^1.8.1",
     "tslint": "^5.8.0",
     "url-loader": "^0.6.2",
+    "vue-class-component": "^6.1.2",
     "vue-loader": "^13.6.0",
     "vue-template-compiler": "^2.5.11",
     "webpack": "^3.10.0",

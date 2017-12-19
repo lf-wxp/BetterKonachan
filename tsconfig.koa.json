@@ -5,6 +5,7 @@
         "sourceMap": true, // 生成资源映射，以便于调试
         "noEmitHelpers": true, // 不生成辅助方法，对应importHelpers
         "importHelpers": true, // 引用外部的辅助方法 
+        "experimentalDecorators": true,
         "allowUnreachableCode": true, // 允许代码中途return产生无法执行代码
         "moduleResolution":"node",
         "lib": [
