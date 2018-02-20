@@ -1,4 +1,5 @@
 require('babel-core/register');
+require('babel-polyfill');
 const Nestease = require('./lib/netease');
 const PicData = require('./lib/picData');
 const koa = require('koa');
@@ -57,4 +58,6 @@ app
     .use(router.routes())
     .use(serve(path.join(__dirname, 'asset')))
     .use(router.allowedMethods())
-    .listen(80);
+    // .listen(80);
+
+module.exports = app;
