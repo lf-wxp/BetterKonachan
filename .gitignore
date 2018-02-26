@@ -53,6 +53,4 @@ docs/_build/
 # PyBuilder
 target/
 node_modules
-.sass-cache/
-!konachan/static/build/
-!konachan/static/src/lib
+.vscode

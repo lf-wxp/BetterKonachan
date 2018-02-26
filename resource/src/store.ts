@@ -1,10 +1,9 @@
-/* eslint no-param-reassign: ["error", { "props": false }] */
 import Vue from 'vue';
 import Vuex from 'vuex';
 import {
     getLocal,
     setLocal,
-} from 'base/service';
+} from './service';
 
 Vue.use(Vuex);
 

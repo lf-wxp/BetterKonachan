@@ -17,8 +17,9 @@
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import vHeader from 'components/vHeader.vue';
-import vMusic from 'components/vMusic.vue';
+import 'normalize.css';
+import vHeader from './components/vHeader.vue';
+// import vMusic from 'components/vMusic.vue';
 // import vPager from 'components/vPager.vue';
 // import vList from 'components/vList.vue';
 // import vSetting from 'components/vSetting.vue';
@@ -28,7 +29,7 @@ import vMusic from 'components/vMusic.vue';
     components: {
     // vSearch,
         vHeader,
-        vMusic,
+        // vMusic,
     // vPager,
     // vList,
     // vSetting,
@@ -46,11 +47,7 @@ export default class App extends Vue {
     }
 };
 </script>
-
-<style>
-    @import "css/base/_normalize";
-    /* @import "css/help/_helper"; */
-    @import "css/components/_font";
+<style lang="postcss">
     #wrap {
         font-size: 20px;
         background: #282828;
@@ -59,7 +56,6 @@ export default class App extends Vue {
         padding: 1px;
         overflow: hidden;
         box-sizing: border-box;
-        background-image: url("./assets/images/b3.jpg");
         background-repeat: no-repeat;
         background-size: cover;
         background-color: #252323;

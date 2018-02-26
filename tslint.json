@@ -2,7 +2,7 @@
     "extends": "tslint:recommended",
     "rules": {
         "max-line-length": {
-            "options": [120]
+            "options": [150]
         },
         "quotemark": {
             "options": [
@@ -17,6 +17,7 @@
         "no-bitwise": true,
         "no-conditional-assignment": true,
         "no-consecutive-blank-lines": false,
+        "no-unused-expression": false,
         "no-console": {
             "severity": "warning",
             "options": [
@@ -31,7 +32,7 @@
     },
     "jsRules": {
         "max-line-length": {
-            "options": [120]
+            "options": [150]
         }
     }
 }

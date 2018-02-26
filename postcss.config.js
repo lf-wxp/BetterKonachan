@@ -1,18 +1,11 @@
 module.exports = {
     plugins: [
-        require('postcss-import')({
-            path: ['resource/assets/']
+        require('postcss-normalize')({
+            'browserslist': 'last 2 versions',
         }),
-        // require('postcss-url'),
-        // require('postcss-simple-vars'),
-        // require('postcss-color-function'),
-        require('postcss-extend'),
-        require('postcss-nested'),
-        require('postcss-mixins'),
+        require('postcss-import')({
+            path: ['resource/src/css', 'resource/src/fonts', 'resource/src/images'],
+        }),
         require('postcss-cssnext'),
-        // require('postcss-iconfont')({
-        //     outputPath: './public/dist/fonticon/',
-        //     publishPath: '../fonticon/',
-        // }),
     ]
 }

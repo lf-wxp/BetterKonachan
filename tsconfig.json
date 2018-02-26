@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "target": "es5", 
+        "module": "commonjs",
+        "sourceMap": true,
+        "noEmitHelpers": true, 
+        "importHelpers": true, 
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "allowSyntheticDefaultImports":true,
+        "allowUnreachableCode": true,
+        "moduleResolution": "node",
+        "lib": [
+            "es2017",
+            "dom"
+        ],
+        "typeRoots": [
+            "node_modules/@types"
+        ]
+    },
+    "files": [ "server.ts" ],
+    "exclude": [
+        "node_modules", 
+        "**/*.test.ts", 
+        "assets"
+    ]
+}

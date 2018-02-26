@@ -5,12 +5,12 @@ import * as koaRouter from 'koa-router';
 import * as serve from 'koa-static';
 import * as path from 'path';
 import * as views from 'koa-views';
-import Nestease from './lib/netease';
-import PicData from './lib/picData';
+import Nestease from './module/netease';
+import PicData from './module/picData';
 
-const app = new Koa();
-const router = new koaRouter();
-let totalPage = 0;
+const app: Koa = new Koa();
+const router: koaRouter = new koaRouter();
+let totalPage: number  = 0;
 
 const viewConf = views(path.join(__dirname, 'templates'), {
     map: {
@@ -24,10 +24,6 @@ PicData.getPage().then((page) => {
 
 router.get('/', async (ctx) => {
     await ctx.render('index');
-});
-
-router.get('/test', async (ctx) => {
-    ctx.body = 'hello world test page';
 });
 
 router.get('/music', async (ctx) => {

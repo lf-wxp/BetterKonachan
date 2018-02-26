@@ -23,7 +23,7 @@
         }
     };
 </script>
-<style>
+<style lang="postcss">
     #header {
         background-size:cover;
         width:400px;

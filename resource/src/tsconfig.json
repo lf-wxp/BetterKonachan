@@ -1,10 +1,12 @@
 {
     "compilerOptions": {
         "target": "es5", 
-        "module": "commonjs", 
+        "module": "es2015", 
         "sourceMap": true, 
         "noEmitHelpers": true, 
         "importHelpers": true,
+        "allowSyntheticDefaultImports":true,
+        "strictFunctionTypes": false,
         "experimentalDecorators": true,
         "allowUnreachableCode": true,
         "moduleResolution": "node",
@@ -16,17 +18,15 @@
             "dom"
         ],
         "typeRoots": [
-            "node_modules/@types"
+            "node_modules/@types",
+            "types"
         ],
-        "types": [ 
-            "vue",
-            "es6-collections"
-        ],
-        "outDir": "./resource/dist",
-        "rootDir": "./"
+        "outDir": "../dist",
     },
+    "include": [
+        "./*"
+    ],
     "exclude": [
-        "src",
         "modules",
         "node_modules",
         "**/*.test.ts"

@@ -14,7 +14,7 @@ function getPost(page = 1, isSafe = true, tags = '') {
     });
 }
 
-function getSampleImg(url) {
+function getSampleImg(url: string) {
     return axios.get('/pic', {
         params: {
             url,
@@ -22,9 +22,9 @@ function getSampleImg(url) {
     });
 }
 
-function getLocal(key) {
-    const value = window.localStorage.getItem(key);
-    let result;
+function getLocal(key: string) {
+    const value = window.localStorage.getItem(key) || '';
+    let result: boolean | number | string;
     if (value === 'true') {
         result = true;
     } else if (value === 'false') {
@@ -35,13 +35,13 @@ function getLocal(key) {
     return result;
 }
 
-function setLocal(key, value) {
+function setLocal(key: string, value: string) {
     window.localStorage.setItem(key, value);
 }
 
-function getSession(key) {
-    const value = window.sessionStorage.getItem(key);
-    let result;
+function getSession(key: string) {
+    const value: string = window.sessionStorage.getItem(key) || '';
+    let result: boolean | number | string;
     if (value === 'true') {
         result = true;
     } else if (value === 'false') {
@@ -52,7 +52,7 @@ function getSession(key) {
     return result;
 }
 
-function setSession(key, value) {
+function setSession(key: string, value: string) {
     window.sessionStorage.setItem(key, value);
 }
 export {
