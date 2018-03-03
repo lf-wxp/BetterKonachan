@@ -1,5 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin');
+// const InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
 
@@ -31,6 +31,11 @@ const wpModule = {
             loader: 'vue-loader',
             options: {
                 esModule: true,
+                postcss: {
+                    config: {
+                        path: path.resolve(__dirname, '../'),
+                    },
+                },
             },
         }]
     }, {
@@ -58,9 +63,9 @@ const plugins = [
         template: './src/app.html',
         chunks: ['index'],
     }),
-    new InlineManifestWebpackPlugin({
-        name: 'webpackManifest',
-    }),
+    // new InlineManifestWebpackPlugin({
+    //     name: 'webpackManifest',
+    // }),
     new webpack.WatchIgnorePlugin([
         /css\.d\.ts$/
     ]),
@@ -69,8 +74,8 @@ const plugins = [
 const resolve = {
     alias: {
         components: path.resolve(__dirname, '../assets/src/components'),
-        modules: path.resolve(__dirname, '../resource/src/modules'),
-        assets: path.resolve(__dirname, '../resource/assets/'),
+        modules: path.resolve(__dirname, '../resource/src/module'),
+        src: path.resolve(__dirname, '../resource/src/'),
 
     },
     modules: [path.resolve(__dirname, '../modules'), 'node_modules'],

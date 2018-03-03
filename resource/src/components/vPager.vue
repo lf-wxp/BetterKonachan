@@ -15,97 +15,66 @@
                 <em></em>
                 <div><span>{{tPage}}</span></div>
                 <div>
-                    <input type="text"  placeholder="page" name="pager" v-model='goToPage' v-validate="'required|numeric'">
+                    <input type="text"  placeholder="page" name="pager" v-model='goToPage' >
                 </div>
-                <button :disabled="errors.has('pager')" @click.prevent="goTo"><span>Go</span></button>
+                <button @click.prevent="goTo"><span>Go</span></button>
             </form>
-        <div class="placeholder" @click='isActiveFun'></div>
+        <div class="placeholder" ></div>
     </section>
 </template>
-<script>
-    import { mapGetters, mapActions } from 'vuex';
-    export default {
-        data() {
-            return {
-                goToPage: '',
-                size: 4,
-                isActive: false
-            };
-        },
-        computed: {
-            ...mapGetters(['cPage','tPage']),
-            pageArray(){
-                const half = Math.floor(this.size / 2);
-                const navpage = [];
-                const cPage = this.$store.getters.cPage;
-                const tPage = this.$store.getters.tPage;
-                if (cPage > half && cPage < tPage - half) {
-                    for (let i = cPage - half, j = 0; j < this.size; j++, i++) {
-                        navpage.push(i);
-                    }
-                }
-                if (cPage <= half) {
-                    for (let i = 1, j = 0; j < this.size; j++, i++) {
-                        navpage.push(i);
-                    }
-                }
-                if (cPage >= tPage - half) {
-                    for (let i = tPage - this.size + 1, j = 0; j < this.size; j++, i++) {
-                        navpage.push(i);
-                    }
-                }
-                return navpage;
+<script lang="ts">
+import Vue from 'vue';
+import { Component } from 'vue-property-decorator';
+
+@Component
+export default class vPager extends Vue {
+    goToPage: string = '';
+    size: number = 4;
+    isActive: boolean = true;
+    cPage: number = 4;
+    tPage: number = 10;
+
+    get pageArray() {
+        const half: number = Math.floor(this.size / 2);
+        const navpage: number[] = [];
+        const cPage: number = 4;
+        const tPage: number = 10;
+        if (cPage > half && cPage < tPage - half) {
+            for (let i:number = cPage - half, j = 0; j < this.size; j++, i++) {
+                navpage.push(i);
             }
-        },
-        methods: {
-            ...mapActions(['setCPage']),
-            invoke(page) {
-                this.setCPage(page);
-            },
-            goTo() {
-                this.setCPage(Number.parseInt(this.goToPage, 10));
-            },
-            isActiveFun() {
-                this.isActive = !this.isActive;
-            }
-        },
-        mounted() {
-            var vuethis = this;
-            // use arrow left and arrow right key to navigate the page
-            document.addEventListener("keydown",function(event){
-                var keyPager;
-                switch (event.keyCode) {
-                    case 37:
-                        if (vuethis.page - 1 > 0) {
-                            keyPager = vuethis.page - 1;
-                        } else {
-                            return false;
-                        }
-                    case 39:
-                        if (vuethis.page + 1 < vuethis.total) {
-                            keyPager = vuethis.page + 1;
-                        } else {
-                            return false;
-                        }
-                    case null:
-                        event.preventDefault();
-                        vuethis.invoke(keyPager);
-                        break;
-                }
-            });
         }
-    };
+        if (cPage <= half) {
+            for (let i = 1, j = 0; j < this.size; j++, i++) {
+                navpage.push(i);
+            }
+        }
+        if (cPage >= tPage - half) {
+            for (let i = tPage - this.size + 1, j = 0; j < this.size; j++, i++) {
+                navpage.push(i);
+            }
+        }
+        return navpage;
+    }
+
+    invoke(page:number): void {
+    }
+
+};
 </script>
-<style lang="sass" scoped>
-    $itemSize:40px;
-    $commonBg:rgba(0,0,0,1);
-    $base:#39CCCC;
-    $hoverBg:rgba(#39CCCC,0.5);
-    $darkBg1:darken(#39CCCC,5%);
-    $darkBg2:darken(#39CCCC,10%);
+<style lang="postcss">
+    :root {
+        --itemSize:40px;
+        --commonBg:rgba(0,0,0,1);
+        --base:#39CCCC;
+        --hoverBg:rgba(#39CCCC,0.5);
+        --darkBg1:darken(#39CCCC,5%);
+        --darkBg2:darken(#39CCCC,10%);
+    }
+    
     #pager {
-        width: 3 * $itemSize;
-        height:3 * $itemSize;
+        width: calc(3 * var(--itemSize));
+        height:calc(3 * var(--itemSize));
         transform:rotate(45deg);
         margin:200px;
         position: relative;
@@ -121,38 +90,38 @@
                 }
             }
             .pagerCon {
-                li {
+                & li {
                     &:nth-child(1) {
                         left: 0px;
                         top: 0px;
                     }
                     &:nth-child(2) {
-                        left: $itemSize;
+                        left: var(--itemSize);
                         top: 0px;
                         transition-delay: 0.1s;
                     }
                     &:nth-child(3) {
                         left:0px;
-                        top: $itemSize;
+                        top: var(--itemSize);
                         transition-delay: 0.2s;
                     }
                 }
             }
-            .pagerGoto {
+            &.pagerGoto {
                 div {
                     &:first-of-type {
-                        left:$itemSize;
+                        left:var(--itemSize);
                         top: 0px;
                     }
                     &:last-of-type {
-                        top: $itemSize;
+                        top: var(--itemSize);
                         left:0px;
                         transition-delay: 0.1s;
                     }
                 }
                 button {
-                    top:$itemSize;
-                    left:$itemSize;
+                    top:var(--itemSize);
+                    left:var(--itemSize);
                     transition-delay: 0.2s;
                 }
             }
@@ -161,21 +130,21 @@
                 opacity:0;
             }
         }
-        >span {
-            width:$itemSize;
-            height:$itemSize;
+        & >span {
+            width:var(--itemSize);
+            height:var(--itemSize);
             position:absolute;
             display: inline-block;
             color:white;
             font-size: 30px;
             line-height: 40px;
             text-align: center;
-            background-color:$commonBg;
+            background-color:var(--commonBg);
             border-radius: 2px;
             cursor: pointer;
             transition:all 0.3s ease;
-            bottom:$itemSize;
-            left: $itemSize;
+            bottom:var(--itemSize);
+            left: var(--itemSize);
             &:hover {
                 background:teal;
                 &:after,&:before {
@@ -200,8 +169,8 @@
                     height:5px;
                     width:calc( 100% - 5px);
                     background:teal;
-                  }
-                  &:before {
+                }
+                &:before {
                     content:'';
                     position:absolute;
                     left: 0;
@@ -209,7 +178,7 @@
                     height:100%;
                     width:5px;
                     background:teal;
-                  }
+                }
             }
             &:nth-of-type(2){
                 &:after {
@@ -220,8 +189,8 @@
                     height:5px;
                     width:calc( 100% - 5px);
                     background:teal;
-                  }
-                  &:before {
+                }
+                &:before {
                     content:'';
                     position:absolute;
                     right: 0;
@@ -229,18 +198,18 @@
                     height:100%;
                     width:5px;
                     background:teal;
-                  }
+                }
             }
         }
     }
     .placeholder {
-        width:$itemSize;
-        height:$itemSize;
+        width:var(--itemSize);
+        height:var(--itemSize);
         position:absolute;
-        background-color:$base;
+        background-color:var(--base);
         z-index: 3;
-        left:$itemSize;
-        top:$itemSize;
+        left:var(--itemSize);
+        top:var(--itemSize);
         cursor:pointer;
         transition:all 0.2s 0.5s ease-in-out;
         animation: breathPage 2s 4s ease-in-out alternate infinite;
@@ -256,19 +225,19 @@
         &:after {
             width:40%;
             height:40%;
-            background-color:$darkBg2;
+            background-color:var(--darkBg2);
             animation: breathPage2 2s ease-in-out alternate infinite;
         }
         &:before {
             width:70%;
             height:70%;
-            background-color:$darkBg1;
+            background-color:var(--darkBg1);
             animation: breathPage1 2s 2s ease-in-out alternate infinite;
         }
     }
     .pagerCon {
-        width: 2 * $itemSize;
-        height: 2 * $itemSize;
+        width: 2 * var(--itemSize);
+        height: 2 * var(--itemSize);
         position:absolute;
         left: 0px;
         top: 0px;
@@ -292,18 +261,18 @@
             position:absolute;
             color:white;
             font-size: 30px;
-            width: $itemSize;
-            height: $itemSize;
-            left:$itemSize;
-            top: $itemSize;
+            width: var(--itemSize);
+            height: var(--itemSize);
+            left:var(--itemSize);
+            top: var(--itemSize);
             line-height: 40px;
             text-align: center;
-            background-color:$commonBg;
+            background-color:var(--commonBg);
             border-radius: 2px;
             cursor: pointer;
             transition:all 0.2s ease;
             &:hover,&.current {
-                background-color:$hoverBg;
+                background-color:var(--hoverBg);
             }
             &.current {
                 cursor: not-allowed;
@@ -312,16 +281,16 @@
         }
     }
     .pagerGoto {
-        width:2 * $itemSize;
-        height:2 * $itemSize;
+        width:2 * var(--itemSize);
+        height:2 * var(--itemSize);
         position:absolute;
         font-size: 0px;
-        left:$itemSize;
-        top:$itemSize;
+        left:var(--itemSize);
+        top:var(--itemSize);
         z-index: 1;
         div,button,em {
-            width: $itemSize;
-            height: $itemSize;
+            width: var(--itemSize);
+            height: var(--itemSize);
             box-sizing:border-box;
             border-radius:2px;
             display: inline-block;
@@ -331,7 +300,7 @@
             left:0px;
             top: 0px;
             vertical-align: top;
-            background-color:$commonBg;
+            background-color:var(--commonBg);
             transition:all 0.2s ease;
         }
         em {
@@ -358,7 +327,7 @@
             margin-bottom: 0px;
             cursor: pointer;
             &:hover {
-                background-color:$hoverBg;
+                background-color:var(--hoverBg);
             }
         }
         input {
@@ -376,29 +345,29 @@
     }
     @keyframes breathPage {
         0% {
-            background-color:$base;
+            background-color:var(--base);
         }
         100% {
-            background-color:$darkBg2;
+            background-color:var(--darkBg2);
         }
     }
     @keyframes breathPage1 {
         0% {
-            background-color:$darkBg1;
+            background-color:var(--darkBg1);
         }
         50% {
-            background-color:$darkBg2;
+            background-color:var(--darkBg2);
         }
         100% {
-            background-color:$base;
+            background-color:var(--base);
         }
     }
     @keyframes breathPage2 {
         0% {
-            background-color:$darkBg2;
+            background-color:var(--darkBg2);
         }
         100% {
-            background-color:$base;
+            background-color:var(--base);
         }
     }
     @keyframes spin {

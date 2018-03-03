@@ -109,6 +109,7 @@ input[type="button"]::-moz-focus-inner { border:none; padding:0; }
 
 .btn.flat {
     background: #5bc0de;
+    // border-color: #46b8da;
     transition: all 0.2s ease-in-out;
     color: white !important;
     &:before {
@@ -130,6 +131,7 @@ input[type="button"]::-moz-focus-inner { border:none; padding:0; }
     &:hover {
         transition: all 0.2s ease-in-out;
         background: #31b0d5;
+        // border-color: #269abc;
    
     }
 }

@@ -5,7 +5,7 @@
     </section>
 </template>
 <script lang="ts">
-    // import Bubble from 'modules/bubbleBg.js';
+    import Bubble from '../module/bubble';
     export default {
         data() {
             return {
@@ -18,12 +18,12 @@
              * 所以放在定时器里
             */
             setTimeout(() => {
-                // new Bubble(document.querySelector('#header canvas'));
+                new Bubble(<HTMLCanvasElement>document.querySelector('#header canvas'));
             }, 1000);
         }
     };
 </script>
-<style lang="postcss">
+<style>
     #header {
         background-size:cover;
         width:400px;

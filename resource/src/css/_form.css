@@ -9,6 +9,14 @@
         border-color: #5bc0de;
 
     }
+    // &.ng-invalid.ng-dirty {
+    //     transition: all 0.2s ease-in-out;
+    //     border-color: red;
+
+    // }
+    // &.ng-invalid.ng-dirty ~ .valid {
+    //     color: red;
+    // }
     & ~ .valid {
         padding: 5px;
     }

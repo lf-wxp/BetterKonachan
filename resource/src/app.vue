@@ -9,18 +9,18 @@
         <article/>
     <!-- <v-list></v-list> -->
     <!-- <v-footer></v-footer> -->
-    <!-- <v-pager></v-pager> -->
+    <v-pager/>
     <!-- <v-setting></v-setting> -->
     </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import Component from 'vue-class-component';
+import { Component } from 'vue-property-decorator';
 import 'normalize.css';
-import vHeader from './components/vHeader.vue';
+import vHeader from 'src/components/vHeader.vue';
 // import vMusic from 'components/vMusic.vue';
-// import vPager from 'components/vPager.vue';
+import vPager from 'src/components/vPager.vue';
 // import vList from 'components/vList.vue';
 // import vSetting from 'components/vSetting.vue';
 // import vFooter from 'components/vFooter.vue';
@@ -29,25 +29,18 @@ import vHeader from './components/vHeader.vue';
     components: {
     // vSearch,
         vHeader,
+        vPager,
         // vMusic,
-    // vPager,
     // vList,
     // vSetting,
     // vFooter
     }
 })
 export default class App extends Vue {
-    ready() {
-        this.$on('listReady', (data) => {
-            this.$emit('listReady', data);
-        });
-        this.$on('invoke', (data) => {
-            this.$emit('invoke', data);
-        });
-    }
 };
 </script>
 <style lang="postcss">
+    
     #wrap {
         font-size: 20px;
         background: #282828;
@@ -88,7 +81,7 @@ export default class App extends Vue {
             bottom: -200px;
         }
     }
-        @media screen and (max-width: 745px) {
+    @media screen and (max-width: 745px) {
         article {
             flex-wrap: wrap !important;
         }
@@ -98,8 +91,8 @@ export default class App extends Vue {
         #pager {
             flex: 1 1 auto !important;
         }
-        }
-        @media screen and (max-width: 745px) {
+    }
+    @media screen and (max-width: 745px) {
         article {
             &:nth-of-type(3) {
             flex-wrap: wrap !important;
@@ -112,27 +105,27 @@ export default class App extends Vue {
             flex: 1 0 360px !important;
             margin-right: 10px !important;
         }
-        }
-        @media screen and (max-width: 705px) {
+    }
+    @media screen and (max-width: 705px) {
         #Mmusic {
             margin-right: 10px !important;
             margin-left: 10px !important;
         }
-        }
-        ::-webkit-scrollbar {
+    }
+    ::-webkit-scrollbar {
         width: 10px;
         height: 10px;
         background-color: #f5f5f5;
-        }
+    }
 
-        /*定义滚动条轨道 内阴影+圆角*/
-        ::-webkit-scrollbar-track {
+    /*定义滚动条轨道 内阴影+圆角*/
+    ::-webkit-scrollbar-track {
         -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
         background-color: #f5f5f5;
-        }
+    }
 
         /*定义滑块 内阴影+圆角*/
-        ::-webkit-scrollbar-thumb {
+    ::-webkit-scrollbar-thumb {
         -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
         background-color: #555;
     }
