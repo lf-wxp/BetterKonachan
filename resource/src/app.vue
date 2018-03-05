@@ -40,7 +40,7 @@ export default class App extends Vue {
 };
 </script>
 <style lang="postcss">
-    
+    @import './css/_base.css';
     #wrap {
         font-size: 20px;
         background: #282828;

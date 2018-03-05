@@ -395,7 +395,7 @@ async@^1.5.0, async@^1.5.2:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
 
-async@^2.0.0, async@^2.1.2:
+async@^2.0.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/async/-/async-2.6.0.tgz#61a29abb6fcc026fea77e56d1c6ec53a795951f4"
   dependencies:
@@ -1441,7 +1441,7 @@ cheerio@^1.0.0-rc.2:
     lodash "^4.15.0"
     parse5 "^3.0.1"
 
-chokidar@^1.0.1, chokidar@^1.7.0:
+chokidar@^1.0.1:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-1.7.0.tgz#798e689778151c8076b4b360e5edd28cda2bb468"
   dependencies:
@@ -2771,9 +2771,9 @@ figures@^2.0.0:
   dependencies:
     escape-string-regexp "^1.0.5"
 
-file-loader@webpack-contrib/file-loader:
-  version "1.1.9"
-  resolved "https://codeload.github.com/webpack-contrib/file-loader/tar.gz/3a6a7a191b47d359dd91f1571e45d8e2139e9c95"
+file-loader@^1.1.11:
+  version "1.1.11"
+  resolved "https://registry.yarnpkg.com/file-loader/-/file-loader-1.1.11.tgz#6fe886449b0f2a936e43cabaac0cdbfb369506f8"
   dependencies:
     loader-utils "^1.0.2"
     schema-utils "^0.4.5"
@@ -4231,9 +4231,9 @@ koa-static@^4.0.2:
     debug "^2.6.8"
     koa-send "^4.1.0"
 
-koa-views@^6.1.3:
-  version "6.1.3"
-  resolved "https://registry.yarnpkg.com/koa-views/-/koa-views-6.1.3.tgz#66eb04a6028c686d1bbeedf6ba8f9069a1ba404a"
+koa-views@^6.1.4:
+  version "6.1.4"
+  resolved "https://registry.yarnpkg.com/koa-views/-/koa-views-6.1.4.tgz#595eb683ca17d8dfaa1d100b42ba4e34c762154d"
   dependencies:
     consolidate "^0.15.0"
     debug "^3.1.0"
@@ -7845,13 +7845,13 @@ vuex@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/vuex/-/vuex-3.0.1.tgz#e761352ebe0af537d4bb755a9b9dc4be3df7efd2"
 
-watchpack@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/watchpack/-/watchpack-1.4.0.tgz#4a1472bcbb952bd0a9bb4036801f954dfb39faac"
+watchpack@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/watchpack/-/watchpack-1.5.0.tgz#231e783af830a22f8966f65c4c4bacc814072eed"
   dependencies:
-    async "^2.1.2"
-    chokidar "^1.7.0"
+    chokidar "^2.0.2"
     graceful-fs "^4.1.2"
+    neo-async "^2.5.0"
 
 wbuf@^1.1.0, wbuf@^1.7.2:
   version "1.7.2"
@@ -7960,9 +7960,9 @@ webpack-sources@^1.0.1, webpack-sources@^1.1.0:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.0.1.tgz#768d708beeca4c5f77f6c2d38a240fb6ff50ba5d"
+webpack@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.1.0.tgz#91b6862e56eb3b18b79bb10b51866987ff10d2d6"
   dependencies:
     acorn "^5.0.0"
     acorn-dynamic-import "^3.0.0"
@@ -7981,7 +7981,7 @@ webpack@^4.0.1:
     schema-utils "^0.4.2"
     tapable "^1.0.0"
     uglifyjs-webpack-plugin "^1.1.1"
-    watchpack "^1.4.0"
+    watchpack "^1.5.0"
     webpack-sources "^1.0.1"
 
 websocket-driver@>=0.5.1:

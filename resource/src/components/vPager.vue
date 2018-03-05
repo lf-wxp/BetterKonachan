@@ -1,25 +1,25 @@
 <template>
-    <section id="pager" :class="[ isActive ? 'active':'']">
-        <span @click="invoke(cPage - 1)" :class="[cPage - 1 ? '':'disabled']">
+    <section class="vPager" :class="[ isActive ? 'active':'']">
+        <span  class="vPager_nav"  @click="invoke(cPage - 1)" :class="[cPage - 1 ? '':'disabled']">
             <i></i>
         </span>
-        <span @click="invoke(cPage + 1)" :class="[tPage - cPage > 0 ? '':'disabled']">
+        <span class="vPager_nav" @click="invoke(cPage + 1)" :class="[tPage - cPage > 0 ? '':'disabled']">
             <i></i>
         </span>
-        <div class="pagerCon">
-            <transition-group tag="ul" name="page">
-                <li @click="invoke(item)" v-for="item in pageArray" :key="item" :class="[ cPage == item ? 'current' : '']" ><span>{{item}}</span></li>
+        <div class="vPager_con">
+            <transition-group tag="ul" name="page" class="vPager_box">
+                <li class="vPager_item" @click="invoke(item)" v-for="item in pageArray" :key="item" :class="[ cPage == item ? 'current' : '']" ><span class="vPager_itemText">{{item}}</span></li>
             </transition-group>
         </div>
-            <form class="pagerGoto" novalidate>
-                <em></em>
-                <div><span>{{tPage}}</span></div>
-                <div>
-                    <input type="text"  placeholder="page" name="pager" v-model='goToPage' >
+            <form class="vPager_goto" novalidate>
+                <em class="vPager_gotoEm"></em>
+                <div class="vPager_gotoDiv"><span class="vPager_gotoSpan">{{tPage}}</span></div>
+                <div class="vPager_gotoDiv">
+                    <input class="vPager_gotoInput" type="text"  placeholder="page" name="pager" v-model='goToPage' >
                 </div>
-                <button @click.prevent="goTo"><span>Go</span></button>
+                <button class="vPager_btn" @click.prevent="goTo"><span></span></button>
             </form>
-        <div class="placeholder" ></div>
+        <div class="vPager_placeholder" @click="expand"></div>
     </section>
 </template>
 <script lang="ts">
@@ -30,34 +30,35 @@ import { Component } from 'vue-property-decorator';
 export default class vPager extends Vue {
     goToPage: string = '';
     size: number = 4;
-    isActive: boolean = true;
+    isActive: boolean = false;
     cPage: number = 4;
     tPage: number = 10;
 
     get pageArray() {
         const half: number = Math.floor(this.size / 2);
         const navpage: number[] = [];
-        const cPage: number = 4;
-        const tPage: number = 10;
-        if (cPage > half && cPage < tPage - half) {
-            for (let i:number = cPage - half, j = 0; j < this.size; j++, i++) {
+        if (this.cPage > half && this.cPage < this.tPage - half) {
+            for (let i:number = this.cPage - half, j:number = 0; j < this.size; j++, i++) {
                 navpage.push(i);
             }
         }
-        if (cPage <= half) {
+        if (this.cPage <= half) {
             for (let i = 1, j = 0; j < this.size; j++, i++) {
                 navpage.push(i);
             }
         }
-        if (cPage >= tPage - half) {
-            for (let i = tPage - this.size + 1, j = 0; j < this.size; j++, i++) {
+        if (this.cPage >= this.tPage - half) {
+            for (let i = this.tPage - this.size + 1, j = 0; j < this.size; j++, i++) {
                 navpage.push(i);
             }
         }
         return navpage;
     }
-
+    expand() {
+        this.isActive = true;
+    }
     invoke(page:number): void {
+        this.cPage = page;
     }
 
 };
@@ -72,7 +73,7 @@ export default class vPager extends Vue {
         --darkBg2:darken(#39CCCC,10%);
     }
     
-    #pager {
+    .vPager {
         width: calc(3 * var(--itemSize));
         height:calc(3 * var(--itemSize));
         transform:rotate(45deg);
@@ -81,7 +82,7 @@ export default class vPager extends Vue {
         animation:spin 2s linear infinite;
         &.active {
             animation:none;
-            >span {
+            & .vPager_nav {
                 &:first-of-type{
                     transform:translate(-100%,100%);
                 }
@@ -89,26 +90,8 @@ export default class vPager extends Vue {
                     transform:translate(100%,-100%);
                 }
             }
-            .pagerCon {
-                & li {
-                    &:nth-child(1) {
-                        left: 0px;
-                        top: 0px;
-                    }
-                    &:nth-child(2) {
-                        left: var(--itemSize);
-                        top: 0px;
-                        transition-delay: 0.1s;
-                    }
-                    &:nth-child(3) {
-                        left:0px;
-                        top: var(--itemSize);
-                        transition-delay: 0.2s;
-                    }
-                }
-            }
-            &.pagerGoto {
-                div {
+            & .vPager_goto {
+                & .vPager_gotoDiv {
                     &:first-of-type {
                         left:var(--itemSize);
                         top: 0px;
@@ -119,90 +102,107 @@ export default class vPager extends Vue {
                         transition-delay: 0.1s;
                     }
                 }
-                button {
+                & .vPager_btn {
                     top:var(--itemSize);
                     left:var(--itemSize);
                     transition-delay: 0.2s;
                 }
             }
-            .placeholder {
+            & .vPager_placeholder {
                 visibility: hidden;
                 opacity:0;
             }
+            & .vPager_item {
+                &:nth-child(1) {
+                    left: 0px;
+                    top: 0px;
+                }
+                &:nth-child(2) {
+                    left: var(--itemSize);
+                    top: 0px;
+                    transition-delay: 0.1s;
+                }
+                &:nth-child(3) {
+                    left:0px;
+                    top: var(--itemSize);
+                    transition-delay: 0.2s;
+                }
+            }
         }
-        & >span {
-            width:var(--itemSize);
-            height:var(--itemSize);
-            position:absolute;
-            display: inline-block;
-            color:white;
-            font-size: 30px;
-            line-height: 40px;
-            text-align: center;
-            background-color:var(--commonBg);
-            border-radius: 2px;
-            cursor: pointer;
-            transition:all 0.3s ease;
-            bottom:var(--itemSize);
-            left: var(--itemSize);
-            &:hover {
-                background:teal;
-                &:after,&:before {
-                    background:black!important;
-                }
-            }
-            svg {
-                width:100%;
-                height:100%;
-                display:block;
-                transform:rotate(-45deg);
-            }
+    } 
+            
+    .vPager_nav {
+        width:var(--itemSize);
+        height:var(--itemSize);
+        position:absolute;
+        display: inline-block;
+        color:white;
+        font-size: 30px;
+        line-height: 40px;
+        text-align: center;
+        background-color:var(--commonBg);
+        border-radius: 2px;
+        cursor: pointer;
+        transition:all 0.3s ease;
+        bottom:var(--itemSize);
+        left: var(--itemSize);
+        &:hover {
+            background:teal;
             &:after,&:before {
-                transition:all 0.2s ease;
+                background:black!important;
             }
-            &:nth-of-type(1) {
-                &:after {
-                    content: '';
-                    position:absolute;
-                    left:5px;
-                    bottom:0;
-                    height:5px;
-                    width:calc( 100% - 5px);
-                    background:teal;
-                }
-                &:before {
-                    content:'';
-                    position:absolute;
-                    left: 0;
-                    bottom:0;
-                    height:100%;
-                    width:5px;
-                    background:teal;
-                }
+        }
+        & svg {
+            width:100%;
+            height:100%;
+            display:block;
+            transform:rotate(-45deg);
+        }
+        &:after,&:before {
+            transition:all 0.2s ease;
+        }
+        &:nth-of-type(1) {
+            &:after {
+                content: '';
+                position:absolute;
+                left:5px;
+                bottom:0;
+                height:5px;
+                width:calc( 100% - 5px);
+                background:teal;
             }
-            &:nth-of-type(2){
-                &:after {
-                    content: '';
-                    position:absolute;
-                    right:5px;
-                    top:0;
-                    height:5px;
-                    width:calc( 100% - 5px);
-                    background:teal;
-                }
-                &:before {
-                    content:'';
-                    position:absolute;
-                    right: 0;
-                    top:0;
-                    height:100%;
-                    width:5px;
-                    background:teal;
-                }
+            &:before {
+                content:'';
+                position:absolute;
+                left: 0;
+                bottom:0;
+                height:100%;
+                width:5px;
+                background:teal;
+            }
+        }
+        &:nth-of-type(2){
+            &:after {
+                content: '';
+                position:absolute;
+                right:5px;
+                top:0;
+                height:5px;
+                width:calc( 100% - 5px);
+                background:teal;
+            }
+            &:before {
+                content:'';
+                position:absolute;
+                right: 0;
+                top:0;
+                height:100%;
+                width:5px;
+                background:teal;
             }
         }
     }
-    .placeholder {
+    .vPager_placeholder {
         width:var(--itemSize);
         height:var(--itemSize);
         position:absolute;
@@ -235,52 +235,52 @@ export default class vPager extends Vue {
             animation: breathPage1 2s 2s ease-in-out alternate infinite;
         }
     }
-    .pagerCon {
+    .vPager_con {
         width: 2 * var(--itemSize);
         height: 2 * var(--itemSize);
         position:absolute;
         left: 0px;
         top: 0px;
         z-index: 2;
-        ul {
-            width:100%;
-            height:100%;
-            font-size: 0px;
-            position:relative;
+    }
+    .vPager_box {
+        width:100%;
+        height:100%;
+        font-size: 0px;
+        position:relative;
+    }
+    .vPager_itemText {
+        display: block;
+        width:100%;
+        height:100%;
+        font-family: ZagRegular;
+        transform:rotate(-45deg);
+        line-height: 46px;
+        letter-spacing: 2px;
+    }
+    .vPager_item {
+        position:absolute;
+        color:white;
+        font-size: 20px;
+        width: var(--itemSize);
+        height: var(--itemSize);
+        left:var(--itemSize);
+        top: var(--itemSize);
+        line-height: 40px;
+        text-align: center;
+        background-color:var(--commonBg);
+        border-radius: 2px;
+        cursor: pointer;
+        transition:all 0.2s ease;
+        &:hover,&.current {
+            background-color:var(--hoverBg);
         }
-        span {
-            display: block;
-            width:100%;
-            height:100%;
-            font-family: "diner-regularregular";
-            transform:rotate(-45deg);
-            line-height: 46px;
-            letter-spacing: 2px;
-        }
-        li {
-            position:absolute;
-            color:white;
-            font-size: 30px;
-            width: var(--itemSize);
-            height: var(--itemSize);
-            left:var(--itemSize);
-            top: var(--itemSize);
-            line-height: 40px;
-            text-align: center;
-            background-color:var(--commonBg);
-            border-radius: 2px;
-            cursor: pointer;
-            transition:all 0.2s ease;
-            &:hover,&.current {
-                background-color:var(--hoverBg);
-            }
-            &.current {
-                cursor: not-allowed;
-                pointer-events:none;
-            }
+        &.current {
+            cursor: not-allowed;
+            pointer-events:none;
         }
     }
-    .pagerGoto {
+    .vPager_goto {
         width:2 * var(--itemSize);
         height:2 * var(--itemSize);
         position:absolute;
@@ -288,51 +288,60 @@ export default class vPager extends Vue {
         left:var(--itemSize);
         top:var(--itemSize);
         z-index: 1;
-        div,button,em {
-            width: var(--itemSize);
-            height: var(--itemSize);
-            box-sizing:border-box;
-            border-radius:2px;
-            display: inline-block;
-            position:absolute;
-            margin:auto;
-            border:none;
-            left:0px;
-            top: 0px;
-            vertical-align: top;
-            background-color:var(--commonBg);
-            transition:all 0.2s ease;
+    }
+    .vPager_gotoSpan,.vPager_gotoInput {
+        line-height: 45px;
+        text-align: center;
+        font-size:20px;
+        font-family: ZagRegular;
+        display:block;
+        color:white;
+        width:100%;
+        height:100%;
+        text-transform:uppercase;
+        letter-spacing: 2px;
+        border:none;
+        background:none;
+        transform:rotate(-45deg);
+    }
+    .vPager_gotoInput {
+        color:white;
+        font-size: 14px;
+        outline: none;
+    }
+    .vPager_gotoEm,.vPager_gotoDiv,.vPager_btn {
+        width: var(--itemSize);
+        height: var(--itemSize);
+        box-sizing:border-box;
+        border-radius:2px;
+        display: inline-block;
+        position:absolute;
+        margin:auto;
+        border:none;
+        left:0px;
+        top: 0px;
+        vertical-align: top;
+        background-color:var(--commonBg);
+        transition:all 0.2s ease;
+    }
+    .vPager_gotoEm {
+        background:none;
+    }
+    .vPager_btn {
+        margin: 0;
+        padding: 0;
+        cursor: pointer;
+        &:hover {
+            background-color:var(--hoverBg);
         }
-        em {
-            background:none;
-        }
-
-        span,input {
-            line-height: 45px;
-            text-align: center;
-            font-size:30px;
-            font-family: 'diner-regularregular';
-            display:block;
-            color:white;
-            width:100%;
-            height:100%;
-            text-transform:uppercase;
-            letter-spacing: 2px;
-            border:none;
-            background:none;
-            transform:rotate(-45deg);
-        }
-        button {
-            font-size: 30px;
-            margin-bottom: 0px;
-            cursor: pointer;
-            &:hover {
-                background-color:var(--hoverBg);
-            }
-        }
-        input {
-            color:white;
-            font-size: 20px;
+        & span {
+            width: 40%;
+            height: 40%;
+            display: block;
+            background: var(--base);
+            position: absolute;
+            right: 0;
+            bottom: 0;
         }
     }
     .staggered-transition {

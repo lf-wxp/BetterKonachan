@@ -1,0 +1,62 @@
+
+@font-face {
+    font-family: "NanoCore";
+    src: url("fonts/NanoCore.eot");
+    src: url("fonts/NanoCore.eot?#iefix") format("embedded-opentype"), 
+    url("fonts/NanoCore.svg#NanoCore") format("svg"), 
+    url("fonts/NanoCore.woff") format("woff"), 
+    url("fonts/NanoCore.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-decoration: inherit;
+    text-transform: none;
+}
+
+@font-face {
+    font-family: "diner-regularregular";
+    src: url("fonts/Diner-Regular-webfont.eot");
+    src: url("fonts/Diner-Regular-webfont.eot?#iefix") format("embedded-opentype"), 
+    url("fonts/Diner-Regular-webfont.woff") format("woff"), 
+    url("fonts/Diner-Regular-webfont.ttf") format("truetype"), 
+    url("fonts/Diner-Regular-webfont.svg#diner-regularregular") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "ZagRegular";
+    src: url("fonts/ZagRegular.eot?#iefix") format("embedded-opentype"), 
+    url("fonts/ZagRegular.otf") format("opentype"), 
+    url("fonts/ZagRegular.woff") format("woff"), 
+    url("fonts/ZagRegular.ttf") format("truetype"), 
+    url("fonts/ZagRegular.svg#ZagRegular") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    outline: none;
+    font-family: NanoCore,Arial,Roboto, sans-serif;
+}
+li {
+    list-style: none;
+}
+::-moz-selection {
+    color: #404040;
+    background: rgba(151,187,205,0.5);
+}
+::selection {
+    color: #404040;
+    background: rgba(151,187,205,0.5);
+}
+button[disabled] {
+    cursor: not-allowed!important;
+}
+button::-moz-focus-inner,
+input {
+    outline: none;
+}
+input[type="button"]::-moz-focus-inner {
+    border: none;
+}
