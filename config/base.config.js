@@ -33,7 +33,7 @@ const wpModule = {
                 esModule: true,
                 postcss: {
                     config: {
-                        path: path.resolve(__dirname, '../'),
+                        path: path.resolve(__dirname, '../postcss.config.js'),
                     },
                 },
             },

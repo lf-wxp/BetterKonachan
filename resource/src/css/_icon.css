@@ -1,23 +1,23 @@
-$icomoon-font-path: "../assets/fonts" !default;
-
-$icon-before: "\e408";
-$icon-next: "\e409";
-$icon-eye: "\e000";
-$icon-play: "\e052";
-$icon-pause: "\e053";
-$icon-shuffle: "\e057";
-$icon-repeat: "\e058";
-$icon-download: "\e067";
-$icon-reload: "\e080";
-$icon-volume: "\e098";
-$icon-mute: "\e099";
-$icon-cross: "\e117";
+:root {
+    --icon-before: "\e408";
+    --icon-next: "\e409";
+    --icon-eye: "\e000";
+    --icon-play: "\e052";
+    --icon-pause: "\e053";
+    --icon-shuffle: "\e057";
+    --icon-repeat: "\e058";
+    --icon-download: "\e067";
+    --icon-reload: "\e080";
+    --icon-volume: "\e098";
+    --icon-mute: "\e099";
+    --icon-cross: "\e117";
+}
 @font-face {
     font-family: 'icomoon';
     src:
-        url('#{$icomoon-font-path}/icomoon.ttf?3hy78o') format('truetype'),
-        url('#{$icomoon-font-path}/icomoon.woff?3hy78o') format('woff'),
-        url('#{$icomoon-font-path}/icomoon.svg?3hy78o#icomoon') format('svg');
+        url('fonts/icomoon.ttf?3hy78o') format('truetype'),
+        url('fonts/icomoon.woff?3hy78o') format('woff'),
+        url('fonts/icomoon.svg?3hy78o#icomoon') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -39,61 +39,61 @@ i {
 
 .icon-before {
     &:before {
-        content: $icon-before;
+        content: var(--icon-before);
     }
 }
 .icon-next {
     &:before {
-        content: $icon-next;
+        content: var(--icon-next);
     }
 }
 .icon-eye {
     &:before {
-        content: $icon-eye;
+        content: var(--icon-eye);
     }
 }
 .icon-play {
     &:before {
-        content: $icon-play;
+        content: var(--icon-play);
     }
 }
 .icon-pause {
     &:before {
-        content: $icon-pause;
+        content: var(--icon-pause);
     }
 }
 .icon-shuffle {
     &:before {
-        content: $icon-shuffle;
+        content: var(--icon-shuffle);
     }
 }
 .icon-repeat {
     &:before {
-        content: $icon-repeat;
+        content: var(--icon-repeat);
     }
 }
 .icon-download {
     &:before {
-        content: $icon-download;
+        content: var(--icon-download);
     }
 }
 .icon-reload {
     &:before {
-        content: $icon-reload;
+        content: var(--icon-reload);
     }
 }
 .icon-volume {
     &:before {
-        content: $icon-volume;
+        content: var(--icon-volume);
     }
 }
 .icon-mute {
     &:before {
-        content: $icon-mute;
+        content: var(--icon-mute);
     }
 }
 .icon-cross {
     &:before {
-        content: $icon-cross;
+        content: var(--icon-cross);
     }
 }

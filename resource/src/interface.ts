@@ -25,4 +25,45 @@ declare interface IBubble {
     animate(): void;
 }
 
-export { ICircle, IBubble };
+declare interface IMusic {
+    id: number;
+    artist: string;
+    pic: string;
+    title: string;
+    track: string;
+}
+
+declare interface IPlayer {
+    listSongs: IMusic[];
+    autoplay: boolean;
+    vueData: object;
+    loadTimeHandler: number;
+    audio: HTMLAudioElement;
+    songsLen: number;
+    playOrderIndex: number;
+    isDone: boolean;
+    currentSongIndex: number;
+    playedTime: string;
+    init(): void;
+    nextSong(): void;
+}
+
+declare interface IVueData {
+    bufferedPercentage: { width: string };
+    playedPercentage: { width: string};
+    volumePercentage: { width: string };
+    playedTime: string;
+    totalTime: string;
+    bgImg: string;
+    muted: false;
+    paused: true;
+    title: string;
+    artist: string;
+    playOrder: {
+        'icon-repeat': boolean;
+        'icon-reload': boolean;
+        'icon-shuffle': boolean;
+    };
+}
+
+export { ICircle, IBubble, IMusic, IPlayer, IVueData };

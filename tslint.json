@@ -14,6 +14,7 @@
         "object-literal-sort-keys": false,
         "new-parens": true,
         "no-arg": true,
+        "no-debugger": false,
         "no-bitwise": true,
         "no-conditional-assignment": true,
         "no-consecutive-blank-lines": false,
