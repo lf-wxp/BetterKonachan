@@ -33,7 +33,7 @@
 </script>
 <style lang="sass" scoped>
     #setting {
-        background-image: url('./assets/images/settingBg.jpg');
+        background-image: url('../assets/images/settingBg.jpg');
         padding:20px;
         margin-bottom: 10px;
         display:flex;
