@@ -1,7 +1,7 @@
 var webpack = require('webpack')
 var config = require('./webpack.base.config')
 var StringReplacePlugin = require('string-replace-webpack-plugin');
-config.output.publicPath = '/static/dist/';
+config.output.publicPath = '/dist/';
 config.plugins = (config.plugins || []).concat([
   // this allows uglify to strip all warnings
   // from Vue.js source code.
