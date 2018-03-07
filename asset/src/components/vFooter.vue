@@ -8,7 +8,7 @@
 </script>
 <style lang="sass" scoped >
     #footer {
-        background-image: url('../assets/images/footerBg.jpg');
+        background-image: url('./assets/images/footerBg.jpg');
         margin-bottom: 10px;
         margin-left: 0px;
         display:flex;

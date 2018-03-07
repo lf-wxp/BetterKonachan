@@ -49,7 +49,7 @@
     @import '../assets/sass/components/_buttons';
     #search {
         height: 220px;
-        background-image: url('../assets/images/searchBg.jpg');
+        background-image: url('./assets/images/searchBg.jpg');
         &:after {
             content:"\e880"!important;
             color: white;

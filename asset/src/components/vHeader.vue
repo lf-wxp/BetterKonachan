@@ -25,7 +25,7 @@
 </script>
 <style lang="sass">
     #header {
-        background-image: url('../assets/images/headerBg.jpg');
+        background-image: url('./assets/images/headerBg.jpg');
         height: 220px;
         position: relative;
         overflow: hidden;
