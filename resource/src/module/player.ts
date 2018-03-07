@@ -1,8 +1,8 @@
 import { IPlayer, IMusic, IVueData } from 'src/interface';
 
 class Player implements IPlayer {
-    public static parseTime(time) {
-        const is2b = (num) => {
+    public static parseTime(time: number) {
+        const is2b = (num: number) => {
             let result;
             if (num < 10) {
                 result = `0${num}`;
@@ -15,7 +15,7 @@ class Player implements IPlayer {
         const sec = Math.ceil(time - (min * 60));
         return `${is2b(min)}:${is2b(sec)}`;
     }
-    public static shuffle(a) {
+    public static shuffle(a: IMusic[]) {
         for (let i = a.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [a[i], a[j]] = [a[j], a[i]];
@@ -28,18 +28,17 @@ class Player implements IPlayer {
     public loadTimeHandler!: number;
     public audio!: HTMLAudioElement;
     public songsLen!: number;
-    public playOrderIndex: number;
-    public isDone: boolean;
+    public playOrderIndex!: number;
+    public isDone!: boolean;
     public currentSongIndex!: number;
-    public playedTime: string;
+    public playedTime!: string;
 
-    constructor({ listSongs, autoplay = true, vueData }) {
+    constructor({ listSongs, autoplay = true, vueData }: { listSongs: IMusic[], autoplay?: boolean, vueData: IVueData}) {
         this.listSongs = listSongs;
         this.autoplay = autoplay;
         this.vueData = vueData;
     }
     public init() {
-        this.loadTimeHandler = null;
         this.audio = document.createElement('audio');
         this.songsLen = this.listSongs.length;
         if (!this.songsLen) {
@@ -147,18 +146,19 @@ class Player implements IPlayer {
         this.vueData.totalTime = '00:00';
         this.vueData.playedTime = '00:00';
     }
-    public pickTimeBar(event) {
+    public pickTimeBar(event: MouseEvent) {
         if (!this.audio.ended) {
-            const processBarWidth = document.querySelector('.mProcessBar').clientWidth;
+
+            const processBarWidth = (document.querySelector('.mProcessBar') as Element).clientWidth;
             const percentage = event.offsetX / processBarWidth;
             this.audio.currentTime = percentage * this.audio.duration;
             this.vueData.playedPercentage.width = percentage * 100 + '%';
             this.playedTime = Player.parseTime(percentage * this.audio.duration);
         }
     }
-    public pickVolume(event) {
+    public pickVolume(event: MouseEvent) {
         if (!this.vueData.muted) {
-            const volumeBarWidth = document.querySelector('.mFeakeBar').clientWidth;
+            const volumeBarWidth = (document.querySelector('.mFeakeBar') as Element).clientWidth;
             const percentage = event.offsetX / volumeBarWidth;
             this.vueData.volumePercentage.width = percentage * 100 + '%';
             this.audio.volume = percentage;

@@ -37,7 +37,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
-import { IVueData, IPlayer } from "src/interface";
+import { IVueData, IPlayer, IMusic } from "src/interface";
 import { getMusic } from "src/service";
 import Player from "src/module/player";
 import vLoading from "src/components/vLoading2.vue";
@@ -75,11 +75,6 @@ export default class vMusic extends Vue {
     isStrokeAnimation: boolean = false;
     strokePlayer: number = 1200;
     isStrokeAnimationEnd: boolean = true;
-    @Prop()
-    mplayer: {
-        type: String;
-        default: "mplayer";
-    };
 
     get strokePlayed() {
         const num =
@@ -98,13 +93,13 @@ export default class vMusic extends Vue {
             this.ablumImg = val;
         }, 100); // 为了实现淡入淡出的折中办法。
     }
-    pickTime(event) {
+    pickTime(event: MouseEvent) {
         this.mPlayer.pickTimeBar(event);
     }
     muted() {
         this.mPlayer.muted();
     }
-    pickVolume(event) {
+    pickVolume(event: MouseEvent) {
         this.mPlayer.pickVolume(event);
     }
     playPause() {
@@ -127,13 +122,14 @@ export default class vMusic extends Vue {
 
     mounted() {
         // svg stroke animation event
-        document.querySelector('.strokeAnima rect').addEventListener(
+        const rect = document.querySelector('.strokeAnima rect') as Element;
+        rect.addEventListener(
             'animationend',
             async () => {
                 const response = await getMusic();
                 this.showLoading = true;
                 this.mPlayer = new Player({
-                    listSongs: response.data,
+                    listSongs: <IMusic[]>response.data,
                     vueData: initData
                 });
                 this.showLoading = false;
@@ -145,8 +141,8 @@ export default class vMusic extends Vue {
     }
 }
 </script>
-<style lang="postcss">
-@import "css/_icon.css";
+<style>
+@import "_icon.css";
 i {
     cursor: pointer;
 }

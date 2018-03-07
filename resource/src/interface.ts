@@ -46,17 +46,29 @@ declare interface IPlayer {
     playedTime: string;
     init(): void;
     nextSong(): void;
+    pickTimeBar(ev: MouseEvent): void;
+    pickVolume(ev: MouseEvent): void;
+    muted(): void;
+    loadSong(): void;
+    prevSong(): void;
+    switchPlayOrder(): void;
+    shuffleSongs(): void;
+    audioEvent(): void;
+    clearUpResource(): void;
+    playPause(): void;
+    play(): void;
+    pause(): void;
 }
 
 declare interface IVueData {
     bufferedPercentage: { width: string };
-    playedPercentage: { width: string};
+    playedPercentage: { width: string };
     volumePercentage: { width: string };
     playedTime: string;
     totalTime: string;
     bgImg: string;
-    muted: false;
-    paused: true;
+    muted: boolean;
+    paused: boolean;
     title: string;
     artist: string;
     playOrder: {

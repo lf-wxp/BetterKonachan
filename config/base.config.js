@@ -31,11 +31,15 @@ const wpModule = {
             loader: 'vue-loader',
             options: {
                 esModule: true,
-                postcss: {
-                    config: {
-                        path: path.resolve(__dirname, '../postcss.config.js'),
-                    },
-                },
+                postcss: [
+                    require('postcss-normalize')({
+                        'browserslist': 'last 2 versions',
+                    }),
+                    require('postcss-import')({
+                        path: ['resource/src/css', 'resource/src/fonts', 'resource/src/images'],
+                    }),
+                    require('postcss-cssnext'),
+                ]
             },
         }]
     }, {
@@ -68,7 +72,7 @@ const plugins = [
     // }),
     new webpack.WatchIgnorePlugin([
         /css\.d\.ts$/
-    ]),
+    ])
 ];
 
 const resolve = {

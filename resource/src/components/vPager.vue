@@ -76,7 +76,7 @@ export default class vPager extends Vue {
     }
 }
 </script>
-<style lang="postcss">
+<style>
 :root {
     --itemSize: 40px;
     --commonBg: rgba(0, 0, 0, 1);
