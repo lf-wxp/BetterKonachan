@@ -21,7 +21,7 @@ const wpModule = {
         use: [{
             loader: 'ts-loader',
             options: {
-                configFile: path.resolve(__dirname, '../resource/src/tsconfig.json'),
+                configFile: path.resolve(__dirname, '../assets/src/tsconfig.json'),
                 appendTsSuffixTo: [/\.vue$/],
             },
         }],
@@ -36,7 +36,7 @@ const wpModule = {
                         'browserslist': 'last 2 versions',
                     }),
                     require('postcss-import')({
-                        path: ['resource/src/css', 'resource/src/fonts', 'resource/src/images'],
+                        path: ['assets/src/css', 'assets/src/fonts', 'assets/src/images'],
                     }),
                     require('postcss-cssnext'),
                 ]
@@ -78,9 +78,11 @@ const plugins = [
 const resolve = {
     alias: {
         components: path.resolve(__dirname, '../assets/src/components'),
-        modules: path.resolve(__dirname, '../resource/src/module'),
-        src: path.resolve(__dirname, '../resource/src/'),
-
+        modules: path.resolve(__dirname, '../assets/src/module'),
+        src: path.resolve(__dirname, '../assets/src/'),
+        css: path.resolve(__dirname, '../assets/src/css'),
+        fonts: path.resolve(__dirname, '../assets/src/fonts'),
+        images: path.resolve(__dirname, '../assets/src/images'),
     },
     modules: [path.resolve(__dirname, '../modules'), 'node_modules'],
     extensions: ['.ts', '.css', '.json', '.vue', '.js'],

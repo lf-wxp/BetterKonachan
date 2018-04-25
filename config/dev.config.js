@@ -7,12 +7,13 @@ const devPlugins = [
 ];
 base.module.rules.push({
     test: /\.css$/,
+    exclude: ['node_modules'],
     use: ['style-loader', 'css-loader', 'postcss-loader'],
 });
 module.exports = {
     mode: 'development',
     entry: base.entry,
-    context: path.resolve(__dirname, '../resource'),
+    context: path.resolve(__dirname, '../assets'),
     output: {
         filename: '[name].js',
         chunkFilename: '[name].js',
@@ -23,7 +24,7 @@ module.exports = {
     resolve: base.resolve,
     devtool: 'eval-source-map',
     devServer: {
-        contentBase: path.resolve(__dirname, '../resource/'),
+        contentBase: path.resolve(__dirname, '../assets/'),
         compress: true,
         port: 9999,
         host: '0.0.0.0',

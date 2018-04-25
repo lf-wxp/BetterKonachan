@@ -44,13 +44,15 @@ declare interface IPlayer {
     isDone: boolean;
     currentSongIndex: number;
     playedTime: string;
+    analyserNode: AnalyserNode;
     init(): void;
     nextSong(): void;
     pickTimeBar(ev: MouseEvent): void;
-    pickVolume(ev: MouseEvent): void;
+    pickVolume(per: number): void;
     muted(): void;
     loadSong(): void;
     prevSong(): void;
+    visualizer(): void;
     switchPlayOrder(): void;
     shuffleSongs(): void;
     audioEvent(): void;

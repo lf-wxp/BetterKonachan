@@ -2,7 +2,7 @@
     <div id="wrap">
         <article class="top">
             <!-- <v-search></v-search> -->
-            <!-- <v-music/> -->
+            <v-music/>
             <v-header/>
         </article>
         <article/>
@@ -15,6 +15,7 @@
 </template>
 
 <script lang="ts">
+import 'css/_base.css';
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import "normalize.css";
@@ -38,11 +39,9 @@ import vFooter from 'src/components/vFooter.vue';
 })
 export default class App extends Vue {}
 </script>
-<style lang="postcss">
-@import "./css/_base.css";
+<style>
 #wrap {
     font-size: 20px;
-    background: #282828;
     min-height: 100vh;
     min-width: 460px;
     padding: 1px;
@@ -65,20 +64,7 @@ export default class App extends Vue {}
     }
 }
 .top {
-    align-items: center;
-    justify-content: center;
-    padding: 100px 0px;
     position: relative;
-    background: radial-gradient(
-        ellipse at center,
-        rgba(51, 93, 96, 1) 0%,
-        rgba(29, 32, 66, 1) 100%
-    );
-    section:nth-of-type(2) {
-        position: absolute !important;
-        right: 0px;
-        bottom: -200px;
-    }
 }
 @media screen and (max-width: 745px) {
     article {

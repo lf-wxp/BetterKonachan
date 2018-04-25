@@ -4,6 +4,14 @@ function getMusic() {
     return axios.get('/music');
 }
 
+function getStream(id: number) {
+    return axios.get('/stream', {
+        responseType: 'arraybuffer',
+        params: {
+            id,
+        },
+    });
+}
 function getPost(page = 1, isSafe = true, tags = '') {
     return axios.get('/post', {
         params: {
@@ -57,6 +65,7 @@ function setSession(key: string, value: string) {
 }
 export {
     getMusic,
+    getStream,
     getPost,
     getSampleImg,
     getLocal,

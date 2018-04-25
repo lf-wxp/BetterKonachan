@@ -4,7 +4,10 @@ module.exports = {
             'browserslist': 'last 2 versions',
         }),
         require('postcss-import')({
-            path: ['resource/src/css', 'resource/src/fonts', 'resource/src/images'],
+            path: ['assets/src/css'],
+        }),
+        require('postcss-assets')({
+            loadPaths: ['assets/src/fonts','assets/src/images'],
         }),
         require('postcss-cssnext'),
     ]

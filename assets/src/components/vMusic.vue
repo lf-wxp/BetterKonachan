@@ -1,9 +1,9 @@
 <template>
     <section id="Mmusic" class="mPlayer">
-        <img :src="ablumImg" class="bgImage" @load="loadedBgImg" v-show="isLoadedBgImage" transition="fade">
-        <svg class="strokeAnima" viewBox="0 0 300 300">
-            <rect x="0" y="0" width="300" height="300" :style="strokePlayed" />
-        </svg>
+        <figure>
+            <img :src="ablumImg" class="bgImage" @load="loadedBgImg" v-show="isLoadedBgImage" transition="fade">
+        </figure>
+        <canvas class="mCanvas"></canvas>
         <div class="MplayerContain" v-show="isStrokeAnimationEnd">
             <div class="mContent">
                 <h1 class="mAuthor">{{ initData.artist }}</h1>
@@ -35,6 +35,7 @@
     </section>
 </template>
 <script lang="ts">
+import 'css/_icon.css';
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 import { IVueData, IPlayer, IMusic } from "src/interface";
@@ -66,7 +67,7 @@ const initData: IVueData = {
     }
 })
 export default class vMusic extends Vue {
-    
+
     initData: IVueData = initData;
     mPlayer!: IPlayer;
     showLoading: boolean = false;
@@ -100,7 +101,11 @@ export default class vMusic extends Vue {
         this.mPlayer.muted();
     }
     pickVolume(event: MouseEvent) {
-        this.mPlayer.pickVolume(event);
+        const volumeBarWidth = (document.querySelector('.mFeakeBar') as Element).clientWidth;
+        const percentage = event.offsetX / volumeBarWidth;
+        console.log(this);
+        this.initData.volumePercentage.width = percentage * 100 + '%';
+        this.mPlayer.pickVolume(percentage);
     }
     playPause() {
         this.mPlayer.playPause();
@@ -120,29 +125,21 @@ export default class vMusic extends Vue {
         }, 100); // 为了实现淡入淡出的折中办法。
     }
 
-    mounted() {
-        // svg stroke animation event
-        const rect = document.querySelector('.strokeAnima rect') as Element;
-        rect.addEventListener(
-            'animationend',
-            async () => {
-                const response = await getMusic();
-                this.showLoading = true;
-                this.mPlayer = new Player({
-                    listSongs: <IMusic[]>response.data,
-                    vueData: initData
-                });
-                this.showLoading = false;
-                this.isStrokeAnimationEnd = true;
-                this.mPlayer.init();
-            },
-            false
-        );
+    async mounted() {
+        console.log(123);
+        const response = await getMusic();
+        this.showLoading = true;
+        this.mPlayer = new Player({
+            listSongs: <IMusic[]>response.data,
+            vueData: initData
+        });
+        this.showLoading = false;
+        this.isStrokeAnimationEnd = true;
+        this.mPlayer.init();
     }
 }
 </script>
-<style>
-@import "_icon.css";
+<style scoped>
 i {
     cursor: pointer;
 }
@@ -153,14 +150,34 @@ i {
 }
 
 #Mmusic {
-    height: 300px;
-    width: 300px;
     position: relative;
-    margin-left: 0px;
-    margin-right: 0px;
-    transform: rotate(45deg);
-    margin: 100px;
     overflow: hidden;
+}
+figure {
+    position: fixed;
+    margin: 0;
+    padding:0;
+    width: 100vw;
+    height: 70vh;
+    left: 0;
+    top: 0;
+    filter: blur(5px);
+    &:after {
+        display: block;
+        position: relative;
+        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0, #252323 100%);
+        margin-top: -150px;
+        height: 150px;
+        width: 100%;
+        content: '';
+    }
+}
+.bgImage {
+    display: block;
+    width:100%; 
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
 }
 .MplayerContain {
     width: 100%;
@@ -171,22 +188,14 @@ i {
     border-radius: var(--mainRadius);
     border-bottom-left-radius: var(--mainRadius);
     border-bottom-right-radius: var(--mainRadius);
-    transform: rotate(-45deg);
-}
-.bgImage {
-    position: absolute;
-    width: 142%;
-    height: 142%;
-    transform: rotate(-45deg) translate(0px, -21%);
-    transition: all 0.2s ease-in-out;
 }
 .fade-enter {
     opacity: 0;
 }
-.fade-leave {
+.jfade-leave {
     opacity: 0;
 }
-.mContent {
+.kmContent {
     width: 100%;
     box-sizing: border-box;
     position: absolute;
@@ -221,7 +230,7 @@ i {
         transition: color 0.2s ease;
         vertical-align: middle;
         &:hover {
-            color: $teal;
+            color: teal;
         }
     }
 }
@@ -250,7 +259,7 @@ i {
     position: absolute;
     width: 0%;
     height: 100%;
-    background: $teal;
+    background: teal;
 }
 .mTimeBox {
     box-sizing: border-box;
@@ -302,7 +311,6 @@ i {
     bottom: 0px;
     margin: auto;
     background: #252323;
-    transform: translateX(240%) rotate(45deg);
     outline: 2px solid black;
     outline-offset: 2px;
     &:before {
@@ -329,7 +337,6 @@ i {
     bottom: 0px;
     margin: auto;
     background: #252323;
-    transform: translateX(-240%) rotate(45deg);
     outline: 2px solid black;
     outline-offset: 2px;
     &:before {
@@ -361,7 +368,7 @@ i {
     transition: all 0.2s ease;
 }
 .mActiveBar {
-    background: $teal;
+    background: teal;
     height: 100%;
     border-radius: 2px;
     position: absolute;
@@ -376,22 +383,6 @@ i {
     width: 100%;
     height: 100%;
     position: absolute;
-}
-.strokeAnima {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    height: 100%;
-    rect {
-        stroke-width: 5px;
-        stroke: white;
-        fill: transparent;
-        stroke-dasharray: 1200;
-        stroke-dashoffset: 1200;
-        animation: dash 2s linear;
-        transition: all 0.2s ease;
-    }
 }
 @keyframes dash {
     100% {

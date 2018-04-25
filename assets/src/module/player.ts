@@ -1,4 +1,5 @@
 import { IPlayer, IMusic, IVueData } from 'src/interface';
+import { getStream } from 'src/service';
 
 class Player implements IPlayer {
     public static parseTime(time: number) {
@@ -32,6 +33,10 @@ class Player implements IPlayer {
     public isDone!: boolean;
     public currentSongIndex!: number;
     public playedTime!: string;
+    public analyserNode!: AnalyserNode;
+    public ac!: AudioContext;
+    public bufferSource!: AudioBufferSourceNode;
+    public gainNode!: GainNode;
 
     constructor({ listSongs, autoplay = true, vueData }: { listSongs: IMusic[], autoplay?: boolean, vueData: IVueData}) {
         this.listSongs = listSongs;
@@ -39,17 +44,23 @@ class Player implements IPlayer {
         this.vueData = vueData;
     }
     public init() {
-        this.audio = document.createElement('audio');
         this.songsLen = this.listSongs.length;
+        this.ac = new AudioContext();
+        this.gainNode = this.ac.createGain();
+        this.analyserNode = this.ac.createAnalyser();
+        this.analyserNode.fftSize = 256;
+        this.analyserNode.connect(this.gainNode);
+        this.gainNode.connect(this.ac.destination);
         if (!this.songsLen) {
             throw new Error('MPlayer Error: should provide song object');
         }
         this.currentSongIndex = 0;
         this.playOrderIndex = 0;
-        this.audio.preload = 'metadata';
+        // this.audio.preload = 'metadata';
         this.isDone = false;
-        this.audio.volume = Number.parseInt(this.vueData.volumePercentage.width, 10) / 100;
-        this.audioEvent();
+        // this.audio.volume = Number.parseInt(this.vueData.volumePercentage.width, 10) / 100;
+        // this.audioEvent();
+        // this.analyser();
         this.loadSong();
     }
     public nextSong() {
@@ -65,7 +76,37 @@ class Player implements IPlayer {
         }
         this.loadSong();
     }
-    public switchPlayOrder() {
+    private resize() {
+        const canvas = document.querySelector('.mCanvas');
+    }
+    private visualizer() {
+        const arr = new Uint8Array(this.analyserNode.frequencyBinCount);
+        const anima = () => {
+            this.analyserNode.getByteFrequencyData(arr);
+            this.draw(arr);
+            requestAnimationFrame(anima);
+            console.log(arr);
+        };
+        requestAnimationFrame(anima);
+    }
+    private draw(arr: Uint8Array) {
+        const canvas = document.querySelector('.mCanvas') as HTMLCanvasElement;
+        canvas.width = 256;
+        canvas.height = 150;
+        const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+        const line = ctx.createLinearGradient(0, 0, 0, 150);
+        const w = 256 / 128;
+        line.addColorStop(0, 'red');
+        line.addColorStop(0.5, 'yellow');
+        line.addColorStop(1, 'green');
+        ctx.fillStyle = line;
+        ctx.clearRect(0, 0, 256, 150);
+        arr.forEach((item: number, i: number) => {
+            const h = item / 256 *  150;
+            ctx.fillRect(w * i, 150 - h, w * .6 , h);
+        });
+    }
+    private switchPlayOrder() {
         const keys = Object.keys(this.vueData.playOrder);
         if (this.playOrderIndex + 1 > keys.length - 1) {
             this.playOrderIndex = 0;
@@ -108,15 +149,21 @@ class Player implements IPlayer {
     public shuffleSongs() {
         this.listSongs = Player.shuffle(this.listSongs);
     }
-    public loadSong() {
-        if (!this.audio.loop) {
+    public async loadSong() {
+        // if (!this.audio.loop) {
             const currentSong = this.listSongs[this.currentSongIndex];
-            this.audio.src = currentSong.track;
+            const res = await getStream(currentSong.id);
+            const buffer = await this.ac.decodeAudioData(res.data, );
+            this.bufferSource = this.ac.createBufferSource();
+            this.bufferSource.buffer = buffer;
+            this.bufferSource.connect(this.analyserNode);
+            this.bufferSource.start();
+            this.vueData.totalTime = Player.parseTime(this.bufferSource.buffer.duration);
             this.vueData.title = currentSong.title;
             this.vueData.artist = currentSong.artist;
             this.vueData.bgImg = currentSong.pic;
-            this.audio.autoplay = true;
-        }
+            this.visualizer();
+        // }
     }
     public audioEvent() {
         this.audio.addEventListener('loadedmetadata', () => {
@@ -124,6 +171,7 @@ class Player implements IPlayer {
         });
         this.audio.addEventListener('play', () => {
             this.vueData.paused = false;
+            // this.visualizer();
         });
         this.audio.addEventListener('ended', () => {
             this.vueData.paused = true;
@@ -156,17 +204,13 @@ class Player implements IPlayer {
             this.playedTime = Player.parseTime(percentage * this.audio.duration);
         }
     }
-    public pickVolume(event: MouseEvent) {
-        if (!this.vueData.muted) {
-            const volumeBarWidth = (document.querySelector('.mFeakeBar') as Element).clientWidth;
-            const percentage = event.offsetX / volumeBarWidth;
-            this.vueData.volumePercentage.width = percentage * 100 + '%';
-            this.audio.volume = percentage;
-        }
+    public pickVolume(per: number) {
+        console.log(per);
+        this.gainNode.gain.value = per;
     }
     public muted() {
         this.vueData.muted = !this.vueData.muted;
-        this.audio.muted = this.vueData.muted;
+        this.gainNode.gain.value = 0;
     }
     public playPause() {
         if (this.vueData.paused) {
@@ -182,11 +226,11 @@ class Player implements IPlayer {
     }
     public play() {
         this.vueData.paused = false;
-        this.audio.play();
+        this.ac.resume();
     }
     public pause() {
         this.vueData.paused = true;
-        this.audio.pause();
+        this.ac.suspend();
     }
 
 }

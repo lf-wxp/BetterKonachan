@@ -6,16 +6,10 @@ const path = require('path');
 const proPlugins = [
     new webpack.HashedModuleIdsPlugin(),
     new ExtractTextPlugin('css/[name].css'),
-    new webpack.optimize.UglifyJsPlugin({
-        compress: {
-            warnings: false,
-        },
-        sourceMap: true,
-    }),
 ];
 base.module.rules.push({
     test: /\.css$/,
-    exclude: /node_modules/,
+    exclude: ['node_modules'],
     use: ExtractTextPlugin.extract({
         use: ['css-loader', 'postcss-loader'],
         fallback: 'style-loader',
@@ -33,7 +27,7 @@ module.exports = {
             maxInitialRequests: 1, // 最大初始化请求书，默认1
             name: function () {}, // 名称，此选项可接收 function
             cacheGroups: { // 这里开始设置缓存的 chunks
-                priority: 0, // 缓存组优先级
+                priority: false, // 缓存组优先级
                 vendor: { // key 为entry中定义的 入口名称
                     chunks: "initial", // 必须三选一： "initial" | "all" | "async"(默认就是异步) 
                     test: /react|lodash/, // 正则规则验证，如果符合就提取 chunk
@@ -48,7 +42,7 @@ module.exports = {
             }
         }
     },
-    context: path.resolve(__dirname, '../resource/'),
+    context: path.resolve(__dirname, '../assets/'),
     entry: base.entry,
     output: {
         filename: '[name].[chunkhash:8].js',
