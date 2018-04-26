@@ -35,27 +35,23 @@ declare interface IMusic {
 
 declare interface IPlayer {
     listSongs: IMusic[];
+    CAC: Isong;
     autoplay: boolean;
+    canvas: HTMLCanvasElement;
     vueData: object;
     loadTimeHandler: number;
-    audio: HTMLAudioElement;
     songsLen: number;
     playOrderIndex: number;
     isDone: boolean;
     currentSongIndex: number;
     playedTime: string;
-    analyserNode: AnalyserNode;
     init(): void;
     nextSong(): void;
-    pickTimeBar(ev: MouseEvent): void;
-    pickVolume(per: number): void;
     muted(): void;
     loadSong(): void;
     prevSong(): void;
-    visualizer(): void;
     switchPlayOrder(): void;
     shuffleSongs(): void;
-    audioEvent(): void;
     clearUpResource(): void;
     playPause(): void;
     play(): void;
@@ -80,4 +76,24 @@ declare interface IVueData {
     };
 }
 
-export { ICircle, IBubble, IMusic, IPlayer, IVueData };
+declare interface Isong {
+    ac: AudioContext;
+    id: number;
+    gainNode: GainNode;
+    volume: number;
+    analyserNode: AnalyserNode;
+    canvas: HTMLCanvasElement;
+    bufferSource: AudioBufferSourceNode;
+    activeData: IVueData;
+    pause(): void;
+    play(): void;
+    mute(): void;
+    end(): Promise<{}>;
+    seek(sec: number): void;
+    setVolume(n: number): void;
+    load(): void;
+    visualizer(): void;
+    draw(arr: Uint8Array): void;
+}
+
+export { ICircle, IBubble, IMusic, IPlayer, IVueData, Isong };

@@ -6,7 +6,7 @@
         "noEmitHelpers": true, 
         "importHelpers": true,
         "allowSyntheticDefaultImports":true,
-        "strictFunctionTypes": false,
+        "strictFunctionTypes": true,
         "experimentalDecorators": true,
         "allowUnreachableCode": true,
         "moduleResolution": "node",

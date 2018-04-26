@@ -6,8 +6,8 @@ import * as serve from 'koa-static';
 import * as path from 'path';
 import * as views from 'koa-views';
 import axios from 'axios';
-import Nestease from './module/netease';
-import PicData from './module/picData';
+import Nestease from './modules/netease';
+import PicData from './modules/picData';
 
 const app: Koa = new Koa();
 const router: koaRouter = new koaRouter();

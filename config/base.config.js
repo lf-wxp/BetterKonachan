@@ -78,7 +78,7 @@ const plugins = [
 const resolve = {
     alias: {
         components: path.resolve(__dirname, '../assets/src/components'),
-        modules: path.resolve(__dirname, '../assets/src/module'),
+        modules: path.resolve(__dirname, '../assets/src/modules'),
         src: path.resolve(__dirname, '../assets/src/'),
         css: path.resolve(__dirname, '../assets/src/css'),
         fonts: path.resolve(__dirname, '../assets/src/fonts'),

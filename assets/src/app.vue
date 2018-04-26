@@ -1,5 +1,6 @@
 <template>
     <div id="wrap">
+        <v-background/>
         <article class="top">
             <!-- <v-search></v-search> -->
             <v-music/>
@@ -16,11 +17,12 @@
 
 <script lang="ts">
 import 'css/_base.css';
+import "normalize.css";
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-import "normalize.css";
 import vHeader from 'src/components/vHeader.vue';
 import vMusic from 'src/components/vMusic.vue';
+import vBackground from 'src/components/vBackground.vue';
 import vPager from 'src/components/vPager.vue';
 // import vList from 'components/vList.vue';
 // import vSetting from 'components/vSetting.vue';
@@ -32,6 +34,7 @@ import vFooter from 'src/components/vFooter.vue';
         vHeader,
         vPager,
         vMusic,
+        vBackground,
         // vList,
         // vSetting,
         vFooter

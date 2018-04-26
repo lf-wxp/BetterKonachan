@@ -1,33 +1,32 @@
 <template>
     <section id="Mmusic" class="mPlayer">
-        <figure>
-            <img :src="ablumImg" class="bgImage" @load="loadedBgImg" v-show="isLoadedBgImage" transition="fade">
-        </figure>
         <canvas class="mCanvas"></canvas>
         <div class="MplayerContain" v-show="isStrokeAnimationEnd">
             <div class="mContent">
-                <h1 class="mAuthor">{{ initData.artist }}</h1>
-                <h1 class="mName">{{ initData.title }}</h1>
                 <div class="mProcessBar" @click.stop="pickTime($event)">
                     <div class="mBufferBar" :style="initData.bufferedPercentage" />
                     <div class="mPlayedBar" :style="initData.playedPercentage" />
                 </div>
-                <div class="mVolume">
-                    <i :class="initData.muted ? 'icon-mute' : 'icon-volume'" @click.stop="muted()" />
-                    <div class="mVolumeBar">
-                        <div class="mActiveBar" :class="initData.muted ? 'muted' : ''" :style="initData.volumePercentage" />
-                        <div class="mFeakeBar" @click.stop="pickVolume($event)" />
+                <div class="mInfo">
+                    <h1 class="mAuthor">{{ initData.artist }}</h1>
+                    <h1 class="mName">{{ initData.title }}</h1>
+                    <div class="mVolume">
+                        <i :class="initData.muted ? 'icon-mute' : 'icon-volume'" @click.stop="muted()" />
+                        <div class="mVolumeBar">
+                            <div class="mActiveBar" :class="initData.muted ? 'muted' : ''" :style="initData.volumePercentage" />
+                            <div class="mFeakeBar" @click.stop="pickVolume($event)" />
+                        </div>
                     </div>
-                </div>
-                <div class="mAction">
-                    <i class="skip_previous" @click.stop="prevSong" />
-                    <i :class="initData.paused ? 'icon-pause' : 'icon-play'" @click.stop="playPause" />
-                    <i class="skip_next" @click.stop="nextSong" />
-                    <i :class="initData.playOrder" @click.stop="switchPlayOrder" />
-                </div>
-                <div class="mTimeBox">
-                    <div class="mPlayedTime">{{ initData.playedTime }}</div>
-                    <div class="mTotalTime">{{ initData.totalTime }}</div>
+                    <div class="mAction">
+                        <i class="icon-left" @click.stop="prevSong" />
+                        <i :class="initData.paused ? 'icon-pause' : 'icon-play'" @click.stop="playPause" />
+                        <i class="icon-right" @click.stop="nextSong" />
+                        <i :class="initData.playOrder" @click.stop="switchPlayOrder" />
+                    </div>
+                    <div class="mTimeBox">
+                        <div class="mPlayedTime">{{ initData.playedTime }}</div>
+                        <div class="mTotalTime">{{ initData.totalTime }}</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -36,29 +35,30 @@
 </template>
 <script lang="ts">
 import 'css/_icon.css';
-import Vue from "vue";
-import { Component, Prop, Watch } from "vue-property-decorator";
-import { IVueData, IPlayer, IMusic } from "src/interface";
-import { getMusic } from "src/service";
-import Player from "src/module/player";
-import vLoading from "src/components/vLoading2.vue";
-import bubble from "../module/bubble";
+import Vue from 'vue';
+import { Component, Prop, Watch } from 'vue-property-decorator';
+import { IVueData, IPlayer, IMusic } from 'src/interface';
+import { getMusic } from 'src/service';
+import { Mutation } from 'vuex-class';
+import Player from 'modules/player';
+import vLoading from 'components/vLoading2.vue';
+import bubble from 'modules/bubble';
 
 const initData: IVueData = {
-    bufferedPercentage: { width: "0%" },
-    playedPercentage: { width: "0%" },
-    volumePercentage: { width: "50%" },
-    playedTime: "00:00",
-    totalTime: "00:00",
-    bgImg: "",
+    bufferedPercentage: { width: '0%' },
+    playedPercentage: { width: '0%' },
+    volumePercentage: { width: '50%' },
+    playedTime: '00:00',
+    totalTime: '00:00',
+    bgImg: '',
     muted: false,
     paused: true,
-    title: "",
-    artist: "",
+    title: '',
+    artist: '',
     playOrder: {
-        "icon-repeat": true,
-        "icon-reload": false,
-        "icon-shuffle": false
+        'icon-repeat': true,
+        'icon-reload': false,
+        'icon-shuffle': false
     }
 };
 @Component({
@@ -72,11 +72,11 @@ export default class vMusic extends Vue {
     mPlayer!: IPlayer;
     showLoading: boolean = false;
     isLoadedBgImage: boolean = false;
-    ablumImg: string = "";
     isStrokeAnimation: boolean = false;
     strokePlayer: number = 1200;
     isStrokeAnimationEnd: boolean = true;
 
+    @Mutation SETBG!: Function
     get strokePlayed() {
         const num =
             Number.parseInt(this.initData.playedPercentage.width, 10) / 100;
@@ -88,14 +88,10 @@ export default class vMusic extends Vue {
         }
     }
     @Watch("initData.bgImg")
-    fadeBg(val: string) {
-        this.isLoadedBgImage = false;
-        setTimeout(() => {
-            this.ablumImg = val;
-        }, 100); // 为了实现淡入淡出的折中办法。
+    setBackground(val: string, oldVal: string) {
+        this.SETBG(val);
     }
     pickTime(event: MouseEvent) {
-        this.mPlayer.pickTimeBar(event);
     }
     muted() {
         this.mPlayer.muted();
@@ -105,7 +101,6 @@ export default class vMusic extends Vue {
         const percentage = event.offsetX / volumeBarWidth;
         console.log(this);
         this.initData.volumePercentage.width = percentage * 100 + '%';
-        this.mPlayer.pickVolume(percentage);
     }
     playPause() {
         this.mPlayer.playPause();
@@ -153,62 +148,33 @@ i {
     position: relative;
     overflow: hidden;
 }
-figure {
-    position: fixed;
-    margin: 0;
-    padding:0;
-    width: 100vw;
-    height: 70vh;
-    left: 0;
-    top: 0;
-    filter: blur(5px);
-    &:after {
-        display: block;
-        position: relative;
-        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0, #252323 100%);
-        margin-top: -150px;
-        height: 150px;
-        width: 100%;
-        content: '';
-    }
-}
-.bgImage {
-    display: block;
-    width:100%; 
-    height: 100%;
-    object-fit: cover;
-    object-position: top center;
+
+.mCanvas {
+    position: absolute;
+    top: 100px;
 }
 .MplayerContain {
-    width: 100%;
-    height: 100%;
     position: relative;
     box-sizing: border-box;
     background-size: cover;
-    border-radius: var(--mainRadius);
-    border-bottom-left-radius: var(--mainRadius);
-    border-bottom-right-radius: var(--mainRadius);
+    margin-top: 200px;
 }
-.fade-enter {
-    opacity: 0;
-}
-.jfade-leave {
-    opacity: 0;
-}
-.kmContent {
-    width: 100%;
-    box-sizing: border-box;
-    position: absolute;
-    top: 0px;
-    height: 100%;
+
+.mInfo {
+    display: flex;
+    justify-content: flex-end;
+    flex-flow: row nowrap;
+    align-items: center;
+    margin-top: 5px;
 }
 .mName,
 .mAuthor {
+    flex: 0 0 auto;
     color: white;
+    margin: 0 10px;
     font-size: 12px;
     font-weight: normal;
     text-align: center;
-    width: 100%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -218,13 +184,10 @@ figure {
 .mName {
     font-size: 16px;
 }
-.mAuthor {
-    margin-top: 70px;
-}
 .mAction {
-    width: 100%;
+    flex: 0 0 auto;
     text-align: center;
-    margin-top: 50px;
+    margin-left:10px;
     i {
         color: white;
         transition: color 0.2s ease;
@@ -237,10 +200,8 @@ figure {
 .mProcessBar {
     box-sizing: border-box;
     height: 4px;
-    width: 100%;
     background: rgba(255, 255, 255, 0.4);
     border-radius: 1px;
-    position: absolute;
     cursor: pointer;
     left: 0px;
     right: 0px;
@@ -262,9 +223,10 @@ figure {
     background: teal;
 }
 .mTimeBox {
+    flex: 0 0 auto;
     box-sizing: border-box;
-    width: 100%;
     color: white;
+    margin: 0 10px;
     font-size: 0px;
     display: inline-block;
     text-align: center;
@@ -285,88 +247,29 @@ figure {
     }
 }
 .mVolume {
+    flex: 0 0 auto;
     box-sizing: border-box;
     color: white;
-    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
     text-align: center;
     position: relative;
-    &:hover {
-        .mVolumeBar {
-            opacity: 1;
-            visibility: visible;
-            will-change: transition;
-        }
-    }
-    i {
-        vertical-align: middle;
-    }
-}
-.skip_next {
-    position: absolute;
-    display: block;
-    width: 20px;
-    height: 20px;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    margin: auto;
-    background: #252323;
-    outline: 2px solid black;
-    outline-offset: 2px;
-    &:before {
-        content: "";
-        background: teal;
-        position: absolute;
-        right: 0px;
-        left: 0px;
-        top: 0px;
-        bottom: 0px;
-        margin: auto;
-        width: 50%;
-        height: 50%;
-        transform: translate(22%, -22%);
-    }
-}
-.skip_previous {
-    position: absolute;
-    display: block;
-    width: 20px;
-    height: 20px;
-    top: 0px;
-    left: 0px;
-    bottom: 0px;
-    margin: auto;
-    background: #252323;
-    outline: 2px solid black;
-    outline-offset: 2px;
-    &:before {
-        content: "";
-        background: teal;
-        position: absolute;
-        right: 0px;
-        left: 0px;
-        top: 0px;
-        bottom: 0px;
-        margin: auto;
-        width: 50%;
-        height: 50%;
-        transform: translate(-22%, 22%);
-    }
 }
 .mVolumeBar {
-    position: relative;
+    flex: 0 0 auto;
     width: 70px;
     height: 5px;
     background: rgba(255, 255, 255, 0.5);
     cursor: pointer;
     display: inline-block;
-    vertical-align: middle;
-    left: 0px;
-    right: 0px;
-    margin: auto;
+    position: relative;
     border-radius: 2px;
+    margin-left: 10px;
     transition: all 0.2s ease;
 }
+
 .mActiveBar {
     background: teal;
     height: 100%;
@@ -386,7 +289,7 @@ figure {
 }
 @keyframes dash {
     100% {
-        stroke-dashoffset: 0;
+       stroke-dashoffset: 0;
     }
 }
 </style>

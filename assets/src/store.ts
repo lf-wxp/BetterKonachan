@@ -1,0 +1,18 @@
+import Vuex from 'vuex';
+import Vue from 'vue';
+Vue.use(Vuex);
+export default new Vuex.Store({
+    state: {
+        bgUrl: '',
+    },
+    getters: {
+        BGURL(state) {
+            return state.bgUrl;
+        }
+    },
+    mutations: {
+        SETBG(state, str: string) {
+            state.bgUrl = str;
+        }
+    }
+})

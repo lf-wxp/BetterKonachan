@@ -5,7 +5,7 @@
     </section>
 </template>
 <script lang="ts">
-    import Bubble from '../module/bubble';
+    import Bubble from '../modules/bubble';
     export default {
         data() {
             return {
