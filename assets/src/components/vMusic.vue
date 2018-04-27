@@ -1,7 +1,7 @@
 <template>
     <section id="Mmusic" class="mPlayer">
         <canvas class="mCanvas"></canvas>
-        <div class="MplayerContain" v-show="isStrokeAnimationEnd">
+        <div class="MplayerContain" >
             <div class="mContent">
                 <div class="mProcessBar" @click.stop="pickTime($event)">
                     <div class="mBufferBar" :style="initData.bufferedPercentage" />
@@ -12,9 +12,8 @@
                     <h1 class="mName">{{ initData.title }}</h1>
                     <div class="mVolume">
                         <i :class="initData.muted ? 'icon-mute' : 'icon-volume'" @click.stop="muted()" />
-                        <div class="mVolumeBar">
+                        <div class="mVolumeBar" @click.stop="pickVolume($event)">
                             <div class="mActiveBar" :class="initData.muted ? 'muted' : ''" :style="initData.volumePercentage" />
-                            <div class="mFeakeBar" @click.stop="pickVolume($event)" />
                         </div>
                     </div>
                     <div class="mAction">
@@ -52,7 +51,7 @@ const initData: IVueData = {
     totalTime: '00:00',
     bgImg: '',
     muted: false,
-    paused: true,
+    paused: false,
     title: '',
     artist: '',
     playOrder: {
@@ -72,35 +71,24 @@ export default class vMusic extends Vue {
     mPlayer!: IPlayer;
     showLoading: boolean = false;
     isLoadedBgImage: boolean = false;
-    isStrokeAnimation: boolean = false;
-    strokePlayer: number = 1200;
-    isStrokeAnimationEnd: boolean = true;
 
     @Mutation SETBG!: Function
-    get strokePlayed() {
-        const num =
-            Number.parseInt(this.initData.playedPercentage.width, 10) / 100;
-        if (num) {
-            return {
-                strokeDashoffset: (1 - num) * 1200,
-                stroke: "#00e6e6"
-            };
-        }
-    }
+
     @Watch("initData.bgImg")
     setBackground(val: string, oldVal: string) {
         this.SETBG(val);
     }
     pickTime(event: MouseEvent) {
+        const percentage = event.offsetX / (event.target as Element).clientWidth;
+        this.initData.playedPercentage.width = `${percentage * 100}%`
     }
     muted() {
         this.mPlayer.muted();
     }
     pickVolume(event: MouseEvent) {
-        const volumeBarWidth = (document.querySelector('.mFeakeBar') as Element).clientWidth;
-        const percentage = event.offsetX / volumeBarWidth;
-        console.log(this);
-        this.initData.volumePercentage.width = percentage * 100 + '%';
+        const percentage = event.offsetX / (event.target as Element).clientWidth;
+        this.initData.volumePercentage.width = `${percentage * 100}%`;
+        this.mPlayer.volume(percentage);
     }
     playPause() {
         this.mPlayer.playPause();
@@ -121,7 +109,6 @@ export default class vMusic extends Vue {
     }
 
     async mounted() {
-        console.log(123);
         const response = await getMusic();
         this.showLoading = true;
         this.mPlayer = new Player({
@@ -129,7 +116,6 @@ export default class vMusic extends Vue {
             vueData: initData
         });
         this.showLoading = false;
-        this.isStrokeAnimationEnd = true;
         this.mPlayer.init();
     }
 }
@@ -203,6 +189,8 @@ i {
     background: rgba(255, 255, 255, 0.4);
     border-radius: 1px;
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
     left: 0px;
     right: 0px;
     top: 0px;
@@ -211,6 +199,7 @@ i {
 }
 .mBufferBar {
     position: absolute;
+    pointer-events: none;
     width: 0%;
     height: 100%;
     background: rgba(255, 255, 255, 0.7);
@@ -218,33 +207,33 @@ i {
 }
 .mPlayedBar {
     position: absolute;
+    pointer-events: none;
     width: 0%;
     height: 100%;
-    background: teal;
+    background: rgba(57, 204, 204, .3);
 }
 .mTimeBox {
     flex: 0 0 auto;
     box-sizing: border-box;
     color: white;
     margin: 0 10px;
-    font-size: 0px;
-    display: inline-block;
+    font-size: 12px;
+    line-height: 12px;
+    display: flex;
     text-align: center;
     vertical-align: middle;
-    > div {
-        font-size: 12px;
-        line-height: 12px;
-        font-family: "NanoCore";
-        display: inline-block;
-    }
 }
 .mPlayedTime {
+    flex: 0 0 auto;
     &:after {
         content: "/";
         color: white;
         display: inline-block;
         margin: 0px 2px;
     }
+}
+.mTotalTime {
+    flex: 0 0 auto;
 }
 .mVolume {
     flex: 0 0 auto;
@@ -271,15 +260,16 @@ i {
 }
 
 .mActiveBar {
-    background: teal;
+    background: rgba(57, 204, 204, .3);
     height: 100%;
     border-radius: 2px;
     position: absolute;
+    pointer-events: none;
     bottom: 0px;
     width: 50%;
     transition: all 0.2s ease;
     &.muted {
-        background: $gray;
+        background: gray;
     }
 }
 .mFeakeBar {

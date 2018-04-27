@@ -48,6 +48,7 @@ declare interface IPlayer {
     init(): void;
     nextSong(): void;
     muted(): void;
+    volume(vo: number): void;
     loadSong(): void;
     prevSong(): void;
     switchPlayOrder(): void;
@@ -79,6 +80,7 @@ declare interface IVueData {
 declare interface Isong {
     ac: AudioContext;
     id: number;
+    duration: number;
     gainNode: GainNode;
     volume: number;
     analyserNode: AnalyserNode;
@@ -89,6 +91,7 @@ declare interface Isong {
     play(): void;
     mute(): void;
     end(): Promise<{}>;
+    stop(): void;
     seek(sec: number): void;
     setVolume(n: number): void;
     load(): void;

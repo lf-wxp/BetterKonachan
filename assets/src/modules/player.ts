@@ -36,7 +36,6 @@ class Player implements IPlayer {
         this.currentSongIndex = 0;
         this.playOrderIndex = 0;
         this.isDone = false;
-        // this.audio.volume = Number.parseInt(this.vueData.volumePercentage.width, 10) / 100;
         this.loadSong();
     }
     public nextSong() {
@@ -59,7 +58,9 @@ class Player implements IPlayer {
        this.canvas.height = height;
     }
     public switchPlayOrder() {
-   
+    }
+    public volume(vo: number) {
+        this.CAC.setVolume(vo);
     }
     public prevSong() {
         if (this.currentSongIndex - 1 >= 0) {
@@ -73,21 +74,25 @@ class Player implements IPlayer {
         this.listSongs = Player.shuffle(this.listSongs);
     }
     public async loadSong() {
+        this.clearUpResource();
         const currentSong = this.listSongs[this.currentSongIndex];
         this.vueData.title = currentSong.title;
         this.vueData.artist = currentSong.artist;
         this.vueData.bgImg = currentSong.pic;
-        
         this.CAC = new Song({
             id: Number(currentSong.id),
             volume: .5,
             canvas: document.querySelector('.mCanvas') as HTMLCanvasElement,
             activeData: this.vueData,
         });
-        this.CAC.load();
+        this.CAC.end().then((result) => {
+            console.log(result);
+        })
     }
     public clearUpResource() {
-        this.pause();
+        if (this.CAC) {
+            this.CAC.stop();
+        }
         this.vueData.bufferedPercentage.width = '0%';
         this.vueData.playedPercentage.width = '0%';
         this.vueData.totalTime = '00:00';
@@ -95,6 +100,7 @@ class Player implements IPlayer {
     }
     public muted() {
         this.vueData.muted = !this.vueData.muted;
+        this.CAC.mute();
     }
     public playPause() {
         if (this.vueData.paused) {
@@ -110,11 +116,12 @@ class Player implements IPlayer {
     }
     public play() {
         this.vueData.paused = false;
+        this.CAC.play();
     }
     public pause() {
         this.vueData.paused = true;
+        this.CAC.pause();
     }
-
 }
 
 export default Player;

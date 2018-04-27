@@ -4,6 +4,7 @@ import { getStream } from 'src/service';
 class Song implements Isong {
     public static size = 128;
     public static parseTime(time: number) {
+        const t = Math.trunc(time)
         const is2b = (num: number) => {
             let result;
             if (num < 10) {
@@ -13,17 +14,18 @@ class Song implements Isong {
             }
             return result;
         };
-        const min = Math.ceil(time / 60);
-        const sec = Math.ceil(time - (min * 60));
+        const min = Math.floor(t / 60);
+        const sec = Math.floor(t - (min * 60));
         return `${is2b(min)}:${is2b(sec)}`;
     }
     public ac: AudioContext;
+    public duration!: number;
     public id: number;
     public canvas: HTMLCanvasElement;
     public gainNode: GainNode;
     public volume: number;
     public analyserNode: AnalyserNode;
-    public bufferSource: AudioBufferSourceNode;
+    public bufferSource!: AudioBufferSourceNode;
     public activeData: IVueData;
 
     constructor({ volume, id, canvas, activeData }: { volume: number, id: number, canvas: HTMLCanvasElement, activeData: IVueData }) {
@@ -40,16 +42,12 @@ class Song implements Isong {
         this.bufferSource = this.ac.createBufferSource();
         this.setVolume();
         this.load();
-        this.activeData.totalTime = Song.parseTime((this.bufferSource.buffer as AudioBuffer).duration);
-    }
-    public getInform() {
-
     }
     public seek(sec: number) {
-
+        this.bufferSource.start(sec);
     }
-    public setVolume() {
-        this.gainNode.gain.value = this.volume;
+    public setVolume(vo: number = this.volume) {
+        this.gainNode.gain.value = vo;
     }
     public pause() {
         this.ac.suspend();
@@ -59,6 +57,9 @@ class Song implements Isong {
     }
     public play() {
         this.ac.resume();
+    }
+    public stop() {
+        this.bufferSource.stop();
     }
     public end() {
         return new Promise((resolve, reject) => {
@@ -70,9 +71,11 @@ class Song implements Isong {
     public async load() {
         const res = await getStream(this.id);
         const buffer = await this.ac.decodeAudioData(res.data);
-        this.bufferSource.buffer = buffer;
         this.bufferSource.connect(this.analyserNode);
+        this.bufferSource.buffer = buffer;
         this.bufferSource.start();
+        this.duration = this.bufferSource.buffer.duration;
+        this.activeData.totalTime = Song.parseTime(this.duration);
         this.visualizer();
     }
     public visualizer() {
@@ -80,6 +83,8 @@ class Song implements Isong {
         const anima = () => {
             this.analyserNode.getByteFrequencyData(arr);
             this.draw(arr);
+            this.activeData.playedTime = Song.parseTime(this.ac.currentTime);
+            this.activeData.playedPercentage.width = `${this.ac.currentTime / this.duration * 100}%`;
             requestAnimationFrame(anima);
         };
         requestAnimationFrame(anima);
@@ -95,7 +100,7 @@ class Song implements Isong {
         // line.addColorStop(0.5, 'yellow');
         // line.addColorStop(1, 'green');
         // ctx.fillStyle = line;
-        ctx.fillStyle = 'white';
+        ctx.fillStyle = '#39CCCC';
         ctx.clearRect(0, 0, width, height);
         arr.forEach((item: number, i: number) => {
             const h = item / (Song.size * 2 )* height;
