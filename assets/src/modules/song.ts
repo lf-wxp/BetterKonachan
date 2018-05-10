@@ -27,6 +27,7 @@ class Song implements Isong {
     public analyserNode: AnalyserNode;
     public bufferSource!: AudioBufferSourceNode;
     public activeData: IVueData;
+    public stopStatus: boolean = false;
 
     constructor({ volume, id, canvas, activeData }: { volume: number, id: number, canvas: HTMLCanvasElement, activeData: IVueData }) {
         this.id = id;
@@ -50,6 +51,7 @@ class Song implements Isong {
         this.gainNode.gain.value = vo;
     }
     public pause() {
+        this.stopStatus = true;
         this.ac.suspend();
     }
     public mute() {
@@ -57,8 +59,11 @@ class Song implements Isong {
     }
     public play() {
         this.ac.resume();
+        this.stopStatus = false;
+        this.visualizer();
     }
     public stop() {
+        this.stopStatus = true;
         this.bufferSource.stop();
     }
     public end() {
@@ -69,6 +74,7 @@ class Song implements Isong {
         });
     }
     public async load() {
+        this.visualizer();
         const res = await getStream(this.id);
         const buffer = await this.ac.decodeAudioData(res.data);
         this.bufferSource.connect(this.analyserNode);
@@ -76,11 +82,11 @@ class Song implements Isong {
         this.bufferSource.start();
         this.duration = this.bufferSource.buffer.duration;
         this.activeData.totalTime = Song.parseTime(this.duration);
-        this.visualizer();
     }
     public visualizer() {
         const arr = new Uint8Array(this.analyserNode.frequencyBinCount);
         const anima = () => {
+            if (this.stopStatus || (this.ac.currentTime > this.duration)) { return false; }
             this.analyserNode.getByteFrequencyData(arr);
             this.draw(arr);
             this.activeData.playedTime = Song.parseTime(this.ac.currentTime);
@@ -95,7 +101,7 @@ class Song implements Isong {
         const ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D;
         // const line = ctx.createLinearGradient(0, 0, 0, height);
         const w = width / Song.size;
-        ctx.globalAlpha=0.2;
+        ctx.globalAlpha = 0.2;
         // line.addColorStop(0, 'red');
         // line.addColorStop(0.5, 'yellow');
         // line.addColorStop(1, 'green');
@@ -103,7 +109,7 @@ class Song implements Isong {
         ctx.fillStyle = '#39CCCC';
         ctx.clearRect(0, 0, width, height);
         arr.forEach((item: number, i: number) => {
-            const h = item / (Song.size * 2 )* height;
+            const h = item / (Song.size * 2 ) * height;
             ctx.fillRect(w * i, height - h, w * .6, h);
         });
     }

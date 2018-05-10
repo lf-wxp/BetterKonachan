@@ -51,6 +51,7 @@ declare interface IPlayer {
     volume(vo: number): void;
     loadSong(): void;
     prevSong(): void;
+    seek(per: number): void;
     switchPlayOrder(): void;
     shuffleSongs(): void;
     clearUpResource(): void;
@@ -87,6 +88,7 @@ declare interface Isong {
     canvas: HTMLCanvasElement;
     bufferSource: AudioBufferSourceNode;
     activeData: IVueData;
+    stopStatus: boolean;
     pause(): void;
     play(): void;
     mute(): void;

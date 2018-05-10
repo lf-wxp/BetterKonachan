@@ -80,7 +80,9 @@ export default class vMusic extends Vue {
     }
     pickTime(event: MouseEvent) {
         const percentage = event.offsetX / (event.target as Element).clientWidth;
-        this.initData.playedPercentage.width = `${percentage * 100}%`
+        console.log(percentage);
+        this.initData.playedPercentage.width = `${percentage * 100}%`;
+        this.mPlayer.seek(percentage);
     }
     muted() {
         this.mPlayer.muted();

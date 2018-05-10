@@ -52,15 +52,18 @@ class Player implements IPlayer {
         this.loadSong();
     }
     public resize() {
-       const width = (this.canvas.parentNode as Element).clientWidth;
-       const height = 100;
-       this.canvas.width = width;
-       this.canvas.height = height;
+        const width = (this.canvas.parentNode as Element).clientWidth;
+        const height = 100;
+        this.canvas.width = width;
+        this.canvas.height = height;
     }
     public switchPlayOrder() {
     }
     public volume(vo: number) {
         this.CAC.setVolume(vo);
+    }
+    public seek(per: number) {
+        this.CAC.seek(per);
     }
     public prevSong() {
         if (this.currentSongIndex - 1 >= 0) {
@@ -86,8 +89,9 @@ class Player implements IPlayer {
             activeData: this.vueData,
         });
         this.CAC.end().then((result) => {
-            console.log(result);
-        })
+            console.log(result, 123132);
+            this.nextSong();
+        });
     }
     public clearUpResource() {
         if (this.CAC) {
