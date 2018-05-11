@@ -4,7 +4,7 @@ import { getStream } from 'src/service';
 class Song implements Isong {
     public static size = 128;
     public static parseTime(time: number) {
-        const t = Math.trunc(time)
+        const t = Math.trunc(time);
         const is2b = (num: number) => {
             let result;
             if (num < 10) {
@@ -69,13 +69,17 @@ class Song implements Isong {
     public end() {
         return new Promise((resolve, reject) => {
             this.bufferSource.addEventListener('ended', () => {
-                resolve('end');
+                let type = 'manual';
+                if (this.ac.currentTime >= this.duration) {
+                    type = 'auto';
+                }
+                resolve(type);
             });
         });
     }
     public async load() {
         this.visualizer();
-        const res = await getStream(this.id);
+        const res = await getStream(this.id); // 这里如果还没有完成是就调用了stop方法，就应该清除这个promise
         const buffer = await this.ac.decodeAudioData(res.data);
         this.bufferSource.connect(this.analyserNode);
         this.bufferSource.buffer = buffer;
@@ -101,7 +105,7 @@ class Song implements Isong {
         const ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D;
         // const line = ctx.createLinearGradient(0, 0, 0, height);
         const w = width / Song.size;
-        ctx.globalAlpha = 0.2;
+        ctx.globalAlpha = 0.1;
         // line.addColorStop(0, 'red');
         // line.addColorStop(0.5, 'yellow');
         // line.addColorStop(1, 'green');

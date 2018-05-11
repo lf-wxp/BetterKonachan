@@ -89,8 +89,9 @@ class Player implements IPlayer {
             activeData: this.vueData,
         });
         this.CAC.end().then((result) => {
-            console.log(result, 123132);
-            this.nextSong();
+            if (result === 'auto') {
+                this.nextSong();
+            }
         });
     }
     public clearUpResource() {
