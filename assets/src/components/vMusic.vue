@@ -36,7 +36,6 @@
 import 'css/_icon.css';
 import Vue from 'vue';
 import { Component, Prop, Watch } from 'vue-property-decorator';
-import { IVueData, IPlayer, IMusic } from 'src/interface';
 import { getMusic } from 'src/service';
 import { Mutation } from 'vuex-class';
 import Player from 'modules/player';
@@ -104,14 +103,9 @@ export default class vMusic extends Vue {
     switchPlayOrder() {
         this.mPlayer.switchPlayOrder();
     }
-    loadedBgImg() {
-        setTimeout(() => {
-            this.isLoadedBgImage = true;
-        }, 100); // 为了实现淡入淡出的折中办法。
-    }
 
     async mounted() {
-        const response = await getMusic();
+        const response = await getMusic.http();
         this.showLoading = true;
         this.mPlayer = new Player({
             listSongs: <IMusic[]>response.data,

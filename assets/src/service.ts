@@ -1,34 +1,72 @@
-import axios from 'axios';
+import axios, { Canceler, AxiosInstance, AxiosStatic, AxiosAdapter } from 'axios';
 
-function getMusic() {
-    return axios.get('/music');
+const CancelToken = axios.CancelToken;
+
+class Service implements IService {
+    private cancelToken!: Canceler;
+    private opts: object;
+    constructor({ method = 'get', ...opts }: { method?: string, [propName: string]: any } = {}) {
+        this.opts = { method, ...opts };
+    }
+    public http(data: object = {}) {
+        return axios({
+            ...this.opts,
+            ...data,
+            cancelToken: new CancelToken((c: () => void) => {
+                this.cancelToken = c;
+            }),
+        }).catch((e) => {
+            return e;
+        });
+    }
+    public cancel() {
+        if (this.cancelToken) {
+            this.cancelToken();
+        }
+    }
 }
 
-function getStream(id: number) {
-    return axios.get('/stream', {
-        responseType: 'arraybuffer',
-        params: {
-            id,
-        },
-    });
-}
-function getPost(page = 1, isSafe = true, tags = '') {
-    return axios.get('/post', {
-        params: {
-            tags,
-            page,
-            isSafe,
-        },
-    });
-}
+const getMusic = new Service({
+    url: '/music',
+});
 
-function getSampleImg(url: string) {
-    return axios.get('/pic', {
-        params: {
-            url,
-        },
-    });
-}
+const getStream = new Service({
+    url: '/stream',
+    responseType: 'arraybuffer',
+});
+
+// function getStream(id: number) {
+//     return axios.get('/stream', {
+//         responseType: 'arraybuffer',
+//         params: {
+//             id,
+//         },
+//     });
+// }
+
+const getPost = new Service({
+    url: '/post',
+});
+// function getPost(page = 1, isSafe = true, tags = '') {
+//     return axios.get('/post', {
+//         params: {
+//             tags,
+//             page,
+//             isSafe,
+//         },
+//     });
+// }
+
+const getSampleImg = new Service({
+    url: '/pic',
+});
+// function getSampleImg(url: string) {
+//     return axios.get('/pic', {
+//         params: {
+//             url,
+//         },
+//     });
+// }
 
 function getLocal(key: string) {
     const value = window.localStorage.getItem(key) || '';

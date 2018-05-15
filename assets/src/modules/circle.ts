@@ -1,5 +1,3 @@
-import { ICircle } from 'src/interface';
-
 class Circle implements ICircle {
     public ctx: CanvasRenderingContext2D;
     public width: number;

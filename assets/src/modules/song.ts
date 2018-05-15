@@ -1,7 +1,6 @@
-import { Isong, IVueData } from 'src/interface';
 import { getStream } from 'src/service';
 
-class Song implements Isong {
+class Song implements ISong {
     public static size = 128;
     public static parseTime(time: number) {
         const t = Math.trunc(time);
@@ -27,7 +26,7 @@ class Song implements Isong {
     public analyserNode: AnalyserNode;
     public bufferSource!: AudioBufferSourceNode;
     public activeData: IVueData;
-    public stopStatus: boolean = false;
+    public stopStatus: boolean = true;
 
     constructor({ volume, id, canvas, activeData }: { volume: number, id: number, canvas: HTMLCanvasElement, activeData: IVueData }) {
         this.id = id;
@@ -63,8 +62,12 @@ class Song implements Isong {
         this.visualizer();
     }
     public stop() {
-        this.stopStatus = true;
-        this.bufferSource.stop();
+        getStream.cancel();
+        if (!this.stopStatus) {
+            this.bufferSource.stop();
+            this.clearDraw();
+            this.stopStatus = true;
+        }
     }
     public end() {
         return new Promise((resolve, reject) => {
@@ -78,14 +81,17 @@ class Song implements Isong {
         });
     }
     public async load() {
-        this.visualizer();
-        const res = await getStream(this.id); // 这里如果还没有完成是就调用了stop方法，就应该清除这个promise
-        const buffer = await this.ac.decodeAudioData(res.data);
-        this.bufferSource.connect(this.analyserNode);
-        this.bufferSource.buffer = buffer;
-        this.bufferSource.start();
-        this.duration = this.bufferSource.buffer.duration;
-        this.activeData.totalTime = Song.parseTime(this.duration);
+        const res = await getStream.http({ params: { id: this.id }});
+        if (res.status && res.status === 200) {
+            const buffer = await this.ac.decodeAudioData(res.data);
+            this.bufferSource.connect(this.analyserNode);
+            this.bufferSource.buffer = buffer;
+            this.bufferSource.start();
+            this.stopStatus = false;
+            this.duration = this.bufferSource.buffer.duration;
+            this.activeData.totalTime = Song.parseTime(this.duration);
+            this.visualizer();
+        }
     }
     public visualizer() {
         const arr = new Uint8Array(this.analyserNode.frequencyBinCount);
@@ -99,10 +105,12 @@ class Song implements Isong {
         };
         requestAnimationFrame(anima);
     }
+    public clearDraw() {
+        const { width, height, ctx } = this.getCtx();
+        ctx.clearRect(0, 0, width, height);
+    }
     public draw(arr: Uint8Array) {
-        const width = this.canvas.clientWidth;
-        const height = this.canvas.clientHeight;
-        const ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D;
+        const { width, height, ctx } = this.getCtx();
         // const line = ctx.createLinearGradient(0, 0, 0, height);
         const w = width / Song.size;
         ctx.globalAlpha = 0.1;
@@ -116,6 +124,12 @@ class Song implements Isong {
             const h = item / (Song.size * 2 ) * height;
             ctx.fillRect(w * i, height - h, w * .6, h);
         });
+    }
+    private getCtx() {
+        const width = this.canvas.clientWidth;
+        const height = this.canvas.clientHeight;
+        const ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D;
+        return { width, height, ctx };
     }
 }
 

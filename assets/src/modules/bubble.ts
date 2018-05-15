@@ -1,4 +1,3 @@
-import { IBubble, ICircle } from 'src/interface';
 import Circle from './circle';
 
 class Bubble implements IBubble {

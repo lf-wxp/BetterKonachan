@@ -1,4 +1,3 @@
-import { IPlayer, IMusic, IVueData, Isong } from 'src/interface';
 import Song from 'modules/song';
 
 class Player implements IPlayer {
@@ -11,7 +10,7 @@ class Player implements IPlayer {
     }
     public listSongs: IMusic[];
     public autoplay: boolean;
-    public CAC!: Isong;
+    public CAC!: ISong;
     public canvas!: HTMLCanvasElement;
     public vueData: IVueData;
     public loadTimeHandler!: number;

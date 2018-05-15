@@ -14,7 +14,7 @@ class Netease {
     }
     public static playlistParse(tracks) {
         const songs = [];
-        tracks.forEach((track) => {
+        tracks.splice(0, 50).forEach((track) => {
             songs.push({
                 id: track.id,
                 artist: track.artists[0].name,
