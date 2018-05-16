@@ -8,7 +8,12 @@ const devPlugins = [
 base.module.rules.push({
     test: /\.css$/,
     exclude: ['node_modules'],
-    use: ['style-loader', 'css-loader', 'postcss-loader'],
+    use: ['vue-style-loader', {
+        loader: 'css-loader',
+        options: {
+            importLoaders: 1
+        }
+    }, 'postcss-loader'],
 });
 module.exports = {
     mode: 'development',

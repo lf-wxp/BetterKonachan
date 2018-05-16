@@ -61,24 +61,24 @@ const initData: IVueData = {
 };
 @Component({
     components: {
-        vLoading
+        vLoading,
     }
 })
 export default class vMusic extends Vue {
-
     initData: IVueData = initData;
     mPlayer!: IPlayer;
     showLoading: boolean = false;
     isLoadedBgImage: boolean = false;
 
-    @Mutation SETBG!: Function
+    @Mutation SETBG!: Function;
 
-    @Watch("initData.bgImg")
+    @Watch('initData.bgImg')
     setBackground(val: string, oldVal: string) {
         this.SETBG(val);
     }
     pickTime(event: MouseEvent) {
-        const percentage = event.offsetX / (event.target as Element).clientWidth;
+        const percentage =
+            event.offsetX / (event.target as Element).clientWidth;
         console.log(percentage);
         this.initData.playedPercentage.width = `${percentage * 100}%`;
         this.mPlayer.seek(percentage);
@@ -87,7 +87,8 @@ export default class vMusic extends Vue {
         this.mPlayer.muted();
     }
     pickVolume(event: MouseEvent) {
-        const percentage = event.offsetX / (event.target as Element).clientWidth;
+        const percentage =
+            event.offsetX / (event.target as Element).clientWidth;
         this.initData.volumePercentage.width = `${percentage * 100}%`;
         this.mPlayer.volume(percentage);
     }
@@ -160,7 +161,7 @@ i {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    font-family: "Microsoft YaHei", "Open sans", "Segoe UI", "Segoe WP",
+    font-family: 'Microsoft YaHei', 'Open sans', 'Segoe UI', 'Segoe WP',
         Helvetica, Arial, sans-serif;
 }
 .mName {
@@ -169,7 +170,7 @@ i {
 .mAction {
     flex: 0 0 auto;
     text-align: center;
-    margin-left:10px;
+    margin-left: 10px;
     i {
         color: white;
         transition: color 0.2s ease;
@@ -206,7 +207,7 @@ i {
     pointer-events: none;
     width: 0%;
     height: 100%;
-    background: rgba(57, 204, 204, .3);
+    background: rgba(57, 204, 204, 0.3);
 }
 .mTimeBox {
     flex: 0 0 auto;
@@ -222,7 +223,7 @@ i {
 .mPlayedTime {
     flex: 0 0 auto;
     &:after {
-        content: "/";
+        content: '/';
         color: white;
         display: inline-block;
         margin: 0px 2px;
@@ -256,7 +257,7 @@ i {
 }
 
 .mActiveBar {
-    background: rgba(57, 204, 204, .3);
+    background: rgba(57, 204, 204, 0.3);
     height: 100%;
     border-radius: 2px;
     position: absolute;
@@ -275,7 +276,7 @@ i {
 }
 @keyframes dash {
     100% {
-       stroke-dashoffset: 0;
+        stroke-dashoffset: 0;
     }
 }
 </style>

@@ -2,15 +2,15 @@
     <div id="wrap">
         <v-background/>
         <article class="top">
-            <!-- <v-search></v-search> -->
+            <v-search/>
             <v-music/>
             <v-header/>
         </article>
         <article/>
         <article/>
         <!-- <v-list></v-list> -->
-        <v-footer/>
-        <v-pager/>
+        <!-- <v-footer/> -->
+        <!-- <v-pager/> -->
         <!-- <v-setting></v-setting> -->
     </div>
 </template>
@@ -23,21 +23,21 @@ import { Component } from 'vue-property-decorator';
 import vHeader from 'src/components/vHeader.vue';
 import vMusic from 'src/components/vMusic.vue';
 import vBackground from 'src/components/vBackground.vue';
-import vPager from 'src/components/vPager.vue';
+// import vPager from 'src/components/vPager.vue';
 // import vList from 'components/vList.vue';
 // import vSetting from 'components/vSetting.vue';
-import vFooter from 'src/components/vFooter.vue';
-// import vSearch from 'components/vSearch.vue';
+// import vFooter from 'src/components/vFooter.vue';
+import vSearch from 'components/vSearch.vue';
 @Component({
     components: {
-        // vSearch,
+        vSearch,
         vHeader,
-        vPager,
+        // vPager,
         vMusic,
         vBackground,
         // vList,
         // vSetting,
-        vFooter
+        // vFooter
     }
 })
 export default class App extends Vue {}

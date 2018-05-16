@@ -29,12 +29,12 @@
     </section>
 </template>
 <script lang="ts">
-import Vue from "vue";
-import { Component } from "vue-property-decorator";
+import Vue from 'vue';
+import { Component } from 'vue-property-decorator';
 
 @Component
 export default class vPager extends Vue {
-    goToPage: string = "";
+    goToPage: string = '';
     size: number = 4;
     isActive: boolean = false;
     cPage: number = 4;
@@ -178,7 +178,7 @@ export default class vPager extends Vue {
     }
     &:nth-of-type(1) {
         &:after {
-            content: "";
+            content: '';
             position: absolute;
             left: 5px;
             bottom: 0;
@@ -187,7 +187,7 @@ export default class vPager extends Vue {
             background: teal;
         }
         &:before {
-            content: "";
+            content: '';
             position: absolute;
             left: 0;
             bottom: 0;
@@ -198,7 +198,7 @@ export default class vPager extends Vue {
     }
     &:nth-of-type(2) {
         &:after {
-            content: "";
+            content: '';
             position: absolute;
             right: 5px;
             top: 0;
@@ -207,7 +207,7 @@ export default class vPager extends Vue {
             background: teal;
         }
         &:before {
-            content: "";
+            content: '';
             position: absolute;
             right: 0;
             top: 0;
@@ -230,7 +230,7 @@ export default class vPager extends Vue {
     animation: breathPage 2s 4s ease-in-out alternate infinite;
     &:after,
     &:before {
-        content: "";
+        content: '';
         left: 0px;
         top: 0px;
         right: 0px;

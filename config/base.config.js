@@ -2,22 +2,25 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
+const { VueLoaderPlugin } = require('vue-loader');
 
 const entry = {
     index: './src/app.ts',
 };
 
 const wpModule = {
-    rules: [{
-        enforce: 'pre',
+    rules: [
+    //     {
+    //     enforce: 'pre',
+    //     test: /\.ts$/,
+    //     exclude: ['node_modules'],
+    //     use: [{
+    //         loader: 'tslint-loader',
+    //     }]
+    // }, 
+    {
         test: /\.ts$/,
-        exclude: /node_modules/,
-        use: [{
-            loader: 'tslint-loader',
-        }]
-    }, {
-        test: /\.ts$/,
-        exclude: /node_modules/,
+        exclude: ['node_modules'],
         use: [{
             loader: 'ts-loader',
             options: {
@@ -31,15 +34,6 @@ const wpModule = {
             loader: 'vue-loader',
             options: {
                 esModule: true,
-                postcss: [
-                    require('postcss-normalize')({
-                        'browserslist': 'last 2 versions',
-                    }),
-                    require('postcss-import')({
-                        path: ['assets/src/css', 'assets/src/fonts', 'assets/src/images'],
-                    }),
-                    require('postcss-cssnext'),
-                ]
             },
         }]
     }, {
@@ -72,7 +66,8 @@ const plugins = [
     // }),
     new webpack.WatchIgnorePlugin([
         /css\.d\.ts$/
-    ])
+    ]),
+    new VueLoaderPlugin(),
 ];
 
 const resolve = {

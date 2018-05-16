@@ -12,7 +12,7 @@ base.module.rules.push({
     exclude: ['node_modules'],
     use: ExtractTextPlugin.extract({
         use: ['css-loader', 'postcss-loader'],
-        fallback: 'style-loader',
+        fallback: 'vue-style-loader',
         publicPath: '../assets/dist/css/',
     }),
 });

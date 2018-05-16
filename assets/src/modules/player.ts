@@ -81,6 +81,7 @@ class Player implements IPlayer {
         this.vueData.title = currentSong.title;
         this.vueData.artist = currentSong.artist;
         this.vueData.bgImg = currentSong.pic;
+        return false;
         this.CAC = new Song({
             id: Number(currentSong.id),
             volume: .5,
