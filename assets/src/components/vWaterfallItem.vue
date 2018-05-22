@@ -4,7 +4,7 @@
     </div>
 </template>
 
-<style lang="sass">
+<style scoped>
     .waterfall-item {
         position: absolute;
         box-sizing:border-box;

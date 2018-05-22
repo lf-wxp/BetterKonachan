@@ -3,15 +3,14 @@
         <v-background/>
         <article class="top">
             <v-search/>
-            <v-music/>
             <v-header/>
+            <v-pager/>
+            <v-setting/>
         </article>
+        <v-music/>
         <article/>
         <article/>
-        <!-- <v-list></v-list> -->
-        <!-- <v-footer/> -->
-        <!-- <v-pager/> -->
-        <!-- <v-setting></v-setting> -->
+        <v-list/>
     </div>
 </template>
 
@@ -23,21 +22,19 @@ import { Component } from 'vue-property-decorator';
 import vHeader from 'src/components/vHeader.vue';
 import vMusic from 'src/components/vMusic.vue';
 import vBackground from 'src/components/vBackground.vue';
-// import vPager from 'src/components/vPager.vue';
-// import vList from 'components/vList.vue';
-// import vSetting from 'components/vSetting.vue';
-// import vFooter from 'src/components/vFooter.vue';
+import vPager from 'src/components/vPager.vue';
+import vList from 'components/vList.vue';
+import vSetting from 'components/vSetting.vue';
 import vSearch from 'components/vSearch.vue';
 @Component({
     components: {
         vSearch,
         vHeader,
-        // vPager,
+        vPager,
         vMusic,
         vBackground,
-        // vList,
-        // vSetting,
-        // vFooter
+        vList,
+        vSetting,
     }
 })
 export default class App extends Vue {}
@@ -68,6 +65,12 @@ export default class App extends Vue {}
 }
 .top {
     position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-content: flex-start;
+    section {
+        flex: 0 0 auto;
+    }
 }
 @media screen and (max-width: 745px) {
     article {

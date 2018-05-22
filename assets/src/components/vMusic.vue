@@ -1,7 +1,7 @@
 <template>
-    <section id="Mmusic" class="mPlayer">
+    <section class="music">
         <canvas class="mCanvas"></canvas>
-        <div class="MplayerContain" >
+        <div class="mPlayerContain" >
             <div class="mContent">
                 <div class="mProcessBar" @click.stop="pickTime($event)">
                     <div class="mBufferBar" :style="initData.bufferedPercentage" />
@@ -125,9 +125,10 @@ i {
     --mainRadius: 5px;
     --mWidth: 360px;
     --mHeight: 220px;
+    --teal: #39CCCC;
 }
 
-#Mmusic {
+.music {
     position: relative;
     overflow: hidden;
 }
@@ -136,7 +137,7 @@ i {
     position: absolute;
     top: 100px;
 }
-.MplayerContain {
+.mPlayerContain {
     position: relative;
     box-sizing: border-box;
     background-size: cover;
@@ -176,7 +177,7 @@ i {
         transition: color 0.2s ease;
         vertical-align: middle;
         &:hover {
-            color: teal;
+            color: var(--teal);
         }
     }
 }
@@ -207,7 +208,7 @@ i {
     pointer-events: none;
     width: 0%;
     height: 100%;
-    background: rgba(57, 204, 204, 0.3);
+    background: color(var(--teal) a(30%));
 }
 .mTimeBox {
     flex: 0 0 auto;
@@ -257,7 +258,7 @@ i {
 }
 
 .mActiveBar {
-    background: rgba(57, 204, 204, 0.3);
+    background: color(var(--teal) a(30%));
     height: 100%;
     border-radius: 2px;
     position: absolute;

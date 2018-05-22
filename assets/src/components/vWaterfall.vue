@@ -4,7 +4,7 @@
     </transition-group>
 </template>
 
-<style lang="sass">
+<style scoped>
     .waterfall {
         position:relative;
     }

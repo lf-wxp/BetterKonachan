@@ -5803,7 +5803,7 @@ postcss-calc@^6.0.0:
     postcss-selector-parser "^2.2.2"
     reduce-css-calc "^2.0.0"
 
-postcss-color-function@^4.0.0:
+postcss-color-function@^4.0.0, postcss-color-function@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/postcss-color-function/-/postcss-color-function-4.0.1.tgz#402b3f2cebc3f6947e618fb6be3654fbecef6444"
   dependencies:

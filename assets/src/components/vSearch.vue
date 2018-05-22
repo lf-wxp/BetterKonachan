@@ -1,5 +1,5 @@
 <template>
-    <section id="search">
+    <section class="search">
         <form novalidate class="sForm">
             <input type="search" v-model="searchText" name="search" placeholder="search" class="sInput">
             <button :disabled="!searchText" @click.prevent="submit" class="sButton">search</button>
@@ -35,8 +35,8 @@ export default class vSearch extends Vue {
 :root {
     --teal: #39cccc;
 }
-#search {
-    max-width: 600px;
+.search {
+    max-width: 300px;
     overflow: hidden;
 }
 .sForm {
@@ -49,7 +49,7 @@ export default class vSearch extends Vue {
 }
 .sInput {
     flex: 1 1 auto;
-    font-size: 30px;
+    font-size: 16px;
     background-color: rgba(255, 255, 255, 0.7);
     display: block;
     box-sizing: border-box;
@@ -60,29 +60,30 @@ export default class vSearch extends Vue {
     margin-left: auto;
     font-family: 'Aldo-SemiBold';
     margin-right: auto;
+    outline: none;
     &:focus {
-        background-color: rgba(var(--teal), 0.3);
+        background-color: color(var(--teal) a(30%));
         color: white;
     }
 }
 .sButton {
     flex: 0 0 auto;
     display: block;
-    background-color: rgba(var(--teal), 0.5);
+    background-color: color(var(--teal) a(50%));
     border: none;
     border-radius: 2px;
     color: white;
     cursor: pointer;
-    font-family: 'Aldo-SemiBold';
     padding: 10px 20px;
     box-sizing: border-box;
-    font-size: 30px;
-    font-weight: bold;
-    letter-spacing: 5px;
+    font-size: 16px;
     transition: all 0.2s ease;
     margin: auto;
     &:hover {
-        background-color: rgba(var(--teal), 0.8);
+        background-color: color(var(--teal) a(80%));
+    }
+    &[disabled] {
+        background-color: color(gray a(30%));
     }
 }
 </style>

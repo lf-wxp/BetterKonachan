@@ -1,31 +1,31 @@
 <template>
-    <section class="vPager" :class="[ isActive ? 'active':'']">
-        <span class="vPager_nav" @click="invoke(cPage - 1)" :class="[cPage - 1 ? '':'disabled']">
+    <section class="pager" :class="[ isActive ? 'active':'']">
+        <span class="pNav" @click="invoke(cPage - 1)" :class="[cPage - 1 ? '':'disabled']">
             <i></i>
         </span>
-        <span class="vPager_nav" @click="invoke(cPage + 1)" :class="[tPage - cPage > 0 ? '':'disabled']">
+        <span class="pNav" @click="invoke(cPage + 1)" :class="[tPage - cPage > 0 ? '':'disabled']">
             <i></i>
         </span>
-        <div class="vPager_con">
-            <transition-group tag="ul" name="page" class="vPager_box">
-                <li class="vPager_item" @click="invoke(item)" v-for="item in pageArray" :key="item" :class="[ cPage == item ? 'current' : '']">
-                    <span class="vPager_itemText">{{item}}</span>
+        <div class="pCon">
+            <transition-group tag="ul" name="page" class="pBox">
+                <li class="pItem" @click="invoke(item)" v-for="item in pageArray" :key="item" :class="[ cPage == item ? 'current' : '']">
+                    <span class="pItemText">{{item}}</span>
                 </li>
             </transition-group>
         </div>
-        <form class="vPager_goto" novalidate>
-            <em class="vPager_gotoEm"></em>
-            <div class="vPager_gotoDiv">
-                <span class="vPager_gotoSpan">{{tPage}}</span>
+        <form class="pGoto" novalidate>
+            <em class="pGotoEm"></em>
+            <div class="pGotoDiv">
+                <span class="pGotoSpan">{{tPage}}</span>
             </div>
-            <div class="vPager_gotoDiv">
-                <input class="vPager_gotoInput" type="text" placeholder="page" name="pager" v-model='goToPage'>
+            <div class="pGotoDiv">
+                <input class="pGotoInput" type="text" placeholder="page" name="pager" v-model='goToPage'>
             </div>
-            <button class="vPager_btn" @click.prevent="goTo">
+            <button class="pBtn" @click.prevent="goTo">
                 <span></span>
             </button>
         </form>
-        <div class="vPager_placeholder" @click="expand"></div>
+        <div class="pHolder" @click="expand"></div>
     </section>
 </template>
 <script lang="ts">
@@ -33,7 +33,7 @@ import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 
 @Component
-export default class vPager extends Vue {
+export default class pager extends Vue {
     goToPage: string = '';
     size: number = 4;
     isActive: boolean = false;
@@ -79,23 +79,20 @@ export default class vPager extends Vue {
 <style>
 :root {
     --itemSize: 40px;
-    --commonBg: rgba(0, 0, 0, 1);
-    --base: #39cccc;
-    --hoverBg: rgba(#39cccc, 0.5);
+    --commonBg: rgba(0, 0, 0, .3);
+    --teal: #39cccc;
+    --hoverBg: color(var(--teal) a(20%));
     --darkBg1: darken(#39cccc, 5%);
     --darkBg2: darken(#39cccc, 10%);
 }
 
-.vPager {
+.pager {
     width: calc(3 * var(--itemSize));
     height: calc(3 * var(--itemSize));
-    transform: rotate(45deg);
-    margin: 200px;
     position: relative;
-    animation: spin 2s linear infinite;
     &.active {
         animation: none;
-        & .vPager_nav {
+        & .pNav {
             &:first-of-type {
                 transform: translate(-100%, 100%);
             }
@@ -103,8 +100,8 @@ export default class vPager extends Vue {
                 transform: translate(100%, -100%);
             }
         }
-        & .vPager_goto {
-            & .vPager_gotoDiv {
+        & .pGoto {
+            & .pGotoDiv {
                 &:first-of-type {
                     left: var(--itemSize);
                     top: 0px;
@@ -115,17 +112,17 @@ export default class vPager extends Vue {
                     transition-delay: 0.1s;
                 }
             }
-            & .vPager_btn {
+            & .pBtn {
                 top: var(--itemSize);
                 left: var(--itemSize);
                 transition-delay: 0.2s;
             }
         }
-        & .vPager_placeholder {
+        & .pHolder {
             visibility: hidden;
             opacity: 0;
         }
-        & .vPager_item {
+        & .pItem {
             &:nth-child(1) {
                 left: 0px;
                 top: 0px;
@@ -144,33 +141,29 @@ export default class vPager extends Vue {
     }
 }
 
-.vPager_nav {
+.pNav {
     width: var(--itemSize);
     height: var(--itemSize);
     position: absolute;
     display: inline-block;
-    color: white;
-    font-size: 30px;
+    color: white; font-size: 30px;
     line-height: 40px;
     text-align: center;
     background-color: var(--commonBg);
-    border-radius: 2px;
     cursor: pointer;
     transition: all 0.3s ease;
     bottom: var(--itemSize);
     left: var(--itemSize);
     &:hover {
-        background: teal;
         &:after,
         &:before {
-            background: black !important;
+            background: var(--hoverBg)!important;
         }
     }
     & svg {
         width: 100%;
         height: 100%;
         display: block;
-        transform: rotate(-45deg);
     }
     &:after,
     &:before {
@@ -184,7 +177,7 @@ export default class vPager extends Vue {
             bottom: 0;
             height: 5px;
             width: calc(100% - 5px);
-            background: teal;
+            background: var(--hoverBg);
         }
         &:before {
             content: '';
@@ -193,7 +186,7 @@ export default class vPager extends Vue {
             bottom: 0;
             height: 100%;
             width: 5px;
-            background: teal;
+            background: var(--hoverBg) ;
         }
     }
     &:nth-of-type(2) {
@@ -204,7 +197,7 @@ export default class vPager extends Vue {
             top: 0;
             height: 5px;
             width: calc(100% - 5px);
-            background: teal;
+            background: var(--hoverBg);
         }
         &:before {
             content: '';
@@ -213,15 +206,15 @@ export default class vPager extends Vue {
             top: 0;
             height: 100%;
             width: 5px;
-            background: teal;
+            background: var(--hoverBg);
         }
     }
 }
-.vPager_placeholder {
+.pHolder {
     width: var(--itemSize);
     height: var(--itemSize);
     position: absolute;
-    background-color: var(--base);
+    background-color: var(--teal);
     z-index: 3;
     left: var(--itemSize);
     top: var(--itemSize);
@@ -251,7 +244,7 @@ export default class vPager extends Vue {
         animation: breathPage1 2s 2s ease-in-out alternate infinite;
     }
 }
-.vPager_con {
+.pCon {
     width: 2 * var(--itemSize);
     height: 2 * var(--itemSize);
     position: absolute;
@@ -259,22 +252,21 @@ export default class vPager extends Vue {
     top: 0px;
     z-index: 2;
 }
-.vPager_box {
+.pBox {
     width: 100%;
     height: 100%;
     font-size: 0px;
     position: relative;
 }
-.vPager_itemText {
+.pItemText {
     display: block;
     width: 100%;
     height: 100%;
     font-family: ZagRegular;
-    transform: rotate(-45deg);
     line-height: 46px;
     letter-spacing: 2px;
 }
-.vPager_item {
+.pItem {
     position: absolute;
     color: white;
     font-size: 20px;
@@ -285,7 +277,6 @@ export default class vPager extends Vue {
     line-height: 40px;
     text-align: center;
     background-color: var(--commonBg);
-    border-radius: 2px;
     cursor: pointer;
     transition: all 0.2s ease;
     &:hover,
@@ -297,7 +288,7 @@ export default class vPager extends Vue {
         pointer-events: none;
     }
 }
-.vPager_goto {
+.pGoto {
     width: 2 * var(--itemSize);
     height: 2 * var(--itemSize);
     position: absolute;
@@ -306,8 +297,8 @@ export default class vPager extends Vue {
     top: var(--itemSize);
     z-index: 1;
 }
-.vPager_gotoSpan,
-.vPager_gotoInput {
+.pGotoSpan,
+.pGotoInput {
     line-height: 45px;
     text-align: center;
     font-size: 20px;
@@ -320,20 +311,18 @@ export default class vPager extends Vue {
     letter-spacing: 2px;
     border: none;
     background: none;
-    transform: rotate(-45deg);
 }
-.vPager_gotoInput {
+.pGotoInput {
     color: white;
     font-size: 14px;
     outline: none;
 }
-.vPager_gotoEm,
-.vPager_gotoDiv,
-.vPager_btn {
+.pGotoEm,
+.pGotoDiv,
+.pBtn {
     width: var(--itemSize);
     height: var(--itemSize);
     box-sizing: border-box;
-    border-radius: 2px;
     display: inline-block;
     position: absolute;
     margin: auto;
@@ -344,10 +333,10 @@ export default class vPager extends Vue {
     background-color: var(--commonBg);
     transition: all 0.2s ease;
 }
-.vPager_gotoEm {
+.pGotoEm {
     background: none;
 }
-.vPager_btn {
+.pBtn {
     margin: 0;
     padding: 0;
     cursor: pointer;
@@ -358,7 +347,7 @@ export default class vPager extends Vue {
         width: 40%;
         height: 40%;
         display: block;
-        background: var(--base);
+        background: var(--teal);
         position: absolute;
         right: 0;
         bottom: 0;
@@ -375,7 +364,7 @@ export default class vPager extends Vue {
 }
 @keyframes breathPage {
     0% {
-        background-color: var(--base);
+        background-color: var(--teal);
     }
     100% {
         background-color: var(--darkBg2);
@@ -389,7 +378,7 @@ export default class vPager extends Vue {
         background-color: var(--darkBg2);
     }
     100% {
-        background-color: var(--base);
+        background-color: var(--teal);
     }
 }
 @keyframes breathPage2 {
@@ -397,15 +386,7 @@ export default class vPager extends Vue {
         background-color: var(--darkBg2);
     }
     100% {
-        background-color: var(--base);
-    }
-}
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
+        background-color: var(--teal);
     }
 }
 </style>

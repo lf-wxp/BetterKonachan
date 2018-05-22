@@ -9,6 +9,7 @@ module.exports = {
         require('postcss-assets')({
             loadPaths: ['assets/src/fonts','assets/src/images'],
         }),
+        require('postcss-color-function'),
         require('postcss-cssnext'),
     ]
 }
