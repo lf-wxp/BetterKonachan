@@ -14,6 +14,15 @@ declare module '*.css' {
     export = classNames;
 
 }
+declare module 'vue-waterfall' {
+    import Vue from 'vue';
+
+    export class Waterfall extends Vue {
+    }
+
+    export class WaterfallSlot extends Vue {
+    }
+}
 declare module 'vue-virtual-scroll-list' {
     const virtualList: any
     export default virtualList

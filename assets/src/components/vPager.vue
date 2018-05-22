@@ -33,7 +33,7 @@ import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 
 @Component
-export default class pager extends Vue {
+export default class VPager extends Vue {
     goToPage: string = '';
     size: number = 4;
     isActive: boolean = false;
@@ -76,7 +76,7 @@ export default class pager extends Vue {
     }
 }
 </script>
-<style>
+<style scoped>
 :root {
     --itemSize: 40px;
     --commonBg: rgba(0, 0, 0, .3);

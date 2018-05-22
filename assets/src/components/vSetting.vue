@@ -12,7 +12,7 @@ import { Component, Watch } from 'vue-property-decorator';
 import { State } from 'vuex-class';
 
 @Component
-export default class vSetting extends Vue {
+export default class VSetting extends Vue {
     securityMode: boolean = true;
     rememberPage: boolean = false;
     isOptionShow: boolean = false;

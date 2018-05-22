@@ -8199,6 +8199,10 @@ vue-virtual-scroll-list@^1.2.5:
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/vue-virtual-scroll-list/-/vue-virtual-scroll-list-1.2.5.tgz#bcbd010f7cdb035eba8958ebf807c6214d9a167a"
 
+vue-waterfall@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/vue-waterfall/-/vue-waterfall-1.0.6.tgz#00324a8f97f449bf6f8cdebb4974b60cffac9eed"
+
 vue@^2.5.16:
   version "2.5.16"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.16.tgz#07edb75e8412aaeed871ebafa99f4672584a0085"

@@ -13,7 +13,7 @@ import { State } from 'vuex-class';
 import { getSession, setSession } from 'src/service';
 
 @Component
-export default class vSearch extends Vue {
+export default class VSearch extends Vue {
     searchText: string = '';
     @State tags!: string;
 

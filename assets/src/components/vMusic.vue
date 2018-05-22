@@ -64,7 +64,7 @@ const initData: IVueData = {
         vLoading,
     }
 })
-export default class vMusic extends Vue {
+export default class VMusic extends Vue {
     initData: IVueData = initData;
     mPlayer!: IPlayer;
     showLoading: boolean = false;
