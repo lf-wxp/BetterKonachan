@@ -39,6 +39,9 @@ body {
     outline: none;
     font-family: Arial,Roboto, sans-serif;
 }
+p {
+    margin:0;
+}
 li {
     list-style: none;
 }

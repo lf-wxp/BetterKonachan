@@ -28,6 +28,16 @@ declare module 'vue-virtual-scroll-list' {
     export default virtualList
 }
 
+declare module 'vueisotope' {
+    const isotope: any;
+    export default isotope;
+}
+
+declare module 'vue-images-loaded' {
+    const imagesLoaded: any;
+    export default imagesLoaded;
+}
+
 declare interface ICircle {
     ctx: CanvasRenderingContext2D;
     width: number;

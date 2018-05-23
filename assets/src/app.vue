@@ -8,8 +8,6 @@
             <v-setting/>
         </article>
         <v-music/>
-        <article/>
-        <article/>
         <v-list/>
     </div>
 </template>

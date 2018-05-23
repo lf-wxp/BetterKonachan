@@ -1,45 +1,52 @@
 <template>
     <section class="list">
         <div class="lCon">
-            <waterfall :line-gap="200" :watch="items">
+            <waterfall>
+                <figure v-for="(item, index) of items" :key="index">
+                    <img class="lImg" :src="item.prev_url" alt="" @error="loadError($event)" @click.stop="clickActive($event,item)" :style="item.fitSize">
+                    <div class="lTool">
+                        <p class="lInfo">{{ item.width }} / {{ item.height }}</p>
+                        <a :href="item.url" download="123.png" class="lDown"><i class="icon-download"></i></a>
+                    </div>
+                </figure>
+            </waterfall>
+            <!-- <waterfall :line-gap="200" :watch="items">
                 <waterfall-slot 
                     v-for="(item, index) in items"
                     :width="item.width"
                     :height="item.height"
                     :order="index"
                     :key="item.id">
-                    <figure>
-                        <a :href="item.url" download="123.png"><i class="icon-download"></i></a>
-                        <img class="lImg" :src="item.prev_url" alt="" @error="loadError($event)" @click.stop="clickActive($event,item)" :style="item.fitSize">
-                        <figcaption>{{ item.width }} / {{ item.height }}</figcaption>
-                    </figure>
+                    
                 </waterfall-slot>
-            </waterfall>
+            </waterfall> -->
         </div>
     </section>
 </template>
 <script lang="ts">
 import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
+import { Component, Watch } from 'vue-property-decorator';
 import { getPost } from 'src/service';
-import Waterfall from 'vue-waterfall/lib/waterfall.vue';
-import WaterfallSlot from 'vue-waterfall/lib/waterfall-slot.vue';
+import { State } from 'vuex-class';
+import Waterfall from './vWaterfall';
 
 @Component({
     components: {
         Waterfall,
-        WaterfallSlot
-    }
+    },
 })
 export default class VList extends Vue {
+    @State security!: string;
     items: any[] = [];
-
+    @Watch('security')
+    onSecurity(val: boolean) {
+        console.log(this);
+    }
     async created() {
         const res = await getPost.http({
             params: {
                 tags: '',
-                page: 1,
-                isSafe: false
+                page: 1
             }
         });
         this.items = res.data.images;
@@ -84,14 +91,72 @@ export default class VList extends Vue {
 // }
 </script>
 <style scoped>
+:root {
+    --size: 25px;
+    --nsize: -25px;
+    --infoBg: color(#39cccc a(50%));
+    --gap: 10px;
+}
+.lCon {
+}
+.vue-waterfall-slot {
+    overflow: hidden;
+    padding: 5px;
+}
 figure {
     margin: 0;
+    border: calc(var(--gap) / 2) solid transparent;
+    width: 16.66667%;
+    /* max-width: 250px; */
+    box-sizing: border-box;
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+    &:hover {
+        & .lImg,
+        & .lTool {
+            transform: translateY(var(--nsize));
+        }
+    }
+}
+.lTool {
+    position: absolute;
+    display: flex;
+    height: var(--size);
+    width: 100%;
+    justify-content: flex-start;
+    flex-flow: row nowrap;
+    align-items: stretch;
+    transition: transform 0.2s ease;
+    background: var(--infoBg);
+}
+.lInfo {
+    flex: 1 1 auto;
+    font-size: 12px;
+    color: white;
+    line-height: var(--size);
+    text-align: center;
+}
+.lDown {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: var(--size);
+    color: white;
+    font-size: 14px;
+    & i {
+        flex: 0 0 auto;
+    }
 }
 .lImg {
+    display: block;
     width: 100%;
     box-sizing: border-box;
-    padding: 10px;
-    height: auto;
-    object-fit: contain;
+    height: 100%;
+    border-radius: 2px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.2s ease;
 }
 </style>

@@ -5,13 +5,17 @@ export default new Vuex.Store({
     state: {
         bgUrl: '',
         tags: '',
+        security: true,
     },
     getters: {
-        BGURL(state) {
+        GETBGURL(state) {
             return state.bgUrl;
         },
         GETTAGS(state) {
             return state.tags;
+        },
+        GETSECURITY(state) {
+            return state.security;
         },
     },
     mutations: {
@@ -20,6 +24,9 @@ export default new Vuex.Store({
         },
         SETTAGS(state, str: string) {
             state.tags = str;
+        },
+        SETSECURITY(state, mode: boolean) {
+            state.security = mode;
         },
     },
 });

@@ -13,7 +13,6 @@ class PicData {
         return Math.ceil(Number.parseInt($('posts').attr('count'), 10) / defaultSize);
     }
     public static async getData({
-        isSafe = true,
         page = 1,
         tags = '',
     } = {}) {
@@ -25,19 +24,21 @@ class PicData {
         });
 
         const imgs = [];
-        res.data.forEach((value) => {
-            if (isSafe === false || value.rating === 's') {
-                imgs.push({
-                    url: value.file_url,
-                    sample_width: value.sample_width,
-                    width: value.width,
-                    sample_height: value.sample_height,
-                    sample: value.sample_url,
-                    height: value.height,
-                    prev_url: value.preview_url,
-                    name: value.md5 + path.extname(value.file_url),
-                });
-            }
+        res.data.forEach((value, index) => {
+            imgs.push({
+                id: index,
+                url: value.file_url,
+                sample_width: value.sample_width,
+                width: value.width,
+                sample_height: value.sample_height,
+                sample: value.sample_url,
+                preview_width: value.actual_preview_width,
+                preview_height: value.actual_preview_height,
+                height: value.height,
+                prev_url: value.preview_url,
+                security: value.rating === 's' ? false : true,
+                name: value.md5 + path.extname(value.file_url),
+            });
         });
         return imgs;
     }

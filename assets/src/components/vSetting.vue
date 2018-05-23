@@ -1,22 +1,29 @@
 <template>
-    <section class="setting" :class="[ securityMode ? 'active': '']">
+    <section class="setting" :class="[ security ? 'active': '']">
         <label class="sToggle">
-            <input type="checkbox" class="sSecurity" v-model="securityMode">
+            <input type="checkbox" class="sSecurity" v-model="security">
             <span class="sFake"></span>
         </label>
     </section>
 </template>
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Watch } from 'vue-property-decorator';
-import { State } from 'vuex-class';
+import { Component } from 'vue-property-decorator';
+import { Getter, Mutation } from 'vuex-class';
 
 @Component
 export default class VSetting extends Vue {
-    securityMode: boolean = true;
     rememberPage: boolean = false;
     isOptionShow: boolean = false;
+    @Getter('GETSECURITY') securityMode!: boolean;
+    @Mutation SETSECURITY!: Function;
 
+    set security(val: boolean){
+        this.SETSECURITY(val);
+    }
+    get security() {
+        return this.securityMode;
+    }
     showOption(){
         this.isOptionShow = !this.isOptionShow;
     }
