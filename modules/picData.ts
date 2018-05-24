@@ -36,7 +36,7 @@ class PicData {
                 preview_height: value.actual_preview_height,
                 height: value.height,
                 prev_url: value.preview_url,
-                security: value.rating === 's' ? false : true,
+                security: value.rating === 's' ? true : false,
                 name: value.md5 + path.extname(value.file_url),
             });
         });

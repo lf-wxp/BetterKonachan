@@ -37,6 +37,7 @@ export default class VSetting extends Vue {
     width: 24px;
     height: 24px;
     position: fixed;
+    z-index: 1;
     left: 0;
     top: 0;
     border: 4px solid var(--teal);

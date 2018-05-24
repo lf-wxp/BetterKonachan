@@ -1,9 +1,9 @@
 <template>
     <section class="list">
         <div class="lCon">
-            <waterfall>
-                <figure v-for="(item, index) of items" :key="index">
-                    <img class="lImg" :src="item.prev_url" alt="" @error="loadError($event)" @click.stop="clickActive($event,item)" :style="item.fitSize">
+            <waterfall :list="items" :options="options" :max-width="300" :min-width="200">
+                <figure slot-scope="{ item }">
+                    <img class="lImg" :src="item.prev_url" alt="" @error="loadError($event)" @click.stop="clickActive($event,item)" >
                     <div class="lTool">
                         <p class="lInfo">{{ item.width }} / {{ item.height }}</p>
                         <a :href="item.url" download="123.png" class="lDown"><i class="icon-download"></i></a>
@@ -37,11 +37,23 @@ import Waterfall from './vWaterfall';
 })
 export default class VList extends Vue {
     @State security!: string;
-    items: any[] = [];
-    @Watch('security')
-    onSecurity(val: boolean) {
-        console.log(this);
+    rawItems: any[] = [];
+    options: object = {
+        width: 'preview_width',
+        height: 'preview_height',
+    };
+
+    get items() {
+        return this.rawItems.filter((item: any) => {
+            if (this.security) {
+                return item.security;
+            } else {
+                return true;
+            }
+        });
+        
     }
+
     async created() {
         const res = await getPost.http({
             params: {
@@ -49,7 +61,7 @@ export default class VList extends Vue {
                 page: 1
             }
         });
-        this.items = res.data.images;
+        this.rawItems = res.data.images;
     }
 }
 
@@ -106,7 +118,6 @@ export default class VList extends Vue {
 figure {
     margin: 0;
     border: calc(var(--gap) / 2) solid transparent;
-    width: 16.66667%;
     /* max-width: 250px; */
     box-sizing: border-box;
     border-radius: 2px;
