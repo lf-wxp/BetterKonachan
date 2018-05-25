@@ -42,18 +42,12 @@ export default class App extends Vue {}
     font-size: 20px;
     min-height: 100vh;
     min-width: 460px;
-    padding: 1px;
     overflow: hidden;
     box-sizing: border-box;
     background-repeat: no-repeat;
     background-size: cover;
     background-color: #252323;
     background-blend-mode: multiply;
-    > article {
-        display: flex;
-        flex-flow: row nowrap;
-        width: 100%;
-    }
     section {
         position: relative;
         box-sizing: border-box;
@@ -62,8 +56,12 @@ export default class App extends Vue {}
     }
 }
 .top {
-    position: relative;
+    position: absolute;
+    z-index: 1;
     display: flex;
+    width:100%;
+    box-sizing: border-box;
+    overflow: hidden;
     justify-content: space-around;
     align-content: flex-start;
     section {

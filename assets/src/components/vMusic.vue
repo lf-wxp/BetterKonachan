@@ -29,7 +29,6 @@
                 </div>
             </div>
         </div>
-        <v-loading :show="showLoading" />
     </section>
 </template>
 <script lang="ts">
@@ -39,7 +38,6 @@ import { Component, Prop, Watch } from 'vue-property-decorator';
 import { getMusic } from 'src/service';
 import { Mutation } from 'vuex-class';
 import Player from 'modules/player';
-import vLoading from 'components/vLoading2.vue';
 import bubble from 'modules/bubble';
 
 const initData: IVueData = {
@@ -59,15 +57,10 @@ const initData: IVueData = {
         'icon-shuffle': false
     }
 };
-@Component({
-    components: {
-        vLoading,
-    }
-})
+@Component
 export default class VMusic extends Vue {
     initData: IVueData = initData;
     mPlayer!: IPlayer;
-    showLoading: boolean = false;
     isLoadedBgImage: boolean = false;
 
     @Mutation SETBG!: Function;
@@ -107,12 +100,10 @@ export default class VMusic extends Vue {
 
     async mounted() {
         const response = await getMusic.http();
-        this.showLoading = true;
         this.mPlayer = new Player({
             listSongs: <IMusic[]>response.data,
             vueData: initData
         });
-        this.showLoading = false;
         this.mPlayer.init();
     }
 }

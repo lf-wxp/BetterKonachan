@@ -9,17 +9,17 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-import { Getter, Mutation } from 'vuex-class';
+import { State, Mutation } from 'vuex-class';
 
 @Component
 export default class VSetting extends Vue {
     rememberPage: boolean = false;
     isOptionShow: boolean = false;
-    @Getter('GETSECURITY') securityMode!: boolean;
-    @Mutation SETSECURITY!: Function;
+    @State('security') securityMode!: boolean;
+    @Mutation('SETSECURITY') setSecurity!: Function;
 
     set security(val: boolean){
-        this.SETSECURITY(val);
+        this.setSecurity(val);
     }
     get security() {
         return this.securityMode;

@@ -5,6 +5,8 @@ export default new Vuex.Store({
     state: {
         bgUrl: '',
         tags: '',
+        page: 1,
+        totalPage: 0,
         security: true,
     },
     getters: {
@@ -17,6 +19,12 @@ export default new Vuex.Store({
         GETSECURITY(state) {
             return state.security;
         },
+        GETPAGE(state) {
+            return state.page;
+        },
+        GETTOTALPAGE(state) {
+            return state.totalPage;
+        },
     },
     mutations: {
         SETBG(state, str: string) {
@@ -27,6 +35,12 @@ export default new Vuex.Store({
         },
         SETSECURITY(state, mode: boolean) {
             state.security = mode;
+        },
+        SETPAGE(state, page: number) {
+            state.page = page;
+        },
+        SETTOTALPAGE(state, page: number) {
+            state.totalPage = page;
         },
     },
 });

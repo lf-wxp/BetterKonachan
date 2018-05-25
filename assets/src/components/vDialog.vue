@@ -16,7 +16,7 @@
     </div>
 </template>
 <script>
-    import vLoading from './vLoading2.vue';
+    import vLoading from './vLoading.vue';
     export default {
         data() {
             return {

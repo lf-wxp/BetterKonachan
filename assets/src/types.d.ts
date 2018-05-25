@@ -14,28 +14,10 @@ declare module '*.css' {
     export = classNames;
 
 }
-declare module 'vue-waterfall' {
-    import Vue from 'vue';
 
-    export class Waterfall extends Vue {
-    }
-
-    export class WaterfallSlot extends Vue {
-    }
-}
-declare module 'vue-virtual-scroll-list' {
-    const virtualList: any
-    export default virtualList
-}
-
-declare module 'vueisotope' {
-    const isotope: any;
-    export default isotope;
-}
-
-declare module 'vue-images-loaded' {
-    const imagesLoaded: any;
-    export default imagesLoaded;
+declare module 'vue-spinkit' {
+    const Spinner: any;
+    export default Spinner;
 }
 
 declare interface ICircle {

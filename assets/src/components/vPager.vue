@@ -19,28 +19,41 @@
                 <span class="pGotoSpan">{{tPage}}</span>
             </div>
             <div class="pGotoDiv">
-                <input class="pGotoInput" type="text" placeholder="page" name="pager" v-model='goToPage'>
+                <input class="pGotoInput" type="text" placeholder="page" name="pager" autocomplete="off" @input="filterInput($event)">
             </div>
             <button class="pBtn" @click.prevent="goTo">
                 <span></span>
             </button>
         </form>
-        <div class="pHolder" @click="expand"></div>
+        <div class="pHolder"></div>
     </section>
 </template>
 <script lang="ts">
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
+import { State, Mutation } from 'vuex-class';
 
 @Component
 export default class VPager extends Vue {
-    goToPage: string = '';
+    toPage: number = 0;
     size: number = 4;
-    isActive: boolean = false;
-    cPage: number = 4;
-    tPage: number = 10;
+    @State page!: number;
+    @State('totalPage') tPage!: number;
+    @Mutation('SETPAGE') setCPage!: Function;
 
-    get pageArray() {
+    get cPage(): number {
+        return this.page;
+    }
+
+    set cPage(val: number) {
+        this.setCPage(val);
+    }
+
+    get isActive(): boolean {
+        return !!this.tPage;
+    }
+
+    get pageArray(): number[] {
         const half: number = Math.floor(this.size / 2);
         const navpage: number[] = [];
         if (this.cPage > half && this.cPage < this.tPage - half) {
@@ -68,11 +81,29 @@ export default class VPager extends Vue {
         }
         return navpage;
     }
-    expand() {
-        this.isActive = true;
-    }
     invoke(page: number): void {
-        this.cPage = page;
+        if(page > 0 &&  page < this.tPage ){
+            this.cPage = page;
+        }
+    }
+    
+    goTo(): void{
+        this.invoke(<number>this.toPage);
+    }
+
+    filterInput(e: Event): void {
+        const target = <HTMLInputElement>e.target;
+        const val = target.value;
+        target.value = val.replace(/[^0-9]/g, '');
+        let num = Number.parseInt(target.value, 10);
+        if (num > this.tPage) {
+            num = this.tPage;
+        }
+        if (num < 0) {
+            num = 1;
+        }
+        target.value = num ? `${num}` : '';
+        this.toPage = num || 1;
     }
 }
 </script>
@@ -209,6 +240,10 @@ export default class VPager extends Vue {
             background: var(--hoverBg);
         }
     }
+    &.disabled {
+        pointer-events: none;
+        cursor: not-allowed;
+    }
 }
 .pHolder {
     width: var(--itemSize);
@@ -297,6 +332,7 @@ export default class VPager extends Vue {
     top: var(--itemSize);
     z-index: 1;
 }
+
 .pGotoSpan,
 .pGotoInput {
     line-height: 45px;
@@ -312,10 +348,16 @@ export default class VPager extends Vue {
     border: none;
     background: none;
 }
+.pGotoSpan {
+    font-size: 14px;
+}
 .pGotoInput {
     color: white;
     font-size: 14px;
     outline: none;
+    box-sizing: border-box;
+    border-bottom: 4px solid  var(--teal);
+    animation: blink 1s ease-in-out  infinite alternate-reverse both;
 }
 .pGotoEm,
 .pGotoDiv,
@@ -387,6 +429,14 @@ export default class VPager extends Vue {
     }
     100% {
         background-color: var(--teal);
+    }
+}
+@keyframes blink {
+    0% {
+        border-color: transparent;
+    }
+    100% {
+        border-color: var(--teal);
     }
 }
 </style>

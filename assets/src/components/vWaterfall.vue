@@ -1,7 +1,7 @@
 <template>
     <div class="waterfall" :style="secStyle">
         <transition-group name="flip-list" tag="div" >
-            <div v-for="(l, i) of items" :key='i'  :style="l.style" class="waterfallItem">
+            <div v-for="l of items" :key='l.name'  :style="l.style" class="waterfallItem">
                 <slot :item="l"></slot>
             </div>
         </transition-group>
@@ -12,7 +12,7 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 
 @Component
-export default class Waterfall extends Vue {
+export default class VWaterfall extends Vue {
     parentWidth: number = 0;
     column: number = 0;
     width: number = 0;
@@ -92,7 +92,6 @@ export default class Waterfall extends Vue {
 
     init() {
         this.parentWidth = (<HTMLElement>this.$el.parentElement).clientWidth;
-        alert(this.parentWidth);
         this.calculateColumn();
         this.initColumnArray();
     }
@@ -115,7 +114,6 @@ export default class Waterfall extends Vue {
             }
             handler = setTimeout(() => {
                 this.init();
-                console.log('init');
             }, 500);
         });
     }

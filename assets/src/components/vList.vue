@@ -1,7 +1,7 @@
 <template>
     <section class="list">
         <div class="lCon">
-            <waterfall :list="items" :options="options" :max-width="300" :min-width="200">
+            <v-waterfall :list="items" :options="options" :max-width="300" :min-width="200">
                 <figure slot-scope="{ item }">
                     <img class="lImg" :src="item.prev_url" alt="" @error="loadError($event)" @click.stop="clickActive($event,item)" >
                     <div class="lTool">
@@ -9,7 +9,8 @@
                         <a :href="item.url" download="123.png" class="lDown"><i class="icon-download"></i></a>
                     </div>
                 </figure>
-            </waterfall>
+            </v-waterfall>
+            <v-loading v-if="isLoading"/>
             <!-- <waterfall :line-gap="200" :watch="items">
                 <waterfall-slot 
                     v-for="(item, index) in items"
@@ -27,23 +28,29 @@
 import Vue from 'vue';
 import { Component, Watch } from 'vue-property-decorator';
 import { getPost } from 'src/service';
-import { State } from 'vuex-class';
-import Waterfall from './vWaterfall';
+import { State, Mutation } from 'vuex-class';
+import vWaterfall from './vWaterfall';
+import vLoading from './vLoading';
 
 @Component({
     components: {
-        Waterfall,
+        vWaterfall,
+        vLoading
     },
 })
 export default class VList extends Vue {
     @State security!: string;
+    @State page!: number;
+    @State tags!: string;
+    @Mutation('SETTOTALPAGE') setTotalPage!: Function;
     rawItems: any[] = [];
+    isLoading: boolean = true;
     options: object = {
         width: 'preview_width',
         height: 'preview_height',
     };
 
-    get items() {
+    get items(): any[] {
         return this.rawItems.filter((item: any) => {
             if (this.security) {
                 return item.security;
@@ -51,17 +58,37 @@ export default class VList extends Vue {
                 return true;
             }
         });
-        
+    }
+
+    @Watch('page')
+    onPage() {
+
+        this.getData();
+    }
+
+    @Watch('tags')
+    onTags() {
+        this.getData();
+    }
+
+    async getData() {
+        getPost.cancel();
+        this.isLoading = true;
+        const res = await getPost.http({
+            params: {
+                tags: this.tags,
+                page: this.page,
+            }
+        });
+        if (res.status === 200) {
+            this.isLoading = false;
+            this.rawItems = res.data.images;
+            this.setTotalPage(res.data.pages);
+        }
     }
 
     async created() {
-        const res = await getPost.http({
-            params: {
-                tags: '',
-                page: 1
-            }
-        });
-        this.rawItems = res.data.images;
+        this.getData();
     }
 }
 
@@ -110,6 +137,7 @@ export default class VList extends Vue {
     --gap: 10px;
 }
 .lCon {
+    position: relative;
 }
 .vue-waterfall-slot {
     overflow: hidden;
@@ -170,4 +198,5 @@ figure {
     cursor: pointer;
     transition: transform 0.2s ease;
 }
+
 </style>
