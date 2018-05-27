@@ -70,6 +70,7 @@ export default class VMusic extends Vue {
         this.SETBG(val);
     }
     pickTime(event: MouseEvent) {
+        return false;
         const percentage =
             event.offsetX / (event.target as Element).clientWidth;
         console.log(percentage);
@@ -109,16 +110,20 @@ export default class VMusic extends Vue {
 }
 </script>
 <style scoped>
-i {
-    cursor: pointer;
-}
 :root {
     --mainRadius: 5px;
     --mWidth: 360px;
     --mHeight: 220px;
     --teal: #39CCCC;
 }
-
+i {
+    cursor: pointer;
+    color: white;
+    transition: color .2S ease-in-out;
+    &:hover {
+        color: var(--teal);
+    }
+}
 .music {
     position: relative;
     overflow: hidden;

@@ -6,21 +6,11 @@
                     <img class="lImg" :src="item.prev_url" alt="" @error="loadError($event)" @click.stop="clickActive($event,item)" >
                     <div class="lTool">
                         <p class="lInfo">{{ item.width }} / {{ item.height }}</p>
-                        <a :href="item.url" download="123.png" class="lDown"><i class="icon-download"></i></a>
+                        <a :href="item.url" download class="lDown" target="_blank"><i class="icon-download"></i></a>
                     </div>
                 </figure>
             </v-waterfall>
             <v-loading v-if="isLoading"/>
-            <!-- <waterfall :line-gap="200" :watch="items">
-                <waterfall-slot 
-                    v-for="(item, index) in items"
-                    :width="item.width"
-                    :height="item.height"
-                    :order="index"
-                    :key="item.id">
-                    
-                </waterfall-slot>
-            </waterfall> -->
         </div>
     </section>
 </template>
@@ -31,6 +21,7 @@ import { getPost } from 'src/service';
 import { State, Mutation } from 'vuex-class';
 import vWaterfall from './vWaterfall';
 import vLoading from './vLoading';
+import loadErrorImage from 'images/loaderror.png';
 
 @Component({
     components: {
@@ -87,6 +78,11 @@ export default class VList extends Vue {
         }
     }
 
+    loadError(e: Event) {
+        const target = e.currentTarget as HTMLImageElement;
+        target.src = loadErrorImage;
+    }
+
     async created() {
         this.getData();
     }
@@ -136,8 +132,13 @@ export default class VList extends Vue {
     --infoBg: color(#39cccc a(50%));
     --gap: 10px;
 }
+.list {
+    background: none;
+}
 .lCon {
     position: relative;
+    background: none;
+    min-height: calc(100vh - 843px);
 }
 .vue-waterfall-slot {
     overflow: hidden;

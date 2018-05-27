@@ -57,8 +57,8 @@ const wpModule = {
 
 const plugins = [
     new HtmlWebpackPlugin({
-        title: 'Movie Manager',
         template: './src/app.html',
+        favicon: path.resolve(__dirname, '../assets/src/images/favicon.ico'),
         chunks: ['index'],
     }),
     // new InlineManifestWebpackPlugin({
@@ -80,7 +80,7 @@ const resolve = {
         images: path.resolve(__dirname, '../assets/src/images'),
     },
     modules: [path.resolve(__dirname, '../modules'), 'node_modules'],
-    extensions: ['.ts', '.css', '.json', '.vue', '.js'],
+    extensions: ['.ts', '.css', '.json', '.vue', '.js', '.png', '.jpg', '.svg'],
 };
 module.exports = {
     entry,

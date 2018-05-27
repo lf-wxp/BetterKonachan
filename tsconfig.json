@@ -11,12 +11,14 @@
         "allowUnreachableCode": true,
         "moduleResolution": "node",
         "lib": [
-            "es2017",
-            "dom"
+            "dom",
+            "es6",
+            "es2015"
         ],
         "typeRoots": [
             "node_modules/@types"
-        ]
+        ],
+        "outDir": "./dist"
     },
     "files": [ "server.ts" ],
     "exclude": [

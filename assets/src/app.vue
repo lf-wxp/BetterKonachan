@@ -1,12 +1,10 @@
 <template>
     <div id="wrap">
         <v-background/>
-        <article class="top">
-            <v-search/>
-            <v-header/>
-            <v-pager/>
-            <v-setting/>
-        </article>
+        <v-header/>
+        <v-pager/>
+        <v-search/>
+        <v-setting/>
         <v-music/>
         <v-list/>
     </div>
@@ -40,32 +38,18 @@ export default class App extends Vue {}
 <style>
 #wrap {
     font-size: 20px;
-    min-height: 100vh;
-    min-width: 460px;
     overflow: hidden;
     box-sizing: border-box;
     background-repeat: no-repeat;
     background-size: cover;
     background-color: #252323;
+    min-height: 100vh;
     background-blend-mode: multiply;
     section {
         position: relative;
         box-sizing: border-box;
         background-repeat: no-repeat;
         margin-bottom: 0px;
-    }
-}
-.top {
-    position: absolute;
-    z-index: 1;
-    display: flex;
-    width:100%;
-    box-sizing: border-box;
-    overflow: hidden;
-    justify-content: space-around;
-    align-content: flex-start;
-    section {
-        flex: 0 0 auto;
     }
 }
 @media screen and (max-width: 745px) {
@@ -79,26 +63,7 @@ export default class App extends Vue {}
         flex: 1 1 auto !important;
     }
 }
-@media screen and (max-width: 745px) {
-    article {
-        &:nth-of-type(3) {
-            flex-wrap: wrap !important;
-        }
-    }
-    #footer {
-        margin-left: 10px !important;
-    }
-    #Mmusic {
-        flex: 1 0 360px !important;
-        margin-right: 10px !important;
-    }
-}
-@media screen and (max-width: 705px) {
-    #Mmusic {
-        margin-right: 10px !important;
-        margin-left: 10px !important;
-    }
-}
+
 ::-webkit-scrollbar {
     width: 10px;
     height: 10px;

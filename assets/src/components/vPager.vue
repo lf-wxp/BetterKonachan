@@ -1,5 +1,5 @@
 <template>
-    <section class="pager" :class="[ isActive ? 'active':'']">
+    <section class="pager" :class="[ isActive ? 'active':'']" v-draggable>
         <span class="pNav" @click="invoke(cPage - 1)" :class="[cPage - 1 ? '':'disabled']">
             <i></i>
         </span>
@@ -32,8 +32,13 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { State, Mutation } from 'vuex-class';
+import { Draggable } from 'draggable-vue-directive';
 
-@Component
+@Component({
+    directives: {
+        Draggable,
+    }
+})
 export default class VPager extends Vue {
     toPage: number = 0;
     size: number = 4;
@@ -120,7 +125,10 @@ export default class VPager extends Vue {
 .pager {
     width: calc(3 * var(--itemSize));
     height: calc(3 * var(--itemSize));
-    position: relative;
+    position: absolute;
+    right: 40px;
+    top: 40px;
+    z-index: 2;
     &.active {
         animation: none;
         & .pNav {

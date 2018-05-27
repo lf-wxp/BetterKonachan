@@ -1,34 +1,56 @@
 <template>
     <section class="search">
         <form novalidate class="sForm">
-            <input type="search" v-model="searchText" name="search" placeholder="search" class="sInput">
-            <button :disabled="!searchText" @click.prevent="submit" class="sButton">search</button>
+            <input type="search" v-model="searchText" name="search" class="sInput" :class="[ isCollpase ? 'collpase': '']">
+            <button @click.prevent="submit" class="sButton">search</button>
         </form>
     </section>
 </template>
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Watch } from 'vue-property-decorator';
-import { State } from 'vuex-class';
+import { State, Mutation } from 'vuex-class';
 import { getSession, setSession } from 'src/service';
 
 @Component
 export default class VSearch extends Vue {
     searchText: string = '';
+    isCollpase: boolean = true;
+    tempPage: number = 1;
     @State tags!: string;
+    @State page!: number;
+    @Mutation('SETPAGE') setPage!: Function;
+    @Mutation('SETTAGS') setTags!: Function;
+    
+    @Watch('searchText')
+    onSearchText(val: string) {
+        if (!val && !this.isCollpase) {
+            this.setTags('');
+            this.setPage(this.tempPage);
+        }
+    }
+    @Watch('page')
+    onPage(val: number) {
+        if (!this.searchText) {
+            this.tempPage = val;
+        }
+    }
 
     submit() {
-        this.tags = this.searchText;
+        if (this.isCollpase) {
+            this.isCollpase = false;
+        } else {
+            if (this.searchText) {
+                this.setTags(this.searchText);
+                this.setPage(1);
+            } else {
+                this.isCollpase = true;
+            }
+        }
     }
-    // @Watch()
-    // searchText(val) {
-    //     setSession('tags', val);
-    //     if (getSession('backCurrentPage') && !val) {/* 当搜索清楚时，恢复此前浏览的具体页面*/
-    //         const backPage = getSession('backCurrentPage');
-    //         setSession('currentPage', backPage);
-    //         this.$dispatch('invoke', { currentPage: backPage });
-    //     }
-    // }
+    created() {
+        this.tempPage = this.page;
+    }
 }
 </script>
 <style scoped>
@@ -36,8 +58,10 @@ export default class VSearch extends Vue {
     --teal: #39cccc;
 }
 .search {
-    max-width: 300px;
     overflow: hidden;
+    position: absolute;
+    z-index: 1;
+    left: 40px;
 }
 .sForm {
     box-sizing: border-box;
@@ -61,9 +85,15 @@ export default class VSearch extends Vue {
     font-family: 'Aldo-SemiBold';
     margin-right: auto;
     outline: none;
+    width: 190px;
+    transition: width .2s ease-in;
     &:focus {
         background-color: color(var(--teal) a(30%));
         color: white;
+    }
+    &.collpase {
+        width: 0;
+        padding: 0;
     }
 }
 .sButton {
@@ -79,6 +109,7 @@ export default class VSearch extends Vue {
     font-size: 16px;
     transition: all 0.2s ease;
     margin: auto;
+    outline: none;
     &:hover {
         background-color: color(var(--teal) a(80%));
     }

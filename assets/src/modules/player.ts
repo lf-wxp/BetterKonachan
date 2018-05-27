@@ -36,6 +36,15 @@ class Player implements IPlayer {
         this.playOrderIndex = 0;
         this.isDone = false;
         this.loadSong();
+        let handler: any;
+        window.addEventListener('resize', () => {
+            if (handler) {
+                clearTimeout(handler);
+            }
+            handler = setTimeout(() => {
+                this.resize();
+            }, 500);
+        });
     }
     public nextSong() {
         if (this.currentSongIndex + 1 < this.songsLen) {
@@ -81,7 +90,6 @@ class Player implements IPlayer {
         this.vueData.title = currentSong.title;
         this.vueData.artist = currentSong.artist;
         this.vueData.bgImg = currentSong.pic;
-        return false;
         this.CAC = new Song({
             id: Number(currentSong.id),
             volume: .5,

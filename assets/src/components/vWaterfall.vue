@@ -88,6 +88,10 @@ export default class VWaterfall extends Vue {
         }
         this.width = width;
         this.column = column;
+        if (width < this.minWidth) {
+            this.column -= this.column;
+            this.width = this.parentWidth;
+        }
     }
 
     init() {
@@ -123,6 +127,9 @@ export default class VWaterfall extends Vue {
 <style scoped>
 .waterfall {
     position: relative;
+    background: none;
+    min-height: calc(100vh - 843px);
+
 }
 .waterfallItem {
     position: absolute;

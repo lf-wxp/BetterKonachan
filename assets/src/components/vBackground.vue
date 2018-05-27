@@ -1,5 +1,5 @@
 <template>
-    <figure>
+    <figure class="background">
         <img :src="ablumImg" class="bgImage" v-fade="ablumImg">
     </figure>
 </template>
@@ -7,6 +7,7 @@
 import Vue from 'vue';
 import { State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+
 @Component({
     directives: {
         fade: {
@@ -27,6 +28,7 @@ import { Component } from 'vue-property-decorator';
                 if (previousImg) {
                     parent.removeChild(previousImg);
                 }
+                console.log('background fade', value, oldValue);
                 if (oldValue) {
                     el.addEventListener(
                         'load',
@@ -63,17 +65,17 @@ export default class VBackground extends Vue {
     @State('bgUrl') ablumImg!: string;
 }
 </script>
-<style scoped>
-figure {
+<style>
+.background {
     position: absolute;
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 70vh;
+    height: 100vh;
     left: 0;
     top: 0;
     filter: blur(5px);
-    &:after {
+    /* &:after {
         display: block;
         position: relative;
         background-image: linear-gradient(
@@ -85,7 +87,7 @@ figure {
         height: 150px;
         width: 100%;
         content: '';
-    }
+    } */
 }
 .bgImage {
     display: block;
