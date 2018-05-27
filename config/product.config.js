@@ -11,9 +11,14 @@ base.module.rules.push({
     test: /\.css$/,
     exclude: ['node_modules'],
     use: ExtractTextPlugin.extract({
-        use: ['css-loader', 'postcss-loader'],
+        use: [{
+            loader: 'css-loader',
+            options: {
+                minimize: true,
+            }
+        }, 'postcss-loader'],
         fallback: 'vue-style-loader',
-        publicPath: '../assets/dist/css/',
+        publicPath: '../',
     }),
 });
 module.exports = {
@@ -47,7 +52,7 @@ module.exports = {
     output: {
         filename: '[name].[chunkhash:8].js',
         chunkFilename: '[name].[chunkhash:8].js',
-        publicPath: '/assets/dist/',
+        publicPath: './assets/dist/',
         path: path.resolve(__dirname, '../assets/dist'),
     },
     module: base.module,
