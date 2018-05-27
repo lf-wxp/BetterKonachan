@@ -15,7 +15,7 @@ let totalPage: number  = 0;
 
 const baseMusicUrl = 'http://music.163.com/song/media/outer/url?id=';
 
-const viewConf = views(path.join(__dirname, 'templates'), {
+const viewConf = views(path.join(__dirname, './assets/dist/'), {
     map: {
         html: 'swig',
     },
