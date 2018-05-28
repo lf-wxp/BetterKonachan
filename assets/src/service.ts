@@ -27,11 +27,11 @@ class Service implements IService {
 }
 
 const getMusic = new Service({
-    url: '/music',
+    url: '/api/music',
 });
 
 const getStream = new Service({
-    url: '/stream',
+    url: '/api/stream',
     responseType: 'arraybuffer',
 });
 
@@ -45,7 +45,7 @@ const getStream = new Service({
 // }
 
 const getPost = new Service({
-    url: '/post',
+    url: '/api/post',
 });
 // function getPost(page = 1, isSafe = true, tags = '') {
 //     return axios.get('/post', {
@@ -58,7 +58,7 @@ const getPost = new Service({
 // }
 
 const getSampleImg = new Service({
-    url: '/pic',
+    url: '/api/pic',
 });
 // function getSampleImg(url: string) {
 //     return axios.get('/pic', {

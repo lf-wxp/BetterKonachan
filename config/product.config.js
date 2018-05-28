@@ -1,31 +1,25 @@
 const base = require('./base.config.js');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
 
 const proPlugins = [
     new webpack.HashedModuleIdsPlugin(),
-    new ExtractTextPlugin('css/[name].css'),
 ];
 base.module.rules.push({
     test: /\.css$/,
     exclude: ['node_modules'],
-    use: ExtractTextPlugin.extract({
-        use: [{
-            loader: 'css-loader',
-            options: {
-                minimize: true,
-            }
-        }, 'postcss-loader'],
-        fallback: 'vue-style-loader',
-        publicPath: '../',
-    }),
+    use: ['vue-style-loader', {
+        loader: 'css-loader',
+        options: {
+            importLoaders: 1
+        }
+    }, 'postcss-loader'],
 });
 module.exports = {
     mode: 'production',
     optimization: {
         splitChunks: {
-            chunks: "initial", // 必须三选一： "initial" | "all"(默认就是all) | "async" 
+            chunks: 'all', // 必须三选一： "initial" | "all"(默认就是all) | "async" 
             minSize: 0, // 最小尺寸，默认0
             minChunks: 1, // 最小 chunk ，默认1
             maxAsyncRequests: 1, // 最大异步请求数， 默认1
@@ -34,7 +28,7 @@ module.exports = {
             cacheGroups: { // 这里开始设置缓存的 chunks
                 priority: false, // 缓存组优先级
                 vendor: { // key 为entry中定义的 入口名称
-                    chunks: "initial", // 必须三选一： "initial" | "all" | "async"(默认就是异步) 
+                    chunks: 'all', // 必须三选一： "initial" | "all" | "async"(默认就是异步) 
                     test: /react|lodash/, // 正则规则验证，如果符合就提取 chunk
                     name: "vendor", // 要缓存的 分隔出来的 chunk 名称 
                     minSize: 0,

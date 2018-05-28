@@ -28,7 +28,6 @@ import { Component } from 'vue-property-decorator';
                 if (previousImg) {
                     parent.removeChild(previousImg);
                 }
-                console.log('background fade', value, oldValue);
                 if (oldValue) {
                     el.addEventListener(
                         'load',

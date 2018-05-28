@@ -22,7 +22,7 @@ module.exports = {
     output: {
         filename: '[name].js',
         chunkFilename: '[name].js',
-        publicPath: '/dev/',
+        publicPath: '/',
         // path: path.resolve(__dirname, 'dist')
     },
     module: base.module,
@@ -34,16 +34,10 @@ module.exports = {
         port: 9999,
         host: '0.0.0.0',
         hot: true,
-        // historyApiFallback: {
-        //     rewrites: [{
-        //         from: /test/,
-        //         to: '/index.html'
-        //     }]
-        // },
         historyApiFallback: true,
         proxy: {
-            '/': {
-                target: 'http://localhost:3000',
+            '/api': {
+                target: 'http://localhost:8888',
             },
         },
         stats: 'minimal',

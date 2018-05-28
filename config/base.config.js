@@ -59,7 +59,6 @@ const plugins = [
     new HtmlWebpackPlugin({
         template: './src/app.html',
         favicon: path.resolve(__dirname, '../assets/src/images/favicon.ico'),
-        chunks: ['index'],
     }),
     // new InlineManifestWebpackPlugin({
     //     name: 'webpackManifest',
