@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import 'css/_base.css';
-import "normalize.css";
+import 'normalize.css';
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import vHeader from 'src/components/vHeader.vue';
@@ -31,7 +31,7 @@ import vSearch from 'components/vSearch.vue';
         vBackground,
         vList,
         vSetting,
-    }
+    },
 })
 export default class Home extends Vue {}
 </script>

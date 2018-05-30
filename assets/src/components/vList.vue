@@ -26,7 +26,7 @@ import loadErrorImage from 'images/loaderror.png';
 @Component({
     components: {
         vWaterfall,
-        vLoading
+        vLoading,
     },
 })
 export default class VList extends Vue {
@@ -53,7 +53,6 @@ export default class VList extends Vue {
 
     @Watch('page')
     onPage() {
-
         this.getData();
     }
 
@@ -69,7 +68,7 @@ export default class VList extends Vue {
             params: {
                 tags: this.tags,
                 page: this.page,
-            }
+            },
         });
         if (res.status === 200) {
             this.isLoading = false;
@@ -199,5 +198,4 @@ figure {
     cursor: pointer;
     transition: transform 0.2s ease;
 }
-
 </style>

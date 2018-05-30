@@ -13,7 +13,9 @@
     "start": "ts-node server.ts"
   },
   "dependencies": {
+    "@types/blueimp-md5": "^2.7.0",
     "axios": "^0.18.0",
+    "blueimp-md5": "^2.10.0",
     "cheerio": "^1.0.0-rc.2",
     "draggable-vue-directive": "^1.2.0",
     "iview": "^2.14.0-rc.3",
@@ -21,9 +23,9 @@
     "koa-bodyparser": "^4.2.1",
     "koa-logger": "^3.2.0",
     "koa-router": "^7.4.0",
-    "koa-socket-2": "^1.0.17",
     "koa-static": "^4.0.3",
     "koa-views": "^6.1.4",
+    "koa-websocket": "^5.0.1",
     "normalize.css": "^8.0.0",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.2.0",

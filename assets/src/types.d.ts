@@ -8,11 +8,10 @@ declare module '*.json' {
 }
 declare module '*.css' {
     interface IClassNames {
-        [className: string]: string
+        [className: string]: string;
     }
     const classNames: IClassNames;
     export = classNames;
-
 }
 
 declare module '*.png' {
@@ -37,7 +36,7 @@ declare interface ICircle {
     alpha: number;
     velocity: number;
     scale: number;
-    pos: { x: number, y: number };
+    pos: { x: number; y: number };
     init(): void;
     draw(): void;
 }
@@ -134,4 +133,14 @@ declare interface ISong {
 declare interface IService {
     cancel(): void;
     http(data: object): AxiosPromise<any>;
+}
+
+declare interface uploadFile {
+    file: File;
+    isSuccess: boolean;
+    isStart: boolean;
+    md5: string;
+    processBar: {
+        width: string;
+    }
 }

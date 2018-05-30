@@ -21,7 +21,7 @@ export default class VSearch extends Vue {
     @State page!: number;
     @Mutation('SETPAGE') setPage!: Function;
     @Mutation('SETTAGS') setTags!: Function;
-    
+
     @Watch('searchText')
     onSearchText(val: string) {
         if (!val && !this.isCollpase) {
@@ -86,7 +86,7 @@ export default class VSearch extends Vue {
     margin-right: auto;
     outline: none;
     width: 190px;
-    transition: width .2s ease-in;
+    transition: width 0.2s ease-in;
     &:focus {
         background-color: color(var(--teal) a(30%));
         color: white;

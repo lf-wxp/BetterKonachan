@@ -1,11 +1,19 @@
-import axios, { Canceler, AxiosInstance, AxiosStatic, AxiosAdapter } from 'axios';
+import axios, {
+    Canceler,
+    AxiosInstance,
+    AxiosStatic,
+    AxiosAdapter,
+} from 'axios';
 
 const CancelToken = axios.CancelToken;
 
 class Service implements IService {
     private cancelToken!: Canceler;
     private opts: object;
-    constructor({ method = 'get', ...opts }: { method?: string, [propName: string]: any } = {}) {
+    constructor({
+        method = 'get',
+        ...opts
+    }: { method?: string; [propName: string]: any } = {}) {
         this.opts = { method, ...opts };
     }
     public http(data: object = {}) {
@@ -15,7 +23,7 @@ class Service implements IService {
             cancelToken: new CancelToken((c: () => void) => {
                 this.cancelToken = c;
             }),
-        }).catch((e) => {
+        }).catch(e => {
             return e;
         });
     }

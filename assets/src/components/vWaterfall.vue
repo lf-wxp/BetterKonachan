@@ -32,7 +32,7 @@ export default class VWaterfall extends Vue {
     get secStyle() {
         const max = Math.max(...this.columnArray);
         return {
-            height: `${max}px`
+            height: `${max}px`,
         };
     }
     get items() {
@@ -51,7 +51,7 @@ export default class VWaterfall extends Vue {
                 item.style = {
                     width: `${this.width}px`,
                     height: `${h}px`,
-                    transform: `translate(${x}px, ${y}px)`
+                    transform: `translate(${x}px, ${y}px)`,
                 };
                 return item;
             });
@@ -65,7 +65,7 @@ export default class VWaterfall extends Vue {
         const offsetY = min;
         return {
             x: offsetX,
-            y: offsetY
+            y: offsetY,
         };
     }
 
@@ -129,7 +129,6 @@ export default class VWaterfall extends Vue {
     position: relative;
     background: none;
     min-height: calc(100vh - 843px);
-
 }
 .waterfallItem {
     position: absolute;

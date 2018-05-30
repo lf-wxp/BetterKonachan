@@ -54,8 +54,8 @@ const initData: IVueData = {
     playOrder: {
         'icon-repeat': true,
         'icon-reload': false,
-        'icon-shuffle': false
-    }
+        'icon-shuffle': false,
+    },
 };
 @Component
 export default class VMusic extends Vue {
@@ -103,7 +103,7 @@ export default class VMusic extends Vue {
         const response = await getMusic.http();
         this.mPlayer = new Player({
             listSongs: <IMusic[]>response.data,
-            vueData: initData
+            vueData: initData,
         });
         this.mPlayer.init();
     }
@@ -114,12 +114,12 @@ export default class VMusic extends Vue {
     --mainRadius: 5px;
     --mWidth: 360px;
     --mHeight: 220px;
-    --teal: #39CCCC;
+    --teal: #39cccc;
 }
 i {
     cursor: pointer;
     color: white;
-    transition: color .2S ease-in-out;
+    transition: color 0.2s ease-in-out;
     &:hover {
         color: var(--teal);
     }

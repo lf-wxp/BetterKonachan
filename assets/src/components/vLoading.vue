@@ -12,7 +12,7 @@ import Spinner from 'vue-spinkit';
 @Component({
     components: {
         Spinner,
-    }
+    },
 })
 export default class VLoading extends Vue {}
 </script>
@@ -33,5 +33,4 @@ export default class VLoading extends Vue {}
     bottom: 0;
     margin: auto;
 }
-
 </style>

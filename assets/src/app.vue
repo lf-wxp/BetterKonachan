@@ -4,6 +4,7 @@
 
 <script lang="ts">
 import 'css/_base.css';
+import 'css/_icon.css';
 import 'normalize.css';
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
@@ -12,6 +13,5 @@ import { Component } from 'vue-property-decorator';
 export default class App extends Vue {}
 </script>
 <style>
-
 </style>
 

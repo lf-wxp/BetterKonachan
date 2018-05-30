@@ -16,7 +16,7 @@ export default class VHeader extends Vue {}
     position: absolute;
     width: 100%;
     display: flex;
-    justify-content: center;    
+    justify-content: center;
 }
 .hTitle {
     flex: 0 0 auto;

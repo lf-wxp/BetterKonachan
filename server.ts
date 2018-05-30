@@ -5,14 +5,14 @@ import * as koaRouter from 'koa-router';
 import * as serve from 'koa-static';
 import * as path from 'path';
 import * as views from 'koa-views';
-import * as Socket from 'koa-socket-2';
+import * as websockify from 'koa-websocket';
 import axios from 'axios';
 import Nestease from './modules/netease';
 import PicData from './modules/picData';
 
-const app: Koa = new Koa();
-const socket = new Socket();
+const app = websockify(new Koa());
 const router: koaRouter = new koaRouter();
+const wsRouter: koaRouter = new koaRouter();
 let totalPage: number = 0;
 const baseMusicUrl = 'http://music.163.com/song/media/outer/url?id=';
 const viewConf = views(path.join(__dirname, './assets/dist/'), {
@@ -38,7 +38,7 @@ router.get('/api/music', async ctx => {
 router.get('/api/stream', async ctx => {
     const id = ctx.query.id;
     const res = await axios.get(`${baseMusicUrl}${id}.mp3`, {
-        responseType: 'arraybuffer'
+        responseType: 'arraybuffer',
     });
     ctx.type = 'application/octet-stream';
     ctx.body = res.data;
@@ -59,20 +59,17 @@ router.post('/api/pic', async ctx => {
     };
 });
 
-router.all('*', async (ctx) => {
+router.all('*', async ctx => {
     await ctx.render('index');
 });
 
-socket.use(async (ctx, next) => {
-    console.log('ws connected');
-    await next();
-});
+app.ws.use(wsRouter.all('/ws/', ctx => {
+    ctx.websocket.on('message', (message) => {
+        const data = typeof message;
+        ctx.websocket.send(`the type of the data ${data}`);
+    });
+}).routes()).use(wsRouter.allowedMethods());
 
-socket.on('open', sc => {
-    console.log('on server ', sc);
-});
-
-socket.attach(app);
 app
     .use(logger())
     .use(bodyParser())

@@ -1,33 +1,138 @@
 <template>
     <article class="fileUpload">
+        <div class="fileNotice" :class="[isNotice ? 'active' : '']">{{ notice }}</div>
         <div class="dragDrop">
-            <form enctype="multipart/form-data" method="post" id="file-form" class="fileForm">
-                <input type="file" name="files[]" multiple="" class="fileInput">
+            <form enctype="multipart/form-data" method="post" class="fileForm">
+                <input type="file" name="files[]" multiple="" class="fileInput" @change="selectFile($event)">
                 <div class="fileBtns">
-                    <button class="fileBtn">选择文件</button>
-                    <button class="fileBtn">上传</button>
+                    <button class="fileBtn" @click.prevent="emulateInput">选择文件</button>
+                    <button class="fileBtn" @click.prevent="uploadQueue">上传</button>
                 </div>
             </form>
         </div>
-        <div class="fileProcessbar"><span class="fileInBar" style="width: 30%"></span></div>
-        <div class="filePreview">
-            <div class="file1">
-            <i class="fa-check fa"></i>
-            <p class="processbar process1 tiny">
-                <span style="width: 100%;"></span>
-                </p>
-                <p>
-                    <span>Type:jpg</span><span>Size:375K</span></p><img src="">
-                    <span class="name">[www.win8mi.com]5 (2).jpg</span></div>
-        </div>
+        <div class="fileProcessbar"><span class="fileInBar" :style="totalBar"></span></div>
+            <transition-group name="fade" tag="div" class="filePreview">
+                <div class="filePreviewItem" v-for="file of files" :key="file.file.name">
+                    <i class="icon-close filePreviewIcon" @click="action(file)"></i>
+                    <div class="fileProcessbar tiny filePreivewBar" v-if="file.isStart">
+                        <span class="fileInBar" :style="file.processBar"></span>
+                    </div>
+
+                    <img v-if="file.file.type.match('image')" :src="file.file | fileRead" class="filePreviewImg">
+
+                    <div v-else class="filePreviewCon">
+                        <i class="icon-file-zip"></i>
+                    </div>
+                    <div class="filePreviewInfo">
+                        <span>Type:{{ file.file.type }}</span><span>Size: {{ file.file.size | fileSize }}</span>
+                    </div>
+                    <span class="filePreviewName">{{ file.file.name }}</span>
+                </div>
+            </transition-group>
     </article>
 </template>
 <script lang="ts">
 import Vue from 'vue';
+import md5 from 'blueimp-md5';
 import { Component } from 'vue-property-decorator';
 
-@Component
-export default class Upload extends Vue {}
+@Component({
+    filters: {
+        fileRead(val: File) {
+            return window.URL.createObjectURL(val);
+        },
+        fileSize(val: number) {
+            let num = val;
+            let i = -1;
+            const unit = ['K', 'M', 'G'];
+            while(num >= 1024) {
+                num = num / 1024;
+                i++;
+            }
+            return `${Math.trunc(num)}${unit[i]}`;
+        }
+    },
+})
+export default class Upload extends Vue {
+    notice: string = '';
+    isNotice: boolean = false;
+    fileInput!: HTMLInputElement;
+    totalSize: number = 0;
+    uploadedSize: number = 0;
+    splitSize: number = 2;
+    ws!: WebSocket;
+    totalBar: {
+        width: string;
+    } = {
+        width: '0%',
+    };
+    files: uploadFile[] = [];
+
+    emulateInput() {
+        this.fileInput.click();
+    }
+    selectFile(e: Event) {
+        const files = (e.target as HTMLInputElement).files;
+        Array.from(<FileList>files).forEach((item: File) => {
+            this.totalSize += item.size;
+            this.files.push({
+                file: item,
+                md5: md5(item),
+                isSuccess: false,
+                isStart: false,
+                processBar: {
+                    width: '0%',
+                },
+            });
+        });
+        console.log(files);
+    }
+
+    action(file: uploadFile) {
+        this.files = this.files.filter((item: uploadFile) => {
+            if (item.file.name == file.file.name) {
+                this.totalSize -= file.file.size;
+            }
+            return item.file.name !== file.file.name;
+        });
+    }
+
+    uploadQueue(){
+        this.files.forEach((item: uploadFile) => {
+            this.upload(item);
+        });
+    }
+
+    upload(file: uploadFile) {
+        const size = this.splitSize * 1024;
+        let length = file.file.size;
+        let start = 0;
+        let i = 1
+        let end = size > length ? length : size;
+        while(length > 0) {
+            this.ws.send(file.file.slice(start, end));
+            length = length - (end - start);
+            start = end;
+            end = size > length ? end + length : end + size;
+        }
+    }
+
+    readFile(file: File) {
+        
+    }
+
+    beforeCreate() {
+        this.ws = new WebSocket('ws://localhost:8888/ws');
+        this.ws.onmessage = (ms) => {
+            console.log(ms);
+        }
+    }
+    mounted() {
+        this.fileInput = document.querySelector(
+            '.fileInput'
+        ) as HTMLInputElement;
+    }
+}
 </script>
 
 <style scoped>
@@ -35,6 +140,17 @@ export default class Upload extends Vue {}
     --baseC: #39cccc;
     --barC: #3399ff;
     --barFinalC: #5bbd72;
+}
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
+}
+.fade-move {
+    transition: transform 1s;
 }
 @keyframes show {
     0% {
@@ -92,143 +208,88 @@ export default class Upload extends Vue {}
 input[type='file'] {
     display: none;
 }
-&.active {
-    border-color: darken(#dcdcdc, 10%);
-}
 .filePreview {
-    border: none;
-    font-size: 0px;
-    & > div {
-        display: inline-block;
-        margin: 5px;
-        width: 200px;
-        text-align: center;
-        overflow: hidden;
-        position: relative;
-        height: 220px;
-        animation: show 0.5s ease-in-out both;
-        .fa-file {
-            font-size: pxToRem(70px);
-            width: 100%;
-            height: 180px;
-            text-align: center;
-            line-height: 180px;
-        }
-        & > span {
-            text-align: center;
-            display: inline-block;
-            vertical-align: middle;
-            font-size: pxToRem(14px);
-            color: $textcol;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        & > p {
-            position: absolute;
-            top: 0px;
-            margin: 0px;
-        }
-        i:nth-child(1) {
-            position: absolute;
-            right: 0px;
-            top: 5px;
-            font-size: pxToRem(18px);
-            margin: 0px;
-        }
-        .fa-remove {
-            color: $blue;
-            cursor: pointer;
-            &:before {
-                transition: all 0.2s ease-in-out;
-                opacity: 0.1;
-            }
-        }
-        .fa-warning {
-            color: $red;
-        }
-        .fa-check {
-            color: #5bbd72;
-        }
-        &:hover {
-            i.fa-remove:before,
-            i.resume:before {
-                opacity: 0.8;
-            }
-        }
-        .resume {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            color: $blue;
-            width: pxToRem(50px);
-            height: pxToRem(50px);
-            margin: pxToRem(-25px) 0 0 pxToRem(-25px);
-            font-size: pxToRem(50px);
-            cursor: pointer;
-            transform: translate(0, -50%);
-            &:before {
-                transition: all 0.2s ease-in-out;
-                opacity: 0.3;
-            }
-        }
-    }
-    img {
-        max-width: 200px;
-        display: inline-block;
-        vertical-align: middle;
-    }
-    p:last-of-type {
-        top: 200px;
-        width: 100%;
-        height: 20px;
-        font-size: pxToRem(12px);
-        color: $textcol;
-        display: flex;
-        flex-flow: row nowrap;
-        justify-content: space-between;
-        background: white;
-        span {
-            flex: auto 0 0;
-        }
-    }
-    .name {
-        position: absolute;
-        background: white;
-        top: 182px;
-        left: 0px;
-        height: 20px;
-        overflow: hidden;
-        border-top: 1px solid $teal;
-        font-size: pxToRem(12px);
-    }
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-content: flex-start;
 }
-.exist {
-    font-size: pxToRem(12px);
-    background: rgba(255, 0, 0, 0.5);
-    color: white;
-    padding: 5px;
-    border-radius: 4px;
+.filePreviewItem {
+    height: 200px;
+    width: 200px;
+    flex: 0 0 auto;
+    margin: 20px;
+    position: relative;
+}
+.filePreivewBar {
     position: absolute;
-    right: 20px;
-    top: 20px;
-    transform: rotate(30deg);
+    left: 0;
+    top: 0;
 }
-.fileUpload {
+.filePreviewIcon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 14px;
+    color: var(--baseC);
+    cursor: pointer;
+}
+.filePreviewImg {
+    display: block;
+    height: 160px;
+    width: 100%;
+    object-fit: contain;
+    object-position: top center;
+}
+.filePreviewCon {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    height: 160px;
+    & i {
+        font-size: 80px;
+    }
+}
+.filePreviewInfo {
+    height: 20px;
+    line-height: 20px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    flex-flow: row nowrap;
+    align-items: stretch;
+    border-top: 1px solid var(--baseC);
+    font-size: 12px;
+    & > span {
+        flex: 0 0 auto;
+    }
+}
+.filePreviewName {
+    height: 20px;
+    display: block;
+    font-size: 12px;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
-.upload.notice {
+.fileNotice {
     position: fixed;
-    background: rgba(102, 180, 255, 1);
+    background: var(--baseC);
     color: white;
     padding: 5px 10px;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
     top: 0px;
     left: 50%;
-    height: 30px;
-    margin-top: -30px;
     box-sizing: border-box;
-    transform: translate(-50%, 0);
+    transition: transform 0.2s ease-in-out;
+    transform: translate(-50%, -100%);
+    &.active {
+        transform: translate(-50%, 0);
+    }
 }
 .fileProcessbar {
     width: 100%;
@@ -237,6 +298,10 @@ input[type='file'] {
     border: none;
     position: relative;
     background: color(#dcdcdc tint(10%));
+    &.tiny {
+        height: 5px;
+        margin: 0;
+    }
 }
 
 .fileInBar {
@@ -263,9 +328,6 @@ input[type='file'] {
         background: #fff;
         animation: process 2s ease 0s infinite;
     }
-    &[style*='width'] {
-        padding-right: 10px;
-    }
     &[style*='width: 3'],
     &[style*='width: 4'] {
         background: color(var(--barC) tint(10%));
@@ -284,11 +346,6 @@ input[type='file'] {
         &:after {
             animation: none;
         }
-    }
-}
-@for $i from 1 through 9 {
-    span[style*='width: #{$i}%'] {
-        background: lighten(#3399ff, 20%);
     }
 }
 </style>

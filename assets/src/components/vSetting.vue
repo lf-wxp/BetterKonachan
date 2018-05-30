@@ -18,16 +18,16 @@ export default class VSetting extends Vue {
     @State('security') securityMode!: boolean;
     @Mutation('SETSECURITY') setSecurity!: Function;
 
-    set security(val: boolean){
+    set security(val: boolean) {
         this.setSecurity(val);
     }
     get security() {
         return this.securityMode;
     }
-    showOption(){
+    showOption() {
         this.isOptionShow = !this.isOptionShow;
     }
-};
+}
 </script>
 <style scoped>
 :root {
@@ -57,12 +57,12 @@ export default class VSetting extends Vue {
     position: absolute;
     width: 50%;
     height: 50%;
-    transition: transform .2s ease;
-    animation: breathItem 2s ease-in-out infinite alternate-reverse both; 
+    transition: transform 0.2s ease;
+    animation: breathItem 2s ease-in-out infinite alternate-reverse both;
 }
 .sSecurity {
     position: absolute;
-    opacity: 0; 
+    opacity: 0;
 }
 @keyframes breathSet {
     0% {

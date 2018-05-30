@@ -24,6 +24,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-check:before {
+  content: "\e90b";
+}
+.icon-close:before {
+  content: "\e907";
+}
 .icon-download:before {
   content: "\e900";
 }
@@ -53,4 +59,7 @@
 }
 .icon-sequence:before {
   content: "\e90a";
+}
+.icon-file-zip:before {
+  content: "\e92b";
 }

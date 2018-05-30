@@ -37,7 +37,7 @@ import { Draggable } from 'draggable-vue-directive';
 @Component({
     directives: {
         Draggable,
-    }
+    },
 })
 export default class VPager extends Vue {
     toPage: number = 0;
@@ -87,12 +87,12 @@ export default class VPager extends Vue {
         return navpage;
     }
     invoke(page: number): void {
-        if(page > 0 &&  page < this.tPage ){
+        if (page > 0 && page < this.tPage) {
             this.cPage = page;
         }
     }
-    
-    goTo(): void{
+
+    goTo(): void {
         this.invoke(<number>this.toPage);
     }
 
@@ -115,7 +115,7 @@ export default class VPager extends Vue {
 <style scoped>
 :root {
     --itemSize: 40px;
-    --commonBg: rgba(0, 0, 0, .3);
+    --commonBg: rgba(0, 0, 0, 0.3);
     --teal: #39cccc;
     --hoverBg: color(var(--teal) a(20%));
     --darkBg1: darken(#39cccc, 5%);
@@ -185,7 +185,8 @@ export default class VPager extends Vue {
     height: var(--itemSize);
     position: absolute;
     display: inline-block;
-    color: white; font-size: 30px;
+    color: white;
+    font-size: 30px;
     line-height: 40px;
     text-align: center;
     background-color: var(--commonBg);
@@ -196,7 +197,7 @@ export default class VPager extends Vue {
     &:hover {
         &:after,
         &:before {
-            background: var(--hoverBg)!important;
+            background: var(--hoverBg) !important;
         }
     }
     & svg {
@@ -225,7 +226,7 @@ export default class VPager extends Vue {
             bottom: 0;
             height: 100%;
             width: 5px;
-            background: var(--hoverBg) ;
+            background: var(--hoverBg);
         }
     }
     &:nth-of-type(2) {
@@ -364,8 +365,8 @@ export default class VPager extends Vue {
     font-size: 14px;
     outline: none;
     box-sizing: border-box;
-    border-bottom: 4px solid  var(--teal);
-    animation: blink 1s ease-in-out  infinite alternate-reverse both;
+    border-bottom: 4px solid var(--teal);
+    animation: blink 1s ease-in-out infinite alternate-reverse both;
 }
 .pGotoEm,
 .pGotoDiv,

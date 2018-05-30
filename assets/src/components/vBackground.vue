@@ -56,9 +56,9 @@ import { Component } from 'vue-property-decorator';
                     );
                     parent.appendChild(img);
                 }
-            }
-        }
-    }
+            },
+        },
+    },
 })
 export default class VBackground extends Vue {
     @State('bgUrl') ablumImg!: string;
