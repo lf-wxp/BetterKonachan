@@ -13,7 +13,7 @@
         <div class="fileProcessbar"><span class="fileInBar" :style="totalBar"></span></div>
             <transition-group name="fade" tag="div" class="filePreview">
                 <div class="filePreviewItem" v-for="file of files" :key="file.file.name">
-                    <i class="icon-close filePreviewIcon" @click="action(file)"></i>
+                    <i class="icon-close filePreviewIcon" @click="remove(file)"></i>
                     <div class="fileProcessbar tiny filePreivewBar" v-if="file.isStart">
                         <span class="fileInBar" :style="file.processBar"></span>
                     </div>
@@ -33,7 +33,6 @@
 </template>
 <script lang="ts">
 import Vue from 'vue';
-import md5 from 'blueimp-md5';
 import { Component } from 'vue-property-decorator';
 
 @Component({
@@ -42,15 +41,15 @@ import { Component } from 'vue-property-decorator';
             return window.URL.createObjectURL(val);
         },
         fileSize(val: number) {
-            let num = val;
-            let i = -1;
-            const unit = ['K', 'M', 'G'];
-            while(num >= 1024) {
+            let num: number = val;
+            let i: number = -1;
+            const unit: string[] = ['K', 'M', 'G'];
+            while (num >= 1024) {
                 num = num / 1024;
                 i++;
             }
             return `${Math.trunc(num)}${unit[i]}`;
-        }
+        },
     },
 })
 export default class Upload extends Vue {
@@ -61,25 +60,27 @@ export default class Upload extends Vue {
     uploadedSize: number = 0;
     splitSize: number = 2;
     ws!: WebSocket;
-    totalBar: {
-        width: string;
-    } = {
-        width: '0%',
-    };
     files: uploadFile[] = [];
+
+    get totalBar() {
+        const percent = this.uploadedSize / this.totalSize * 100;
+        return {
+            width: `${percent}%`,
+        };
+    }
 
     emulateInput() {
         this.fileInput.click();
     }
     selectFile(e: Event) {
-        const files = (e.target as HTMLInputElement).files;
+        const files: FileList = (e.target as HTMLInputElement).files as FileList;
         Array.from(<FileList>files).forEach((item: File) => {
             this.totalSize += item.size;
             this.files.push({
                 file: item,
-                md5: md5(item),
                 isSuccess: false,
                 isStart: false,
+                available: true,
                 processBar: {
                     width: '0%',
                 },
@@ -88,7 +89,7 @@ export default class Upload extends Vue {
         console.log(files);
     }
 
-    action(file: uploadFile) {
+    remove(file: uploadFile) {
         this.files = this.files.filter((item: uploadFile) => {
             if (item.file.name == file.file.name) {
                 this.totalSize -= file.file.size;
@@ -97,35 +98,47 @@ export default class Upload extends Vue {
         });
     }
 
-    uploadQueue(){
+    uploadQueue() {
         this.files.forEach((item: uploadFile) => {
-            this.upload(item);
+            item.available && this.upload(item);
         });
     }
 
     upload(file: uploadFile) {
-        const size = this.splitSize * 1024;
-        let length = file.file.size;
-        let start = 0;
-        let i = 1
-        let end = size > length ? length : size;
-        while(length > 0) {
-            this.ws.send(file.file.slice(start, end));
-            length = length - (end - start);
+        const size: number = this.splitSize * 1024 * 1024;
+        let length: number = file.file.size;
+        let left: number = length;
+        let start: number = 0;
+        let i: number = 1;
+        let end: number = size > length ? length : size;
+        this.ws.send(file.file.name);
+        file.isStart = true;
+        while (left > 0) {
+            const s: Blob = file.file.slice(start, end);
+            this.ws.send(s);
+            left = left - (end - start);
+            file.processBar.width = `${(length - left) / length * 100}%`;
+            this.uploadedSize += end - start;
             start = end;
-            end = size > length ? end + length : end + size;
+            end = size > left ? end + left : end + size;
         }
+        file.available = false;
+        this.ws.send('');
     }
 
-    readFile(file: File) {
-        
-    }
+    readFile(file: File) {}
 
     beforeCreate() {
         this.ws = new WebSocket('ws://localhost:8888/ws');
-        this.ws.onmessage = (ms) => {
-            console.log(ms);
-        }
+        this.ws.onmessage = ms => {
+            const j = JSON.parse(ms.data);
+            this.isNotice = true;
+            this.notice = j.data;
+            setTimeout(() => {
+                this.isNotice = false;
+            }, 1000);
+
+        };
     }
     mounted() {
         this.fileInput = document.querySelector(

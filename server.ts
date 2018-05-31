@@ -6,6 +6,7 @@ import * as serve from 'koa-static';
 import * as path from 'path';
 import * as views from 'koa-views';
 import * as websockify from 'koa-websocket';
+import * as fs from 'fs';
 import axios from 'axios';
 import Nestease from './modules/netease';
 import PicData from './modules/picData';
@@ -14,12 +15,18 @@ const app = websockify(new Koa());
 const router: koaRouter = new koaRouter();
 const wsRouter: koaRouter = new koaRouter();
 let totalPage: number = 0;
+const uploadPath = path.resolve(__dirname, 'upload');
+let currenUploadFile: string = '';
 const baseMusicUrl = 'http://music.163.com/song/media/outer/url?id=';
 const viewConf = views(path.join(__dirname, './assets/dist/'), {
     map: {
         html: 'swig',
     },
 });
+
+if (!fs.existsSync(uploadPath)) {
+    fs.mkdirSync(uploadPath);
+}
 
 PicData.getPage().then(page => {
     totalPage = page;
@@ -65,8 +72,19 @@ router.all('*', async ctx => {
 
 app.ws.use(wsRouter.all('/ws/', ctx => {
     ctx.websocket.on('message', (message) => {
-        const data = typeof message;
-        ctx.websocket.send(`the type of the data ${data}`);
+        if (typeof message === 'string') {
+            if (!currenUploadFile) {
+                ctx.websocket.send(JSON.stringify({ type: 'notice', data: 'success'}));
+            }
+            currenUploadFile = message;
+        } else {
+            try {
+                fs.appendFileSync(path.resolve(uploadPath, currenUploadFile), message);
+            } catch (error) {
+                ctx.websocket.send(JSON.stringify({ type: 'error', data: error }));
+            }
+        }
+        // ctx.websocket.send(`the type of the data ${message}`);
     });
 }).routes()).use(wsRouter.allowedMethods());
 

@@ -139,7 +139,7 @@ declare interface uploadFile {
     file: File;
     isSuccess: boolean;
     isStart: boolean;
-    md5: string;
+    available: boolean;
     processBar: {
         width: string;
     }
