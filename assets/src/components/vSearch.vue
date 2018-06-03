@@ -10,7 +10,6 @@
 import Vue from 'vue';
 import { Component, Watch } from 'vue-property-decorator';
 import { State, Mutation } from 'vuex-class';
-import { getSession, setSession } from 'src/service';
 
 @Component
 export default class VSearch extends Vue {

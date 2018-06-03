@@ -1,9 +1,4 @@
-import axios, {
-    Canceler,
-    AxiosInstance,
-    AxiosStatic,
-    AxiosAdapter,
-} from 'axios';
+import axios, { Canceler } from 'axios';
 
 const CancelToken = axios.CancelToken;
 
@@ -43,79 +38,34 @@ const getStream = new Service({
     responseType: 'arraybuffer',
 });
 
-// function getStream(id: number) {
-//     return axios.get('/stream', {
-//         responseType: 'arraybuffer',
-//         params: {
-//             id,
-//         },
-//     });
-// }
-
 const getPost = new Service({
     url: '/api/post',
 });
-// function getPost(page = 1, isSafe = true, tags = '') {
-//     return axios.get('/post', {
-//         params: {
-//             tags,
-//             page,
-//             isSafe,
-//         },
-//     });
-// }
 
 const getSampleImg = new Service({
     url: '/api/pic',
 });
-// function getSampleImg(url: string) {
-//     return axios.get('/pic', {
-//         params: {
-//             url,
-//         },
-//     });
-// }
 
-function getLocal(key: string) {
-    const value = window.localStorage.getItem(key) || '';
-    let result: boolean | number | string;
-    if (value === 'true') {
-        result = true;
-    } else if (value === 'false') {
-        result = false;
-    } else {
-        result = Number.parseInt(value, 10) || value;
-    }
-    return result;
-}
+const authorize = new Service({
+    url: '/api/auth',
+    method: 'post',
+});
 
-function setLocal(key: string, value: string) {
-    window.localStorage.setItem(key, value);
-}
+const userList = new Service({
+    url: '/api/auth/list',
+});
 
-function getSession(key: string) {
-    const value: string = window.sessionStorage.getItem(key) || '';
-    let result: boolean | number | string;
-    if (value === 'true') {
-        result = true;
-    } else if (value === 'false') {
-        result = false;
-    } else {
-        result = Number.parseInt(value, 10) || value;
-    }
-    return result;
-}
+const createAccount = new Service({
+    url: '/api/auth/create',
+    method: 'post',
+});
 
-function setSession(key: string, value: string) {
-    window.sessionStorage.setItem(key, value);
-}
 export {
     getMusic,
     getStream,
     getPost,
     getSampleImg,
-    getLocal,
-    setLocal,
-    getSession,
-    setSession,
+    authorize,
+    userList,
+    createAccount,
 };

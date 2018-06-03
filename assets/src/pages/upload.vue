@@ -1,6 +1,6 @@
 <template>
     <article class="fileUpload">
-        <div class="fileNotice" :class="[isNotice ? 'active' : '']">{{ notice }}</div>
+        <v-notice :is-notice.sync="isNotice" :message.sync="notice" v-if="isNotice"/>
         <div class="dragDrop">
             <form enctype="multipart/form-data" method="post" class="fileForm">
                 <input type="file" name="files[]" multiple="" class="fileInput" @change="selectFile($event)">
@@ -10,7 +10,7 @@
                 </div>
             </form>
         </div>
-        <div class="fileProcessbar"><span class="fileInBar" :style="totalBar"></span></div>
+        <div class="fileProcessbar"><span class="fileInBar" :style="totalBar"> {{ totalBar.width }}</span></div>
             <transition-group name="fade" tag="div" class="filePreview">
                 <div class="filePreviewItem" v-for="file of files" :key="file.file.name">
                     <i class="icon-close filePreviewIcon" @click="remove(file)"></i>
@@ -34,8 +34,12 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
+import vNotice from 'components/vNotice.vue';
 
 @Component({
+    components: {
+        vNotice,
+    },
     filters: {
         fileRead(val: File) {
             return window.URL.createObjectURL(val);
@@ -134,10 +138,6 @@ export default class Upload extends Vue {
             const j = JSON.parse(ms.data);
             this.isNotice = true;
             this.notice = j.data;
-            setTimeout(() => {
-                this.isNotice = false;
-            }, 1000);
-
         };
     }
     mounted() {
