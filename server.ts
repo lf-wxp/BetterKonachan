@@ -27,14 +27,16 @@ let currenUploadFile: string = '';
 let connection;
 
 function removeAllFile(dir: string) {
-    fs.readdirSync(dir).forEach((file) => {
-        const curPath = path.resolve(dir, file);
-        if (fs.statSync(curPath).isDirectory()) { // recurse
-            removeAllFile(curPath);
-        } else { // delete file
-            fs.unlinkSync(curPath);
-        }
-    });
+    if (fs.existsSync(dir)) {
+        fs.readdirSync(dir).forEach((file) => {
+            const curPath = path.resolve(dir, file);
+            if (fs.statSync(curPath).isDirectory()) { // recurse
+                removeAllFile(curPath);
+            } else { // delete file
+                fs.unlinkSync(curPath);
+            }
+        });
+    }
 }
 
 function extractFile(dirpath: string) {
