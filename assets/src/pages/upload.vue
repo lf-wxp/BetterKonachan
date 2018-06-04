@@ -133,7 +133,8 @@ export default class Upload extends Vue {
     readFile(file: File) {}
 
     beforeCreate() {
-        this.ws = new WebSocket(`ws://${location.host}/ws`);
+        const protocol = location.protocol === 'https:' ? 'wss': 'ws';
+        this.ws = new WebSocket(`${protocol}://${location.host}/ws`);
         this.ws.onmessage = ms => {
             const j = JSON.parse(ms.data);
             this.isNotice = true;
