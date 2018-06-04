@@ -4,6 +4,7 @@ import { authorize } from 'src/service';
 const home = async () => await import('./pages/home.vue');
 const upload = async () => await import('./pages/upload.vue');
 const auth = async () => await import('./pages/auth.vue');
+const list = async () => await import('./pages/filelist.vue');
 const router = new Router({
     mode: 'history',
     routes: [
@@ -37,6 +38,11 @@ const router = new Router({
             name: 'auth',
             path: '/auth',
             component: auth,
+        },
+        {
+            name: 'list',
+            path: '/list',
+            component: list,
         },
     ],
 });

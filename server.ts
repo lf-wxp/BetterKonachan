@@ -8,20 +8,56 @@ import * as views from 'koa-views';
 import * as websockify from 'koa-websocket';
 import * as fs from 'fs';
 import * as md5 from 'md5';
+import * as extract from 'extract-zip';
 import axios from 'axios';
-import Nestease from './modules/netease';
 import PicData from './modules/picData';
 import { User } from './database/db';
 import { createConnection } from 'typeorm';
 import 'reflect-metadata';
+import { resolve } from 'url';
+import { rejects } from 'assert';
 
 const app = websockify(new Koa());
 const router: koaRouter = new koaRouter();
 const wsRouter: koaRouter = new koaRouter();
 let totalPage: number = 0;
 const uploadPath = path.resolve(__dirname, 'upload');
+const extractPath = path.resolve(__dirname, './assets/dist/media');
 let currenUploadFile: string = '';
 let connection;
+
+function removeAllFile(dir: string) {
+    fs.readdirSync(dir).forEach((file) => {
+        const curPath = path.resolve(dir, file);
+        if (fs.statSync(curPath).isDirectory()) { // recurse
+            removeAllFile(curPath);
+        } else { // delete file
+            fs.unlinkSync(curPath);
+        }
+    });
+}
+
+function extractFile(dirpath: string) {
+    return new Promise((resolve, reject) => {
+        removeAllFile(extractPath);
+        extract(dirpath, {
+            dir: extractPath,
+        }, (err) => {
+            const data = {
+                type: 'notice',
+                msg: 'extract success',
+            };
+            if (err) {
+                data.type = 'fail';
+                data.msg = 'extract fail';
+                reject(data);
+            } else {
+                resolve(data);
+                fs.unlinkSync(dirpath);
+            }
+        });
+    });
+}
 
 async function dataConnect() {
     connection = await createConnection({
@@ -46,6 +82,10 @@ if (!fs.existsSync(uploadPath)) {
     fs.mkdirSync(uploadPath);
 }
 
+if (!fs.existsSync(extractPath)) {
+    fs.mkdirSync(extractPath);
+}
+
 PicData.getPage().then(page => {
     totalPage = page;
 });
@@ -56,17 +96,15 @@ router.get('/', async ctx => {
 
 router.get('/api/music', async ctx => {
     ctx.type = 'json';
-    const data = await Nestease.playlistDetail(95815468);
+    const data = fs.readFileSync(path.resolve(extractPath, 'data.json'));
     ctx.body = data;
 });
 
 router.get('/api/stream', async ctx => {
     const id = ctx.query.id;
-    const res = await axios.get(`${baseMusicUrl}${id}.mp3`, {
-        responseType: 'arraybuffer',
-    });
     ctx.type = 'application/octet-stream';
-    ctx.body = res.data;
+    const stream = fs.createReadStream(path.resolve(extractPath, `${id}.mp3`));
+    ctx.body = stream;
 });
 
 router.get('/api/post', async ctx => {
@@ -94,6 +132,25 @@ router.post('/api/auth', async ctx => {
 router.get('/api/auth/list', async ctx => {
     const result = await User.find();
     ctx.body = { length: result.length };
+});
+
+router.get('/api/files', async ctx => {
+    const result = fs.readdirSync(uploadPath);
+    ctx.body = result;
+});
+
+router.post('/api/extract', async ctx => {
+    const { name } = ctx.request.body;
+    const newPath = path.resolve(uploadPath, name);
+    if (fs.existsSync(newPath)) {
+        const data = await extractFile(newPath);
+        ctx.body = data;
+    } else {
+        ctx.body = {
+            type: 'fail',
+            msg: 'file is not exist',
+        };
+    }
 });
 
 router.post('/api/auth/create', async ctx => {

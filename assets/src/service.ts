@@ -42,6 +42,10 @@ const getPost = new Service({
     url: '/api/post',
 });
 
+const getFileList = new Service({
+    url: '/api/files',
+});
+
 const getSampleImg = new Service({
     url: '/api/pic',
 });
@@ -60,12 +64,19 @@ const createAccount = new Service({
     method: 'post',
 });
 
+const extract = new Service({
+    method: 'post',
+    url: '/api/extract',
+});
+
 export {
     getMusic,
     getStream,
     getPost,
     getSampleImg,
+    getFileList,
     authorize,
     userList,
     createAccount,
+    extract,
 };

@@ -1,20 +1,20 @@
 import axios from 'axios';
 class Netease {
     public static baseUrl = 'http://music.163.com/song/media/outer/url?id=';
-    public static async playlistDetail(id) {
+    public static async playlistDetail(id: number, start: number, length: number) {
         const res = await axios.get('http://music.163.com/api/playlist/detail', {
             params: {
                 id,
             },
         });
-        return Netease.playlistParse(res.data.result.tracks);
+        return Netease.playlistParse(res.data.result.tracks, start, length);
     }
     public static realTack(id: number) {
         return `${Netease.baseUrl}${id}.mp3`;
     }
-    public static playlistParse(tracks) {
+    public static playlistParse(tracks, start = 0, length = 10) {
         const songs = [];
-        tracks.splice(0, 50).forEach((track) => {
+        tracks.splice(start, length).forEach((track) => {
             songs.push({
                 id: track.id,
                 artist: track.artists[0].name,
