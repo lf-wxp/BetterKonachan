@@ -6,7 +6,7 @@ import * as path from 'path';
 
 const basePath = path.resolve(__dirname, '../media');
 
-const [start = 0, length = 10] = process.argv.slice(2).map( x => ~~x);
+const [start = 0, length = 10] = process.argv.slice(2).map(x => ~~x);
 
 if (!fs.existsSync(basePath)) {
     fs.mkdirSync(basePath);
@@ -20,14 +20,21 @@ const archive = archiver('zip', {
 });
 archive.pipe(outFile);
 
-Nestease.playlistDetail(95815468, start, length).then( async data => {
-    archive.append(JSON.stringify(data), { name: 'data.json' });
+Nestease.playlistDetail(95815468, start, length).then(async data => {
     for (const { track, id } of data) {
         const res = await axios.get(track, {
             responseType: 'stream',
         });
-        archive.append(res.data, { name: `${id}.mp3`});
+        archive.append(res.data, { name: `${id}.mp3` });
     }
+    archive.append(
+        JSON.stringify(
+            data.map(item => {
+                item.track = `/assets/dist/media/${item.id}.mp3`;
+                return item;
+            })
+        ),
+        { name: 'data.json' }
+    );
     archive.finalize();
 });
-

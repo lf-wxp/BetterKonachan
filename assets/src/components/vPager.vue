@@ -8,7 +8,7 @@
         </span>
         <div class="pCon">
             <transition-group tag="ul" name="page" class="pBox">
-                <li class="pItem" @click="invoke(item)" v-for="item in pageArray" :key="item" :class="[ cPage == item ? 'current' : '']">
+                <li class="pItem" @click="invoke(item)" v-for="item of pageArray" :key="item" :class="[ cPage == item ? 'current' : '', fontClass]">
                     <span class="pItemText">{{item}}</span>
                 </li>
             </transition-group>
@@ -45,6 +45,14 @@ export default class VPager extends Vue {
     @State page!: number;
     @State('totalPage') tPage!: number;
     @Mutation('SETPAGE') setCPage!: Function;
+
+    get fontClass(): { middle: boolean } {
+        const data = { middle: false };
+        if (`${this.page}`.length > 2) {
+            data.middle = true;
+        }
+        return data;
+    }
 
     get cPage(): number {
         return this.page;
@@ -330,6 +338,9 @@ export default class VPager extends Vue {
     &.current {
         cursor: not-allowed;
         pointer-events: none;
+    }
+    &.middle {
+        font-size: 14px;
     }
 }
 .pGoto {

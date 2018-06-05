@@ -1,30 +1,28 @@
 <template>
     <section class="music">
-        <canvas class="mCanvas"></canvas>
         <div class="mPlayerContain" >
             <div class="mContent">
                 <div class="mProcessBar" @click.stop="pickTime($event)">
-                    <div class="mBufferBar" :style="initData.bufferedPercentage" />
-                    <div class="mPlayedBar" :style="initData.playedPercentage" />
+                    <div class="mBufferBar" :style="audioBufPercentage" />
+                    <div class="mPlayedBar" :style="audioPlayedPercentage" />
                 </div>
                 <div class="mInfo">
-                    <h1 class="mAuthor">{{ initData.artist }}</h1>
-                    <h1 class="mName">{{ initData.title }}</h1>
+                    <h1 class="mAuthor">{{ audioArtist }}</h1>
+                    <h1 class="mName">{{ audioTitle }}</h1>
                     <div class="mVolume">
-                        <i :class="initData.muted ? 'icon-mute' : 'icon-volume'" @click.stop="muted()" />
+                        <i :class="audioMuted ? 'icon-mute' : 'icon-volume'" @click.stop="muted()" />
                         <div class="mVolumeBar" @click.stop="pickVolume($event)">
-                            <div class="mActiveBar" :class="initData.muted ? 'muted' : ''" :style="initData.volumePercentage" />
+                            <div class="mActiveBar" :class="audioMuted ? 'muted' : ''" :style="audioVolumePercentage" />
                         </div>
                     </div>
                     <div class="mAction">
                         <i class="icon-left" @click.stop="prevSong" />
-                        <i :class="initData.paused ? 'icon-pause' : 'icon-play'" @click.stop="playPause" />
+                        <i :class="audioPaused ? 'icon-pause' : 'icon-play'" @click.stop="playPause" />
                         <i class="icon-right" @click.stop="nextSong" />
-                        <i :class="initData.playOrder" @click.stop="switchPlayOrder" />
                     </div>
                     <div class="mTimeBox">
-                        <div class="mPlayedTime">{{ initData.playedTime }}</div>
-                        <div class="mTotalTime">{{ initData.totalTime }}</div>
+                        <div class="mPlayedTime">{{ audioPlayedTime }}</div>
+                        <div class="mTotalTime">{{ audioTotalTime }}</div>
                     </div>
                 </div>
             </div>
@@ -34,78 +32,189 @@
 <script lang="ts">
 import 'css/_icon.css';
 import Vue from 'vue';
-import { Component, Prop, Watch } from 'vue-property-decorator';
+import { Component, Prop } from 'vue-property-decorator';
 import { getMusic } from 'src/service';
 import { Mutation } from 'vuex-class';
-import Player from 'modules/player';
-import bubble from 'modules/bubble';
 
-const initData: IVueData = {
-    bufferedPercentage: { width: '0%' },
-    playedPercentage: { width: '0%' },
-    volumePercentage: { width: '50%' },
-    playedTime: '00:00',
-    totalTime: '00:00',
-    bgImg: '',
-    muted: false,
-    paused: false,
-    title: '',
-    artist: '',
-    playOrder: {
-        'icon-repeat': true,
-        'icon-reload': false,
-        'icon-shuffle': false,
-    },
-};
 @Component
 export default class VMusic extends Vue {
-    initData: IVueData = initData;
-    mPlayer!: IPlayer;
     isLoadedBgImage: boolean = false;
+    canvas: HTMLCanvasElement = document.createElement('canvas');
+    songIndex: number = 0;
+    songList: any[] = [];
+    fftSize: number = 128;
+    analyserNode!: AnalyserNode;
+    audioBufPercentage: { width: string } = { width: '0%' };
+    audioPlayedPercentage: { width: string } = { width: '0%' };
+    audioVolumePercentage: { width: string } = { width: '20%' };
+    audioPlayedTime: string = '00:00';
+    audioTotalTime: string = '00:00';
+    audioMuted: boolean = false;
+    audioPaused: boolean = false;
+    audioTitle: string = '';
+    audioArtist: string = '';
+    audio: HTMLAudioElement = new Audio();
 
-    @Mutation SETBG!: Function;
+    @Mutation('SETBG') setBg!: Function;
 
-    @Watch('initData.bgImg')
-    setBackground(val: string, oldVal: string) {
-        this.SETBG(val);
+    parseTime(time: number) {
+        const is2b = (num: number) => (num < 10 ? '0' + num : '' + num);
+        const min = Number.parseInt(`${time / 60}`, 10);
+        const sec = Number.parseInt(`${time - min * 60}`, 10);
+        return is2b(min) + ':' + is2b(sec);
     }
-    pickTime(event: MouseEvent) {
-        return false;
-        const percentage =
-            event.offsetX / (event.target as Element).clientWidth;
-        console.log(percentage);
-        this.initData.playedPercentage.width = `${percentage * 100}%`;
-        this.mPlayer.seek(percentage);
+
+    initialAudio() {
+        this.audio.volume = 0.2;
     }
+
+    initialAudioEvent() {
+        this.audio.addEventListener('loadedmetadata', () => {
+            this.audioTotalTime = this.parseTime(this.audio.duration);
+        });
+        this.audio.addEventListener('play', () => {
+            this.audioPaused = false;
+        });
+        this.audio.addEventListener('ended', () => {
+            this.audioPaused = true;
+            this.nextSong();
+        });
+        this.audio.addEventListener('timeupdate', () => {
+            // update the processing Bar
+            this.audioPlayedTime = this.parseTime(
+                this.audio.currentTime
+            );
+            this.audioPlayedPercentage.width = `${this.audio.currentTime / this.audio.duration * 100}%`;
+        });
+        this.audio.addEventListener('progress', () => {
+            // update the processing Bar
+            if (this.audio.buffered.length) {
+                this.audioBufPercentage.width = `${this.audio.buffered.end(this.audio.buffered.length - 1) / this.audio.duration * 100}%`;
+            }
+        });
+    }
+
+    loadSong() {
+        const { track, title, pic, artist } = this.songList[this.songIndex];
+        this.audio.src = track;
+        this.audioTitle = title;
+        this.audioArtist = artist;
+        this.setBg(pic);
+    }
+
+    pickTime(e: MouseEvent) {
+        const percentage = e.offsetX / (e.target as Element).clientWidth;
+        this.audioPlayedPercentage.width = `${percentage * 100}%`;
+        this.audio.currentTime = percentage * this.audio.duration;
+    }
+
     muted() {
-        this.mPlayer.muted();
+        this.audio.muted = !this.audio.muted;
+        this.audioMuted = this.audio.muted;
     }
-    pickVolume(event: MouseEvent) {
-        const percentage =
-            event.offsetX / (event.target as Element).clientWidth;
-        this.initData.volumePercentage.width = `${percentage * 100}%`;
-        this.mPlayer.volume(percentage);
+
+    pickVolume(e: MouseEvent) {
+        const percentage = e.offsetX / (e.target as Element).clientWidth;
+        this.audioVolumePercentage.width = `${percentage * 100}%`;
+        this.audio.volume = percentage;
     }
+
     playPause() {
-        this.mPlayer.playPause();
+        if (this.audio.paused) {
+            this.audio.play()
+            this.audioPaused = false;
+        } else {
+            this.audio.pause();
+            this.audioPaused = true;
+        }
     }
+
+    initialAudioBuffer() {
+        const ac = new AudioContext();
+        const source = ac.createMediaElementSource(this.audio);
+        const gainNode = ac.createGain();
+        this.analyserNode = ac.createAnalyser();
+        this.analyserNode.fftSize = this.fftSize * 2;
+        this.analyserNode.connect(gainNode);
+        gainNode.connect(ac.destination);
+        source.connect(this.analyserNode);
+        // const arr = new Uint8Array(this.analyserNode.frequencyBinCount);
+        this.visualizer();
+    }
+
+    visualizer() {
+        const arr = new Uint8Array(this.analyserNode.frequencyBinCount);
+        const anima = () => {
+            this.analyserNode.getByteFrequencyData(arr);
+            this.draw(arr);
+            requestAnimationFrame(anima);
+        };
+        requestAnimationFrame(anima);
+    }
+
+    getCtx() {
+        const width = this.canvas.clientWidth;
+        const height = this.canvas.clientHeight;
+        const ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D;
+        return { width, height, ctx };
+    }
+
+    clearDraw() {
+        const { width, height, ctx } = this.getCtx();
+        ctx.clearRect(0, 0, width, height);
+    }
+
+    draw(arr: Uint8Array) {
+        const { width, height, ctx } = this.getCtx();
+        const line = ctx.createLinearGradient(0, 0, 0, height);
+        const w = width / this.fftSize;
+        ctx.globalAlpha = 0.3;
+        line.addColorStop(0, '#39cccc');
+        line.addColorStop(1, '#0cf2f2');
+        ctx.fillStyle = line;
+        // ctx.fillStyle = '#39CCCC';
+        ctx.clearRect(0, 0, width, height);
+        arr.forEach((item: number, i: number) => {
+            const h = item / (this.fftSize * 2 ) * height;
+            ctx.fillRect(w * i, height - h, w * .6, h);
+        });
+    }
+
+    resizeCanvas() {
+        const width = (this.canvas.parentNode as Element).clientWidth;
+        const height = 100;
+        this.canvas.width = width;
+        this.canvas.height = height;
+    }
+
     nextSong() {
-        this.mPlayer.nextSong();
+        const n = this.songIndex + 1;
+        this.songIndex = n < this.songList.length ? n : 0;
+        this.loadSong();
     }
     prevSong() {
-        this.mPlayer.prevSong();
-    }
-    switchPlayOrder() {
-        this.mPlayer.switchPlayOrder();
+        const p = this.songIndex - 1;
+        this.songIndex = p >=0 ? p : this.songList.length - 1;
+        this.loadSong();
     }
 
     async mounted() {
-        const response = await getMusic.http();
-        this.mPlayer = new Player({
-            listSongs: <IMusic[]>response.data,
-            vueData: initData,
+        this.canvas.style.cssText = `
+            position:absolute;
+            bottom: 32px;
+        `;
+        this.$el.insertBefore(this.canvas, this.$el.firstChild);
+        const res = await getMusic.http();
+        this.songList = res.data;
+        this.audio.autoplay = true;
+        this.resizeCanvas();
+        this.initialAudio();
+        this.initialAudioEvent();
+        this.loadSong();
+        this.initialAudioBuffer();
+        window.addEventListener('resize', () => {
+            this.resizeCanvas();
         });
-        this.mPlayer.init();
     }
 }
 </script>
@@ -129,10 +238,6 @@ i {
     overflow: hidden;
 }
 
-.mCanvas {
-    position: absolute;
-    top: 100px;
-}
 .mPlayerContain {
     position: relative;
     box-sizing: border-box;
@@ -204,6 +309,7 @@ i {
     pointer-events: none;
     width: 0%;
     height: 100%;
+    transition: width 0.5s ease;
     background: color(var(--teal) a(30%));
 }
 .mTimeBox {

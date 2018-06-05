@@ -18,7 +18,7 @@ base.module.rules.push({
 module.exports = {
     mode: 'development',
     entry: base.entry,
-    context: path.resolve(__dirname, '../assets'),
+    context: path.resolve(__dirname, '../assets/'),
     output: {
         filename: '[name].js',
         chunkFilename: '[name].js',
@@ -29,7 +29,7 @@ module.exports = {
     resolve: base.resolve,
     devtool: 'eval-source-map',
     devServer: {
-        contentBase: path.resolve(__dirname, '../assets/'),
+        contentBase: path.resolve(__dirname, '../'),
         compress: true,
         port: 9999,
         host: '0.0.0.0',

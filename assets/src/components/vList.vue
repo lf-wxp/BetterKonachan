@@ -3,7 +3,7 @@
         <div class="lCon">
             <v-waterfall :list="items" :options="options" :max-width="300" :min-width="200">
                 <figure slot-scope="{ item }">
-                    <img class="lImg" :src="item.prev_url" alt="" @error="loadError($event)" @click.stop="clickActive($event,item)" >
+                    <img class="lImg" v-load="item.prev_url"  alt="" @error="loadError($event)" @click.stop="clickActive($event,item)" >
                     <div class="lTool">
                         <p class="lInfo">{{ item.width }} / {{ item.height }}</p>
                         <a :href="item.url" download class="lDown" target="_blank"><i class="icon-download"></i></a>
@@ -23,7 +23,30 @@ import vWaterfall from './vWaterfall';
 import vLoading from './vLoading';
 import loadErrorImage from 'images/loaderror.png';
 
+const load: {
+    bind(el: HTMLElement, binding: { name: string, value: string}): void;
+} = {
+    bind(el: HTMLImageElement, binding) {
+        el.style.cssText = `
+            opacity: 0;
+        `;
+        el.addEventListener('load', () => {
+            el.style.cssText = `
+                opacity: 1;
+                transition: opacity .2s ease;
+            `;
+        }, { once: true });
+        el.src = binding.value;
+        el.addEventListener('transitionend', () => {
+            el.style.cssText = '';
+        }, { once: true });
+    },
+}
+
 @Component({
+    directives: {
+        load,
+    },
     components: {
         vWaterfall,
         vLoading,
