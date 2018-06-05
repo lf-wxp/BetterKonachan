@@ -95,6 +95,7 @@ export default class VMusic extends Vue {
     }
 
     loadSong() {
+        this.clearance();
         const { track, title, pic, artist } = this.songList[this.songIndex];
         this.audio.src = track;
         this.audioTitle = title;
@@ -129,6 +130,13 @@ export default class VMusic extends Vue {
         }
     }
 
+    clearance() {
+        this.audioBufPercentage.width =  '0%';
+        this.audioPlayedPercentage.width = '0%';
+        this.audioPlayedTime = '00:00';
+        this.audioTotalTime = '00:00';
+    }
+
     initialAudioBuffer() {
         const ac = new AudioContext();
         const source = ac.createMediaElementSource(this.audio);
@@ -138,7 +146,6 @@ export default class VMusic extends Vue {
         this.analyserNode.connect(gainNode);
         gainNode.connect(ac.destination);
         source.connect(this.analyserNode);
-        // const arr = new Uint8Array(this.analyserNode.frequencyBinCount);
         this.visualizer();
     }
 
