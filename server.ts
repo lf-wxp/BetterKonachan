@@ -9,13 +9,10 @@ import * as websockify from 'koa-websocket';
 import * as fs from 'fs';
 import * as md5 from 'md5';
 import * as extract from 'extract-zip';
-import axios from 'axios';
 import PicData from './modules/picData';
 import { User } from './database/db';
 import { createConnection } from 'typeorm';
 import 'reflect-metadata';
-import { resolve } from 'url';
-import { rejects } from 'assert';
 
 const app = websockify(new Koa());
 const router: koaRouter = new koaRouter();
@@ -88,28 +85,28 @@ if (!fs.existsSync(extractPath)) {
     fs.mkdirSync(extractPath);
 }
 
-PicData.getPage().then(page => {
+PicData.getPage().then((page) => {
     totalPage = page;
 });
 
-router.get('/', async ctx => {
+router.get('/', async (ctx) => {
     await ctx.render('index');
 });
 
-router.get('/api/music', async ctx => {
+router.get('/api/music', async (ctx) => {
     ctx.type = 'json';
     const data = fs.readFileSync(path.resolve(extractPath, 'data.json'));
     ctx.body = data;
 });
 
-router.get('/api/stream', async ctx => {
+router.get('/api/stream', async (ctx) => {
     const id = ctx.query.id;
     ctx.type = 'application/octet-stream';
     const stream = fs.createReadStream(path.resolve(extractPath, `${id}.mp3`));
     ctx.body = stream;
 });
 
-router.get('/api/post', async ctx => {
+router.get('/api/post', async (ctx) => {
     const imgs = await PicData.getData(ctx.query);
     ctx.body = {
         images: imgs,
@@ -117,7 +114,7 @@ router.get('/api/post', async ctx => {
     };
 });
 
-router.post('/api/auth', async ctx => {
+router.post('/api/auth', async (ctx) => {
     const { name, persistent } = ctx.request.body;
     let { password } = ctx.request.body;
     password = persistent ? password : md5(password);
@@ -131,17 +128,17 @@ router.post('/api/auth', async ctx => {
     ctx.body = data;
 });
 
-router.get('/api/auth/list', async ctx => {
+router.get('/api/auth/list', async (ctx) => {
     const result = await User.find();
     ctx.body = { length: result.length };
 });
 
-router.get('/api/files', async ctx => {
+router.get('/api/files', async (ctx) => {
     const result = fs.readdirSync(uploadPath);
     ctx.body = result;
 });
 
-router.post('/api/extract', async ctx => {
+router.post('/api/extract', async (ctx) => {
     const { name } = ctx.request.body;
     const newPath = path.resolve(uploadPath, name);
     if (fs.existsSync(newPath)) {
@@ -155,7 +152,7 @@ router.post('/api/extract', async ctx => {
     }
 });
 
-router.post('/api/auth/create', async ctx => {
+router.post('/api/auth/create', async (ctx) => {
     const { name } = ctx.request.body;
     let { password } = ctx.request.body;
     let userData;
@@ -175,7 +172,7 @@ router.post('/api/auth/create', async ctx => {
     ctx.body = data;
 });
 
-router.post('/api/pic', async ctx => {
+router.post('/api/pic', async (ctx) => {
     const res = await PicData.getSample(ctx.request.body.url);
     const base64 = res.body.toString('base64');
     ctx.body = {
@@ -183,30 +180,31 @@ router.post('/api/pic', async ctx => {
     };
 });
 
-router.all('*', async ctx => {
+router.all('*', async (ctx) => {
     await ctx.render('index');
 });
 
-app.ws.use(wsRouter.all('/ws/', ctx => {
-    ctx.websocket.on('message', message => {
+app.ws.use(wsRouter.all('/ws/', (ctx) => {
+    ctx.websocket.on('message', (message) => {
         if (typeof message === 'string') {
-            if (!currenUploadFile) {
+            if (currenUploadFile) {
                 ctx.websocket.send(
                     JSON.stringify({
-                        type: 'notice',
-                        data: 'success',
-                    })
+                        type: 'success',
+                    }),
                 );
+            } else {
+                ctx.websocket.send(JSON.stringify({ type: 'notice'}));
             }
             currenUploadFile = message;
         } else {
             try {
                 fs.appendFileSync(path.resolve(uploadPath, currenUploadFile), message);
+                ctx.websocket.send(JSON.stringify({ type: 'notice'}));
             } catch (error) {
                 ctx.websocket.send(JSON.stringify({ type: 'error', data: error }));
             }
         }
-        // ctx.websocket.send(`the type of the data ${message}`);
     });
 })
 .routes()).use(wsRouter.allowedMethods());

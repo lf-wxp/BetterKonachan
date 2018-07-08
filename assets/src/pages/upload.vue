@@ -35,6 +35,7 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import vNotice from 'components/vNotice.vue';
+import { EventEmitter } from 'events';
 
 @Component({
     components: {
@@ -62,14 +63,15 @@ export default class Upload extends Vue {
     fileInput!: HTMLInputElement;
     totalSize: number = 0;
     uploadedSize: number = 0;
-    splitSize: number = 2;
+    splitSize: number = 1;
     ws!: WebSocket;
     files: uploadFile[] = [];
+    ee: EventEmitter = new EventEmitter();
 
     get totalBar() {
         const percent = this.uploadedSize / this.totalSize * 100;
         return {
-            width: `${percent}%`,
+            width: `${Math.trunc(percent)}%`,
         };
     }
 
@@ -108,7 +110,15 @@ export default class Upload extends Vue {
         });
     }
 
-    upload(file: uploadFile) {
+    pendding() {
+        return new Promise((resolve) => {
+            this.ee.on('notice', () => {
+                resolve(true);
+            })
+        })
+    }
+
+    async upload(file: uploadFile) {
         const size: number = this.splitSize * 1024 * 1024;
         let length: number = file.file.size;
         let left: number = length;
@@ -117,7 +127,7 @@ export default class Upload extends Vue {
         let end: number = size > length ? length : size;
         this.ws.send(file.file.name);
         file.isStart = true;
-        while (left > 0) {
+        while (left > 0 && await this.pendding()) {
             const s: Blob = file.file.slice(start, end);
             this.ws.send(s);
             left = left - (end - start);
@@ -135,11 +145,17 @@ export default class Upload extends Vue {
     beforeCreate() {
         const protocol = location.protocol === 'https:' ? 'wss': 'ws';
         this.ws = new WebSocket(`${protocol}://${location.host}/ws`);
-        this.ws.onmessage = ms => {
+        this.ws.addEventListener('message', (ms) => {
+            console.log('data for server', ms.data);
             const j = JSON.parse(ms.data);
-            this.isNotice = true;
-            this.notice = j.data;
-        };
+            if (j.type === 'success') {
+                this.isNotice = true;
+                this.notice = j.type;
+            } else if (j.type === 'notice') {
+                console.log('onMessage', j);
+                this.ee.emit('notice');
+            }
+        });
     }
     mounted() {
         this.fileInput = document.querySelector(

@@ -11,13 +11,15 @@
     "server:build": "tsc --p tsconfig.json",
     "download": "ts-node tools/download.ts",
     "server:watch": "nodemon",
-    "start": "ts-node server.ts"
+    "start": "ts-node server.ts",
+    "dev": "npm run client:dev && npm run server:watch"
   },
   "dependencies": {
     "archiver": "^2.1.1",
     "axios": "^0.18.0",
     "cheerio": "^1.0.0-rc.2",
     "draggable-vue-directive": "^1.2.0",
+    "events": "^3.0.0",
     "extract-zip": "^1.6.7",
     "iview": "^2.14.1",
     "koa": "^2.5.1",
@@ -31,6 +33,7 @@
     "normalize.css": "^8.0.0",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.2.0",
+    "sleep": "^5.1.1",
     "sqlite3": "^4.0.0",
     "swig": "^1.4.2",
     "typeorm": "^0.2.6",
@@ -48,6 +51,7 @@
   "devDependencies": {
     "@types/cheerio": "^0.22.7",
     "@types/es6-collections": "^0.5.31",
+    "@types/events": "^1.2.0",
     "@types/koa": "^2.0.46",
     "@types/koa-bodyparser": "^4.2.0",
     "@types/koa-logger": "^3.1.0",
