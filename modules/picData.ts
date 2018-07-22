@@ -14,7 +14,7 @@ class PicData {
     }
 
     public static formatUrl(url: string) {
-        return `https:${url.replace(/(?<=konachan\.)net/, 'com')}`;
+        return `${url.replace(/(?<=konachan\.)net/, 'com')}`;
     }
 
     public static async getData({
