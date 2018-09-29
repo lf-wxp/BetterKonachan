@@ -2,7 +2,7 @@
     "watch": ["server.ts"],
     "ext": "ts",
     "ignore": ["assets/"],
-    "exec": "ts-node  server.ts ",
+    "exec": "ts-node -r tsconfig-paths/register server.ts ",
     "env": {
         "NODE_ENV": "development"
     }

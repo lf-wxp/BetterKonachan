@@ -8,10 +8,11 @@ import * as views from 'koa-views';
 import * as websockify from 'koa-websocket';
 import * as fs from 'fs';
 import * as md5 from 'md5';
-import * as extract from 'extract-zip';
-import PicData from './modules/picData';
-import { User } from './database/db';
+import PicData from '@modules/image';
+import { User } from '@db';
 import { createConnection } from 'typeorm';
+import { IContext } from './models/types';
+import { mkdirsSync, extractFile } from '@utils';
 import 'reflect-metadata';
 
 const app = websockify(new Koa());
@@ -23,41 +24,6 @@ const extractPath = path.resolve(__dirname, './assets/dist/media');
 let currenUploadFile: string = '';
 let connection;
 
-function removeAllFile(dir: string) {
-    if (fs.existsSync(dir)) {
-        fs.readdirSync(dir).forEach((file) => {
-            const curPath = path.resolve(dir, file);
-            if (fs.statSync(curPath).isDirectory()) { // recurse
-                removeAllFile(curPath);
-            } else { // delete file
-                fs.unlinkSync(curPath);
-            }
-        });
-    }
-}
-
-function extractFile(dirpath: string) {
-    return new Promise((resolve, reject) => {
-        removeAllFile(extractPath);
-        extract(dirpath, {
-            dir: extractPath,
-        }, (err) => {
-            const data = {
-                type: 'notice',
-                msg: 'extract success',
-            };
-            if (err) {
-                data.type = 'fail';
-                data.msg = 'extract fail';
-                reject(data);
-            } else {
-                resolve(data);
-                fs.unlinkSync(dirpath);
-            }
-        });
-    });
-}
-
 async function dataConnect() {
     connection = await createConnection({
         type: 'sqlite',
@@ -67,10 +33,9 @@ async function dataConnect() {
         logging: false,
     });
 }
+
 dataConnect();
 
-const connect = dataConnect();
-const baseMusicUrl = 'http://music.163.com/song/media/outer/url?id=';
 const viewConf = views(path.join(__dirname, './assets/dist/'), {
     map: {
         html: 'swig',
@@ -78,35 +43,35 @@ const viewConf = views(path.join(__dirname, './assets/dist/'), {
 });
 
 if (!fs.existsSync(uploadPath)) {
-    fs.mkdirSync(uploadPath);
+    mkdirsSync(uploadPath);
 }
 
 if (!fs.existsSync(extractPath)) {
-    fs.mkdirSync(extractPath);
+    mkdirsSync(extractPath);
 }
 
-PicData.getPage().then((page) => {
+PicData.getPage().then((page: number) => {
     totalPage = page;
 });
 
-router.get('/', async (ctx) => {
+router.get('/', async (ctx: IContext) => {
     await ctx.render('index');
 });
 
-router.get('/api/music', async (ctx) => {
+router.get('/api/music', async (ctx: IContext): Promise<void> => {
     ctx.type = 'json';
     const data = fs.readFileSync(path.resolve(extractPath, 'data.json'));
     ctx.body = data;
 });
 
-router.get('/api/stream', async (ctx) => {
+router.get('/api/stream', async (ctx: IContext) => {
     const id = ctx.query.id;
     ctx.type = 'application/octet-stream';
     const stream = fs.createReadStream(path.resolve(extractPath, `${id}.mp3`));
     ctx.body = stream;
 });
 
-router.get('/api/post', async (ctx) => {
+router.get('/api/post', async (ctx: IContext) => {
     const imgs = await PicData.getData(ctx.query);
     ctx.body = {
         images: imgs,
@@ -114,7 +79,7 @@ router.get('/api/post', async (ctx) => {
     };
 });
 
-router.post('/api/auth', async (ctx) => {
+router.post('/api/auth', async (ctx: IContext) => {
     const { name, persistent } = ctx.request.body;
     let { password } = ctx.request.body;
     password = persistent ? password : md5(password);
@@ -128,21 +93,21 @@ router.post('/api/auth', async (ctx) => {
     ctx.body = data;
 });
 
-router.get('/api/auth/list', async (ctx) => {
+router.get('/api/auth/list', async (ctx: IContext) => {
     const result = await User.find();
     ctx.body = { length: result.length };
 });
 
-router.get('/api/files', async (ctx) => {
+router.get('/api/files', async (ctx: IContext) => {
     const result = fs.readdirSync(uploadPath);
     ctx.body = result;
 });
 
-router.post('/api/extract', async (ctx) => {
+router.post('/api/extract', async (ctx: IContext) => {
     const { name } = ctx.request.body;
     const newPath = path.resolve(uploadPath, name);
     if (fs.existsSync(newPath)) {
-        const data = await extractFile(newPath);
+        const data = await extractFile(newPath, extractPath);
         ctx.body = data;
     } else {
         ctx.body = {
@@ -152,7 +117,7 @@ router.post('/api/extract', async (ctx) => {
     }
 });
 
-router.post('/api/auth/create', async (ctx) => {
+router.post('/api/auth/create', async (ctx: IContext) => {
     const { name } = ctx.request.body;
     let { password } = ctx.request.body;
     let userData;
@@ -172,7 +137,7 @@ router.post('/api/auth/create', async (ctx) => {
     ctx.body = data;
 });
 
-router.post('/api/pic', async (ctx) => {
+router.post('/api/pic', async (ctx: IContext) => {
     const res = await PicData.getSample(ctx.request.body.url);
     const base64 = res.body.toString('base64');
     ctx.body = {
@@ -180,11 +145,11 @@ router.post('/api/pic', async (ctx) => {
     };
 });
 
-router.all('*', async (ctx) => {
+router.all('*', async (ctx: IContext) => {
     await ctx.render('index');
 });
 
-app.ws.use(wsRouter.all('/ws/', (ctx) => {
+app.ws.use(wsRouter.all('/ws/', (ctx: IContext) => {
     ctx.websocket.on('message', (message) => {
         if (typeof message === 'string') {
             if (currenUploadFile) {
