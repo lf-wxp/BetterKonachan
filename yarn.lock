@@ -74,6 +74,10 @@
     "@types/express-serve-static-core" "*"
     "@types/serve-static" "*"
 
+"@types/extract-zip@^1.6.2":
+  version "1.6.2"
+  resolved "http://r.tnpm.oa.com/@types/extract-zip/download/@types/extract-zip-1.6.2.tgz#5c7eb441c41136167a42b88b64051e6260c29e86"
+
 "@types/glob@*":
   version "7.1.1"
   resolved "http://r.tnpm.oa.com/@types/glob/download/@types/glob-7.1.1.tgz#aa59a1c6e3fbc421e07ccd31a944c30eba521575"
@@ -94,7 +98,13 @@
   version "1.0.1"
   resolved "http://r.tnpm.oa.com/@types/keygrip/download/@types/keygrip-1.0.1.tgz#ff540462d2fb4d0a88441ceaf27d287b01c3d878"
 
-"@types/koa-compose@*":
+"@types/koa-bodyparser@^5.0.1":
+  version "5.0.1"
+  resolved "http://r.tnpm.oa.com/@types/koa-bodyparser/download/@types/koa-bodyparser-5.0.1.tgz#c40c0a0b7903df128a4e0677c51b5bdcc8bfa025"
+  dependencies:
+    "@types/koa" "*"
+
+"@types/koa-compose@*", "@types/koa-compose@3.2.2":
   version "3.2.2"
   resolved "http://r.tnpm.oa.com/@types/koa-compose/download/@types/koa-compose-3.2.2.tgz#dc106e000bbf92a3ac900f756df47344887ee847"
 
@@ -3421,15 +3431,23 @@ koa-bodyparser@^4.2.1:
     co-body "^6.0.0"
     copy-to "^2.0.1"
 
+koa-combine-routers@^4.0.2:
+  version "4.0.2"
+  resolved "http://r.tnpm.oa.com/koa-combine-routers/download/koa-combine-routers-4.0.2.tgz#0035dcbf153deb9b7708521a28432590510f601d"
+  dependencies:
+    "@types/koa-compose" "3.2.2"
+    "@types/koa-router" "^7.0.32"
+    koa-compose "4.1.0"
+
+koa-compose@4.1.0, koa-compose@^4.0.0, koa-compose@^4.1.0:
+  version "4.1.0"
+  resolved "http://r.tnpm.oa.com/koa-compose/download/koa-compose-4.1.0.tgz#507306b9371901db41121c812e923d0d67d3e877"
+
 koa-compose@^3.0.0:
   version "3.2.1"
   resolved "http://r.tnpm.oa.com/koa-compose/download/koa-compose-3.2.1.tgz#a85ccb40b7d986d8e5a345b3a1ace8eabcf54de7"
   dependencies:
     any-promise "^1.1.0"
-
-koa-compose@^4.0.0, koa-compose@^4.1.0:
-  version "4.1.0"
-  resolved "http://r.tnpm.oa.com/koa-compose/download/koa-compose-4.1.0.tgz#507306b9371901db41121c812e923d0d67d3e877"
 
 koa-convert@^1.2.0:
   version "1.2.0"

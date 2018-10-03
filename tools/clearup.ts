@@ -1,2 +1,2 @@
-import { deleteFolderRecursive } from '@utils';
+import { deleteFolderRecursive } from '@util';
 deleteFolderRecursive('assets/dist/');

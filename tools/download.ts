@@ -1,6 +1,6 @@
-import Nestease from '@modules/netease';
+import Nestease from '@module/netease';
 import axios from 'axios';
-import { mkdirsSync } from '@utils';
+import { mkdirsSync } from '@util';
 import * as archiver from 'archiver';
 import * as fs from 'fs';
 import * as path from 'path';

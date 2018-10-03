@@ -46,10 +46,6 @@ const getFileList = new Service({
     url: '/api/files',
 });
 
-const getSampleImg = new Service({
-    url: '/api/pic',
-});
-
 const authorize = new Service({
     url: '/api/auth',
     method: 'post',

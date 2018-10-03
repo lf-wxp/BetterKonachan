@@ -10,10 +10,17 @@ import * as fs from 'fs';
 import * as md5 from 'md5';
 import PicData from '@modules/image';
 import { User } from '@db';
-import { createConnection } from 'typeorm';
-import { IContext } from './models/types';
+import { createConnection, Connection, Repository } from 'typeorm';
 import { mkdirsSync, extractFile } from '@utils';
 import 'reflect-metadata';
+
+import { IContext } from '@models/context';
+import { IAuthRes, IAuthReqData } from '@models/authData';
+import { EStateType } from '@models/response';
+import { IUser } from '@models/user';
+import { TQueryResult } from '@models/database';
+import { ReadStream } from 'tty';
+import { IZipFile } from '@models/zipFile';
 
 const app = websockify(new Koa());
 const router: koaRouter = new koaRouter();
@@ -22,7 +29,7 @@ let totalPage: number = 0;
 const uploadPath = path.resolve(__dirname, 'upload');
 const extractPath = path.resolve(__dirname, './assets/dist/media');
 let currenUploadFile: string = '';
-let connection;
+let connection: Connection;
 
 async function dataConnect() {
     connection = await createConnection({
@@ -60,12 +67,12 @@ router.get('/', async (ctx: IContext) => {
 
 router.get('/api/music', async (ctx: IContext): Promise<void> => {
     ctx.type = 'json';
-    const data = fs.readFileSync(path.resolve(extractPath, 'data.json'));
+    const data: Buffer = fs.readFileSync(path.resolve(extractPath, 'data.json'));
     ctx.body = data;
 });
 
 router.get('/api/stream', async (ctx: IContext) => {
-    const id = ctx.query.id;
+    const id: string = ctx.query.id;
     ctx.type = 'application/octet-stream';
     const stream = fs.createReadStream(path.resolve(extractPath, `${id}.mp3`));
     ctx.body = stream;
@@ -80,13 +87,13 @@ router.get('/api/post', async (ctx: IContext) => {
 });
 
 router.post('/api/auth', async (ctx: IContext) => {
-    const { name, persistent } = ctx.request.body;
-    let { password } = ctx.request.body;
+    const { name, persistent }: Pick<IAuthReqData, 'name' | 'persistent'> = ctx.request.body;
+    let { password }: Pick<IAuthReqData, 'password'> = ctx.request.body;
     password = persistent ? password : md5(password);
-    const result = await User.findOne({ name, password });
-    const data = { type: 'fail', data: null, msg: 'login fail' };
+    const result: TQueryResult<IUser> = await User.findOne({ name, password });
+    const data: IAuthRes = { state: EStateType.Fail, data: null, msg: 'login fail' };
     if (result) {
-        data.type = 'success';
+        data.state = EStateType.Success;
         data.data = result;
         data.msg = 'login successfully';
     }
@@ -94,18 +101,18 @@ router.post('/api/auth', async (ctx: IContext) => {
 });
 
 router.get('/api/auth/list', async (ctx: IContext) => {
-    const result = await User.find();
+    const result: TQueryResult<IUser[]> = await User.find();
     ctx.body = { length: result.length };
 });
 
 router.get('/api/files', async (ctx: IContext) => {
-    const result = fs.readdirSync(uploadPath);
+    const result: string[] = fs.readdirSync(uploadPath);
     ctx.body = result;
 });
 
 router.post('/api/extract', async (ctx: IContext) => {
-    const { name } = ctx.request.body;
-    const newPath = path.resolve(uploadPath, name);
+    const { name }: IZipFile = ctx.request.body;
+    const newPath: string = path.resolve(uploadPath, name);
     if (fs.existsSync(newPath)) {
         const data = await extractFile(newPath, extractPath);
         ctx.body = data;
@@ -118,31 +125,23 @@ router.post('/api/extract', async (ctx: IContext) => {
 });
 
 router.post('/api/auth/create', async (ctx: IContext) => {
-    const { name } = ctx.request.body;
-    let { password } = ctx.request.body;
-    let userData;
+    const { name }: Pick<IAuthReqData, 'name'> = ctx.request.body;
+    let { password }: Pick<IAuthReqData, 'password'> = ctx.request.body;
+    let userData: IUser;
     password = md5(password);
-    const userRepository = connection.getRepository(User);
-    const user  = new User();
+    const userRepository: Repository<IUser> = connection.getRepository(User);
+    const user: IUser  = new User();
     user.name = name;
     user.password = password;
-    const data = { type: 'success', msg: 'create a new account successfully', data: null};
+    const data: IAuthRes = { state: EStateType.Success, msg: 'create a new account successfully', data: null};
     try {
         userData = await userRepository.save(user);
         data.data = userData;
     } catch (error) {
-        data.type = 'error';
+        data.state = EStateType.Success;
         data.msg = error.message;
     }
     ctx.body = data;
-});
-
-router.post('/api/pic', async (ctx: IContext) => {
-    const res = await PicData.getSample(ctx.request.body.url);
-    const base64 = res.body.toString('base64');
-    ctx.body = {
-        data_url: `data:${res.type};base64,${base64}`,
-    };
 });
 
 router.all('*', async (ctx: IContext) => {
