@@ -6,7 +6,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-import Bubble from '../modules/bubble';
 
 @Component
 export default class VHeader extends Vue {}

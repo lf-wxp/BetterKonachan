@@ -1,5 +1,5 @@
 {
-    "extends": "tslint:recommended",
+    "extends": ["tslint-microsoft-contri","tslint:recommended"],
     "rules": {
         "max-line-length": {
             "options": [150]

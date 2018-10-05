@@ -12,8 +12,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator';
-import { userList, authorize, createAccount } from 'src/service';
-import vNotice from 'components/vNotice.vue';
+import { userList, authorize, createAccount } from '@service';
+import vNotice from '@component/vNotice.vue';
 
 @Component({
     components: {

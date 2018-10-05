@@ -15,13 +15,13 @@ import 'css/_base.css';
 import 'normalize.css';
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-import vHeader from 'src/components/vHeader.vue';
-import vMusic from 'src/components/vMusic.vue';
-import vBackground from 'src/components/vBackground.vue';
-import vPager from 'src/components/vPager.vue';
-import vList from 'components/vList.vue';
-import vSetting from 'components/vSetting.vue';
-import vSearch from 'components/vSearch.vue';
+import vHeader from '@component/vHeader.vue';
+import vMusic from '@component/vMusic.vue';
+import vBackground from '@component/vBackground.vue';
+import vPager from '@component/vPager.vue';
+import vList from '@component/vList.vue';
+import vSetting from '@component/vSetting.vue';
+import vSearch from '@component/vSearch.vue';
 @Component({
     components: {
         vSearch,

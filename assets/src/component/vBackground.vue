@@ -22,7 +22,7 @@ import { Component } from 'vue-property-decorator';
                 );
             },
             update(el, bingding) {
-                const { value, oldValue } = bingding;
+                const { oldValue } = bingding;
                 const parent = el.parentNode as HTMLElement;
                 const previousImg = parent.querySelector('.fadeImage');
                 if (previousImg) {

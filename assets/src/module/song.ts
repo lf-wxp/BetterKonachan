@@ -1,4 +1,4 @@
-import { getStream } from 'src/service';
+import { getStream } from '@service';
 
 class Song implements ISong {
     public static size = 128;
@@ -95,7 +95,7 @@ class Song implements ISong {
     }
     public visualizer() {
         const arr = new Uint8Array(this.analyserNode.frequencyBinCount);
-        const anima = () => {
+        const anima = (): boolean | void => {
             if (this.stopStatus || (this.ac.currentTime > this.duration)) { return false; }
             this.analyserNode.getByteFrequencyData(arr);
             this.draw(arr);

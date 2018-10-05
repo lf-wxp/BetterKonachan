@@ -17,8 +17,8 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-import { getFileList, extract } from 'src/service';
-import vNotice from 'components/vNotice.vue';
+import { getFileList, extract } from '@service';
+import vNotice from '@component/vNotice.vue';
 
 @Component({
     components: {

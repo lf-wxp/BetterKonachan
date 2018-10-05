@@ -7,7 +7,6 @@ const devPlugins = [
 ];
 base.module.rules.push({
     test: /\.css$/,
-    exclude: ['node_modules'],
     use: ['vue-style-loader', {
         loader: 'css-loader',
         options: {

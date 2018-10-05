@@ -17,11 +17,11 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component, Watch } from 'vue-property-decorator';
-import { getPost } from 'src/service';
+import { getPost } from '@service';
 import { State, Mutation } from 'vuex-class';
-import vWaterfall from './vWaterfall';
-import vLoading from './vLoading';
-import loadErrorImage from 'images/loaderror.png';
+import vWaterfall from '@component/vWaterfall.vue';
+import vLoading from '@component/vLoading.vue';
+import loadErrorImage from 'image/loaderror.png';
 
 const load: {
     bind(el: HTMLElement, binding: { name: string, value: string}): void;

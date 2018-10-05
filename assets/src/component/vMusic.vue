@@ -32,8 +32,8 @@
 <script lang="ts">
 import 'css/_icon.css';
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
-import { getMusic } from 'src/service';
+import { Component } from 'vue-property-decorator';
+import { getMusic } from '@service';
 import { Mutation } from 'vuex-class';
 
 @Component

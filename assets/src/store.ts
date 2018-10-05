@@ -1,6 +1,6 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
-import defaultBg from 'images/bg.jpg';
+import defaultBg from 'image/bg.jpg';
 Vue.use(Vuex);
 
 export default new Vuex.Store({

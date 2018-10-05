@@ -8,19 +8,18 @@ import * as views from 'koa-views';
 import * as websockify from 'koa-websocket';
 import * as fs from 'fs';
 import * as md5 from 'md5';
-import PicData from '@modules/image';
+import PicData from '@module/image';
 import { User } from '@db';
 import { createConnection, Connection, Repository } from 'typeorm';
-import { mkdirsSync, extractFile } from '@utils';
+import { mkdirsSync, extractFile } from '@util';
 import 'reflect-metadata';
 
-import { IContext } from '@models/context';
-import { IAuthRes, IAuthReqData } from '@models/authData';
-import { EStateType } from '@models/response';
-import { IUser } from '@models/user';
-import { TQueryResult } from '@models/database';
+import { IContext } from '@model/context';
+import { IAuthRes, IAuthReqData } from '@model/authData';
+import { IUser } from '@model/user';
+import { TQueryResult } from '@model/database';
 import { ReadStream } from 'tty';
-import { IZipFile } from '@models/zipFile';
+import { IZipFile } from '@model/zipFile';
 
 const app = websockify(new Koa());
 const router: koaRouter = new koaRouter();
@@ -149,7 +148,7 @@ router.all('*', async (ctx: IContext) => {
 });
 
 app.ws.use(wsRouter.all('/ws/', (ctx: IContext) => {
-    ctx.websocket.on('message', (message) => {
+    ctx.websocket.on('message', (message: string) => {
         if (typeof message === 'string') {
             if (currenUploadFile) {
                 ctx.websocket.send(

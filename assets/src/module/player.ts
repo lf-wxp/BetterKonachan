@@ -1,4 +1,4 @@
-import Song from 'modules/song';
+import Song from '@cModule/song';
 
 class Player implements IPlayer {
     public static shuffle(a: IMusic[]) {
@@ -46,7 +46,7 @@ class Player implements IPlayer {
             }, 500);
         });
     }
-    public nextSong() {
+    public nextSong(): boolean | void {
         if (this.currentSongIndex + 1 < this.songsLen) {
             this.currentSongIndex += 1;
         } else {
@@ -73,7 +73,7 @@ class Player implements IPlayer {
     public seek(per: number) {
         this.CAC.seek(per);
     }
-    public prevSong() {
+    public prevSong(): boolean | void {
         if (this.currentSongIndex - 1 >= 0) {
             this.currentSongIndex -= 1;
         } else {

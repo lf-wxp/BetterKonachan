@@ -37,12 +37,15 @@
             "@model/*": ["model/*"],
             "@config": ["config/index"],
             "@controller/*": ["controller/*"],
-            "@route/*": ["route/*"]
+            "@route/*": ["route/*"],
+            "@component/*": ["assets/src/component"],
+            "@service": ["assets/src/service"],
+            "@cModule/*": ["assets/src/module/*"]
         }
     },
     "exclude": [
         "node_modules", 
-        "**/*.test.ts", 
-        "assets"
+        "**/*.test.ts",
+        "server.ts"
     ]
 }

@@ -1,10 +1,10 @@
 import Router from 'vue-router';
-import { authorize } from 'src/service';
+import { authorize } from '@service';
 
-const home = async () => await import('./pages/home.vue');
-const upload = async () => await import('./pages/upload.vue');
-const auth = async () => await import('./pages/auth.vue');
-const list = async () => await import('./pages/filelist.vue');
+const home = async () => await import('./page/home.vue');
+const upload = async () => await import('./page/upload.vue');
+const auth = async () => await import('./page/auth.vue');
+const list = async () => await import('./page/filelist.vue');
 const router = new Router({
     mode: 'history',
     routes: [

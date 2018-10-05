@@ -1,12 +1,12 @@
-import Nestease from '@module/netease';
 import axios from 'axios';
-import { mkdirsSync } from '@util';
 import * as archiver from 'archiver';
 import * as fs from 'fs';
 import * as path from 'path';
 
-const basePath = path.resolve(__dirname, '../media');
+import Nestease from '@module/netease';
+import { mkdirsSync } from '@util';
 
+const basePath = path.resolve(__dirname, '../media');
 const [start = 0, length = 10] = process.argv.slice(2).map((x) => Number.parseInt(x, 10));
 
 if (!fs.existsSync(basePath)) {

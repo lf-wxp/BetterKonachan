@@ -35,7 +35,7 @@ export default class VWaterfall extends Vue {
             height: `${max}px`,
         };
     }
-    get items() {
+    get items(): any[] | void {
         if (this.parentWidth && this.list.length) {
             this.init();
             return this.list.map((item, i) => {

@@ -30,7 +30,7 @@ class Service implements IService {
 }
 
 const getMusic = new Service({
-    url: '/api/music',
+    url: '/api/music/list',
 });
 
 const getStream = new Service({
@@ -39,37 +39,36 @@ const getStream = new Service({
 });
 
 const getPost = new Service({
-    url: '/api/post',
-});
-
-const getFileList = new Service({
-    url: '/api/files',
+    url: '/api/image/list',
 });
 
 const authorize = new Service({
-    url: '/api/auth',
+    url: '/api/user/auth',
     method: 'post',
 });
 
 const userList = new Service({
-    url: '/api/auth/list',
+    url: '/api/user/list',
 });
 
 const createAccount = new Service({
-    url: '/api/auth/create',
+    url: '/api/user/create',
     method: 'post',
+});
+
+const getFileList = new Service({
+    url: '/api/file/list',
 });
 
 const extract = new Service({
     method: 'post',
-    url: '/api/extract',
+    url: '/api/file/extract',
 });
 
 export {
     getMusic,
     getStream,
     getPost,
-    getSampleImg,
     getFileList,
     authorize,
     userList,

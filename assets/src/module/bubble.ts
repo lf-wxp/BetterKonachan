@@ -1,4 +1,4 @@
-import Circle from './circle';
+import Circle from '@cModule/circle';
 
 class Bubble implements IBubble {
     public canvas: HTMLCanvasElement;
