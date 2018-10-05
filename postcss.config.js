@@ -10,6 +10,8 @@ module.exports = {
             loadPaths: ['assets/src/fonts','assets/src/images'],
         }),
         require('postcss-color-function'),
-        require('postcss-cssnext'),
+        require('postcss-preset-env')({
+            stage: 0,
+        }),
     ]
 }
