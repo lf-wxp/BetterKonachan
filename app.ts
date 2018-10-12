@@ -12,7 +12,7 @@ import { PORT } from '@config';
 import router from '@route/index';
 
 fileInit();
-const app = websockify(new Koa());
+const app: websockify.App = websockify(new Koa());
 const viewConf = views(path.resolve(__dirname, './assets/dist/'), {
   map: {
     html: 'swig',

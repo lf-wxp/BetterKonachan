@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 import { SONGDOWNLOADURL, SONGLISTURL } from '@config';
 
-import { ISong, IResTrack } from '@model/song';
+import { ISong, IResTrack, INeteasePlaylistDetailRes } from '@model/song';
 
 class Netease {
     public static async playlistDetail(
@@ -10,7 +10,7 @@ class Netease {
         start: number,
         length: number,
     ): Promise<ISong[]> {
-        const res = await axios.get(SONGLISTURL, {
+        const res: AxiosResponse<INeteasePlaylistDetailRes> = await axios.get(SONGLISTURL, {
             params: {
                 id,
             },
@@ -28,7 +28,7 @@ class Netease {
         length = 10,
     ): ISong[] {
         const songs: ISong[] = [];
-        tracks.splice(start, length).forEach((track: IResTrack) => {
+        tracks.splice(start, length).forEach((track: IResTrack): void => {
             songs.push({
                 id: track.id,
                 artist: track.artists[0].name,

@@ -1,6 +1,6 @@
 import * as path from 'path';
 
-const BASEPATH = path.resolve(__dirname, '../');
+const BASEPATH: string = path.resolve(__dirname, '../');
 
 export const UPLOADPATH: string = path.resolve(BASEPATH, 'upload');
 export const EXTRACTPATH: string = path.resolve(BASEPATH, 'assets/dist/media');

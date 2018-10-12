@@ -1,7 +1,7 @@
 import * as Router from 'koa-router';
 import { imageList } from '@controller/image';
 
-const router = new Router({
+const router: Router = new Router({
   prefix: '/api/image',
 });
 

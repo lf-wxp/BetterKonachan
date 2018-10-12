@@ -1,7 +1,7 @@
 import * as Router from 'koa-router';
 import { userAuth, userCreate, userList } from '@controller/auth';
 
-const router = new Router({
+const router: Router = new Router({
   prefix: '/api/user',
 });
 

@@ -8,7 +8,7 @@ import { IZipFile } from '@model/zipFile';
 
 
 let currenUploadFile: string = '';
-export const fileInit = () => {
+export const fileInit = (): void => {
     if (!fs.existsSync(UPLOADPATH)) {
         mkdirsSync(UPLOADPATH);
     }
@@ -18,12 +18,12 @@ export const fileInit = () => {
     }
 };
 
-export const fileList = async (ctx: IContext) => {
+export const fileList = async (ctx: IContext): Promise<void> => {
     const result: string[] = fs.readdirSync(UPLOADPATH);
     ctx.body = result;
 };
 
-export const fileExtract = async (ctx: IContext) => {
+export const fileExtract = async (ctx: IContext): Promise<void> => {
     const { name }: IZipFile = ctx.request.body as IZipFile;
     const newPath: string = path.resolve(UPLOADPATH, name);
     if (fs.existsSync(newPath)) {
@@ -37,7 +37,7 @@ export const fileExtract = async (ctx: IContext) => {
     }
 };
 
-export const fileUpload = (ctx: IContext) => {
+export const fileUpload = (ctx: IContext): void => {
   ctx.websocket.on('message', (message) => {
       if (typeof message === 'string') {
           if (currenUploadFile) {

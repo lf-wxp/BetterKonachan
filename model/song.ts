@@ -101,3 +101,10 @@ export interface IResTrack {
     mp3Url: string;
     transNames: string[];
 }
+
+export interface INeteasePlaylistDetailRes {
+    result: {
+        [key: string ]: string | string[] | IResTrack[];
+        tracks: IResTrack[];
+    }
+}

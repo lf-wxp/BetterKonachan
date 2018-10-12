@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import * as cheerio from 'cheerio';
 import * as path from 'path';
 
@@ -8,8 +8,8 @@ import { IImage, IResImage } from '@model/image';
 
 class PicData {
     public static  async getPage(): Promise<number> {
-        const res = await axios.get(IMAGEURLXML);
-        const $ = cheerio.load(res.data);
+        const res: AxiosResponse<string> = await axios.get(IMAGEURLXML);
+        const $: CheerioStatic = cheerio.load(res.data);
         return Math.ceil(Number.parseInt($('posts').attr('count'), 10) / IMAGEPAGESIZE);
     }
 
@@ -20,8 +20,8 @@ class PicData {
     public static async getData({
         page = 1,
         tags = '',
-    } = {}): Promise<IImage[]> {
-        const res = await axios.get(IMAGEURLJSON, {
+    }: { page: number, tags: string }): Promise<IImage[]> {
+        const res: AxiosResponse<IResImage[]> = await axios.get(IMAGEURLJSON, {
             params: {
                 page,
                 tags,
@@ -29,7 +29,7 @@ class PicData {
         });
 
         const imgs: IImage[] = [];
-        res.data.forEach((value: IResImage, index: number) => {
+        res.data.forEach((value: IResImage, index: number): void => {
             imgs.push({
                 id: index,
                 url: PicData.formatUrl(value.file_url),

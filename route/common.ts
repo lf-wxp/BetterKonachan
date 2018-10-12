@@ -1,7 +1,7 @@
 import * as Router from 'koa-router';
 
 import { index } from '@controller/common';
-const route = new Router();
+const route: Router = new Router();
 
 route.all('*', index);
 

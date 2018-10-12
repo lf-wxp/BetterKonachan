@@ -10,7 +10,7 @@ import { EStateType } from '@model/message';
 
 let connection: Connection;
 
-const connectDB = async () => {
+const connectDB = async (): Promise<void> => {
     connection = await createConnection({
         type: 'sqlite',
         database: 'database/auth.db',
@@ -22,12 +22,12 @@ const connectDB = async () => {
 
 connectDB();
 
-export const userList = async (ctx: IContext) => {
+export const userList = async (ctx: IContext): Promise<void> => {
     const result: TQueryResult<IUser[]> = await User.find();
     ctx.body = { length: result.length };
 };
 
-export const userAuth = async (ctx: IContext) => {
+export const userAuth = async (ctx: IContext): Promise<void> => {
     const {
         name,
         persistent,
@@ -48,7 +48,7 @@ export const userAuth = async (ctx: IContext) => {
     ctx.body = data;
 };
 
-export const userCreate = async (ctx: IContext) => {
+export const userCreate = async (ctx: IContext): Promise<void> => {
     const { name }: Pick<IAuthReqData, 'name'> = ctx.request.body as IAuthReqData;
     let { password }: Pick<IAuthReqData, 'password'> = ctx.request.body as IAuthReqData;
     let userData: IUser;

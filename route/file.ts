@@ -1,7 +1,7 @@
 import * as Router from 'koa-router';
 import { fileExtract, fileList, fileUpload } from '@controller/file';
 
-const router = new Router({
+const router: Router = new Router({
   prefix: '/api/file',
 });
 
