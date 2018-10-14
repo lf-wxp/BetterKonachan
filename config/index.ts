@@ -13,3 +13,5 @@ export const SONGDOWNLOADURL: string = 'http://music.163.com/song/media/outer/ur
 export const SONGLISTURL: string = 'http://music.163.com/api/playlist/detail';
 
 export const PORT: number = 8888;
+
+export const USERID: number = 95815468;

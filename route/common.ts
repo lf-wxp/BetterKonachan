@@ -1,8 +1,6 @@
 import * as Router from 'koa-router';
 
-import { index } from '@controller/common';
-const route: Router = new Router();
+import { index } from '~controller/common';
+export const common: Router = new Router();
 
-route.all('*', index);
-
-export default route;
+common.all('*', index);

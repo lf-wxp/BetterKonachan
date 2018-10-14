@@ -1,5 +1,5 @@
-import { IUser } from '@model/user';
-import { IResponse } from '@model/response';
+import { IUser } from '~model/user';
+import { IResponse } from '~model/response';
 
 export type IAuthRes = IResponse<IUser>;
 

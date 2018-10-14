@@ -26,21 +26,21 @@
             "es2015"
         ],
         "typeRoots": [
-            "node_modules/@types"
+            "node_modules/~types"
         ],
         "outDir": "./dist",
         "paths": {
-            "@util": ["util/index"],
-            "@db": ["database/index"],
-            "@module/*": ["module/*"],
-            "@type/*": ["type/*"],
-            "@model/*": ["model/*"],
-            "@config": ["config/index"],
-            "@controller/*": ["controller/*"],
-            "@route/*": ["route/*"],
-            "@component/*": ["assets/src/component"],
-            "@service": ["assets/src/service"],
-            "@cModule/*": ["assets/src/module/*"]
+            "~util": ["util/index"],
+            "~db": ["database/User"],
+            "~module/*": ["module/*"],
+            "~type": ["util/type"],
+            "~model/*": ["model/*"],
+            "~config": ["config/index"],
+            "~controller/*": ["controller/*"],
+            "~route/*": ["route/*"],
+            "~component/*": ["assets/src/component"],
+            "~service": ["assets/src/service"],
+            "~cModule/*": ["assets/src/module/*"]
         }
     },
     "exclude": [

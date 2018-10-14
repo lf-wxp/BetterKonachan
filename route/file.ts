@@ -1,12 +1,10 @@
 import * as Router from 'koa-router';
-import { fileExtract, fileList, fileUpload } from '@controller/file';
+import { fileExtract, fileList, fileUpload } from '~controller/file';
 
-const router: Router = new Router({
-  prefix: '/api/file',
+export const file: Router = new Router({
+    prefix: '/api/file'
 });
 
-router.get('/list', fileList);
-router.post('/extract', fileExtract);
-router.all('/upload/', fileUpload);
-
-export default router;
+file.get('/list', fileList);
+file.post('/extract', fileExtract);
+file.all('/upload/', fileUpload);

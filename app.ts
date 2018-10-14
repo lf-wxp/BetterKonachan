@@ -6,21 +6,23 @@ import * as views from 'koa-views';
 import * as path from 'path';
 import * as websockify from 'koa-websocket';
 
-import { fileInit } from '@controller/file';
-import { PORT } from '@config';
+import { fileInit } from '~controller/file';
+import { PORT } from '~config';
 
-import router from '@route/index';
+import { router } from '~route/index';
 
 fileInit();
 const app: websockify.App = websockify(new Koa());
-const viewConf = views(path.resolve(__dirname, './assets/dist/'), {
-  map: {
-    html: 'swig',
-  },
-});
+const viewConf: Koa.Middleware = views(
+    path.resolve(__dirname, './assets/dist/'),
+    {
+        map: {
+            html: 'swig'
+        }
+    }
+);
 
-app
-    .use(logger())
+app.use(logger())
     .use(bodyParser())
     .use(viewConf)
     .use(assets('.'))

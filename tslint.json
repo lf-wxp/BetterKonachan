@@ -1,18 +1,60 @@
 {
-    "extends": ["tslint-microsoft-contri","tslint:recommended"],
+    "extends": ["tslint-microsoft-contrib"],
     "rules": {
         "max-line-length": {
             "options": [150]
         },
         "quotemark": {
-            "options": [
-                "single",
-                "avoid-escape"
-            ]
+            "options": ["single", "avoid-escape"]
         },
+        "no-implicit-dependencies": [
+            true,
+            [
+                "~db",
+                "~model",
+                "~module",
+                "~type",
+                "~config",
+                "~controller",
+                "~route",
+                "~component",
+                "~service",
+                "~cModule",
+                "~util"
+            ]
+        ],
+        "no-submodule-imports": [
+            true,
+            "~db",
+            "~model",
+            "~module",
+            "~type",
+            "~config",
+            "~controller",
+            "~route",
+            "~component",
+            "~service",
+            "~cModule",
+            "~util"
+        ],
         "ordered-imports": false,
+        "missing-jsdoc": false,
         "object-literal-sort-keys": false,
         "new-parens": true,
+         "no-http-string": false,
+        "variable-name": [
+            true,
+            "ben-keywords",
+            "check-format",
+            "allow-pascal-case"
+        ],
+        "function-name": [
+            true,
+            {
+                "function-regex": "^[A-Za-z][\\w\\d]+$",
+                "static-method-regex": "^[A-Za-z_\\d]+$"
+            }
+        ],
         "no-arg": true,
         "no-debugger": false,
         "no-bitwise": true,
@@ -21,14 +63,7 @@
         "no-unused-expression": false,
         "no-console": {
             "severity": "warning",
-            "options": [
-                "debug",
-                "info",
-                "log",
-                "time",
-                "timeEnd",
-                "trace"
-            ]
+            "options": ["debug", "info", "log", "time", "timeEnd", "trace"]
         }
     },
     "jsRules": {

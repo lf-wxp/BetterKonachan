@@ -2,12 +2,13 @@ import * as extract from 'extract-zip';
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { IMsg, EStateType } from '@model/message';
+import { IMsg, EStateType } from '~model/message';
+import { TFunc1Void } from '~type';
 
 export function removeAllFile(dir: string): void {
     if (fs.existsSync(dir)) {
-        fs.readdirSync(dir).forEach((file) => {
-            const curPath = path.resolve(dir, file);
+        fs.readdirSync(dir).forEach((file: string) => {
+            const curPath: string = path.resolve(dir, file);
             if (fs.statSync(curPath).isDirectory()) {
                 // recurse
                 removeAllFile(curPath);
@@ -21,19 +22,19 @@ export function removeAllFile(dir: string): void {
 
 export function extractFile(
     dirpath: string,
-    extractPath: string,
+    extractPath: string
 ): Promise<IMsg> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve: TFunc1Void<IMsg>, reject: TFunc1Void<IMsg>): void => {
         removeAllFile(extractPath);
         extract(
             dirpath,
             {
-                dir: extractPath,
+                dir: extractPath
             },
-            (err) => {
+            (err: Error) => {
                 const data: IMsg = {
                     state: EStateType.Success,
-                    msg: 'extract success',
+                    msg: 'extract success'
                 };
                 if (err) {
                     data.state = EStateType.Success;
@@ -50,8 +51,8 @@ export function extractFile(
 
 export function deleteFolderRecursive(dir: string): void {
     if (fs.existsSync(dir)) {
-        fs.readdirSync(dir).forEach((file) => {
-            const curPath = `${dir}/${file}`;
+        fs.readdirSync(dir).forEach((file: string): void => {
+            const curPath: string = `${dir}/${file}`;
             if (fs.statSync(curPath).isDirectory()) {
                 // recurse
                 deleteFolderRecursive(curPath);
@@ -70,6 +71,7 @@ export function mkdirsSync(dirname: string): boolean | void {
     } else {
         if (mkdirsSync(path.dirname(dirname))) {
             fs.mkdirSync(dirname);
+
             return true;
         }
     }
