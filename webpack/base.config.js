@@ -83,11 +83,11 @@ const plugins = [
 
 const resolve = {
     alias: {
-        '@component': path.resolve(__dirname, '../assets/src/component'),
-        '@service': path.resolve(__dirname, '../assets/src/service.ts'),
-        '@cModule': path.resolve(__dirname, '../assets/src/module'),
-        src: path.resolve(__dirname, '../assets/src/'),
-        css: path.resolve(__dirname, '../assets/src/css'),
+        '~component': path.resolve(__dirname, '../assets/src/component'),
+        '~service': path.resolve(__dirname, '../assets/src/service.ts'),
+        '~cModule': path.resolve(__dirname, '../assets/src/module'),
+        '~css': path.resolve(__dirname, '../assets/src/css'),
+        '~src': path.resolve(__dirname, '../assets/src/'),
         font: path.resolve(__dirname, '../assets/src/font'),
         image: path.resolve(__dirname, '../assets/src/image'),
     },

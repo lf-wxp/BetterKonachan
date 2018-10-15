@@ -26,7 +26,8 @@
             "es2015"
         ],
         "typeRoots": [
-            "node_modules/~types"
+            "node_modules/@types",
+            "type"
         ],
         "outDir": "./dist",
         "paths": {
@@ -40,7 +41,8 @@
             "~route/*": ["route/*"],
             "~component/*": ["assets/src/component"],
             "~service": ["assets/src/service"],
-            "~cModule/*": ["assets/src/module/*"]
+            "~cModule/*": ["assets/src/module/*"],
+            "~css/*": ["assets/src/css"]
         }
     },
     "exclude": [

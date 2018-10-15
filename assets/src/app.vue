@@ -5,10 +5,10 @@
 </template>
 
 <script lang="ts">
-import 'css/_base.css';
-import 'css/_icon.css';
+import '~css/_base.css';
+import '~css/_icon.css';
 import 'normalize.css';
-import Vue from 'vue';
+import * as Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 
 @Component
@@ -17,10 +17,11 @@ export default class App extends Vue {}
 <style scoped>
 .fade-enter-active,
 .fade-leave-active {
-    transition: opacity 0.5s;
+	transition: opacity 0.5s;
 }
-.fade-enter, .fade-leave-to {
-    opacity: 0;
+.fade-enter,
+.fade-leave-to {
+	opacity: 0;
 }
 </style>
 

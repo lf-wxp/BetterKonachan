@@ -106,5 +106,5 @@ export interface INeteasePlaylistDetailRes {
     result: {
         [key: string ]: string | string[] | IResTrack[];
         tracks: IResTrack[];
-    }
+    };
 }

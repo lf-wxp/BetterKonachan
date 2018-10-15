@@ -1,68 +1,77 @@
-import axios, { Canceler } from 'axios';
+import axios, { Canceler, CancelTokenStatic, AxiosResponse } from 'axios';
 
-const CancelToken = axios.CancelToken;
+import { TFuncVoid } from '~type';
+import { ISong } from '~model/song';
 
-class Service implements IService {
+const CancelToken: CancelTokenStatic = axios.CancelToken;
+
+export interface IOpt {
+    method?: string;
+    url?: string;
+    responseType?: string;
+}
+export interface IService<R extends object, Q> {
+    cancel(): void;
+    http(data: R): Promise<AxiosResponse<Q> | Error>;
+}
+class Service<R extends object, Q> {
     private cancelToken!: Canceler;
-    private opts: object;
-    constructor({
-        method = 'get',
-        ...opts
-    }: { method?: string; [propName: string]: any } = {}) {
+    private opts: IOpt;
+    constructor({ method = 'get', ...opts }: IOpt = {}) {
         this.opts = { method, ...opts };
     }
-    public http(data: object = {}) {
+    public async http(data: R): Promise<AxiosResponse<Q> | Error> {
         return axios({
             ...this.opts,
-            ...data,
-            cancelToken: new CancelToken((c: () => void) => {
+            ...(<object>data),
+            cancelToken: new CancelToken((c: TFuncVoid): void => {
                 this.cancelToken = c;
-            }),
-        }).catch(e => {
+            })
+        }).catch((e: Error) => {
             return e;
         });
     }
-    public cancel() {
+    public cancel(): void {
         if (this.cancelToken) {
             this.cancelToken();
         }
     }
 }
 
-const getMusic = new Service({
-    url: '/api/music/list',
+const getMusic: IService<{}, ISong[]> = new Service<{}, ISong[]>({
+    url: '/api/music/list'
 });
 
 const getStream = new Service({
     url: '/api/stream',
-    responseType: 'arraybuffer',
+    responseType: 'arraybuffer'
 });
 
 const getPost = new Service({
-    url: '/api/image/list',
+    url: '/api/image/list'
 });
 
 const authorize = new Service({
     url: '/api/user/auth',
-    method: 'post',
+    method: 'post'
 });
 
 const userList = new Service({
-    url: '/api/user/list',
+    url: '/api/user/list'
 });
 
 const createAccount = new Service({
     url: '/api/user/create',
-    method: 'post',
+    method: 'post'
 });
 
 const getFileList = new Service({
-    url: '/api/file/list',
+    url: '/api/file/list'
 });
 
 const extract = new Service({
     method: 'post',
-    url: '/api/file/extract',
+    url: '/api/file/extract'
 });
 
 export {
@@ -73,5 +82,5 @@ export {
     authorize,
     userList,
     createAccount,
-    extract,
+    extract
 };

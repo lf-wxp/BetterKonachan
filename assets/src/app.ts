@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import store from './store';
-import App from './app.vue';
-import router from './router';
+import store from '~src/store';
+import App from '~src/app.vue';
+import router from '~src/router';
 
 Vue.use(Router);
 // Vue.config.debug = true;
@@ -12,5 +12,5 @@ new Vue({
     el: '#app',
     store,
     router,
-    render: h => h(App),
+    render: h => h(App)
 });

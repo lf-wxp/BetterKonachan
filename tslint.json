@@ -20,7 +20,9 @@
                 "~component",
                 "~service",
                 "~cModule",
-                "~util"
+                "~util",
+                "~css",
+                "~src"
             ]
         ],
         "no-submodule-imports": [
@@ -35,13 +37,16 @@
             "~component",
             "~service",
             "~cModule",
-            "~util"
+            "~util",
+            "~css",
+            "~src"
         ],
         "ordered-imports": false,
         "missing-jsdoc": false,
         "object-literal-sort-keys": false,
         "new-parens": true,
-         "no-http-string": false,
+        "no-http-string": false,
+        "no-import-side-effect": [true, {"ignore-module": "(\\.html|\\.css)$"}],
         "variable-name": [
             true,
             "ben-keywords",

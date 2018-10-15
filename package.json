@@ -1,6 +1,6 @@
 {
   "name": "betterkonacha",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "main": "index.js",
   "repository": {},
   "license": "MIT",
@@ -11,7 +11,7 @@
     "server:build": "tsc --p tsconfig.json",
     "download": "ts-node tool/download.ts",
     "server:watch": "nodemon",
-    "start": "ts-node app.ts",
+    "start": "ts-node -r tsconfig-paths/register app.ts",
     "dev": "npm run client:dev && npm run server:watch"
   },
   "dependencies": {

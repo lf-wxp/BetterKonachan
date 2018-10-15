@@ -1,5 +1,5 @@
-import Router from 'vue-router';
-import { authorize } from '@service';
+import * as Router from 'vue-router';
+import { authorize } from '~service';
 
 const home = async () => await import('./page/home.vue');
 const upload = async () => await import('./page/upload.vue');

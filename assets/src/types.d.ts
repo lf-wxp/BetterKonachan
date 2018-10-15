@@ -132,7 +132,7 @@ declare interface ISong {
 
 declare interface IService {
     cancel(): void;
-    http(data: object): AxiosPromise<any>;
+    http(data: T): AxiosPromise<any>;
 }
 
 declare interface uploadFile {
