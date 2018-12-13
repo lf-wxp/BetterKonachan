@@ -22,7 +22,9 @@
                 "~cModule",
                 "~util",
                 "~css",
-                "~src"
+                "~src",
+                "~image",
+                "~cModel"
             ]
         ],
         "no-submodule-imports": [
@@ -39,9 +41,13 @@
             "~cModule",
             "~util",
             "~css",
-            "~src"
+            "~src",
+            "~image",
+            "~cModel"
         ],
         "ordered-imports": false,
+        "non-literal-fs-path": false,
+        "no-null-keyword": false,
         "missing-jsdoc": false,
         "object-literal-sort-keys": false,
         "new-parens": true,
@@ -57,7 +63,8 @@
             true,
             {
                 "function-regex": "^[A-Za-z][\\w\\d]+$",
-                "static-method-regex": "^[A-Za-z_\\d]+$"
+                "static-method-regex": "^[A-Za-z_\\d]+$",
+                "method-regex": "^[A-Za-z_\\d]+$"
             }
         ],
         "no-arg": true,

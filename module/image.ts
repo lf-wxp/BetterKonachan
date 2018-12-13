@@ -12,7 +12,8 @@ export namespace Image {
         const $: CheerioStatic = cheerio.load(res.data);
 
         return Math.ceil(
-            Number.parseInt($('posts').attr('count'), 10) / IMAGEPAGESIZE
+            Number.parseInt($('posts')
+            .attr('count'), 10) / IMAGEPAGESIZE
         );
     }
 

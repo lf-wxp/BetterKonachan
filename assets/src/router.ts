@@ -11,7 +11,7 @@ const router = new Router({
         {
             name: 'home',
             path: '/',
-            component: home,
+            component: home
         },
         {
             name: 'upload',
@@ -22,28 +22,28 @@ const router = new Router({
                     data: {
                         name: window.localStorage.getItem('bk_name'),
                         password: window.localStorage.getItem('bk_password'),
-                        persistent: true,
-                    },
+                        persistent: true
+                    }
                 });
                 if (res.data.type === 'success') {
                     next();
                 } else {
                     router.push({
-                        name: 'auth',
+                        name: 'auth'
                     });
                 }
-            },
+            }
         },
         {
             name: 'auth',
             path: '/auth',
-            component: auth,
+            component: auth
         },
         {
             name: 'list',
             path: '/list',
-            component: list,
-        },
-    ],
+            component: list
+        }
+    ]
 });
 export default router;

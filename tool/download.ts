@@ -28,7 +28,8 @@ const archive: archiver.Archiver = archiver('zip', {
 });
 archive.pipe(outFile);
 
-Netease.playlistDetail(USERID, start, length).then(
+Netease.playlistDetail(USERID, start, length)
+.then(
     async (data: ISong[]): Promise<void> => {
         for (const { track, id } of data) {
             const res: AxiosResponse<Buffer> = await axios.get(track, {

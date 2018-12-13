@@ -36,6 +36,7 @@ export interface ITrackSong {
 export interface IAlbum {
     name: string;
     id: number;
+    // tslint:disable no-reserved-keywords
     type: string;
     size: number;
     picId: number;

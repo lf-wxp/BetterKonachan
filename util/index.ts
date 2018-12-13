@@ -7,9 +7,11 @@ import { TFunc1Void } from '~type';
 
 export function removeAllFile(dir: string): void {
     if (fs.existsSync(dir)) {
-        fs.readdirSync(dir).forEach((file: string) => {
+        fs.readdirSync(dir)
+        .forEach((file: string) => {
             const curPath: string = path.resolve(dir, file);
-            if (fs.statSync(curPath).isDirectory()) {
+            if (fs.statSync(curPath)
+            .isDirectory()) {
                 // recurse
                 removeAllFile(curPath);
             } else {
@@ -51,9 +53,11 @@ export function extractFile(
 
 export function deleteFolderRecursive(dir: string): void {
     if (fs.existsSync(dir)) {
-        fs.readdirSync(dir).forEach((file: string): void => {
+        fs.readdirSync(dir)
+        .forEach((file: string): void => {
             const curPath: string = `${dir}/${file}`;
-            if (fs.statSync(curPath).isDirectory()) {
+            if (fs.statSync(curPath)
+            .isDirectory()) {
                 // recurse
                 deleteFolderRecursive(curPath);
             } else {

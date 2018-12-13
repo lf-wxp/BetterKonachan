@@ -1,48 +1,51 @@
-import Vuex from 'vuex';
+// tslint:disable import-name
+import Vuex, { Store } from 'vuex';
 import Vue from 'vue';
-import defaultBg from 'image/bg.jpg';
+import defaultBg from '~image/bg.jpg';
+
+import { store as storeScope } from '~cModel/store';
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+export const store: Store<storeScope.IState> =  new Vuex.Store<storeScope.IState>({
     state: {
         bgUrl: defaultBg,
         tags: '',
         page: 1,
         totalPage: 0,
-        security: true,
+        security: true
     },
     getters: {
-        GETBGURL(state) {
+        GETBGURL(state: storeScope.IState): storeScope.TType<'bgUrl'> {
             return state.bgUrl;
         },
-        GETTAGS(state) {
+        GETTAGS(state: storeScope.IState): storeScope.TType<'tags'> {
             return state.tags;
         },
-        GETSECURITY(state) {
+        GETSECURITY(state: storeScope.IState): storeScope.TType<'security'> {
             return state.security;
         },
-        GETPAGE(state) {
+        GETPAGE(state: storeScope.IState): storeScope.TType<'page'> {
             return state.page;
         },
-        GETTOTALPAGE(state) {
+        GETTOTALPAGE(state: storeScope.IState): storeScope.TType<'totalPage'> {
             return state.totalPage;
-        },
+        }
     },
     mutations: {
-        SETBG(state, str: string) {
+        SETBG(state: storeScope.IState, str: string): void {
             state.bgUrl = str;
         },
-        SETTAGS(state, str: string) {
+        SETTAGS(state: storeScope.IState, str: string): void {
             state.tags = str;
         },
-        SETSECURITY(state, mode: boolean) {
+        SETSECURITY(state: storeScope.IState, mode: boolean): void {
             state.security = mode;
         },
-        SETPAGE(state, page: number) {
+        SETPAGE(state: storeScope.IState, page: number): void {
             state.page = page;
         },
-        SETTOTALPAGE(state, page: number) {
+        SETTOTALPAGE(state: storeScope.IState, page: number): void {
             state.totalPage = page;
-        },
-    },
+        }
+    }
 });

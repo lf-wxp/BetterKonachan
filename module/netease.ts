@@ -32,7 +32,8 @@ export namespace Netease {
         length: number = 10
     ): ISong[] {
         const songs: ISong[] = [];
-        tracks.splice(start, length).forEach(
+        tracks.splice(start, length)
+        .forEach(
             (track: IResTrack): void => {
                 songs.push({
                     id: track.id,

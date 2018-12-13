@@ -5,6 +5,8 @@ import * as assets from 'koa-static';
 import * as views from 'koa-views';
 import * as path from 'path';
 import * as websockify from 'koa-websocket';
+//tslint:disable no-import-side-effect
+import 'reflect-metadata';
 
 import { fileInit } from '~controller/file';
 import { PORT } from '~config';
