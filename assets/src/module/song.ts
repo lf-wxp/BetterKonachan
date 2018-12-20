@@ -1,22 +1,8 @@
-import { getStream } from '@service';
+import { getStream } from '~service';
+import { IServiceRes } from '~cModel/service';
 
 class Song implements ISong {
-    public static size = 128;
-    public static parseTime(time: number) {
-        const t = Math.trunc(time);
-        const is2b = (num: number) => {
-            let result;
-            if (num < 10) {
-                result = `0${num}`;
-            } else {
-                result = num;
-            }
-            return result;
-        };
-        const min = Math.floor(t / 60);
-        const sec = Math.floor(t - (min * 60));
-        return `${is2b(min)}:${is2b(sec)}`;
-    }
+    public static size: number = 128;
     public ac: AudioContext;
     public duration!: number;
     public id: number;
@@ -27,12 +13,11 @@ class Song implements ISong {
     public bufferSource!: AudioBufferSourceNode;
     public activeData: IVueData;
     public stopStatus: boolean = true;
-
-    constructor({ volume, id, canvas, activeData }: { volume: number, id: number, canvas: HTMLCanvasElement, activeData: IVueData }) {
+    constructor({ volume, id, canvas, activeData }: { volume: number; id: number; canvas: HTMLCanvasElement; activeData: IVueData }) {
         this.id = id;
         this.canvas = canvas;
         this.volume = volume;
-        this.activeData = activeData as IVueData;
+        this.activeData = <IVueData>activeData;
         this.ac = new AudioContext();
         this.gainNode = this.ac.createGain();
         this.analyserNode = this.ac.createAnalyser();
@@ -43,25 +28,43 @@ class Song implements ISong {
         this.setVolume();
         this.load();
     }
-    public seek(sec: number) {
+    public static parseTime(time: number): string {
+        const t: number = Math.trunc(time);
+        const is2b: (n: number) => string = (num: number): string => {
+            let result: string;
+            if (num < 10) {
+                result = `0${num}`;
+            } else {
+                result = `${num}`;
+            }
+
+            return result;
+        };
+        const min: number = Math.floor(t / 60);
+        const sec: number = Math.floor(t - (min * 60));
+
+        return `${is2b(min)}:${is2b(sec)}`;
+    }
+
+    public seek(sec: number): void {
         this.bufferSource.start(sec);
     }
-    public setVolume(vo: number = this.volume) {
+    public setVolume(vo: number = this.volume): void {
         this.gainNode.gain.value = vo;
     }
-    public pause() {
+    public pause(): void {
         this.stopStatus = true;
         this.ac.suspend();
     }
-    public mute() {
+    public mute(): void {
         this.gainNode.gain.value = this.gainNode.gain.value ? 0 : this.volume;
     }
-    public play() {
+    public play(): void {
         this.ac.resume();
         this.stopStatus = false;
         this.visualizer();
     }
-    public stop() {
+    public stop(): void {
         getStream.cancel();
         if (!this.stopStatus) {
             this.bufferSource.stop();
@@ -69,19 +72,19 @@ class Song implements ISong {
             this.stopStatus = true;
         }
     }
-    public end() {
-        return new Promise((resolve, reject) => {
+    public end(): Promise<string> {
+        return new Promise((resolve: (str: string) => void): void => {
             this.bufferSource.addEventListener('ended', () => {
-                let type = 'manual';
+                let typeName: string = 'manual';
                 if (this.ac.currentTime >= this.duration) {
-                    type = 'auto';
+                    typeName = 'auto';
                 }
-                resolve(type);
+                resolve(typeName);
             });
         });
     }
-    public async load() {
-        const res = await getStream.http({ params: { id: this.id }});
+    public async load(): Promise<void> {
+        const res:  = await getStream.http({ params: { id: this.id }});
         if (res.status && res.status === 200) {
             const buffer = await this.ac.decodeAudioData(res.data);
             this.bufferSource.connect(this.analyserNode);

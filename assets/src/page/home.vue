@@ -11,17 +11,17 @@
 </template>
 
 <script lang="ts">
-import 'css/_base.css';
+import '~css/_base.css';
 import 'normalize.css';
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-import vHeader from '@component/vHeader.vue';
-import vMusic from '@component/vMusic.vue';
-import vBackground from '@component/vBackground.vue';
-import vPager from '@component/vPager.vue';
-import vList from '@component/vList.vue';
-import vSetting from '@component/vSetting.vue';
-import vSearch from '@component/vSearch.vue';
+import vHeader from '~component/vHeader.vue';
+import vMusic from '~component/vMusic.vue';
+import vBackground from '~component/vBackground.vue';
+import vPager from '~component/vPager.vue';
+import vList from '~component/vList.vue';
+import vSetting from '~component/vSetting.vue';
+import vSearch from '~component/vSearch.vue';
 @Component({
     components: {
         vSearch,

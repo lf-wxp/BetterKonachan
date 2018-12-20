@@ -29,7 +29,7 @@
     </section>
 </template>
 <script lang="ts">
-import Vue from 'vue';
+import * as Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { State, Mutation } from 'vuex-class';
 import { Draggable } from 'draggable-vue-directive';

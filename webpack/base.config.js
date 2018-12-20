@@ -90,6 +90,7 @@ const resolve = {
         '~src': path.resolve(__dirname, '../assets/src/'),
         '~font': path.resolve(__dirname, '../assets/src/font'),
         '~image': path.resolve(__dirname, '../assets/src/image'),
+        '~model': path.resolve(__dirname, '../model'),
         '~cModel': path.resolve(__dirname, '../assets/src/model'),
     },
     modules: [path.resolve(__dirname, '../modules'), 'node_modules'],

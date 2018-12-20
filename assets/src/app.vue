@@ -8,11 +8,11 @@
 import '~css/_base.css';
 import '~css/_icon.css';
 import 'normalize.css';
-import * as Vue from 'vue';
-import { Component } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class App extends Vue {}
+
 </script>
 <style scoped>
 .fade-enter-active,
@@ -24,4 +24,5 @@ export default class App extends Vue {}
 	opacity: 0;
 }
 </style>
+
 

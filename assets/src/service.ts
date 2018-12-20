@@ -2,32 +2,30 @@ import axios, { Canceler, CancelTokenStatic, AxiosResponse } from 'axios';
 
 import { TFuncVoid } from '~type';
 import { ISong } from '~model/song';
+import { IImage } from '~model/image';
+import { IAuthRes } from '~model/authData';
+import { IUser } from '~model/user';
+import { IZipFile } from '~model/zipFile';
+import { IResponse } from '~model/response';
+import { IService, IServiceOpt, IServiceRes } from '~cModel/service';
 
 const CancelToken: CancelTokenStatic = axios.CancelToken;
 
-export interface IOpt {
-    method?: string;
-    url?: string;
-    responseType?: string;
-}
-export interface IService<R extends object, Q> {
-    cancel(): void;
-    http(data: R): Promise<AxiosResponse<Q> | Error>;
-}
-class Service<R extends object, Q> {
+class Service<Q> {
     private cancelToken!: Canceler;
-    private opts: IOpt;
-    constructor({ method = 'get', ...opts }: IOpt = {}) {
+    private opts: IServiceOpt;
+    constructor({ method = 'get', ...opts }: IServiceOpt = {}) {
         this.opts = { method, ...opts };
     }
-    public async http(data: R): Promise<AxiosResponse<Q> | Error> {
+    public async http(data: IServiceOpt): Promise<AxiosResponse<Q> | Error> {
         return axios({
             ...this.opts,
             ...(<object>data),
             cancelToken: new CancelToken((c: TFuncVoid): void => {
                 this.cancelToken = c;
             })
-        }).catch((e: Error) => {
+        })
+        .catch((e: Error) => {
             return e;
         });
     }
@@ -38,38 +36,38 @@ class Service<R extends object, Q> {
     }
 }
 
-const getMusic: IService<{}, ISong[]> = new Service<{}, ISong[]>({
+const getMusic: IService<IResponse<ISong[]>> = new Service({
     url: '/api/music/list'
 });
 
-const getStream = new Service({
+const getStream: IService<IResponse<Buffer>> = new Service({
     url: '/api/stream',
     responseType: 'arraybuffer'
 });
 
-const getPost = new Service({
+const getPost: IService<IResponse<IImage>> = new Service({
     url: '/api/image/list'
 });
 
-const authorize = new Service({
+const authorize: IService<IResponse<IUser>> = new Service({
     url: '/api/user/auth',
     method: 'post'
 });
 
-const userList = new Service({
+const userList: IService<IResponse<IUser[]>> = new Service({
     url: '/api/user/list'
 });
 
-const createAccount = new Service({
+const createAccount: IService<IResponse<IUser>> = new Service({
     url: '/api/user/create',
     method: 'post'
 });
 
-const getFileList = new Service({
+const getFileList: IService<IResponse<IZipFile[]>> = new Service({
     url: '/api/file/list'
 });
 
-const extract = new Service({
+const extract: IService<IResponse<string>> = new Service({
     method: 'post',
     url: '/api/file/extract'
 });

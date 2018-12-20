@@ -1,5 +1,5 @@
 import { IMsg } from '~model/message';
 
-export interface IResponse<T> extends IMsg {
-  data: T | null;
+export interface IResponse<T = null> extends IMsg {
+  data: T;
 }

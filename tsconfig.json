@@ -42,7 +42,9 @@
             "~component/*": ["assets/src/component"],
             "~service": ["assets/src/service"],
             "~cModule/*": ["assets/src/module/*"],
-            "~css/*": ["assets/src/css"]
+            "~cModel/*": ["assets/src/model/*"],
+            "~css/*": ["assets/src/css"],
+            "~src/*": ["assets/src/*"]
         }
     },
     "exclude": [

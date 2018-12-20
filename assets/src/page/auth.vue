@@ -10,28 +10,28 @@
     </article>
 </template>
 <script lang="ts">
-import Vue from 'vue'
+import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-import { userList, authorize, createAccount } from '@service';
-import vNotice from '@component/vNotice.vue';
+import { userList, authorize, createAccount } from '~service';
+import vNotice from '~component/vNotice.vue';
 
 @Component({
     components: {
-        vNotice,
-    },
+        vNotice
+    }
 })
-export default class Auth extends Vue { 
-    name: string = '';
-    password: string = '';
-    initial: boolean = false;
-    btnText: string = 'Submit';
-    isNotice: boolean = false;
-    message: string = '';
+export default class Auth extends Vue {
+    public name: string = '';
+    public password: string = '';
+    public initial: boolean = false;
+    public btnText: string = 'Submit';
+    public isNotice: boolean = false;
+    public message: string = '';
 
-    async submit() {
+    public async submit() {
         const data = {
             name: this.name,
-            password: this.password,
+            password: this.password
         };
         let action = authorize;
         if (this.initial) {
@@ -48,20 +48,20 @@ export default class Auth extends Vue {
                 window.localStorage.setItem('bk_password', res.data.data.password);
             }
             this.$router.push({
-                name: 'upload',
+                name: 'upload'
             });
         }
     }
 
-    async beforeMount() {
+    public async beforeMount() {
         const result = await userList.http();
         if (!result.data.length) {
             this.initial = true;
             this.btnText = 'Create a new account';
-        } 
+        }
     }
 
-};
+}
 </script>
 <style scoped>
 :root {

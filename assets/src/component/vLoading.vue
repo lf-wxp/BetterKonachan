@@ -5,7 +5,7 @@
     </div>
 </template>
 <script lang="ts">
-import Vue from 'vue';
+import * as Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import Spinner from 'vue-spinkit';
 

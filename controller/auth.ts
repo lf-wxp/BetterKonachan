@@ -39,7 +39,7 @@ export const userAuth: TFunc1<IContext, Promise<void>> = async (
     const result: TQueryResult<IUser> = await User.findOne({ name, password });
     const data: IAuthRes = {
         state: EStateType.Fail,
-        data: null,
+        data: null ,
         msg: 'login fail'
     };
     if (result) {

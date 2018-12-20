@@ -1,4 +1,4 @@
-import Song from '@cModule/song';
+import Song from '~cModule/song';
 
 class Player implements IPlayer {
     public static shuffle(a: IMusic[]) {

@@ -34,7 +34,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-import vNotice from '@component/vNotice.vue';
+import vNotice from '~component/vNotice.vue';
 import { EventEmitter } from 'events';
 
 @Component({

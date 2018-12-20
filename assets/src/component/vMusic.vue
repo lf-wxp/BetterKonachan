@@ -30,30 +30,30 @@
     </section>
 </template>
 <script lang="ts">
-import 'css/_icon.css';
-import Vue from 'vue';
+import '~css/_icon.css';
+import * as Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-import { getMusic } from '@service';
+import { getMusic } from '~service';
 import { Mutation } from 'vuex-class';
-
+// @ts-ignore: 不可达代码错误
 @Component
-export default class VMusic extends Vue {
-    isLoadedBgImage: boolean = false;
-    canvas: HTMLCanvasElement = document.createElement('canvas');
-    songIndex: number = 0;
-    songList: any[] = [];
-    fftSize: number = 128;
-    analyserNode!: AnalyserNode;
-    audioBufPercentage: { width: string } = { width: '0%' };
-    audioPlayedPercentage: { width: string } = { width: '0%' };
-    audioVolumePercentage: { width: string } = { width: '20%' };
-    audioPlayedTime: string = '00:00';
-    audioTotalTime: string = '00:00';
-    audioMuted: boolean = false;
-    audioPaused: boolean = false;
-    audioTitle: string = '';
-    audioArtist: string = '';
-    audio: HTMLAudioElement = new Audio();
+export class VMusic extends Vue {
+    public isLoadedBgImage: boolean = false;
+    public canvas: HTMLCanvasElement = document.createElement('canvas');
+    public songIndex: number = 0;
+    public songList: any[] = [];
+    public fftSize: number = 128;
+    public analyserNode!: AnalyserNode;
+    public audioBufPercentage: { width: string } = { width: '0%' };
+    public audioPlayedPercentage: { width: string } = { width: '0%' };
+    public audioVolumePercentage: { width: string } = { width: '20%' };
+    public audioPlayedTime: string = '00:00';
+    public audioTotalTime: string = '00:00';
+    public audioMuted: boolean = false;
+    public audioPaused: boolean = false;
+    public audioTitle: string = '';
+    public audioArtist: string = '';
+    public audio: HTMLAudioElement = new Audio();
 
     @Mutation('SETBG') setBg!: Function;
 
