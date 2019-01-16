@@ -4,16 +4,15 @@
     </div>
 </template>
 <script lang="ts">
-import * as Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
 export default class VNotice extends Vue {
-    @Prop() isNotice!: boolean;
+    @Prop() public isNotice!: boolean;
 
-    @Prop() message!: string;
+    @Prop() public message!: string;
 
-    mounted() {
+    public mounted(): void {
         this.$el.addEventListener('animationend', () => {
             this.$emit('update:isNotice', false);
             this.$emit('update:message', '');

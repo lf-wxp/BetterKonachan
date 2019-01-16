@@ -14,33 +14,33 @@ class Bubble implements IBubble {
         this.canvas.style.top = '0px';
         this.init();
     }
-    public init() {
+    public init(): void {
         this.resize();
-        this.ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D;
+        this.ctx = <CanvasRenderingContext2D>this.canvas.getContext('2d');
         this.circles = [];
         this.animateHeader = true;
-        for (let x = 0; x < this.width * 0.5; x++) {
-            const c = new Circle(this.ctx, this.width, this.height);
+        for (let x: number = 0; x < this.width * 0.5; x += 1) {
+            const c: Circle = new Circle(this.ctx, this.width, this.height);
             this.circles.push(c);
         }
         this.animate();
         this.eventHandler();
     }
-    public eventHandler() {
-        const parent  = this.canvas.parentNode as Element;
+    public eventHandler(): void {
+        const parent: Element = <Element>this.canvas.parentNode;
         parent.addEventListener('resize', this.resize);
     }
-    public resize() {
-        const parent = this.canvas.parentElement as Element;
+    public resize(): void {
+        const parent: Element = <Element>this.canvas.parentElement;
         this.width = parent.clientWidth;
         this.height = parent.clientHeight;
         this.canvas.width = parent.clientWidth;
         this.canvas.height = parent.clientHeight;
     }
-    public animate() {
+    public animate(): void {
         if (this.animateHeader) {
             this.ctx.clearRect(0, 0, this.width, this.height);
-            this.circles.forEach((item) => {
+            this.circles.forEach((item: Circle) => {
                 item.draw();
             });
         }

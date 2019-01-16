@@ -1,6 +1,6 @@
 import Router, { Route } from 'vue-router';
 import { authorize } from '~service';
-import { IServiceRes, isValidRes } from '~cModel/service';
+import { IServiceHttpRes , isValidRes } from '~cModel/service';
 import { IResponse } from '~model/response';
 import { IUser } from '~model/user';
 import { EStateType } from '~model/message';
@@ -27,7 +27,7 @@ const router: Router = new Router({
             path: '/upload',
             component: upload,
             async beforeEnter(to: Route, source: Route, next: () => void): Promise<void> {
-                const res: IServiceRes<IResponse<IUser>> | Error = await authorize.http({
+                const res: IServiceHttpRes<IResponse<IUser>> = await authorize.http({
                     data: {
                         name: window.localStorage.getItem('bk_name'),
                         password: window.localStorage.getItem('bk_password'),

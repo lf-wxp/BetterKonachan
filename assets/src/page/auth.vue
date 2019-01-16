@@ -10,10 +10,14 @@
     </article>
 </template>
 <script lang="ts">
-import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import { userList, authorize, createAccount } from '~service';
 import vNotice from '~component/vNotice.vue';
+
+import { IUser } from '~model/user';
+import { IResponse } from '~model/response';
+import { EStateType } from '~model/message';
+import { IService, IServiceHttpRes, isValidRes } from '~cModel/service';
 
 @Component({
     components: {
@@ -28,22 +32,22 @@ export default class Auth extends Vue {
     public isNotice: boolean = false;
     public message: string = '';
 
-    public async submit() {
-        const data = {
+    public async submit(): Promise<void> {
+        const data: { name: string; password: string } = {
             name: this.name,
             password: this.password
         };
-        let action = authorize;
+        let action: IService<IResponse<IUser>> = authorize;
         if (this.initial) {
             action = createAccount;
         }
-        const res = await action.http({
+        const res: IServiceHttpRes<IResponse<IUser>> = await action.http({
             data
         });
-        if (res.status === 200) {
+        if (isValidRes<IUser>(res) && res.status === 200) {
             this.message = res.data.msg;
             this.isNotice = true;
-            if (res.data.type === 'success') {
+            if (res.data.state === EStateType.Success) {
                 window.localStorage.setItem('bk_name', res.data.data.name);
                 window.localStorage.setItem('bk_password', res.data.data.password);
             }
@@ -53,9 +57,9 @@ export default class Auth extends Vue {
         }
     }
 
-    public async beforeMount() {
-        const result = await userList.http();
-        if (!result.data.length) {
+    public async beforeMount(): Promise<void> {
+        const result: IServiceHttpRes<IResponse<IUser[]>> = await userList.http({});
+        if (isValidRes<IUser[]>(result) && !result.data.data.length) {
             this.initial = true;
             this.btnText = 'Create a new account';
         }

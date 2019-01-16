@@ -8,77 +8,84 @@
     </div>
 </template>
 <script lang="ts">
-import * as Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
+
+import { IImageDom } from '~cModel/imageDom';
+import { IImage } from '~model/image';
 
 @Component
 export default class VWaterfall extends Vue {
-    parentWidth: number = 0;
-    column: number = 0;
-    width: number = 0;
-    columnArray: number[] = [];
+    public parentWidth: number = 0;
+    public column: number = 0;
+    public width: number = 0;
+    public columnArray: number[] = [];
 
-    @Prop() list!: any[];
-
-    @Prop({ required: true })
-    maxWidth!: number;
+    @Prop() public list!: IImage[];
 
     @Prop({ required: true })
-    minWidth!: number;
+    public maxWidth!: number;
+
+    @Prop({ required: true })
+    public minWidth!: number;
 
     @Prop({ default: { width: 'width', height: 'height' } })
-    options!: { width: string; height: string };
+    public options!: { width: string; height: string };
 
-    get secStyle() {
-        const max = Math.max(...this.columnArray);
+    get secStyle(): { height: string } {
+        const max: number = Math.max(...this.columnArray);
+
         return {
-            height: `${max}px`,
+            height: `${max}px`
         };
     }
-    get items(): any[] | void {
+    get items(): IImageDom[] | void {
         if (this.parentWidth && this.list.length) {
             this.init();
-            return this.list.map((item, i) => {
-                const h =
-                    item[this.options.height] /
-                    item[this.options.width] *
+
+            return this.list.map((item: IImage, i: number) => {
+                const newItem: IImageDom = { ...item };
+                const h: number =
+                    newItem[this.options.height] /
+                    newItem[this.options.width] *
                     this.width;
-                const l = (i + 1) % this.column;
-                item.w = this.width;
-                item.h = h;
+                const l: number = (i + 1) % this.column;
+                newItem.styleW = this.width;
+                newItem.styleH = h;
                 const { x, y } = this.position(l, this.width, h);
                 this.calculateColumnArray(h);
-                item.style = {
+                newItem.style = {
                     width: `${this.width}px`,
                     height: `${h}px`,
-                    transform: `translate(${x}px, ${y}px)`,
+                    transform: `translate(${x}px, ${y}px)`
                 };
-                return item;
+
+                return newItem;
             });
         }
     }
 
-    position(l: number, w: number, h: number) {
-        const min = Math.min(...this.columnArray);
-        const index = this.columnArray.indexOf(min);
-        const offsetX = index * this.width;
-        const offsetY = min;
+    public position(l: number, w: number, h: number): { x: number; y: number } {
+        const min: number = Math.min(...this.columnArray);
+        const index: number = this.columnArray.indexOf(min);
+        const offsetX: number = index * this.width;
+        const offsetY: number = min;
+
         return {
             x: offsetX,
-            y: offsetY,
+            y: offsetY
         };
     }
 
-    calculateColumnArray(h: number) {
-        const min = Math.min(...this.columnArray);
-        const index = this.columnArray.indexOf(min);
+    public calculateColumnArray(h: number): void {
+        const min: number = Math.min(...this.columnArray);
+        const index: number = this.columnArray.indexOf(min);
         this.columnArray.splice(index, 1, min + h);
     }
 
-    calculateColumn() {
-        const l = this.parentWidth % this.maxWidth;
-        let column;
-        let width;
+    public calculateColumn(): void {
+        const l: number = this.parentWidth % this.maxWidth;
+        let column: number;
+        let width: number;
         if (l) {
             column = Math.ceil(this.parentWidth / this.maxWidth);
             width = this.parentWidth / column;
@@ -94,29 +101,29 @@ export default class VWaterfall extends Vue {
         }
     }
 
-    init() {
+    public init(): void {
         this.parentWidth = (<HTMLElement>this.$el.parentElement).clientWidth;
         this.calculateColumn();
         this.initColumnArray();
     }
 
-    initColumnArray() {
-        let n = this.column;
-        const ar = [];
+    public initColumnArray(): void {
+        let n: number = this.column;
+        const ar: number[] = [];
         do {
             ar.push(0);
-            n--;
+            n -= 1;
         } while (n > 0);
         this.columnArray = ar;
     }
-    mounted() {
+    public mounted(): void {
         this.init();
-        let handler: any;
+        let handler: number;
         window.addEventListener('resize', () => {
             if (handler) {
                 clearTimeout(handler);
             }
-            handler = setTimeout(() => {
+            handler = window.setTimeout(() => {
                 this.init();
             }, 500);
         });

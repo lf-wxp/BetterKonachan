@@ -5,14 +5,13 @@
     </div>
 </template>
 <script lang="ts">
-import * as Vue from 'vue';
-import { Component } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import Spinner from 'vue-spinkit';
 
 @Component({
     components: {
-        Spinner,
-    },
+        Spinner
+    }
 })
 export default class VLoading extends Vue {}
 </script>

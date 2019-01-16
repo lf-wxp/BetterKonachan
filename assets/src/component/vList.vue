@@ -15,18 +15,23 @@
     </section>
 </template>
 <script lang="ts">
-import * as Vue from 'vue';
-import { Component, Watch } from 'vue-property-decorator';
+import { Component, Watch, Vue } from 'vue-property-decorator';
 import { getPost } from '~service';
 import { State, Mutation } from 'vuex-class';
 import vWaterfall from '~component/vWaterfall.vue';
 import vLoading from '~component/vLoading.vue';
 import loadErrorImage from '~image/loaderror.png';
 
+import { IImageList, IImage } from '~model/image';
+import { IServiceHttpRes, isValidRes } from '~cModel/service';
+import { IResponse } from '~model/response';
+import { TBinding } from '~cModel/util';
+
+
 const load: {
-    bind(el: HTMLElement, binding: { name: string, value: string}): void;
+    bind(el: HTMLElement, binding: TBinding): void;
 } = {
-    bind(el: HTMLImageElement, binding) {
+    bind(el: HTMLImageElement, binding: TBinding): void {
         el.style.cssText = `
             opacity: 0;
         `;
@@ -40,32 +45,33 @@ const load: {
         el.addEventListener('transitionend', () => {
             el.style.cssText = '';
         }, { once: true });
-    },
-}
+    }
+};
 
 @Component({
+    // @ts-ignore: 类型错误
     directives: {
-        load,
+        load
     },
     components: {
         vWaterfall,
-        vLoading,
-    },
+        vLoading
+    }
 })
 export default class VList extends Vue {
-    @State security!: string;
-    @State page!: number;
-    @State tags!: string;
-    @Mutation('SETTOTALPAGE') setTotalPage!: Function;
-    rawItems: any[] = [];
-    isLoading: boolean = true;
-    options: object = {
+    @State public security!: string;
+    @State public page!: number;
+    @State public tags!: string;
+    @Mutation('SETTOTALPAGE') public setTotalPage!: Function;
+    public rawItems: IImage[] = [];
+    public isLoading: boolean = true;
+    public options: object = {
         width: 'preview_width',
-        height: 'preview_height',
+        height: 'preview_height'
     };
 
-    get items(): any[] {
-        return this.rawItems.filter((item: any) => {
+    get items(): IImage[] {
+        return this.rawItems.filter((item: IImage) => {
             if (this.security) {
                 return item.security;
             } else {
@@ -75,37 +81,37 @@ export default class VList extends Vue {
     }
 
     @Watch('page')
-    onPage() {
+    public onPage(): void {
         this.getData();
     }
 
     @Watch('tags')
-    onTags() {
+    public onTags(): void {
         this.getData();
     }
 
-    async getData() {
+    public async getData(): Promise<void> {
         getPost.cancel();
         this.isLoading = true;
-        const res = await getPost.http({
+        const res: IServiceHttpRes<IResponse<IImageList>> = await getPost.http({
             params: {
                 tags: this.tags,
-                page: this.page,
-            },
+                page: this.page
+            }
         });
-        if (res.status === 200) {
+        if (isValidRes<IImageList>(res) && res.status === 200) {
             this.isLoading = false;
-            this.rawItems = res.data.images;
-            this.setTotalPage(res.data.pages);
+            this.rawItems = res.data.data.images;
+            this.setTotalPage(res.data.data.pages);
         }
     }
 
-    loadError(e: Event) {
-        const target = e.currentTarget as HTMLImageElement;
+    public loadError(e: Event): void {
+        const target: HTMLImageElement = <HTMLImageElement>e.currentTarget;
         target.src = loadErrorImage;
     }
 
-    async created() {
+    public async created(): Promise<void> {
         this.getData();
     }
 }

@@ -1,5 +1,6 @@
 import { getStream } from '~service';
-import { IServiceRes } from '~cModel/service';
+import { IServiceHttpRes, isValidRes } from '~cModel/service';
+import { IResponse } from '~model/response';
 
 class Song implements ISong {
     public static size: number = 128;
@@ -84,9 +85,9 @@ class Song implements ISong {
         });
     }
     public async load(): Promise<void> {
-        const res:  = await getStream.http({ params: { id: this.id }});
-        if (res.status && res.status === 200) {
-            const buffer = await this.ac.decodeAudioData(res.data);
+        const res: IServiceHttpRes<IResponse<Buffer>> = await getStream.http({ params: { id: this.id }});
+        if (isValidRes<Buffer>(res) && res.status && res.status === 200) {
+            const buffer: AudioBuffer = await this.ac.decodeAudioData(res.data.data);
             this.bufferSource.connect(this.analyserNode);
             this.bufferSource.buffer = buffer;
             this.bufferSource.start();
@@ -96,9 +97,9 @@ class Song implements ISong {
             this.visualizer();
         }
     }
-    public visualizer() {
-        const arr = new Uint8Array(this.analyserNode.frequencyBinCount);
-        const anima = (): boolean | void => {
+    public visualizer(): void {
+        const arr: Uint8Array = new Uint8Array(this.analyserNode.frequencyBinCount);
+        const anima: () => void = (): boolean | void => {
             if (this.stopStatus || (this.ac.currentTime > this.duration)) { return false; }
             this.analyserNode.getByteFrequencyData(arr);
             this.draw(arr);
@@ -108,14 +109,14 @@ class Song implements ISong {
         };
         requestAnimationFrame(anima);
     }
-    public clearDraw() {
+    public clearDraw(): void {
         const { width, height, ctx } = this.getCtx();
         ctx.clearRect(0, 0, width, height);
     }
-    public draw(arr: Uint8Array) {
+    public draw(arr: Uint8Array): void {
         const { width, height, ctx } = this.getCtx();
         // const line = ctx.createLinearGradient(0, 0, 0, height);
-        const w = width / Song.size;
+        const w: number = width / Song.size;
         ctx.globalAlpha = 0.1;
         // line.addColorStop(0, 'red');
         // line.addColorStop(0.5, 'yellow');
@@ -124,14 +125,15 @@ class Song implements ISong {
         ctx.fillStyle = '#39CCCC';
         ctx.clearRect(0, 0, width, height);
         arr.forEach((item: number, i: number) => {
-            const h = item / (Song.size * 2 ) * height;
-            ctx.fillRect(w * i, height - h, w * .6, h);
+            const h: number = item / (Song.size * 2) * height;
+            ctx.fillRect(w * i, height - h, w * 0.6, h);
         });
     }
-    private getCtx() {
-        const width = this.canvas.clientWidth;
-        const height = this.canvas.clientHeight;
-        const ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D;
+    private getCtx(): { width: number; height: number; ctx: CanvasRenderingContext2D} {
+        const width: number = this.canvas.clientWidth;
+        const height: number = this.canvas.clientHeight;
+        const ctx: CanvasRenderingContext2D = <CanvasRenderingContext2D>this.canvas.getContext('2d');
+
         return { width, height, ctx };
     }
 }

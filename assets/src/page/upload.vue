@@ -32,55 +32,60 @@
     </article>
 </template>
 <script lang="ts">
-import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import vNotice from '~component/vNotice.vue';
 import { EventEmitter } from 'events';
 
+import { IResponse } from '~model/response';
+import { EStateType } from '~model/message';
+
 @Component({
     components: {
-        vNotice,
+        vNotice
     },
     filters: {
-        fileRead(val: File) {
+        fileRead(val: File): string {
             return window.URL.createObjectURL(val);
         },
-        fileSize(val: number) {
+        fileSize(val: number): string {
             let num: number = val;
             let i: number = -1;
             const unit: string[] = ['K', 'M', 'G'];
             while (num >= 1024) {
                 num = num / 1024;
-                i++;
+                i += 1;
             }
+
             return `${Math.trunc(num)}${unit[i]}`;
-        },
-    },
+        }
+    }
 })
 export default class Upload extends Vue {
-    notice: string = '';
-    isNotice: boolean = false;
-    fileInput!: HTMLInputElement;
-    totalSize: number = 0;
-    uploadedSize: number = 0;
-    splitSize: number = 1;
-    ws!: WebSocket;
-    files: uploadFile[] = [];
-    ee: EventEmitter = new EventEmitter();
+    public notice: string = '';
+    public isNotice: boolean = false;
+    public fileInput!: HTMLInputElement;
+    public totalSize: number = 0;
+    public uploadedSize: number = 0;
+    public splitSize: number = 1;
+    public ws!: WebSocket;
+    public files: uploadFile[] = [];
+    public ee: EventEmitter = new EventEmitter();
 
-    get totalBar() {
-        const percent = this.uploadedSize / this.totalSize * 100;
+    get totalBar(): { width: string } {
+        const percent: number = this.uploadedSize / this.totalSize * 100;
+
         return {
-            width: `${Math.trunc(percent)}%`,
+            width: `${Math.trunc(percent)}%`
         };
     }
 
-    emulateInput() {
+    public emulateInput(): void {
         this.fileInput.click();
     }
-    selectFile(e: Event) {
-        const files: FileList = (e.target as HTMLInputElement).files as FileList;
-        Array.from(<FileList>files).forEach((item: File) => {
+    public selectFile(e: Event): void {
+        const files: FileList = <FileList>(<HTMLInputElement>e.target).files;
+        Array.from(<FileList>files)
+        .forEach((item: File) => {
             this.totalSize += item.size;
             this.files.push({
                 file: item,
@@ -88,42 +93,41 @@ export default class Upload extends Vue {
                 isStart: false,
                 available: true,
                 processBar: {
-                    width: '0%',
-                },
+                    width: '0%'
+                }
             });
         });
-        console.log(files);
     }
 
-    remove(file: uploadFile) {
+    public remove(file: uploadFile): uploadFile[] | void {
         this.files = this.files.filter((item: uploadFile) => {
-            if (item.file.name == file.file.name) {
+            if (item.file.name === file.file.name) {
                 this.totalSize -= file.file.size;
             }
+
             return item.file.name !== file.file.name;
         });
     }
 
-    uploadQueue() {
+    public uploadQueue(): void {
         this.files.forEach((item: uploadFile) => {
             item.available && this.upload(item);
         });
     }
 
-    pendding() {
-        return new Promise((resolve) => {
+    public pendding(): Promise<boolean> {
+        return new Promise((resolve: (value?: boolean | PromiseLike<boolean> | undefined) => void): void => {
             this.ee.on('notice', () => {
                 resolve(true);
-            })
-        })
+            });
+        });
     }
 
-    async upload(file: uploadFile) {
+    public async upload(file: uploadFile): Promise<void> {
         const size: number = this.splitSize * 1024 * 1024;
-        let length: number = file.file.size;
+        const length: number = file.file.size;
         let left: number = length;
         let start: number = 0;
-        let i: number = 1;
         let end: number = size > length ? length : size;
         this.ws.send(file.file.name);
         file.isStart = true;
@@ -140,27 +144,25 @@ export default class Upload extends Vue {
         this.ws.send('');
     }
 
-    readFile(file: File) {}
+    // readFile(file: File) {}
 
-    beforeCreate() {
-        const protocol = location.protocol === 'https:' ? 'wss': 'ws';
+    public beforeCreate(): void {
+        const protocol: string = location.protocol === 'https:' ? 'wss' : 'ws';
         this.ws = new WebSocket(`${protocol}://${location.host}/ws`);
-        this.ws.addEventListener('message', (ms) => {
+        this.ws.addEventListener('message', (ms: MessageEvent) => {
             console.log('data for server', ms.data);
-            const j = JSON.parse(ms.data);
-            if (j.type === 'success') {
+            const j: IResponse<string> = JSON.parse(ms.data);
+            if (j.state === EStateType.Success) {
                 this.isNotice = true;
-                this.notice = j.type;
-            } else if (j.type === 'notice') {
+                this.notice = j.data;
+            } else if (j.state === EStateType.Notice) {
                 console.log('onMessage', j);
                 this.ee.emit('notice');
             }
         });
     }
-    mounted() {
-        this.fileInput = document.querySelector(
-            '.fileInput'
-        ) as HTMLInputElement;
+    public mounted(): void {
+        this.fileInput = <HTMLInputElement>document.querySelector('.fileInput');
     }
 }
 </script>

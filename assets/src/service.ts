@@ -2,12 +2,12 @@ import axios, { Canceler, CancelTokenStatic, AxiosResponse } from 'axios';
 
 import { TFuncVoid } from '~type';
 import { ISong } from '~model/song';
-import { IImage } from '~model/image';
-import { IAuthRes } from '~model/authData';
+import { IImageList } from '~model/image';
+// import { IAuthRes } from '~model/authData';
 import { IUser } from '~model/user';
 import { IZipFile } from '~model/zipFile';
 import { IResponse } from '~model/response';
-import { IService, IServiceOpt, IServiceRes } from '~cModel/service';
+import { IService, IServiceOpt } from '~cModel/service';
 
 const CancelToken: CancelTokenStatic = axios.CancelToken;
 
@@ -36,7 +36,7 @@ class Service<Q> {
     }
 }
 
-const getMusic: IService<IResponse<ISong[]>> = new Service({
+const getMusic: IService<IResponse<ISong[]>> = new Service<IResponse<ISong[]>>({
     url: '/api/music/list'
 });
 
@@ -45,7 +45,7 @@ const getStream: IService<IResponse<Buffer>> = new Service({
     responseType: 'arraybuffer'
 });
 
-const getPost: IService<IResponse<IImage>> = new Service({
+const getPost: IService<IResponse<IImageList>> = new Service({
     url: '/api/image/list'
 });
 

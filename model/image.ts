@@ -26,3 +26,8 @@ export interface IResImage {
   rating: string;
   md5: string;
 }
+
+export interface IImageList {
+  images: IImage[];
+  pages: number;
+}

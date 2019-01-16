@@ -29,28 +29,28 @@
     </section>
 </template>
 <script lang="ts">
-import * as Vue from 'vue';
-import { Component } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import { State, Mutation } from 'vuex-class';
 import { Draggable } from 'draggable-vue-directive';
 
 @Component({
     directives: {
-        Draggable,
-    },
+        Draggable
+    }
 })
 export default class VPager extends Vue {
-    toPage: number = 0;
-    size: number = 4;
-    @State page!: number;
-    @State('totalPage') tPage!: number;
-    @Mutation('SETPAGE') setCPage!: Function;
+    public toPage: number = 0;
+    public size: number = 4;
+    @State public page!: number;
+    @State('totalPage') public tPage!: number;
+    @Mutation('SETPAGE') public setCPage!: Function;
 
     get fontClass(): { middle: boolean } {
-        const data = { middle: false };
+        const data: { middle: boolean } = { middle: false };
         if (`${this.page}`.length > 2) {
             data.middle = true;
         }
+
         return data;
     }
 
@@ -70,45 +70,50 @@ export default class VPager extends Vue {
         const half: number = Math.floor(this.size / 2);
         const navpage: number[] = [];
         if (this.cPage > half && this.cPage < this.tPage - half) {
-            for (
-                let i: number = this.cPage - half, j: number = 0;
-                j < this.size;
-                j++, i++
-            ) {
+            let i: number = this.cPage - half;
+            let j: number = 0;
+            while (j < this.size) {
                 navpage.push(i);
+                i += 1;
+                j += 1;
             }
         }
         if (this.cPage <= half) {
-            for (let i = 1, j = 0; j < this.size; j++, i++) {
+            let i: number = 1;
+            let j: number = 0;
+            while (j < this.size) {
                 navpage.push(i);
+                j += 1;
+                i += 1;
             }
         }
         if (this.cPage >= this.tPage - half) {
-            for (
-                let i = this.tPage - this.size + 1, j = 0;
-                j < this.size;
-                j++, i++
-            ) {
+            let i: number = this.tPage - this.size + 1;
+            let j: number = 0;
+            while (j < this.size) {
                 navpage.push(i);
+                j += 1;
+                i += 1;
             }
         }
+
         return navpage;
     }
-    invoke(page: number): void {
+    public invoke(page: number): void {
         if (page > 0 && page < this.tPage) {
             this.cPage = page;
         }
     }
 
-    goTo(): void {
+    public goTo(): void {
         this.invoke(<number>this.toPage);
     }
 
-    filterInput(e: Event): void {
-        const target = <HTMLInputElement>e.target;
-        const val = target.value;
+    public filterInput(e: Event): void {
+        const target: HTMLInputElement = <HTMLInputElement>e.target;
+        const val: string = target.value;
         target.value = val.replace(/[^0-9]/g, '');
-        let num = Number.parseInt(target.value, 10);
+        let num: number = Number.parseInt(target.value, 10);
         if (num > this.tPage) {
             num = this.tPage;
         }

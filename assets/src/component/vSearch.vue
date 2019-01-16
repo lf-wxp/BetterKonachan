@@ -7,35 +7,34 @@
     </section>
 </template>
 <script lang="ts">
-import * as Vue from 'vue';
-import { Component, Watch } from 'vue-property-decorator';
+import { Component, Watch, Vue } from 'vue-property-decorator';
 import { State, Mutation } from 'vuex-class';
 
 @Component
 export default class VSearch extends Vue {
-    searchText: string = '';
-    isCollpase: boolean = true;
-    tempPage: number = 1;
-    @State tags!: string;
-    @State page!: number;
-    @Mutation('SETPAGE') setPage!: Function;
-    @Mutation('SETTAGS') setTags!: Function;
+    public searchText: string = '';
+    public isCollpase: boolean = true;
+    public tempPage: number = 1;
+    @State public tags!: string;
+    @State public page!: number;
+    @Mutation('SETPAGE') public setPage!: Function;
+    @Mutation('SETTAGS') public setTags!: Function;
 
     @Watch('searchText')
-    onSearchText(val: string) {
+    public onSearchText(val: string): void {
         if (!val && !this.isCollpase) {
             this.setTags('');
             this.setPage(this.tempPage);
         }
     }
     @Watch('page')
-    onPage(val: number) {
+    public onPage(val: number): void {
         if (!this.searchText) {
             this.tempPage = val;
         }
     }
 
-    submit() {
+    public submit(): void {
         if (this.isCollpase) {
             this.isCollpase = false;
         } else {
@@ -47,7 +46,7 @@ export default class VSearch extends Vue {
             }
         }
     }
-    created() {
+    public created(): void {
         this.tempPage = this.page;
     }
 }

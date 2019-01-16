@@ -15,33 +15,40 @@
     </article> 
 </template>
 <script lang="ts">
-import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import { getFileList, extract } from '~service';
 import vNotice from '~component/vNotice.vue';
 
+import { IZipFile } from '~model/zipFile';
+import { IResponse } from '~model/response';
+import { IServiceHttpRes, isValidRes } from '~cModel/service';
+
 @Component({
     components: {
-        vNotice,
+        vNotice
     }
 })
-export default class Filelist extends Vue{
-    items: string[] = [];
-    isNotice: boolean = false;
-    notice: string = '';
+export default class Filelist extends Vue {
+    public items: IZipFile[] = [];
+    public isNotice: boolean = false;
+    public notice: string = '';
 
-    async beforeCreate(){
-        const res = await getFileList.http();
-        this.items = res.data;
+    public async beforeCreate(): Promise<void> {
+        const res: IServiceHttpRes<IResponse<IZipFile[]>> = await getFileList.http({});
+        if (isValidRes<IZipFile[]>(res)) {
+            this.items = res.data.data;
+        }
     }
 
-    async extractFile(item: string) {
-        const res = await extract.http({
+    public async extractFile(item: string): Promise<void> {
+        const res: IServiceHttpRes<IResponse<string>> = await extract.http({
             data: {
-                name: item,
-            },
+                name: item
+            }
         });
-        this.notice = res.data.msg;
+        if (isValidRes<string>(res)) {
+            this.notice = res.data.data;
+        }
         this.isNotice = true;
     }
 }

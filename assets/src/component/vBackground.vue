@@ -4,14 +4,15 @@
     </figure>
 </template>
 <script lang="ts">
-import * as Vue from 'vue';
 import { State } from 'vuex-class';
-import { Component } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
+import { TBinding } from '~cModel/util';
 
 @Component({
+    // @ts-ignore: 类型错误
     directives: {
         fade: {
-            bind(el: HTMLElement) {
+            bind(el: HTMLElement): void {
                 el.style.opacity = '0';
                 el.addEventListener(
                     'load',
@@ -21,10 +22,10 @@ import { Component } from 'vue-property-decorator';
                     { once: true }
                 );
             },
-            update(el, bingding) {
+            update(el: HTMLElement, bingding: TBinding): void {
                 const { oldValue } = bingding;
-                const parent = el.parentNode as HTMLElement;
-                const previousImg = parent.querySelector('.fadeImage');
+                const parent: HTMLElement = <HTMLElement>el.parentNode;
+                const previousImg: HTMLElement = <HTMLElement>parent.querySelector('.fadeImage');
                 if (previousImg) {
                     parent.removeChild(previousImg);
                 }
@@ -36,8 +37,8 @@ import { Component } from 'vue-property-decorator';
                         },
                         { once: true }
                     );
-                    const img = new Image();
-                    img.src = oldValue;
+                    const img: HTMLImageElement = new Image();
+                    img.src = <string>oldValue;
                     if (img.complete) {
                         img.style.opacity = '0';
                     }
@@ -56,12 +57,12 @@ import { Component } from 'vue-property-decorator';
                     );
                     parent.appendChild(img);
                 }
-            },
-        },
-    },
+            }
+        }
+    }
 })
 export default class VBackground extends Vue {
-    @State('bgUrl') ablumImg!: string;
+    @State('bgUrl') public ablumImg!: string;
 }
 </script>
 <style>

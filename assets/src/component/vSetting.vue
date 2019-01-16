@@ -7,24 +7,23 @@
     </section>
 </template>
 <script lang="ts">
-import * as Vue from 'vue';
-import { Component } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import { State, Mutation } from 'vuex-class';
 
 @Component
 export default class VSetting extends Vue {
-    rememberPage: boolean = false;
-    isOptionShow: boolean = false;
-    @State('security') securityMode!: boolean;
-    @Mutation('SETSECURITY') setSecurity!: Function;
+    public rememberPage: boolean = false;
+    public isOptionShow: boolean = false;
+    @State('security') public securityMode!: boolean;
+    @Mutation('SETSECURITY') public setSecurity!: Function;
 
     set security(val: boolean) {
         this.setSecurity(val);
     }
-    get security() {
+    get security(): boolean {
         return this.securityMode;
     }
-    showOption() {
+    public showOption(): void {
         this.isOptionShow = !this.isOptionShow;
     }
 }

@@ -31,17 +31,21 @@
 </template>
 <script lang="ts">
 import '~css/_icon.css';
-import * as Vue from 'vue';
-import { Component } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import { getMusic } from '~service';
 import { Mutation } from 'vuex-class';
+
+import { ISong } from '~model/song';
+import { IServiceHttpRes, isValidRes } from '~cModel/service';
+import { IResponse } from '~model/response';
+
 // @ts-ignore: 不可达代码错误
 @Component
 export class VMusic extends Vue {
     public isLoadedBgImage: boolean = false;
     public canvas: HTMLCanvasElement = document.createElement('canvas');
     public songIndex: number = 0;
-    public songList: any[] = [];
+    public songList: ISong[] = [];
     public fftSize: number = 128;
     public analyserNode!: AnalyserNode;
     public audioBufPercentage: { width: string } = { width: '0%' };
@@ -55,20 +59,21 @@ export class VMusic extends Vue {
     public audioArtist: string = '';
     public audio: HTMLAudioElement = new Audio();
 
-    @Mutation('SETBG') setBg!: Function;
+    @Mutation('SETBG') public setBg!: Function;
 
-    parseTime(time: number) {
-        const is2b = (num: number) => (num < 10 ? '0' + num : '' + num);
-        const min = Number.parseInt(`${time / 60}`, 10);
-        const sec = Number.parseInt(`${time - min * 60}`, 10);
-        return is2b(min) + ':' + is2b(sec);
+    public parseTime(time: number): string {
+        const is2b: (n: number) => string = (num: number): string => (num < 10 ? `0${num}` : `${num}`);
+        const min: number = Number.parseInt(`${time / 60}`, 10);
+        const sec: number = Number.parseInt(`${time - min * 60}`, 10);
+
+        return `${is2b(min)}:${is2b(sec)}`;
     }
 
-    initialAudio() {
+    public initialAudio(): void {
         this.audio.volume = 0.2;
     }
 
-    initialAudioEvent() {
+    public initialAudioEvent(): void {
         this.audio.addEventListener('loadedmetadata', () => {
             this.audioTotalTime = this.parseTime(this.audio.duration);
         });
@@ -94,7 +99,7 @@ export class VMusic extends Vue {
         });
     }
 
-    loadSong() {
+    public loadSong(): void {
         this.clearance();
         const { track, title, pic, artist } = this.songList[this.songIndex];
         this.audio.src = track;
@@ -103,26 +108,26 @@ export class VMusic extends Vue {
         this.setBg(pic);
     }
 
-    pickTime(e: MouseEvent) {
-        const percentage = e.offsetX / (e.target as Element).clientWidth;
+    public pickTime(e: MouseEvent): void {
+        const percentage: number = e.offsetX / (<Element>e.target).clientWidth;
         this.audioPlayedPercentage.width = `${percentage * 100}%`;
         this.audio.currentTime = percentage * this.audio.duration;
     }
 
-    muted() {
+    public muted(): void {
         this.audio.muted = !this.audio.muted;
         this.audioMuted = this.audio.muted;
     }
 
-    pickVolume(e: MouseEvent) {
-        const percentage = e.offsetX / (e.target as Element).clientWidth;
+    public pickVolume(e: MouseEvent): void {
+        const percentage: number = e.offsetX / (<Element>e.target).clientWidth;
         this.audioVolumePercentage.width = `${percentage * 100}%`;
         this.audio.volume = percentage;
     }
 
-    playPause() {
+    public playPause(): void {
         if (this.audio.paused) {
-            this.audio.play()
+            this.audio.play();
             this.audioPaused = false;
         } else {
             this.audio.pause();
@@ -130,17 +135,17 @@ export class VMusic extends Vue {
         }
     }
 
-    clearance() {
-        this.audioBufPercentage.width =  '0%';
+    public clearance(): void {
+        this.audioBufPercentage.width = '0%';
         this.audioPlayedPercentage.width = '0%';
         this.audioPlayedTime = '00:00';
         this.audioTotalTime = '00:00';
     }
 
-    initialAudioBuffer() {
-        const ac = new AudioContext();
-        const source = ac.createMediaElementSource(this.audio);
-        const gainNode = ac.createGain();
+    public initialAudioBuffer(): void {
+        const ac: AudioContext = new AudioContext();
+        const source: MediaElementAudioSourceNode = ac.createMediaElementSource(this.audio);
+        const gainNode: GainNode = ac.createGain();
         this.analyserNode = ac.createAnalyser();
         this.analyserNode.fftSize = this.fftSize * 2;
         this.analyserNode.connect(gainNode);
@@ -149,9 +154,9 @@ export class VMusic extends Vue {
         this.visualizer();
     }
 
-    visualizer() {
-        const arr = new Uint8Array(this.analyserNode.frequencyBinCount);
-        const anima = () => {
+    public visualizer(): void {
+        const arr: Uint8Array = new Uint8Array(this.analyserNode.frequencyBinCount);
+        const anima: () => void = (): void => {
             this.analyserNode.getByteFrequencyData(arr);
             this.draw(arr);
             requestAnimationFrame(anima);
@@ -159,22 +164,23 @@ export class VMusic extends Vue {
         requestAnimationFrame(anima);
     }
 
-    getCtx() {
-        const width = this.canvas.clientWidth;
-        const height = this.canvas.clientHeight;
-        const ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D;
+    public getCtx(): { width: number; height: number; ctx: CanvasRenderingContext2D } {
+        const width: number = this.canvas.clientWidth;
+        const height: number = this.canvas.clientHeight;
+        const ctx: CanvasRenderingContext2D = <CanvasRenderingContext2D>this.canvas.getContext('2d');
+
         return { width, height, ctx };
     }
 
-    clearDraw() {
+    public clearDraw(): void {
         const { width, height, ctx } = this.getCtx();
         ctx.clearRect(0, 0, width, height);
     }
 
-    draw(arr: Uint8Array) {
+    public draw(arr: Uint8Array): void {
         const { width, height, ctx } = this.getCtx();
-        const line = ctx.createLinearGradient(0, 0, 0, height);
-        const w = width / this.fftSize;
+        const line: CanvasGradient = ctx.createLinearGradient(0, 0, 0, height);
+        const w: number = width / this.fftSize;
         ctx.globalAlpha = 0.3;
         line.addColorStop(0, '#39cccc');
         line.addColorStop(1, '#0cf2f2');
@@ -182,37 +188,39 @@ export class VMusic extends Vue {
         // ctx.fillStyle = '#39CCCC';
         ctx.clearRect(0, 0, width, height);
         arr.forEach((item: number, i: number) => {
-            const h = item / (this.fftSize * 2 ) * height;
-            ctx.fillRect(w * i, height - h, w * .6, h);
+            const h: number = item / (this.fftSize * 2) * height;
+            ctx.fillRect(w * i, height - h, w * 0.6, h);
         });
     }
 
-    resizeCanvas() {
-        const width = (this.canvas.parentNode as Element).clientWidth;
-        const height = 100;
+    public resizeCanvas(): void {
+        const width: number = (<Element>this.canvas.parentNode).clientWidth;
+        const height: number = 100;
         this.canvas.width = width;
         this.canvas.height = height;
     }
 
-    nextSong() {
-        const n = this.songIndex + 1;
+    public nextSong(): void {
+        const n: number = this.songIndex + 1;
         this.songIndex = n < this.songList.length ? n : 0;
         this.loadSong();
     }
-    prevSong() {
-        const p = this.songIndex - 1;
-        this.songIndex = p >=0 ? p : this.songList.length - 1;
+    public prevSong(): void {
+        const p: number = this.songIndex - 1;
+        this.songIndex = p >= 0 ? p : this.songList.length - 1;
         this.loadSong();
     }
 
-    async mounted() {
+    public async mounted(): Promise<void> {
         this.canvas.style.cssText = `
             position:absolute;
             bottom: 32px;
         `;
         this.$el.insertBefore(this.canvas, this.$el.firstChild);
-        const res = await getMusic.http();
-        this.songList = res.data;
+        const res: IServiceHttpRes<IResponse<ISong[]>> = await getMusic.http({});
+        if (isValidRes<ISong[]>(res) && res.data) {
+            this.songList = res.data.data;
+        }
         this.audio.autoplay = true;
         this.resizeCanvas();
         this.initialAudio();

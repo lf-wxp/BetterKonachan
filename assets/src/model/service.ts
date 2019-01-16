@@ -13,9 +13,8 @@ export function isValidRes<T>(res: AxiosResponse<IResponse<T>> | Error): res is 
   return (<AxiosResponse>res).data;
 }
 
-export type IServiceRes<Q> = AxiosResponse<Q>;
-
+export type IServiceHttpRes<Q> = AxiosResponse<Q> | Error;
 export interface IService<Q> {
   cancel(): void;
-  http(data: IServiceOpt): Promise<IServiceRes<Q> | Error>;
+  http(data: IServiceOpt): Promise<IServiceHttpRes<Q>>;
 }

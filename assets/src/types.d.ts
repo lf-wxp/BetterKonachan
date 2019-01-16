@@ -64,7 +64,7 @@ declare interface IMusic {
 
 declare interface IPlayer {
     listSongs: IMusic[];
-    CAC: Isong;
+    CAC: ISong;
     autoplay: boolean;
     canvas: HTMLCanvasElement;
     vueData: object;
@@ -81,7 +81,7 @@ declare interface IPlayer {
     loadSong(): void;
     prevSong(): void;
     seek(per: number): void;
-    switchPlayOrder(): void;
+    // switchPlayOrder(): void;
     shuffleSongs(): void;
     clearUpResource(): void;
     playPause(): void;
