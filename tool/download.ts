@@ -3,7 +3,7 @@ import * as archiver from 'archiver';
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { Netease } from '~module/Netease';
+import { Netease } from '~module/netease';
 import { mkdirsSync } from '~util';
 import { USERID } from '~config';
 

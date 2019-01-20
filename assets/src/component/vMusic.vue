@@ -1,6 +1,6 @@
 <template>
     <section class="music">
-        <div class="mPlayerContain" >
+        <div class="mPlayerContain">
             <div class="mContent">
                 <div class="mProcessBar" @click.stop="pickTime($event)">
                     <div class="mBufferBar" :style="audioBufPercentage" />
@@ -41,7 +41,7 @@ import { IResponse } from '~model/response';
 
 // @ts-ignore: 不可达代码错误
 @Component
-export class VMusic extends Vue {
+export default class VMusic extends Vue {
     public isLoadedBgImage: boolean = false;
     public canvas: HTMLCanvasElement = document.createElement('canvas');
     public songIndex: number = 0;
@@ -221,6 +221,7 @@ export class VMusic extends Vue {
         if (isValidRes<ISong[]>(res) && res.data) {
             this.songList = res.data.data;
         }
+        if (this.songList.length === 0) return;
         this.audio.autoplay = true;
         this.resizeCanvas();
         this.initialAudio();

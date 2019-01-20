@@ -3,7 +3,7 @@
         <div class="lCon">
             <v-waterfall :list="items" :options="options" :max-width="300" :min-width="200">
                 <figure slot-scope="{ item }">
-                    <img class="lImg" v-load="item.prev_url"  alt="" @error="loadError($event)" @click.stop="clickActive($event,item)" >
+                    <img class="lImg" v-load="item.preview"  alt="" @error="loadError($event)" @click.stop="clickActive($event,item)" >
                     <div class="lTool">
                         <p class="lInfo">{{ item.width }} / {{ item.height }}</p>
                         <a :href="item.url" download class="lDown" target="_blank"><i class="icon-download"></i></a>
@@ -66,8 +66,8 @@ export default class VList extends Vue {
     public rawItems: IImage[] = [];
     public isLoading: boolean = true;
     public options: object = {
-        width: 'preview_width',
-        height: 'preview_height'
+        width: 'previewWidth',
+        height: 'previewHeight'
     };
 
     get items(): IImage[] {
