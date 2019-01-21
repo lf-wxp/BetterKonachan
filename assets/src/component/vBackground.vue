@@ -65,7 +65,7 @@ export default class VBackground extends Vue {
     @State('bgUrl') public ablumImg!: string;
 }
 </script>
-<style>
+<style lang="postcss" scoped>
 .background {
     position: absolute;
     margin: 0;

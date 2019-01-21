@@ -67,7 +67,7 @@ export default class Auth extends Vue {
 
 }
 </script>
-<style scoped>
+<style  lang="postcss" scoped>
 :root {
     --baseC: #39cccc;
     --borderC: #dcdcdc;

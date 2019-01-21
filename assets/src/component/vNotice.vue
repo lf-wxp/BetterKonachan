@@ -20,7 +20,7 @@ export default class VNotice extends Vue {
     }
 }
 </script>
-<style scoped>
+<style lang="postcss" scoped>
 :root {
     --baseC: #99ccff;
 }

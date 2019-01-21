@@ -131,7 +131,7 @@ export default class VWaterfall extends Vue {
 }
 </script>
 
-<style scoped>
+<style lang="postcss" scoped>
 .waterfall {
     position: relative;
     background: none;

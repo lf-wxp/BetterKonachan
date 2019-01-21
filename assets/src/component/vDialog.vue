@@ -56,7 +56,7 @@ export default {
     },
 };
 </script>
-<style>
+<style lang="postcss" scoped>
 @import '../assets/sass/components/_icon';
 #dialog {
     position: fixed;
@@ -123,7 +123,7 @@ export default {
 .dialogClear {
     display: block;
     width: 100%;
-    background-color: darken(#39cccc, 10%);
+    background-color: color(#39cccc, shade(-10%));
     border: none;
     border-radius: 2px;
     color: white;
@@ -147,7 +147,7 @@ export default {
         transform: rotate(-45deg);
     }
     &:hover {
-        background-color: darken(#39cccc, 15%);
+        background-color: color(#39cccc, shade(-15%));
     }
 }
 .loadingDimmer2 {

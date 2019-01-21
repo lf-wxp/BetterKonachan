@@ -221,7 +221,9 @@ export default class VMusic extends Vue {
         if (isValidRes<ISong[]>(res) && res.data) {
             this.songList = res.data.data;
         }
-        if (this.songList.length === 0) return;
+        if (this.songList.length === 0) {
+            return;
+        }
         this.audio.autoplay = true;
         this.resizeCanvas();
         this.initialAudio();
@@ -234,7 +236,7 @@ export default class VMusic extends Vue {
     }
 }
 </script>
-<style scoped>
+<style lang="postcss" scoped>
 :root {
     --mainRadius: 5px;
     --mWidth: 360px;
@@ -326,7 +328,7 @@ i {
     width: 0%;
     height: 100%;
     transition: width 0.5s ease;
-    background: color(var(--teal) a(30%));
+    background: color(var(--teal) alpha(30%));
 }
 .mTimeBox {
     flex: 0 0 auto;
@@ -376,7 +378,7 @@ i {
 }
 
 .mActiveBar {
-    background: color(var(--teal) a(30%));
+    background: color(var(--teal) alpha(30%));
     height: 100%;
     border-radius: 2px;
     position: absolute;

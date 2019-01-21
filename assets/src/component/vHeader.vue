@@ -9,7 +9,7 @@ import { Component, Vue } from 'vue-property-decorator';
 @Component
 export default class VHeader extends Vue {}
 </script>
-<style scoped>
+<style  lang="postcss" scoped>
 .header {
     position: absolute;
     width: 100%;

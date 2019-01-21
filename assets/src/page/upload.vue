@@ -167,7 +167,7 @@ export default class Upload extends Vue {
 }
 </script>
 
-<style scoped>
+<style  lang="postcss" scoped>
 :root {
     --baseC: #39cccc;
     --barC: #3399ff;
@@ -226,7 +226,7 @@ export default class Upload extends Vue {
 .fileBtn {
     padding: 10px;
     border-radius: 2px;
-    background: color(var(--baseC) a(50%));
+    background: color(var(--baseC) alpha(50%));
     border: none;
     color: white;
     cursor: pointer;

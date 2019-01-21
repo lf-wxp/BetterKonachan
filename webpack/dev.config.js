@@ -6,7 +6,7 @@ const devPlugins = [
     new webpack.NamedModulesPlugin(),
 ];
 base.module.rules.push({
-    test: /\.css$/,
+    test: /css$/,
     use: ['vue-style-loader', {
         loader: 'css-loader',
         options: {

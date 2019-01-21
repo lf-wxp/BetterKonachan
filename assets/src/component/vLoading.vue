@@ -15,7 +15,7 @@ import Spinner from 'vue-spinkit';
 })
 export default class VLoading extends Vue {}
 </script>
-<style scoped>
+<style lang="postcss" scoped>
 .loadingDimmer {
     position: absolute;
     height: 100%;

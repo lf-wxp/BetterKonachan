@@ -125,14 +125,14 @@ export default class VPager extends Vue {
     }
 }
 </script>
-<style scoped>
+<style lang="postcss" scoped>
 :root {
     --itemSize: 40px;
     --commonBg: rgba(0, 0, 0, 0.3);
     --teal: #39cccc;
-    --hoverBg: color(var(--teal) a(20%));
-    --darkBg1: darken(#39cccc, 5%);
-    --darkBg2: darken(#39cccc, 10%);
+    --hoverBg: color(var(--teal) alpha(20%));
+    --darkBg1: color(#39cccc, shade(-5%));
+    --darkBg2: color(#39cccc, shade(-10%));
 }
 
 .pager {

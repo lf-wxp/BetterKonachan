@@ -6,7 +6,7 @@
         <v-search/>
         <v-setting/>
         <v-music/>
-        <v-list/>
+        <!-- <v-list/> -->
     </div>
 </template>
 
@@ -34,7 +34,7 @@ import vSearch from '~component/vSearch.vue';
 })
 export default class Home extends Vue {}
 </script>
-<style>
+<style lang="postcss" scoped>
 #wrap {
     font-size: 20px;
     overflow: hidden;

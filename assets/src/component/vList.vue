@@ -153,11 +153,11 @@ export default class VList extends Vue {
 //     return { left, top };
 // }
 </script>
-<style scoped>
+<style  lang="postcss" scoped>
 :root {
     --size: 25px;
     --nsize: -25px;
-    --infoBg: color(#39cccc a(50%));
+    --infoBg: color(#39cccc alpha(50%));
     --gap: 10px;
 }
 .list {

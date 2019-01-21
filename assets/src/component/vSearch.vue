@@ -51,7 +51,7 @@ export default class VSearch extends Vue {
     }
 }
 </script>
-<style scoped>
+<style lang="postcss" scoped>
 :root {
     --teal: #39cccc;
 }
@@ -86,7 +86,7 @@ export default class VSearch extends Vue {
     width: 190px;
     transition: width 0.2s ease-in;
     &:focus {
-        background-color: color(var(--teal) a(30%));
+        background-color: color(var(--teal) alpha(30%));
         color: white;
     }
     &.collpase {
@@ -97,7 +97,7 @@ export default class VSearch extends Vue {
 .sButton {
     flex: 0 0 auto;
     display: block;
-    background-color: color(var(--teal) a(50%));
+    background-color: color(var(--teal) alpha(50%));
     border: none;
     border-radius: 2px;
     color: white;
@@ -109,10 +109,10 @@ export default class VSearch extends Vue {
     margin: auto;
     outline: none;
     &:hover {
-        background-color: color(var(--teal) a(80%));
+        background-color: color(var(--teal) alpha(80%));
     }
     &[disabled] {
-        background-color: color(gray a(30%));
+        background-color: color(gray alpha(30%));
     }
 }
 </style>

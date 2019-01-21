@@ -16,7 +16,7 @@ const wpModule = {
         //     exclude: [/node_modules/],
         //     use: [
         //         {
-        //             loader: 'tslint-loader',
+        //             loader: 'vue-tslint-loader',
         //         },
         //     ],
         // },

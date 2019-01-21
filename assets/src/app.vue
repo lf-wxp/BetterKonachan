@@ -14,7 +14,7 @@ import { Component, Vue } from 'vue-property-decorator';
 export default class App extends Vue {}
 
 </script>
-<style scoped>
+<style lang="postcss">
 .fade-enter-active,
 .fade-leave-active {
 	transition: opacity 0.5s;

@@ -53,7 +53,7 @@ export default class Filelist extends Vue {
     }
 }
 </script>
-<style scoped>
+<style  lang="postcss" scoped>
 :root {
     --btnC: #3399ff;
     --h: 30px;

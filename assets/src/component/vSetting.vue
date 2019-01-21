@@ -28,7 +28,7 @@ export default class VSetting extends Vue {
     }
 }
 </script>
-<style scoped>
+<style lang="postcss" scoped>
 :root {
     --teal: #39cccc;
 }
