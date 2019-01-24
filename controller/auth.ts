@@ -27,7 +27,13 @@ export const userList: TFunc1<IContext, Promise<void>> = async (
     ctx: IContext
 ): Promise<void> => {
     const result: TQueryResult<IUser[]> = await User.find();
-    ctx.body = { length: result.length };
+    ctx.body = {
+        state: EStateType.Success,
+        msg: 'query successfully',
+        data: {
+            length: result.length
+        }
+    };
 };
 
 export const userAuth: TFunc1<IContext, Promise<void>> = async (

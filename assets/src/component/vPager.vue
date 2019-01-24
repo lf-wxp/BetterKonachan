@@ -131,8 +131,8 @@ export default class VPager extends Vue {
     --commonBg: rgba(0, 0, 0, 0.3);
     --teal: #39cccc;
     --hoverBg: color(var(--teal) alpha(20%));
-    --darkBg1: color(#39cccc, shade(-5%));
-    --darkBg2: color(#39cccc, shade(-10%));
+    --darkBg1: color(var(--teal), shade(-5%));
+    --darkBg2: color(var(--teal), shade(-10%));
 }
 
 .pager {

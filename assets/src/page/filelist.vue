@@ -41,13 +41,13 @@ export default class Filelist extends Vue {
     }
 
     public async extractFile(item: string): Promise<void> {
-        const res: IServiceHttpRes<IResponse<string>> = await extract.http({
+        const res: IServiceHttpRes<IResponse> = await extract.http({
             data: {
                 name: item
             }
         });
-        if (isValidRes<string>(res)) {
-            this.notice = res.data.data;
+        if (isValidRes(res)) {
+            this.notice = res.data.msg;
         }
         this.isNotice = true;
     }

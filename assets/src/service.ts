@@ -67,7 +67,7 @@ const getFileList: IService<IResponse<IZipFile[]>> = new Service({
     url: '/api/file/list'
 });
 
-const extract: IService<IResponse<string>> = new Service({
+const extract: IService<IResponse> = new Service({
     method: 'post',
     url: '/api/file/extract'
 });

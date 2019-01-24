@@ -39,7 +39,6 @@ import { ISong } from '~model/song';
 import { IServiceHttpRes, isValidRes } from '~cModel/service';
 import { IResponse } from '~model/response';
 
-// @ts-ignore: 不可达代码错误
 @Component
 export default class VMusic extends Vue {
     public isLoadedBgImage: boolean = false;
@@ -185,7 +184,6 @@ export default class VMusic extends Vue {
         line.addColorStop(0, '#39cccc');
         line.addColorStop(1, '#0cf2f2');
         ctx.fillStyle = line;
-        // ctx.fillStyle = '#39CCCC';
         ctx.clearRect(0, 0, width, height);
         arr.forEach((item: number, i: number) => {
             const h: number = item / (this.fftSize * 2) * height;

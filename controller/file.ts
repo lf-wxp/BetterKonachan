@@ -21,7 +21,11 @@ export const fileInit: TFuncVoid = (): void => {
 
 export const fileList: TFunc1<IContext, Promise<void>> = async (ctx: IContext): Promise<void> => {
     const result: string[] = fs.readdirSync(UPLOADPATH);
-    ctx.body = result;
+    ctx.body = {
+        state: EStateType.Success,
+        msg: 'query file list successfully',
+        data: result
+    };
 };
 
 export const fileExtract: TFunc1<IContext, Promise<void>> = async (ctx: IContext): Promise<void> => {
@@ -32,7 +36,7 @@ export const fileExtract: TFunc1<IContext, Promise<void>> = async (ctx: IContext
         ctx.body = data;
     } else {
         ctx.body = {
-            type: EStateType.Fail,
+            state: EStateType.Fail,
             msg: 'file is not exist'
         };
     }
