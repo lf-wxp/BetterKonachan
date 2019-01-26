@@ -1,16 +1,22 @@
 <!-- <v-loading:show=''></v-loading> -->
 <template>
     <div class="loadingDimmer">
-        <Spinner name="cube-grid" color="#39cccc" class="lLoading" :noFadeIn="true"/>
+        <fingerprint-spinner
+            :animation-duration="1500"
+            :size="64"
+            color="#39cccc"
+            class="lLoading"
+            :noFadeIn="true"
+        />
     </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import Spinner from 'vue-spinkit';
+import { FingerprintSpinner } from 'epic-spinners';
 
 @Component({
     components: {
-        Spinner
+        FingerprintSpinner
     }
 })
 export default class VLoading extends Vue {}

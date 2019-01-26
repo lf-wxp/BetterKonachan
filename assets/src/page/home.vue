@@ -6,7 +6,7 @@
         <v-search/>
         <v-setting/>
         <v-music/>
-        <!-- <v-list/> -->
+        <v-list/>
     </div>
 </template>
 

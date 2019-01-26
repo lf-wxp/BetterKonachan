@@ -29,6 +29,8 @@ declare module 'vue-spinkit' {
     export default Spinner;
 }
 
+declare module 'epic-spinners';
+
 declare interface ICircle {
     ctx: CanvasRenderingContext2D;
     width: number;

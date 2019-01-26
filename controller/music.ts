@@ -15,8 +15,8 @@ export const musicList: TFunc1<IContext, Promise<void>> = async (
     ctx.type = 'json';
     const jsonPath: string = path.resolve(EXTRACTPATH, 'data.json');
     if (fs.existsSync(jsonPath)) {
-        data = fs.readFileSync(jsonPath)
-        .toJSON().data;
+        data = JSON.parse(fs.readFileSync(jsonPath)
+        .toString());
     }
     ctx.body = {
         state: EStateType.Success,
