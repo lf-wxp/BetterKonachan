@@ -44,12 +44,6 @@ export default class Home extends Vue {}
     background-color: #252323;
     min-height: 100vh;
     background-blend-mode: multiply;
-    section {
-        position: relative;
-        box-sizing: border-box;
-        background-repeat: no-repeat;
-        margin-bottom: 0px;
-    }
 }
 @media screen and (max-width: 745px) {
     article {

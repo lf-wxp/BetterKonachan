@@ -12,7 +12,8 @@ export namespace store {
     tags = 'tags',
     page = 'page',
     totalPage = 'totalPage',
-    security = 'security'
+    security = 'security',
+    listHeight = 'listHeight'
   }
 
   export interface IState {
@@ -21,6 +22,7 @@ export namespace store {
     page: number;
     totalPage: number;
     security: boolean;
+    listHeight: string;
   }
 
   export interface IGetters {
@@ -29,6 +31,7 @@ export namespace store {
     GETSECURITY: TGetterFun<TType<EStateKey.page>>;
     GETPAGE: TGetterFun<TType<EStateKey.totalPage>>;
     GETTOTALPAGE: TGetterFun<TType<EStateKey.security>>;
+    GETLISTHEIGHT: TGetterFun<TType<EStateKey.listHeight>>;
   }
 
   export interface IMutations {
@@ -37,5 +40,6 @@ export namespace store {
     SETSECURITY: TMutationFun<TType<EStateKey.security>>;
     SETPAGE: TMutationFun<TType<EStateKey.page>>;
     SETTOTALPAGE: TMutationFun<TType<EStateKey.totalPage>>;
+    SETLISTHEIGHT: TMutationFun<TType<EStateKey.listHeight>>;
   }
 }

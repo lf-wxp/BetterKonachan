@@ -1,6 +1,6 @@
 <template>
-    <figure class="background">
-        <img :src="ablumImg" class="bgImage" v-fade="ablumImg">
+    <figure class="background" :style="{ height: listHeight }">
+        <img :src="ablumImg" class="bgImage">
     </figure>
 </template>
 <script lang="ts">
@@ -12,22 +12,24 @@ import { TBinding } from '~cModel/util';
     // @ts-ignore: 类型错误
     directives: {
         fade: {
-            bind(el: HTMLElement): void {
-                el.style.opacity = '0';
-                el.addEventListener(
-                    'load',
-                    () => {
-                        el.style.opacity = '1';
-                    },
-                    { once: true }
-                );
-            },
+            // bind(el: HTMLElement): void {
+            //     el.style.opacity = '0';
+            //     el.addEventListener(
+            //         'load',
+            //         () => {
+            //             el.style.opacity = '1';
+            //         },
+            //         { once: true }
+            //     );
+            // },
             update(el: HTMLElement, bingding: TBinding): void {
                 const { oldValue } = bingding;
                 const parent: HTMLElement = <HTMLElement>el.parentNode;
                 const previousImg: HTMLElement = <HTMLElement>parent.querySelector('.fadeImage');
                 if (previousImg) {
+                    console.log('remocew', parent.removeChild);
                     parent.removeChild(previousImg);
+                    debugger;
                 }
                 if (oldValue) {
                     el.addEventListener(
@@ -63,6 +65,7 @@ import { TBinding } from '~cModel/util';
 })
 export default class VBackground extends Vue {
     @State('bgUrl') public ablumImg!: string;
+    @State('listHeight') public listHeight!: string;
 }
 </script>
 <style lang="postcss" scoped>

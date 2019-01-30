@@ -14,7 +14,8 @@ export const store: Store<storeScope.IState> =  new Vuex.Store<storeScope.IState
         tags: '',
         page: 1,
         totalPage: 0,
-        security: true
+        security: true,
+        listHeight: '100vh'
     },
     getters: {
         GETBGURL(state: storeScope.IState): storeScope.TType<'bgUrl'> {
@@ -31,6 +32,9 @@ export const store: Store<storeScope.IState> =  new Vuex.Store<storeScope.IState
         },
         GETTOTALPAGE(state: storeScope.IState): storeScope.TType<'totalPage'> {
             return state.totalPage;
+        },
+        GETLISTHEIGHT(state: storeScope.IState): storeScope.TType<'listHeight'> {
+            return state.listHeight;
         }
     },
     mutations: {
@@ -48,6 +52,9 @@ export const store: Store<storeScope.IState> =  new Vuex.Store<storeScope.IState
         },
         SETTOTALPAGE(state: storeScope.IState, page: number): void {
             state.totalPage = page;
+        },
+        SETLISTHEIGHT(state: storeScope.IState, val: string): void {
+            state.listHeight = val;
         }
     }
 });

@@ -9,6 +9,7 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Mutation } from 'vuex-class';
 
 import { IImageDom } from '~cModel/imageDom';
 import { IImage } from '~model/image';
@@ -31,8 +32,13 @@ export default class VWaterfall extends Vue {
     @Prop({ default: { width: 'width', height: 'height' } })
     public options!: { width: string; height: string };
 
+    @Mutation('SETLISTHEIGHT') public setListHeight!: Function;
+
     get secStyle(): { height: string } {
         const max: number = Math.max(...this.columnArray);
+        if (max) {
+            this.setListHeight(`${max + 230}px`);
+        }
 
         return {
             height: `${max}px`
