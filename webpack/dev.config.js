@@ -4,6 +4,10 @@ const path = require('path');
 
 const devPlugins = [
     new webpack.NamedModulesPlugin(),
+
+    new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify('development'),
+    }),
 ];
 base.module.rules.push({
     test: /css$/,

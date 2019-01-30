@@ -96,6 +96,10 @@ export default class VMusic extends Vue {
                 this.audioBufPercentage.width = `${this.audio.buffered.end(this.audio.buffered.length - 1) / this.audio.duration * 100}%`;
             }
         });
+        this.audio.addEventListener('canplay', () => {
+            console.log('canplay');
+            this.initialAudioBuffer();
+        }, { once: true });
     }
 
     public loadSong(): void {
@@ -227,7 +231,6 @@ export default class VMusic extends Vue {
         this.initialAudio();
         this.initialAudioEvent();
         this.loadSong();
-        this.initialAudioBuffer();
         window.addEventListener('resize', () => {
             this.resizeCanvas();
         });

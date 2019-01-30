@@ -20,13 +20,14 @@ import { getPost } from '~service';
 import { State, Mutation } from 'vuex-class';
 import vWaterfall from '~component/vWaterfall.vue';
 import vLoading from '~component/vLoading.vue';
-import loadErrorImage from '~image/loaderror.png';
 
 import { IImageList, IImage } from '~model/image';
 import { IServiceHttpRes, isValidRes } from '~cModel/service';
 import { IResponse } from '~model/response';
 import { TBinding } from '~cModel/util';
 
+// tslint:disable-next-line
+const loadErrorImage = require('~image/loaderror.png');
 
 const load: {
     bind(el: HTMLElement, binding: TBinding): void;

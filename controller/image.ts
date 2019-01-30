@@ -14,7 +14,6 @@ export const imageList: TFunc1<IContext, Promise<void>> = async (
 ): Promise<void> => {
     const imgs: IImage[] = await Image.getData(ctx.query);
     const totalPage: number = await Image.getPage();
-    console.log('totalPage', totalPage);
     ctx.body = {
         state: EStateType.Success,
         msg: 'success',

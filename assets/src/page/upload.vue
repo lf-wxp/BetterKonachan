@@ -36,8 +36,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import vNotice from '~component/vNotice.vue';
 import { EventEmitter } from 'events';
 
-import { IResponse } from '~model/response';
-import { EStateType } from '~model/message';
+import { IFileUploadMsg, EFileState } from '~model/uploadMsg';
 
 @Component({
     components: {
@@ -111,13 +110,14 @@ export default class Upload extends Vue {
 
     public uploadQueue(): void {
         this.files.forEach((item: uploadFile) => {
+            console.log('item', item);
             item.available && this.upload(item);
         });
     }
 
     public pendding(): Promise<boolean> {
         return new Promise((resolve: (value?: boolean | PromiseLike<boolean> | undefined) => void): void => {
-            this.ee.on('notice', () => {
+            this.ee.on('continute', () => {
                 resolve(true);
             });
         });
@@ -148,16 +148,14 @@ export default class Upload extends Vue {
 
     public beforeCreate(): void {
         const protocol: string = location.protocol === 'https:' ? 'wss' : 'ws';
-        this.ws = new WebSocket(`${protocol}://${location.host}/ws`);
+        this.ws = new WebSocket(`${protocol}://${location.host}/ws/upload`);
         this.ws.addEventListener('message', (ms: MessageEvent) => {
-            console.log('data for server', ms.data);
-            const j: IResponse<string> = JSON.parse(ms.data);
-            if (j.state === EStateType.Success) {
+            const j: IFileUploadMsg = JSON.parse(ms.data);
+            if (j.state === EFileState.Complete || j.state === EFileState.Fail) {
                 this.isNotice = true;
                 this.notice = j.data;
-            } else if (j.state === EStateType.Notice) {
-                console.log('onMessage', j);
-                this.ee.emit('notice');
+            } else if (j.state === EFileState.ChunkAdded || j.state === EFileState.Created) {
+                this.ee.emit('continute');
             }
         });
     }

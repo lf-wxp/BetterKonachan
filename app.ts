@@ -11,7 +11,7 @@ import 'reflect-metadata';
 import { fileInit } from '~controller/file';
 import { PORT } from '~config';
 
-import { router } from '~route/index';
+import { router, ws } from '~route/index';
 
 fileInit();
 const app: websockify.App = websockify(new Koa());
@@ -23,6 +23,10 @@ const viewConf: Koa.Middleware = views(
         }
     }
 );
+
+//@ts-ignore
+app.ws.use(ws.routes())
+    .use(ws.allowedMethods());
 
 app.use(logger())
     .use(bodyParser())

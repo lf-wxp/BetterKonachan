@@ -1,7 +1,9 @@
 // tslint:disable import-name
 import Vuex, { Store } from 'vuex';
 import Vue from 'vue';
-import defaultBg from '~image/bg.jpg';
+
+// tslint:disable-next-line
+const defaultBg = require('~image/bg.jpg');
 
 import { store as storeScope } from '~cModel/store';
 Vue.use(Vuex);

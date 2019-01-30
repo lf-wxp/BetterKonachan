@@ -44,7 +44,8 @@
             "~cModule/*": ["assets/src/module/*"],
             "~cModel/*": ["assets/src/model/*"],
             "~css/*": ["assets/src/css"],
-            "~src/*": ["assets/src/*"]
+            "~src/*": ["assets/src/*"],
+            "~image/*": ["assets/src/image/*"]
         }
     },
     "exclude": [

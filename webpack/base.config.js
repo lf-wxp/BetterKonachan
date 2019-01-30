@@ -2,7 +2,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
-const { VueLoaderPlugin } = require('vue-loader');
+const {
+    VueLoaderPlugin
+} = require('vue-loader');
 
 const entry = {
     index: './src/app.ts',
@@ -23,48 +25,40 @@ const wpModule = {
         {
             test: /\.ts$/,
             exclude: [/node_modules/],
-            use: [
-                {
-                    loader: 'ts-loader',
-                    options: {
-                        // configFile: path.resolve(__dirname, '../assets/src/tsconfig.json'),
-                        appendTsSuffixTo: [/\.vue$/],
-                    },
+            use: [{
+                loader: 'ts-loader',
+                options: {
+                    // configFile: path.resolve(__dirname, '../assets/src/tsconfig.json'),
+                    appendTsSuffixTo: [/\.vue$/],
                 },
-            ],
+            }, ],
         },
         {
             test: /\.vue$/,
-            use: [
-                {
-                    loader: 'vue-loader',
-                    options: {
-                        esModule: true,
-                    },
+            use: [{
+                loader: 'vue-loader',
+                options: {
+                    esModule: true,
                 },
-            ],
+            }, ],
         },
         {
             test: /\.(png|jpg|gif)$/,
-            use: [
-                {
-                    loader: 'url-loader',
-                    options: {
-                        limit: 1000,
-                    },
+            use: [{
+                loader: 'file-loader',
+                options: {
+                    limit: 1000,
                 },
-            ],
+            }, ],
         },
         {
             test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
-            use: [
-                {
-                    loader: 'file-loader',
-                    options: {
-                        name: 'fonts/[name].[ext]',
-                    },
+            use: [{
+                loader: 'file-loader',
+                options: {
+                    name: 'fonts/[name].[ext]',
                 },
-            ],
+            }, ],
         },
     ],
 };

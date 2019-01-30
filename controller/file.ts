@@ -3,6 +3,7 @@ import * as path from 'path';
 import { mkdirsSync, extractFile } from '~util';
 import { UPLOADPATH, EXTRACTPATH } from '~config';
 
+import { EFileState } from '~model/uploadMsg';
 import { IMsg, EStateType } from '~model/message';
 import { IContext } from '~model/context';
 import { IZipFile } from '~model/zipFile';
@@ -45,15 +46,13 @@ export const fileExtract: TFunc1<IContext, Promise<void>> = async (ctx: IContext
 export const fileUpload: TFunc1<IContext, void> = (ctx: IContext): void => {
     ctx.websocket.on('message', (message: string) => {
         if (typeof message === 'string') {
-            if (currenUploadFile) {
+            if (message === '') {
                 ctx.websocket.send(
-                    JSON.stringify({
-                        type: EStateType.Success
-                    })
+                    JSON.stringify({ state: EFileState.Complete, data: 'upload file successfully' })
                 );
             } else {
                 ctx.websocket.send(
-                    JSON.stringify({ type: EStateType.Success })
+                    JSON.stringify({ state: EFileState.Created })
                 );
             }
             currenUploadFile = message;
@@ -64,11 +63,11 @@ export const fileUpload: TFunc1<IContext, void> = (ctx: IContext): void => {
                     message
                 );
                 ctx.websocket.send(
-                    JSON.stringify({ type: EStateType.Success })
+                    JSON.stringify({ state: EFileState.ChunkAdded})
                 );
             } catch (error) {
                 ctx.websocket.send(
-                    JSON.stringify({ type: EStateType.Fail, data: error })
+                    JSON.stringify({ state: EFileState.Fail, data: error })
                 );
             }
         }
