@@ -26,6 +26,7 @@ export default class VLoading extends Vue {}
     position: absolute;
     height: 100%;
     width: 100%;
+    min-height: 100px;
     top: 0;
     left: 0;
     background: rgba(255, 255, 255, 0);

@@ -54,7 +54,7 @@ module.exports = {
     plugins: base.plugins.concat(proPlugins),
     performance: {
         hints: 'error',
-        maxEntrypointSize: 400000,
+        maxEntrypointSize: 4000000,
         maxAssetSize: 4000000
     },
 };

@@ -176,7 +176,6 @@ export default class VList extends Vue {
 figure {
     margin: 0;
     border: calc(var(--gap) / 2) solid transparent;
-    /* max-width: 250px; */
     box-sizing: border-box;
     border-radius: 2px;
     overflow: hidden;

@@ -34,7 +34,7 @@ import vSearch from '~component/vSearch.vue';
 })
 export default class Home extends Vue {}
 </script>
-<style lang="postcss" scoped>
+<style lang="postcss" >
 #wrap {
     font-size: 20px;
     overflow: hidden;

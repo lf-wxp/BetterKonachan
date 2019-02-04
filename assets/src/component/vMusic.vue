@@ -34,6 +34,7 @@ import '~css/_icon.css';
 import { Component, Vue } from 'vue-property-decorator';
 import { getMusic } from '~service';
 import { Mutation } from 'vuex-class';
+import * as Paper from 'paper';
 
 import { ISong } from '~model/song';
 import { IServiceHttpRes, isValidRes } from '~cModel/service';
@@ -57,6 +58,7 @@ export default class VMusic extends Vue {
     public audioTitle: string = '';
     public audioArtist: string = '';
     public audio: HTMLAudioElement = new Audio();
+    public audioLine!: Paper.Path;
 
     @Mutation('SETBG') public setBg!: Function;
 
@@ -159,12 +161,10 @@ export default class VMusic extends Vue {
 
     public visualizer(): void {
         const arr: Uint8Array = new Uint8Array(this.analyserNode.frequencyBinCount);
-        const anima: () => void = (): void => {
+        this.audioLine.onFrame = () => {
             this.analyserNode.getByteFrequencyData(arr);
             this.draw(arr);
-            requestAnimationFrame(anima);
-        };
-        requestAnimationFrame(anima);
+        }
     }
 
     public getCtx(): { width: number; height: number; ctx: CanvasRenderingContext2D } {
@@ -175,24 +175,23 @@ export default class VMusic extends Vue {
         return { width, height, ctx };
     }
 
-    public clearDraw(): void {
-        const { width, height, ctx } = this.getCtx();
-        ctx.clearRect(0, 0, width, height);
+    public initAudioLine() {
+        Paper.setup(this.canvas);
+        this.audioLine = new Paper.Path({
+            segments: Array(this.fftSize).fill([0, 0]),
+            strokeColor: '#39cccc',
+            strokeWidth: 1,
+        });
     }
 
     public draw(arr: Uint8Array): void {
-        const { width, height, ctx } = this.getCtx();
-        const line: CanvasGradient = ctx.createLinearGradient(0, 0, 0, height);
+        const { width, height } = this.getCtx();
         const w: number = width / this.fftSize;
-        ctx.globalAlpha = 0.3;
-        line.addColorStop(0, '#39cccc');
-        line.addColorStop(1, '#0cf2f2');
-        ctx.fillStyle = line;
-        ctx.clearRect(0, 0, width, height);
         arr.forEach((item: number, i: number) => {
             const h: number = item / (this.fftSize * 2) * height;
-            ctx.fillRect(w * i, height - h, w * 0.6, h);
+            this.audioLine.segments[i].point = new Paper.Point(w * i, height - h);
         });
+        this.audioLine.smooth();
     }
 
     public resizeCanvas(): void {
@@ -217,6 +216,7 @@ export default class VMusic extends Vue {
         this.canvas.style.cssText = `
             position:absolute;
             bottom: 32px;
+            pointer-events: none;
         `;
         this.$el.insertBefore(this.canvas, this.$el.firstChild);
         const res: IServiceHttpRes<IResponse<ISong[]>> = await getMusic.http({});
@@ -228,6 +228,8 @@ export default class VMusic extends Vue {
         }
         this.audio.autoplay = true;
         this.resizeCanvas();
+        Paper.setup(this.canvas);
+        this.initAudioLine();
         this.initialAudio();
         this.initialAudioEvent();
         this.loadSong();
@@ -303,7 +305,7 @@ i {
 }
 .mProcessBar {
     box-sizing: border-box;
-    height: 4px;
+    height: 2px;
     background: rgba(255, 255, 255, 0.4);
     border-radius: 1px;
     cursor: pointer;
@@ -329,7 +331,7 @@ i {
     width: 0%;
     height: 100%;
     transition: width 0.5s ease;
-    background: color(var(--teal) alpha(30%));
+    background: color(var(--teal) alpha(80%));
 }
 .mTimeBox {
     flex: 0 0 auto;

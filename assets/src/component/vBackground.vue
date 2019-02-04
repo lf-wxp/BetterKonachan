@@ -74,7 +74,7 @@ export default class VBackground extends Vue {
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
     left: 0;
     top: 0;
     filter: blur(5px);
