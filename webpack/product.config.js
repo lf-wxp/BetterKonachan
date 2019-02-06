@@ -1,9 +1,17 @@
 const base = require('./base.config.js');
 const webpack = require('webpack');
 const path = require('path');
+const { InjectManifest } = require('workbox-webpack-plugin');
+
 
 const proPlugins = [
     new webpack.HashedModuleIdsPlugin(),
+    new InjectManifest({
+        swSrc: path.resolve(__dirname, '../assets/src/sw.js'),
+        swDest: '../../sw.js',
+        importWorkboxFrom: 'local',
+        globPatterns: ['**/*.{html,js,css,mp3}'],
+    })
 ];
 base.module.rules.push({
     test: /css$/,

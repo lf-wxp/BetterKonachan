@@ -58,3 +58,5 @@ tags
 upload
 *.db
 media/
+sw.js
+!assets/src/sw.js
