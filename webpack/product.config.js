@@ -2,10 +2,25 @@ const base = require('./base.config.js');
 const webpack = require('webpack');
 const path = require('path');
 const { InjectManifest } = require('workbox-webpack-plugin');
-
+const pwaManifest = require('webpack-pwa-manifest');
 
 const proPlugins = [
     new webpack.HashedModuleIdsPlugin(),
+    new pwaManifest({
+        name: 'BetterKonachan',
+        short_name: 'BetterKonachan',
+        description: 'BetterKonachan',
+        background_color: '#ffffff',
+        crossorigin: 'use-credentials', //can be null, use-credentials or anonymous
+        start_url: '/',
+        ios: true,
+        icons: [
+            {
+                src: path.resolve(__dirname, '../assets/src/image/icon.jpg'),
+                sizes: [96, 128, 192, 256, 384, 512] // multiple sizes
+            }
+        ]
+    }),
     new InjectManifest({
         swSrc: path.resolve(__dirname, '../assets/src/sw.js'),
         swDest: '../../sw.js',
@@ -31,7 +46,7 @@ module.exports = {
             minChunks: 1, // 最小 chunk ，默认1
             maxAsyncRequests: 1, // 最大异步请求数， 默认1
             maxInitialRequests: 1, // 最大初始化请求书，默认1
-            name: function () {}, // 名称，此选项可接收 function
+            name: function () { }, // 名称，此选项可接收 function
             cacheGroups: { // 这里开始设置缓存的 chunks
                 priority: false, // 缓存组优先级
                 vendor: { // key 为entry中定义的 入口名称
