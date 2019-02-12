@@ -20,10 +20,8 @@ export default class VNotice extends Vue {
     }
 }
 </script>
-<style lang="postcss" scoped>
-:root {
-    --baseC: #99ccff;
-}
+<style lang="postcss">
+
 @keyframes slide {
     0% {
         transform: translate(-50%, -100%);
@@ -40,7 +38,7 @@ export default class VNotice extends Vue {
 }
 .notice {
     position: fixed;
-    background: var(--baseC);
+    background: var(--themeNoticeColor);
     color: white;
     padding: 5px 20px;
     border-bottom-left-radius: 3px;

@@ -5,9 +5,10 @@
 </template>
 
 <script lang="ts">
+import 'normalize.css';
+import '~css/_var.css';
 import '~css/_base.css';
 import '~css/_icon.css';
-import 'normalize.css';
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component

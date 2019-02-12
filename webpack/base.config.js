@@ -23,6 +23,10 @@ const wpModule = {
         //     ],
         // },
         {
+            test: /\.worker.js$/,
+            loader: 'worker-loader',
+        },
+        {
             test: /\.ts$/,
             exclude: [/node_modules/],
             use: [{

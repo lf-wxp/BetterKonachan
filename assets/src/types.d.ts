@@ -132,11 +132,6 @@ declare interface ISong {
     draw(arr: Uint8Array): void;
 }
 
-declare interface IService {
-    cancel(): void;
-    http(data: T): AxiosPromise<any>;
-}
-
 declare interface uploadFile {
     file: File;
     isSuccess: boolean;

@@ -4,13 +4,14 @@
         <fingerprint-spinner
             :animation-duration="1500"
             :size="64"
-            color="#39cccc"
+            :color="themeColor"
             class="lLoading"
             :noFadeIn="true"
         />
     </div>
 </template>
 <script lang="ts">
+import { State } from 'vuex-class';
 import { Component, Vue } from 'vue-property-decorator';
 import { FingerprintSpinner } from 'epic-spinners';
 
@@ -19,9 +20,11 @@ import { FingerprintSpinner } from 'epic-spinners';
         FingerprintSpinner
     }
 })
-export default class VLoading extends Vue {}
+export default class VLoading extends Vue {
+    @State('themeColor') public themeColor: string;
+}
 </script>
-<style lang="postcss" scoped>
+<style lang="postcss">
 .loadingDimmer {
     position: absolute;
     height: 100%;
@@ -29,7 +32,6 @@ export default class VLoading extends Vue {}
     min-height: 100px;
     top: 0;
     left: 0;
-    background: rgba(255, 255, 255, 0);
 }
 .lLoading {
     position: absolute;

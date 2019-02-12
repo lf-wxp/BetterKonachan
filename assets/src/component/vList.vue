@@ -154,13 +154,7 @@ export default class VList extends Vue {
 //     return { left, top };
 // }
 </script>
-<style  lang="postcss" scoped>
-:root {
-    --size: 25px;
-    --nsize: -25px;
-    --infoBg: color(#39cccc alpha(50%));
-    --gap: 10px;
-}
+<style  lang="postcss">
 .list {
     background: none;
 }
@@ -175,7 +169,7 @@ export default class VList extends Vue {
 }
 figure {
     margin: 0;
-    border: calc(var(--gap) / 2) solid transparent;
+    border: calc(var(--themeListGap) / 2) solid transparent;
     box-sizing: border-box;
     border-radius: 2px;
     overflow: hidden;
@@ -183,26 +177,26 @@ figure {
     &:hover {
         & .lImg,
         & .lTool {
-            transform: translateY(var(--nsize));
+            transform: translateY(calc(0 - var(--themeListToolHeight)));
         }
     }
 }
 .lTool {
     position: absolute;
     display: flex;
-    height: var(--size);
+    height: var(--themeListToolHeight);
     width: 100%;
     justify-content: flex-start;
     flex-flow: row nowrap;
     align-items: stretch;
     transition: transform 0.2s ease;
-    background: var(--infoBg);
+    background: var(--themeListToolBgColor);
 }
 .lInfo {
     flex: 1 1 auto;
     font-size: 12px;
     color: white;
-    line-height: var(--size);
+    line-height: var(--themeListToolHeight);
     text-align: center;
 }
 .lDown {
@@ -210,7 +204,7 @@ figure {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: var(--size);
+    width: var(--themeListToolHeight);
     color: white;
     font-size: 14px;
     & i {

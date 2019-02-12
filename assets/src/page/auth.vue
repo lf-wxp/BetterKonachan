@@ -67,11 +67,7 @@ export default class Auth extends Vue {
 
 }
 </script>
-<style  lang="postcss" scoped>
-:root {
-    --baseC: #39cccc;
-    --borderC: #dcdcdc;
-}
+<style  lang="postcss">
 .auth {
     display: flex;
     width:100vw;
@@ -98,7 +94,7 @@ export default class Auth extends Vue {
 .aInput,.aBtn {
     flex: 0 0 auto;
     height: 40px;
-    border:1px solid var(--borderC);
+    border:1px solid var(--themeBorderColor);
     border-radius: 2px;
     box-sizing: border-box;
     width: 300px;
@@ -112,16 +108,16 @@ export default class Auth extends Vue {
 }
 .aInput {
     &:focus {
-        border-color: var(--baseC);
+        border-color: #39cccc;
     }
 }
 .aBtn {
     color:white;
     border:none;
-    background: var(--baseC);
+    background: var(--themeBaseColor);
     cursor: pointer;
     &:hover {
-        background-color: color(var(--baseC) tint(10%));
+        background-color: var(--themBaseColorTint10);
     }
 }
 </style>

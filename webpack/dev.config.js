@@ -26,6 +26,7 @@ module.exports = {
         filename: '[name].js',
         chunkFilename: '[name].js',
         publicPath: '/',
+        globalObject: 'this'
         // path: path.resolve(__dirname, 'dist')
     },
     module: base.module,

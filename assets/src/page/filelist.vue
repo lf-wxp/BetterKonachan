@@ -53,11 +53,7 @@ export default class Filelist extends Vue {
     }
 }
 </script>
-<style  lang="postcss" scoped>
-:root {
-    --btnC: #3399ff;
-    --h: 30px;
-}
+<style  lang="postcss">
 .fileList {
     padding: 50px;
 }
@@ -70,7 +66,7 @@ export default class Filelist extends Vue {
     display:flex;
     justify-content: space-between;
     align-items: stretch;
-    height: var(--h);
+    height: 30px;
     padding:5px 0;
     border-bottom: 1px solid #dcdcdc;
 }
@@ -80,7 +76,7 @@ export default class Filelist extends Vue {
 }
 .fileName {
     flex: 0 0 auto;
-    line-height: var(--h);
+    line-height: 30px;
 }
 .fileAction {
     flex: 0 0 auto;
@@ -94,10 +90,10 @@ export default class Filelist extends Vue {
     padding: 0 20px;
     border-radius: 2px;
     border: none;
-    background: var(--btnC);
+    background: var(--themeBaseColor);
     cursor: pointer;
     color:white;
-    line-height: var(--h);
+    line-height: 30px;
 }
 </style>
 

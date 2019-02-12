@@ -11,8 +11,6 @@
 </template>
 
 <script lang="ts">
-import '~css/_base.css';
-import 'normalize.css';
 import { Component, Vue } from 'vue-property-decorator';
 import vHeader from '~component/vHeader.vue';
 import vMusic from '~component/vMusic.vue';

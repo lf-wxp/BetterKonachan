@@ -125,19 +125,10 @@ export default class VPager extends Vue {
     }
 }
 </script>
-<style lang="postcss" scoped>
-:root {
-    --itemSize: 40px;
-    --commonBg: rgba(0, 0, 0, 0.3);
-    --teal: #39cccc;
-    --hoverBg: color(var(--teal) alpha(20%));
-    --darkBg1: color(var(--teal) shade(-5%));
-    --darkBg2: color(var(--teal) shade(-10%));
-}
-
+<style lang="postcss">
 .pager {
-    width: calc(3 * var(--itemSize));
-    height: calc(3 * var(--itemSize));
+    width: calc(3 * var(--themePageItemSize));
+    height: calc(3 * var(--themePageItemSize));
     position: absolute;
     right: 40px;
     top: 40px;
@@ -155,18 +146,18 @@ export default class VPager extends Vue {
         & .pGoto {
             & .pGotoDiv {
                 &:first-of-type {
-                    left: var(--itemSize);
+                    left: var(--themePageItemSize);
                     top: 0px;
                 }
                 &:last-of-type {
-                    top: var(--itemSize);
+                    top: var(--themePageItemSize);
                     left: 0px;
                     transition-delay: 0.1s;
                 }
             }
             & .pBtn {
-                top: var(--itemSize);
-                left: var(--itemSize);
+                top: var(--themePageItemSize);
+                left: var(--themePageItemSize);
                 transition-delay: 0.2s;
             }
         }
@@ -180,13 +171,13 @@ export default class VPager extends Vue {
                 top: 0px;
             }
             &:nth-child(2) {
-                left: var(--itemSize);
+                left: var(--themePageItemSize);
                 top: 0px;
                 transition-delay: 0.1s;
             }
             &:nth-child(3) {
                 left: 0px;
-                top: var(--itemSize);
+                top: var(--themePageItemSize);
                 transition-delay: 0.2s;
             }
         }
@@ -194,23 +185,23 @@ export default class VPager extends Vue {
 }
 
 .pNav {
-    width: var(--itemSize);
-    height: var(--itemSize);
+    width: var(--themePageItemSize);
+    height: var(--themePageItemSize);
     position: absolute;
     display: inline-block;
     color: white;
     font-size: 30px;
     line-height: 40px;
     text-align: center;
-    background-color: var(--commonBg);
+    background-color: var(--themePageNavBgColor);
     cursor: pointer;
     transition: all 0.3s ease;
-    bottom: var(--itemSize);
-    left: var(--itemSize);
+    bottom: var(--themePageItemSize);
+    left: var(--themePageItemSize);
     &:hover {
         &:after,
         &:before {
-            background: var(--hoverBg) !important;
+            background: var(--themePageItemHoverColor) !important;
         }
     }
     & svg {
@@ -230,7 +221,7 @@ export default class VPager extends Vue {
             bottom: 0;
             height: 5px;
             width: calc(100% - 5px);
-            background: var(--hoverBg);
+            background: var(--themePageItemHoverColor);
         }
         &:before {
             content: '';
@@ -239,7 +230,7 @@ export default class VPager extends Vue {
             bottom: 0;
             height: 100%;
             width: 5px;
-            background: var(--hoverBg);
+            background: var(--themePageItemHoverColor);
         }
     }
     &:nth-of-type(2) {
@@ -250,7 +241,7 @@ export default class VPager extends Vue {
             top: 0;
             height: 5px;
             width: calc(100% - 5px);
-            background: var(--hoverBg);
+            background: var(--themePageItemHoverColor);
         }
         &:before {
             content: '';
@@ -259,7 +250,7 @@ export default class VPager extends Vue {
             top: 0;
             height: 100%;
             width: 5px;
-            background: var(--hoverBg);
+            background: var(--themePageItemHoverColor);
         }
     }
     &.disabled {
@@ -268,13 +259,13 @@ export default class VPager extends Vue {
     }
 }
 .pHolder {
-    width: var(--itemSize);
-    height: var(--itemSize);
+    width: var(--themePageItemSize);
+    height: var(--themePageItemSize);
     position: absolute;
-    background-color: var(--teal);
+    background-color: var(--themeBaseColor);
     z-index: 3;
-    left: var(--itemSize);
-    top: var(--itemSize);
+    left: var(--themePageItemSize);
+    top: var(--themePageItemSize);
     cursor: pointer;
     transition: all 0.2s 0.5s ease-in-out;
     animation: breathPage 2s 4s ease-in-out alternate infinite;
@@ -291,19 +282,19 @@ export default class VPager extends Vue {
     &:after {
         width: 40%;
         height: 40%;
-        background-color: var(--darkBg2);
+        background-color: var(--themePageItemBreathColor2);
         animation: breathPage2 2s ease-in-out alternate infinite;
     }
     &:before {
         width: 70%;
         height: 70%;
-        background-color: var(--darkBg1);
+        background-color: var(--themePageItemBreathColor1);
         animation: breathPage1 2s 2s ease-in-out alternate infinite;
     }
 }
 .pCon {
-    width: 2 * var(--itemSize);
-    height: 2 * var(--itemSize);
+    width: 2 * var(--themePageItemSize);
+    height: 2 * var(--themePageItemSize);
     position: absolute;
     left: 0px;
     top: 0px;
@@ -327,18 +318,18 @@ export default class VPager extends Vue {
     position: absolute;
     color: white;
     font-size: 20px;
-    width: var(--itemSize);
-    height: var(--itemSize);
-    left: var(--itemSize);
-    top: var(--itemSize);
+    width: var(--themePageItemSize);
+    height: var(--themePageItemSize);
+    left: var(--themePageItemSize);
+    top: var(--themePageItemSize);
     line-height: 40px;
     text-align: center;
-    background-color: var(--commonBg);
+    background-color: var(--themePageNavBgColor);
     cursor: pointer;
     transition: all 0.2s ease;
     &:hover,
     &.current {
-        background-color: var(--hoverBg);
+        background-color: var(--themePageItemHoverColor);
     }
     &.current {
         cursor: not-allowed;
@@ -349,12 +340,12 @@ export default class VPager extends Vue {
     }
 }
 .pGoto {
-    width: 2 * var(--itemSize);
-    height: 2 * var(--itemSize);
+    width: 2 * var(--themePageItemSize);
+    height: 2 * var(--themePageItemSize);
     position: absolute;
     font-size: 0px;
-    left: var(--itemSize);
-    top: var(--itemSize);
+    left: var(--themePageItemSize);
+    top: var(--themePageItemSize);
     z-index: 1;
 }
 
@@ -381,14 +372,14 @@ export default class VPager extends Vue {
     font-size: 14px;
     outline: none;
     box-sizing: border-box;
-    border-bottom: 4px solid var(--teal);
+    border-bottom: 4px solid var(--themeBaseColor);
     animation: blink 1s ease-in-out infinite alternate-reverse both;
 }
 .pGotoEm,
 .pGotoDiv,
 .pBtn {
-    width: var(--itemSize);
-    height: var(--itemSize);
+    width: var(--themePageItemSize);
+    height: var(--themePageItemSize);
     box-sizing: border-box;
     display: inline-block;
     position: absolute;
@@ -397,7 +388,7 @@ export default class VPager extends Vue {
     left: 0px;
     top: 0px;
     vertical-align: top;
-    background-color: var(--commonBg);
+    background-color: var(--themePageNavBgColor);
     transition: all 0.2s ease;
 }
 .pGotoEm {
@@ -408,13 +399,13 @@ export default class VPager extends Vue {
     padding: 0;
     cursor: pointer;
     &:hover {
-        background-color: var(--hoverBg);
+        background-color: var(--themePageItemHoverColor);
     }
     & span {
         width: 40%;
         height: 40%;
         display: block;
-        background: var(--teal);
+        background: var(--themeBaseColor);
         position: absolute;
         right: 0;
         bottom: 0;
@@ -431,29 +422,29 @@ export default class VPager extends Vue {
 }
 @keyframes breathPage {
     0% {
-        background-color: var(--teal);
+        background-color: var(--themeBaseColor);
     }
     100% {
-        background-color: var(--darkBg2);
+        background-color: var(--themePageItemBreathColor2);
     }
 }
 @keyframes breathPage1 {
     0% {
-        background-color: var(--darkBg1);
+        background-color: var(--themePageItemBreathColor1);
     }
     50% {
-        background-color: var(--darkBg2);
+        background-color: var(--themePageItemBreathColor2);
     }
     100% {
-        background-color: var(--teal);
+        background-color: var(--themeBaseColor);
     }
 }
 @keyframes breathPage2 {
     0% {
-        background-color: var(--darkBg2);
+        background-color: var(--themePageItemBreathColor2);
     }
     100% {
-        background-color: var(--teal);
+        background-color: var(--themeBaseColor);
     }
 }
 @keyframes blink {
@@ -461,7 +452,7 @@ export default class VPager extends Vue {
         border-color: transparent;
     }
     100% {
-        border-color: var(--teal);
+        border-color: var(--themeBaseColor);
     }
 }
 </style>

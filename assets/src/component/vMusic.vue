@@ -30,10 +30,9 @@
     </section>
 </template>
 <script lang="ts">
-import '~css/_icon.css';
 import { Component, Vue } from 'vue-property-decorator';
 import { getMusic } from '~service';
-import { Mutation } from 'vuex-class';
+import { Mutation, State } from 'vuex-class';
 import * as Paper from 'paper';
 
 import { ISong } from '~model/song';
@@ -59,6 +58,7 @@ export default class VMusic extends Vue {
     public audioArtist: string = '';
     public audio: HTMLAudioElement = new Audio();
     public audioLine!: Paper.Path;
+    @State('themeColor') public themeColor: string;
 
     @Mutation('SETBG') public setBg!: Function;
 
@@ -161,10 +161,10 @@ export default class VMusic extends Vue {
 
     public visualizer(): void {
         const arr: Uint8Array = new Uint8Array(this.analyserNode.frequencyBinCount);
-        this.audioLine.onFrame = () => {
+        this.audioLine.onFrame = (): void => {
             this.analyserNode.getByteFrequencyData(arr);
             this.draw(arr);
-        }
+        };
     }
 
     public getCtx(): { width: number; height: number; ctx: CanvasRenderingContext2D } {
@@ -175,12 +175,13 @@ export default class VMusic extends Vue {
         return { width, height, ctx };
     }
 
-    public initAudioLine() {
+    public initAudioLine(): void {
         Paper.setup(this.canvas);
         this.audioLine = new Paper.Path({
-            segments: Array(this.fftSize).fill([0, 0]),
-            strokeColor: '#39cccc',
-            strokeWidth: 1,
+            segments: Array(this.fftSize)
+                .fill([0, 0]),
+            strokeColor: this.themeColor,
+            strokeWidth: 1
         });
     }
 
@@ -239,19 +240,13 @@ export default class VMusic extends Vue {
     }
 }
 </script>
-<style lang="postcss" scoped>
-:root {
-    --mainRadius: 5px;
-    --mWidth: 360px;
-    --mHeight: 220px;
-    --teal: #39cccc;
-}
+<style lang="postcss">
 i {
     cursor: pointer;
     color: white;
     transition: color 0.2s ease-in-out;
     &:hover {
-        color: var(--teal);
+        color: var(--themeBaseColor);
     }
 }
 .music {
@@ -299,7 +294,7 @@ i {
         transition: color 0.2s ease;
         vertical-align: middle;
         &:hover {
-            color: var(--teal);
+            color: var(--themeBaseColor);
         }
     }
 }
@@ -331,7 +326,7 @@ i {
     width: 0%;
     height: 100%;
     transition: width 0.5s ease;
-    background: color(var(--teal) alpha(80%));
+    background: var(--themeBaseColorAlpha80);
 }
 .mTimeBox {
     flex: 0 0 auto;
@@ -381,7 +376,7 @@ i {
 }
 
 .mActiveBar {
-    background: color(var(--teal) alpha(30%));
+    background: var(--themeBaseColorAlpha30);
     height: 100%;
     border-radius: 2px;
     position: absolute;

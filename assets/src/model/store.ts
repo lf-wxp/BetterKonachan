@@ -13,7 +13,8 @@ export namespace store {
     page = 'page',
     totalPage = 'totalPage',
     security = 'security',
-    listHeight = 'listHeight'
+    listHeight = 'listHeight',
+    themeColor = 'themeColor'
   }
 
   export interface IState {
@@ -23,6 +24,7 @@ export namespace store {
     totalPage: number;
     security: boolean;
     listHeight: string;
+    themeColor: string;
   }
 
   export interface IGetters {
@@ -32,6 +34,7 @@ export namespace store {
     GETPAGE: TGetterFun<TType<EStateKey.totalPage>>;
     GETTOTALPAGE: TGetterFun<TType<EStateKey.security>>;
     GETLISTHEIGHT: TGetterFun<TType<EStateKey.listHeight>>;
+    GETTHEMECOLOR: TGetterFun<TType<EStateKey.themeColor>>;
   }
 
   export interface IMutations {
@@ -41,5 +44,6 @@ export namespace store {
     SETPAGE: TMutationFun<TType<EStateKey.page>>;
     SETTOTALPAGE: TMutationFun<TType<EStateKey.totalPage>>;
     SETLISTHEIGHT: TMutationFun<TType<EStateKey.listHeight>>;
+    SETTHEMECOLOR: TMutationFun<TType<EStateKey.themeColor>>;
   }
 }

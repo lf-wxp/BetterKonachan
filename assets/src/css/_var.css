@@ -1,0 +1,30 @@
+:root {
+  --themeBaseColor: #39cccc;
+  --themeBaseColorAlpha30: color(#39cccc alpha(30%));
+  --themeBaseColorAlpha50: color(#39cccc alpha(50%));
+  --themeBaseColorAlpha80: color(#39cccc alpha(80%));
+  --themeBaseColorTint20: color(#39cccc tint(20%));
+  --themeBaseColorTint10: color(#39cccc tint(10%));
+
+  --themeUploadProcessBarBgColor:color(#dcdcdc tint(10%));
+  --themeUploadProcessBarColor:#3399ff;
+  --themeUploadProcessBarColorTint5:color(#3399ff tint(5%));
+  --themeUploadProcessBarColorTint10:color(#3399ff tint(10%));
+  --themeUploadProcessBarColorTint20:color(#3399ff tint(20%));
+  --themeUploadProcessBarSuccessColor: #5bbd72;
+
+  --themeBorderColor: #dcdcdc;
+  --themeNoticeColor: #99ccff;
+  --themeRadius: 5px;
+  --themeDisabledColor: color(gray alpha(30%));
+
+  --themePageNavBgColor: rgba(0, 0, 0, .3);
+  --themePageItemSize: 40px;
+  --themePageItemHoverColor: color(#39cccc alpha(20%));
+  --themePageItemBreathColor1: color(#39cccc shade(5%));
+  --themePageItemBreathColor2: color(#39cccc shade(10%));
+
+  --themeListToolHeight: 25px;
+  --themeListToolBgColor: color(#39cccc alpha(50%));
+  --themeListGap: 10px;
+}

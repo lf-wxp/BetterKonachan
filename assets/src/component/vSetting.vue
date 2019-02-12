@@ -28,10 +28,7 @@ export default class VSetting extends Vue {
     }
 }
 </script>
-<style lang="postcss" scoped>
-:root {
-    --teal: #39cccc;
-}
+<style lang="postcss">
 .setting {
     width: 24px;
     height: 24px;
@@ -39,7 +36,7 @@ export default class VSetting extends Vue {
     z-index: 1;
     left: 0;
     top: 0;
-    border: 4px solid var(--teal);
+    border: 4px solid var(--themeBaseColor);
     animation: breathSet 2s ease-in-out 0.5s infinite alternate-reverse both;
     &.active {
         & .sFake {
@@ -68,7 +65,7 @@ export default class VSetting extends Vue {
         border-color: transparent;
     }
     100% {
-        border-color: color(var(--teal) tint(20%));
+        border-color: var(--themeBaseColorTint20);
     }
 }
 @keyframes breathItem {
@@ -76,7 +73,7 @@ export default class VSetting extends Vue {
         background: transparent;
     }
     100% {
-        background: color(var(--teal) tint(20%));
+        background: var(--themeBaseColorTint20);
     }
 }
 </style>

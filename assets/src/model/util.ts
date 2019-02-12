@@ -6,3 +6,8 @@ export type TBinding = {
   arg: string;
   modifiers: object;
 };
+
+export interface IParsedColor {
+  color: string;
+  count: number;
+}

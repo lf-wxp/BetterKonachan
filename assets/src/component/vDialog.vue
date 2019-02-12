@@ -56,8 +56,7 @@ export default {
     },
 };
 </script>
-<style lang="postcss" scoped>
-@import '../assets/sass/components/_icon';
+<style lang="postcss">
 #dialog {
     position: fixed;
     background: rgba(25, 41, 62, 0.5);

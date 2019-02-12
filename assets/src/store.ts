@@ -15,7 +15,8 @@ export const store: Store<storeScope.IState> =  new Vuex.Store<storeScope.IState
         page: 1,
         totalPage: 0,
         security: true,
-        listHeight: '100vh'
+        listHeight: '100vh',
+        themeColor: '#39cccc'
     },
     getters: {
         GETBGURL(state: storeScope.IState): storeScope.TType<'bgUrl'> {
@@ -35,6 +36,9 @@ export const store: Store<storeScope.IState> =  new Vuex.Store<storeScope.IState
         },
         GETLISTHEIGHT(state: storeScope.IState): storeScope.TType<'listHeight'> {
             return state.listHeight;
+        },
+        GETTHEMECOLOR(state: storeScope.IState): storeScope.TType<'themeColor'> {
+            return state.themeColor;
         }
     },
     mutations: {
@@ -55,6 +59,9 @@ export const store: Store<storeScope.IState> =  new Vuex.Store<storeScope.IState
         },
         SETLISTHEIGHT(state: storeScope.IState, val: string): void {
             state.listHeight = val;
+        },
+        SETTHEMECOLOR(state: storeScope.IState, val: string): void {
+            state.themeColor = val;
         }
     }
 });

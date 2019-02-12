@@ -165,9 +165,8 @@ export default class Upload extends Vue {
 }
 </script>
 
-<style  lang="postcss" scoped>
+<style  lang="postcss">
 :root {
-    --baseC: #39cccc;
     --barC: #3399ff;
     --barFinalC: #5bbd72;
 }
@@ -224,7 +223,7 @@ export default class Upload extends Vue {
 .fileBtn {
     padding: 10px;
     border-radius: 2px;
-    background: color(var(--baseC) alpha(50%));
+    background: var(--themeBaseColorAlpha50);
     border: none;
     color: white;
     cursor: pointer;
@@ -232,7 +231,7 @@ export default class Upload extends Vue {
     outline: none;
     transition: background 0.2s ease;
     &:hover {
-        background-color: var(--baseC);
+        background-color: var(--themeBaseColor);
     }
 }
 input[type='file'] {
@@ -261,7 +260,7 @@ input[type='file'] {
     right: 0;
     top: 0;
     font-size: 14px;
-    color: var(--baseC);
+    color: var(--themeBaseColor);
     cursor: pointer;
 }
 .filePreviewImg {
@@ -289,7 +288,7 @@ input[type='file'] {
     justify-content: space-between;
     flex-flow: row nowrap;
     align-items: stretch;
-    border-top: 1px solid var(--baseC);
+    border-top: 1px solid var(--themeBaseColor);
     font-size: 12px;
     & > span {
         flex: 0 0 auto;
@@ -307,7 +306,7 @@ input[type='file'] {
 
 .fileNotice {
     position: fixed;
-    background: var(--baseC);
+    background: var(--themeBaseColor);
     color: white;
     padding: 5px 10px;
     border-bottom-left-radius: 3px;
@@ -327,7 +326,7 @@ input[type='file'] {
     margin: 10px 0px;
     border: none;
     position: relative;
-    background: color(#dcdcdc tint(10%));
+    background: var(--themeUploadProcessBarBgColor);
     &.tiny {
         height: 5px;
         margin: 0;
@@ -346,7 +345,7 @@ input[type='file'] {
     text-align: right;
     color: white;
     font-size: 12px;
-    background: color(var(--barC) tint(20%));
+    background: var(--themeUploadProcessBarColorTint20);
     &:after {
         content: '';
         opacity: 0;
@@ -360,19 +359,19 @@ input[type='file'] {
     }
     &[style*='width: 3'],
     &[style*='width: 4'] {
-        background: color(var(--barC) tint(10%));
+        background: var(--themeUploadProcessBarColorTint10);
     }
     &[style*='width: 5'],
     &[style*='width: 6'],
     &[style*='width: 7'] {
-        background: color(var(--barC) tint(5%));
+        background: var(--themeUploadProcessBarColorTint5);
     }
     &[style*='width: 8'],
     &[style*='width: 9'] {
         background: #66da81;
     }
     &[style*='width: 100'] {
-        background: var(--barFinalC);
+        background: var(--themeUploadProcessBarSuccessColor);
         &:after {
             animation: none;
         }
