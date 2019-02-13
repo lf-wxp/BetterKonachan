@@ -38,6 +38,7 @@
 body {
     outline: none;
     font-family: Arial,Roboto, sans-serif;
+    transition: color .2s ease-in-out;
 }
 p {
     margin:0;

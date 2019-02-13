@@ -33,6 +33,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { getMusic } from '~service';
 import { Mutation, State } from 'vuex-class';
+import Bubble from '~cModule/bubble';
 import * as Paper from 'paper';
 
 import { ISong } from '~model/song';
@@ -43,6 +44,7 @@ import { IResponse } from '~model/response';
 export default class VMusic extends Vue {
     public isLoadedBgImage: boolean = false;
     public canvas: HTMLCanvasElement = document.createElement('canvas');
+    public canvasBubble: HTMLCanvasElement = document.createElement('canvas');
     public songIndex: number = 0;
     public songList: ISong[] = [];
     public fftSize: number = 128;
@@ -197,9 +199,12 @@ export default class VMusic extends Vue {
 
     public resizeCanvas(): void {
         const width: number = (<Element>this.canvas.parentNode).clientWidth;
-        const height: number = 100;
+        const height: number = (<Element>this.canvas.parentNode).clientHeight;
+        const cHeight: number = 100;
+        this.canvasBubble.width = width;
+        this.canvasBubble.height = height;
         this.canvas.width = width;
-        this.canvas.height = height;
+        this.canvas.height = cHeight;
     }
 
     public nextSong(): void {
@@ -207,6 +212,7 @@ export default class VMusic extends Vue {
         this.songIndex = n < this.songList.length ? n : 0;
         this.loadSong();
     }
+
     public prevSong(): void {
         const p: number = this.songIndex - 1;
         this.songIndex = p >= 0 ? p : this.songList.length - 1;
@@ -219,7 +225,18 @@ export default class VMusic extends Vue {
             bottom: 32px;
             pointer-events: none;
         `;
+        this.canvasBubble.style.cssText = `
+            position:absolute;
+            bottom: 32px;
+            pointer-events: none;
+        `;
         this.$el.insertBefore(this.canvas, this.$el.firstChild);
+        this.$el.insertBefore(this.canvasBubble, this.$el.firstChild);
+        this.resizeCanvas();
+        new Bubble(this.canvasBubble);
+        window.addEventListener('resize', () => {
+            this.resizeCanvas();
+        });
         const res: IServiceHttpRes<IResponse<ISong[]>> = await getMusic.http({});
         if (isValidRes<ISong[]>(res) && res.data) {
             this.songList = res.data.data;
@@ -228,15 +245,11 @@ export default class VMusic extends Vue {
             return;
         }
         this.audio.autoplay = true;
-        this.resizeCanvas();
         Paper.setup(this.canvas);
         this.initAudioLine();
         this.initialAudio();
         this.initialAudioEvent();
         this.loadSong();
-        window.addEventListener('resize', () => {
-            this.resizeCanvas();
-        });
     }
 }
 </script>

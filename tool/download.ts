@@ -2,7 +2,6 @@ import axios, { AxiosResponse } from 'axios';
 import * as archiver from 'archiver';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as url from 'url';
 
 import { Netease } from '~module/netease';
 import { mkdirsSync } from '~util';
