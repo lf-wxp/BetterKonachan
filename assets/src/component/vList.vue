@@ -161,7 +161,7 @@ export default class VList extends Vue {
 .lCon {
     position: relative;
     background: none;
-    min-height: calc(100vh - 843px);
+    min-block-size: calc(100vh - 843px);
 }
 .vue-waterfall-slot {
     overflow: hidden;
@@ -185,7 +185,7 @@ figure {
     position: absolute;
     display: flex;
     height: var(--themeListToolHeight);
-    width: 100%;
+    inline-size: 100%;
     justify-content: flex-start;
     flex-flow: row nowrap;
     align-items: stretch;
@@ -204,7 +204,7 @@ figure {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: var(--themeListToolHeight);
+    inline-size: var(--themeListToolHeight);
     color: white;
     font-size: 14px;
     & i {
@@ -213,9 +213,9 @@ figure {
 }
 .lImg {
     display: block;
-    width: 100%;
+    inline-size: 100%;
     box-sizing: border-box;
-    height: 100%;
+    block-size: 100%;
     border-radius: 2px;
     object-fit: cover;
     cursor: pointer;

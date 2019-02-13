@@ -30,12 +30,12 @@ export default class VSetting extends Vue {
 </script>
 <style lang="postcss">
 .setting {
-    width: 24px;
-    height: 24px;
+    inline-size: 24px;
+    block-size: 24px;
     position: fixed;
     z-index: 1;
-    left: 0;
-    top: 0;
+    inset-inline-start: 0;
+    inset-block-start: 0;
     border: 4px solid var(--themeBaseColor);
     animation: breathSet 2s ease-in-out 0.5s infinite alternate-reverse both;
     &.active {
@@ -46,13 +46,13 @@ export default class VSetting extends Vue {
 }
 .sToggle {
     display: block;
-    height: 100%;
+    block-size: 100%;
     cursor: pointer;
 }
 .sFake {
     position: absolute;
-    width: 50%;
-    height: 50%;
+    inline-size: 50%;
+    block-size: 50%;
     transition: transform 0.2s ease;
     animation: breathItem 2s ease-in-out infinite alternate-reverse both;
 }

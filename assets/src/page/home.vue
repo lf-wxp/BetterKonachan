@@ -40,15 +40,15 @@ export default class Home extends Vue {}
     background-repeat: no-repeat;
     background-size: cover;
     background-color: #252323;
-    min-height: 100vh;
+    min-block-size: 100vh;
     background-blend-mode: multiply;
 }
-@media screen and (max-width: 745px) {
+@media screen and (max-inline-size: 745px) {
     article {
         flex-wrap: wrap !important;
     }
     #footer {
-        margin-left: 10px !important;
+        margin-inline-start: 10px !important;
     }
     #pager {
         flex: 1 1 auto !important;
@@ -56,8 +56,8 @@ export default class Home extends Vue {}
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    inline-size: 10px;
+    block-size: 10px;
     background-color: #f5f5f5;
 }
 

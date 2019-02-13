@@ -41,7 +41,7 @@ body {
     transition: color .2s ease-in-out;
 }
 p {
-    margin:0;
+    margin: 0;
 }
 li {
     list-style: none;

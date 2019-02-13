@@ -271,7 +271,7 @@ i {
     position: relative;
     box-sizing: border-box;
     background-size: cover;
-    margin-top: 200px;
+    margin-block-start: 200px;
 }
 
 .mInfo {
@@ -279,7 +279,7 @@ i {
     justify-content: flex-end;
     flex-flow: row nowrap;
     align-items: center;
-    margin-top: 5px;
+    margin-block-start: 5px;
 }
 .mName,
 .mAuthor {
@@ -301,7 +301,7 @@ i {
 .mAction {
     flex: 0 0 auto;
     text-align: center;
-    margin-left: 10px;
+    margin-inline-start: 10px;
     i {
         color: white;
         transition: color 0.2s ease;
@@ -313,31 +313,28 @@ i {
 }
 .mProcessBar {
     box-sizing: border-box;
-    height: 2px;
+    block-size: 2px;
     background: rgba(255, 255, 255, 0.4);
     border-radius: 1px;
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    left: 0px;
-    right: 0px;
-    top: 0px;
-    bottom: 0px;
+    inset: 0 0 0 0;
     margin: auto;
 }
 .mBufferBar {
     position: absolute;
     pointer-events: none;
-    width: 0%;
-    height: 100%;
+    inline-size: 0%;
+    block-size: 100%;
     background: rgba(255, 255, 255, 0.7);
     transition: width 0.5s ease;
 }
 .mPlayedBar {
     position: absolute;
     pointer-events: none;
-    width: 0%;
-    height: 100%;
+    inline-size: 0%;
+    block-size: 100%;
     transition: width 0.5s ease;
     background: var(--themeBaseColorAlpha80);
 }
@@ -377,33 +374,33 @@ i {
 }
 .mVolumeBar {
     flex: 0 0 auto;
-    width: 70px;
-    height: 5px;
+    inline-size: 70px;
+    block-size: 5px;
     background: rgba(255, 255, 255, 0.5);
     cursor: pointer;
     display: inline-block;
     position: relative;
     border-radius: 2px;
-    margin-left: 10px;
+    margin-inline-start: 10px;
     transition: all 0.2s ease;
 }
 
 .mActiveBar {
     background: var(--themeBaseColorAlpha30);
-    height: 100%;
+    block-size: 100%;
     border-radius: 2px;
     position: absolute;
     pointer-events: none;
-    bottom: 0px;
-    width: 50%;
+    inset-block-end: 0px;
+    inline-size: 50%;
     transition: all 0.2s ease;
     &.muted {
         background: gray;
     }
 }
 .mFeakeBar {
-    width: 100%;
-    height: 100%;
+    inline-size: 100%;
+    block-size: 100%;
     position: absolute;
 }
 @keyframes dash {

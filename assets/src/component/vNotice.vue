@@ -43,8 +43,8 @@ export default class VNotice extends Vue {
     padding: 5px 20px;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
-    top: 0px;
-    left: 50%;
+    inset-block-start: 0px;
+    inset-inline-start: 50%;
     box-sizing: border-box;
     transition: transform 0.2s ease-in-out;
     transform: translate(-50%, -100%);

@@ -55,8 +55,8 @@ export default class VSearch extends Vue {
 .search {
     overflow: hidden;
     position: absolute;
+    inset-inline-start: 40px;
     z-index: 1;
-    left: 40px;
 }
 .sForm {
     box-sizing: border-box;
@@ -64,7 +64,7 @@ export default class VSearch extends Vue {
     flex-flow: row nowrap;
     justify-content: center;
     align-content: center;
-    align-items: space-between;
+    align-items: center;
 }
 .sInput {
     flex: 1 1 auto;
@@ -76,18 +76,18 @@ export default class VSearch extends Vue {
     border: none;
     padding: 5px 10px;
     transition: all 0.2s ease;
-    margin-left: auto;
+    margin-inline-start: auto;
     font-family: 'Aldo-SemiBold';
-    margin-right: auto;
+    margin-inline-end: auto;
     outline: none;
-    width: 190px;
+    inline-size: 190px;
     transition: width 0.2s ease-in;
     &:focus {
         background-color: var(--themeBaseColorAlpha30);
         color: white;
     }
     &.collpase {
-        width: 0;
+        inline-size: 0;
         padding: 0;
     }
 }

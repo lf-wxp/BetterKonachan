@@ -66,7 +66,7 @@ export default class Filelist extends Vue {
     display:flex;
     justify-content: space-between;
     align-items: stretch;
-    height: 30px;
+    block-size: 30px;
     padding:5px 0;
     border-bottom: 1px solid #dcdcdc;
 }

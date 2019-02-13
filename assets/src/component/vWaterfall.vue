@@ -141,13 +141,13 @@ export default class VWaterfall extends Vue {
 .waterfall {
     position: relative;
     background: none;
-    min-height: calc(100vh - 843px);
+    min-block-size: calc(100vh - 843px);
 }
 .waterfallItem {
     position: absolute;
     transition: transform 0.5s ease-in-out;
-    left: 0;
-    top: 0;
+    inset-inline-start: 0;
+    inset-block-start: 0;
 }
 .flip-list-move {
     transition: transform 0.5s ease-in-out;

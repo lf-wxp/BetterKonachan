@@ -27,18 +27,15 @@ export default class VLoading extends Vue {
 <style lang="postcss">
 .loadingDimmer {
     position: absolute;
-    height: 100%;
-    width: 100%;
-    min-height: 100px;
-    top: 0;
-    left: 0;
+    block-size: 100%;
+    inline-size: 100%;
+    min-block-size: 100px;
+    inset-block-start: 0;
+    inset-inline-start: 0;
 }
 .lLoading {
     position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
+    inset: 0 0 0 0;
     margin: auto;
 }
 </style>

@@ -12,14 +12,14 @@ export default class VHeader extends Vue {}
 <style  lang="postcss">
 .header {
     position: absolute;
-    width: 100%;
+    inline-size: 100%;
     display: flex;
     justify-content: center;
 }
 .hTitle {
     flex: 0 0 auto;
-    height: 100%;
-    width: 100%;
+    block-size: 100%;
+    inline-size: 100%;
     line-height: 100px;
     font-size: 40px;
     color: #c0cddc;

@@ -127,11 +127,11 @@ export default class VPager extends Vue {
 </script>
 <style lang="postcss">
 .pager {
-    width: calc(3 * var(--themePageItemSize));
-    height: calc(3 * var(--themePageItemSize));
+    inline-size: calc(3 * var(--themePageItemSize));
+    block-size: calc(3 * var(--themePageItemSize));
     position: absolute;
-    right: 40px;
-    top: 40px;
+    inset-inline-end: 40px;
+    inset-block-start: 40px;
     z-index: 2;
     &.active {
         animation: none;
@@ -146,18 +146,18 @@ export default class VPager extends Vue {
         & .pGoto {
             & .pGotoDiv {
                 &:first-of-type {
-                    left: var(--themePageItemSize);
-                    top: 0px;
+                    inset-inline-start: var(--themePageItemSize);
+                    inset-block-start: 0px;
                 }
                 &:last-of-type {
-                    top: var(--themePageItemSize);
-                    left: 0px;
+                    inset-block-start: var(--themePageItemSize);
+                    inset-inline-start: 0px;
                     transition-delay: 0.1s;
                 }
             }
             & .pBtn {
-                top: var(--themePageItemSize);
-                left: var(--themePageItemSize);
+                inset-block-start: var(--themePageItemSize);
+                inset-inline-start: var(--themePageItemSize);
                 transition-delay: 0.2s;
             }
         }
@@ -167,17 +167,17 @@ export default class VPager extends Vue {
         }
         & .pItem {
             &:nth-child(1) {
-                left: 0px;
-                top: 0px;
+                inset-inline-start: 0px;
+                inset-block-start: 0px;
             }
             &:nth-child(2) {
-                left: var(--themePageItemSize);
-                top: 0px;
+                inset-inline-start: var(--themePageItemSize);
+                inset-block-start: 0px;
                 transition-delay: 0.1s;
             }
             &:nth-child(3) {
-                left: 0px;
-                top: var(--themePageItemSize);
+                inset-inline-start: 0px;
+                inset-block-start: var(--themePageItemSize);
                 transition-delay: 0.2s;
             }
         }
@@ -185,8 +185,8 @@ export default class VPager extends Vue {
 }
 
 .pNav {
-    width: var(--themePageItemSize);
-    height: var(--themePageItemSize);
+    inline-size: var(--themePageItemSize);
+    block-size: var(--themePageItemSize);
     position: absolute;
     display: inline-block;
     color: white;
@@ -196,8 +196,8 @@ export default class VPager extends Vue {
     background-color: var(--themePageNavBgColor);
     cursor: pointer;
     transition: all 0.3s ease;
-    bottom: var(--themePageItemSize);
-    left: var(--themePageItemSize);
+    inset-block-end: var(--themePageItemSize);
+    inset-inline-start: var(--themePageItemSize);
     &:hover {
         &:after,
         &:before {
@@ -205,8 +205,8 @@ export default class VPager extends Vue {
         }
     }
     & svg {
-        width: 100%;
-        height: 100%;
+        inline-size: 100%;
+        block-size: 100%;
         display: block;
     }
     &:after,
@@ -217,19 +217,19 @@ export default class VPager extends Vue {
         &:after {
             content: '';
             position: absolute;
-            left: 5px;
-            bottom: 0;
-            height: 5px;
-            width: calc(100% - 5px);
+            inset-inline-start: 5px;
+            inset-block-end: 0;
+            block-size: 5px;
+            inline-size: calc(100% - 5px);
             background: var(--themePageItemHoverColor);
         }
         &:before {
             content: '';
             position: absolute;
-            left: 0;
-            bottom: 0;
-            height: 100%;
-            width: 5px;
+            inset-inline-start: 0;
+            inset-block-end: 0;
+            block-size: 100%;
+            inline-size: 5px;
             background: var(--themePageItemHoverColor);
         }
     }
@@ -237,19 +237,19 @@ export default class VPager extends Vue {
         &:after {
             content: '';
             position: absolute;
-            right: 5px;
-            top: 0;
-            height: 5px;
-            width: calc(100% - 5px);
+            inset-inline-end: 5px;
+            inset-block-start: 0;
+            block-size: 5px;
+            inline-size: calc(100% - 5px);
             background: var(--themePageItemHoverColor);
         }
         &:before {
             content: '';
             position: absolute;
-            right: 0;
-            top: 0;
-            height: 100%;
-            width: 5px;
+            inset-inline-end: 0;
+            inset-block-start: 0;
+            block-size: 100%;
+            inline-size: 5px;
             background: var(--themePageItemHoverColor);
         }
     }
@@ -259,57 +259,54 @@ export default class VPager extends Vue {
     }
 }
 .pHolder {
-    width: var(--themePageItemSize);
-    height: var(--themePageItemSize);
+    inline-size: var(--themePageItemSize);
+    block-size: var(--themePageItemSize);
     position: absolute;
     background-color: var(--themeBaseColor);
     z-index: 3;
-    left: var(--themePageItemSize);
-    top: var(--themePageItemSize);
+    inset-inline-start: var(--themePageItemSize);
+    inset-block-start: var(--themePageItemSize);
     cursor: pointer;
     transition: all 0.2s 0.5s ease-in-out;
     animation: breathPage 2s 4s ease-in-out alternate infinite;
     &:after,
     &:before {
         content: '';
-        left: 0px;
-        top: 0px;
-        right: 0px;
-        bottom: 0px;
+        inset: 0 0 0 0;
         margin: auto;
         position: absolute;
     }
     &:after {
-        width: 40%;
-        height: 40%;
+        inline-size: 40%;
+        block-size: 40%;
         background-color: var(--themePageItemBreathColor2);
         animation: breathPage2 2s ease-in-out alternate infinite;
     }
     &:before {
-        width: 70%;
-        height: 70%;
+        inline-size: 70%;
+        block-size: 70%;
         background-color: var(--themePageItemBreathColor1);
         animation: breathPage1 2s 2s ease-in-out alternate infinite;
     }
 }
 .pCon {
-    width: 2 * var(--themePageItemSize);
-    height: 2 * var(--themePageItemSize);
+    inline-size: 2 * var(--themePageItemSize);
+    block-size: 2 * var(--themePageItemSize);
     position: absolute;
-    left: 0px;
-    top: 0px;
+    inset-inline-start: 0px;
+    inset-block-start: 0px;
     z-index: 2;
 }
 .pBox {
-    width: 100%;
-    height: 100%;
+    inline-size: 100%;
+    block-size: 100%;
     font-size: 0px;
     position: relative;
 }
 .pItemText {
     display: block;
-    width: 100%;
-    height: 100%;
+    inline-size: 100%;
+    block-size: 100%;
     font-family: ZagRegular;
     line-height: 46px;
     letter-spacing: 2px;
@@ -318,10 +315,10 @@ export default class VPager extends Vue {
     position: absolute;
     color: white;
     font-size: 20px;
-    width: var(--themePageItemSize);
-    height: var(--themePageItemSize);
-    left: var(--themePageItemSize);
-    top: var(--themePageItemSize);
+    inline-size: var(--themePageItemSize);
+    block-size: var(--themePageItemSize);
+    inset-inline-start: var(--themePageItemSize);
+    inset-block-start: var(--themePageItemSize);
     line-height: 40px;
     text-align: center;
     background-color: var(--themePageNavBgColor);
@@ -340,12 +337,12 @@ export default class VPager extends Vue {
     }
 }
 .pGoto {
-    width: 2 * var(--themePageItemSize);
-    height: 2 * var(--themePageItemSize);
+    inline-size: 2 * var(--themePageItemSize);
+    block-size: 2 * var(--themePageItemSize);
     position: absolute;
     font-size: 0px;
-    left: var(--themePageItemSize);
-    top: var(--themePageItemSize);
+    inset-inline-start: var(--themePageItemSize);
+    inset-block-start: var(--themePageItemSize);
     z-index: 1;
 }
 
@@ -357,8 +354,8 @@ export default class VPager extends Vue {
     font-family: ZagRegular;
     display: block;
     color: white;
-    width: 100%;
-    height: 100%;
+    inline-size: 100%;
+    block-size: 100%;
     text-transform: uppercase;
     letter-spacing: 2px;
     border: none;
@@ -372,21 +369,21 @@ export default class VPager extends Vue {
     font-size: 14px;
     outline: none;
     box-sizing: border-box;
-    border-bottom: 4px solid var(--themeBaseColor);
+    border-block-end: 4px solid var(--themeBaseColor);
     animation: blink 1s ease-in-out infinite alternate-reverse both;
 }
 .pGotoEm,
 .pGotoDiv,
 .pBtn {
-    width: var(--themePageItemSize);
-    height: var(--themePageItemSize);
+    inline-size: var(--themePageItemSize);
+    block-size: var(--themePageItemSize);
     box-sizing: border-box;
     display: inline-block;
     position: absolute;
     margin: auto;
     border: none;
-    left: 0px;
-    top: 0px;
+    inset-inline-start: 0;
+    inset-block-start: 0;
     vertical-align: top;
     background-color: var(--themePageNavBgColor);
     transition: all 0.2s ease;
@@ -402,13 +399,13 @@ export default class VPager extends Vue {
         background-color: var(--themePageItemHoverColor);
     }
     & span {
-        width: 40%;
-        height: 40%;
+        inline-size: 40%;
+        block-size: 40%;
         display: block;
         background: var(--themeBaseColor);
         position: absolute;
-        right: 0;
-        bottom: 0;
+        inset-inline-end: 0;
+        inset-block-end: 0;
     }
 }
 .staggered-transition {

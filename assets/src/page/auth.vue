@@ -70,8 +70,8 @@ export default class Auth extends Vue {
 <style  lang="postcss">
 .auth {
     display: flex;
-    width:100vw;
-    height: 100vh;
+    inline-size:100vw;
+    block-size: 100vh;
     justify-content: center;
     align-items: center;
     flex-flow: column nowrap;
@@ -82,28 +82,28 @@ export default class Auth extends Vue {
     color: gray;
     text-align: center;
     text-transform: capitalize;
-    margin-bottom: 20px;
+    margin-block-end: 20px;
 }
 .aForm {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-flow: row wrap;
-    width: 300px;
+    inline-size: 300px;
 }
 .aInput,.aBtn {
     flex: 0 0 auto;
-    height: 40px;
+    block-size: 40px;
     border:1px solid var(--themeBorderColor);
     border-radius: 2px;
     box-sizing: border-box;
-    width: 300px;
+    inline-size: 300px;
     line-height: 40px;
     padding: 0 10px;
     font-size: 14px;
     color: gray;
     outline: none;
-    margin-bottom: 20px;
+    margin-block-end: 20px;
     transition:all .2s ease;
 }
 .aInput {

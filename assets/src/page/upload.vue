@@ -192,15 +192,15 @@ export default class Upload extends Vue {
 @keyframes process {
     0% {
         opacity: 0.3;
-        width: 0;
+        inline-size: 0;
     }
     100% {
         opacity: 0;
-        width: 100%;
+        inline-size: 100%;
     }
 }
 .fileUpload {
-    width: 100%;
+    inline-size: 100%;
 }
 .fileForm {
     flex: 0 0 auto;
@@ -209,9 +209,9 @@ export default class Upload extends Vue {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    inline-size: 100%;
     box-sizing: border-box;
-    height: 300px;
+    block-size: 300px;
     border: 6px dashed #dcdcdc;
     transition: all 0.2s ease-in-out;
 }
@@ -244,29 +244,29 @@ input[type='file'] {
     align-content: flex-start;
 }
 .filePreviewItem {
-    height: 200px;
-    width: 200px;
+    block-size: 200px;
+    inline-size: 200px;
     flex: 0 0 auto;
     margin: 20px;
     position: relative;
 }
 .filePreivewBar {
     position: absolute;
-    left: 0;
-    top: 0;
+    inset-inline-start: 0;
+    inset-block-start: 0;
 }
 .filePreviewIcon {
     position: absolute;
-    right: 0;
-    top: 0;
+    inset-inline-end: 0;
+    inset-block-start: 0;
     font-size: 14px;
     color: var(--themeBaseColor);
     cursor: pointer;
 }
 .filePreviewImg {
     display: block;
-    height: 160px;
-    width: 100%;
+    block-size: 160px;
+    inline-size: 100%;
     object-fit: contain;
     object-position: top center;
 }
@@ -275,30 +275,30 @@ input[type='file'] {
     flex-flow: row nowrap;
     justify-content: center;
     align-items: center;
-    height: 160px;
+    block-size: 160px;
     & i {
         font-size: 80px;
     }
 }
 .filePreviewInfo {
-    height: 20px;
+    block-size: 20px;
     line-height: 20px;
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
     flex-flow: row nowrap;
     align-items: stretch;
-    border-top: 1px solid var(--themeBaseColor);
+    border-block-start: 1px solid var(--themeBaseColor);
     font-size: 12px;
     & > span {
         flex: 0 0 auto;
     }
 }
 .filePreviewName {
-    height: 20px;
+    block-size: 20px;
     display: block;
     font-size: 12px;
-    width: 100%;
+    inline-size: 100%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -311,8 +311,8 @@ input[type='file'] {
     padding: 5px 10px;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
-    top: 0px;
-    left: 50%;
+    inset-block-start: 0;
+    inset-inline-start: 50%;
     box-sizing: border-box;
     transition: transform 0.2s ease-in-out;
     transform: translate(-50%, -100%);
@@ -321,28 +321,28 @@ input[type='file'] {
     }
 }
 .fileProcessbar {
-    width: 100%;
-    height: 20px;
+    inline-size: 100%;
+    block-size: 20px;
     margin: 10px 0px;
     border: none;
     position: relative;
     background: var(--themeUploadProcessBarBgColor);
     &.tiny {
-        height: 5px;
+        block-size: 5px;
         margin: 0;
     }
 }
 
 .fileInBar {
-    width: 0%;
-    height: 100%;
+    inline-size: 0%;
+    block-size: 100%;
     position: relative;
     border-radius: 5px;
     transition: all 0.2s ease-in-out;
     box-sizing: border-box;
     display: block;
     line-height: 20px;
-    text-align: right;
+    text-align: end;
     color: white;
     font-size: 12px;
     background: var(--themeUploadProcessBarColorTint20);
@@ -350,10 +350,7 @@ input[type='file'] {
         content: '';
         opacity: 0;
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        inset: 0 0 0 0;
         background: #fff;
         animation: process 2s ease 0s infinite;
     }

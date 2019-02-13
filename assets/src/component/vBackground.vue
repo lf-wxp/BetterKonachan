@@ -121,16 +121,16 @@ export default class VBackground extends Vue {
     position: absolute;
     margin: 0;
     padding: 0;
-    width: 100%;
-    min-height: 100vh;
-    left: 0;
-    top: 0;
+    inline-size: 100%;
+    min-block-size: 100vh;
+    inset-inline-start: 0;
+    inset-block-start: 0;
     filter: blur(5px);
 }
 .bgImage {
     display: block;
-    width: 100%;
-    height: 100%;
+    inline-size: 100%;
+    block-size: 100%;
     object-fit: cover;
     object-position: top center;
     transition: opacity 0.5s;
