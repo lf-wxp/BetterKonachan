@@ -175,9 +175,8 @@ figure {
     overflow: hidden;
     position: relative;
     &:hover {
-        & .lImg,
-        & .lTool {
-            transform: translateY(calc(0 - var(--themeListToolHeight)));
+        @nest & :matches(.lImg, .lTool) {
+            transform: translateY(calc(var(--themeListToolHeight) * -1));
         }
     }
 }

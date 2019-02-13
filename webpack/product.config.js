@@ -14,6 +14,7 @@ const proPlugins = [
         crossorigin: 'use-credentials', //can be null, use-credentials or anonymous
         start_url: '/',
         ios: true,
+        publicPath: '/assets/dist/',
         icons: [
             {
                 src: path.resolve(__dirname, '../assets/src/image/icon.jpg'),

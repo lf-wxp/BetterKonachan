@@ -87,8 +87,6 @@ export default class VBackground extends Vue {
             .string();
         const baseColorTint10: string = colorObj.lighten(0.1)
             .string();
-        const listToolBgColorTint: string = colorObj.fade(0.5)
-            .string();
         const pageItemHoverColor: string = colorObj.fade(0.8)
             .string();
         const pageItemBreathColor1: string = colorObj.darken(0.05)
@@ -101,7 +99,7 @@ export default class VBackground extends Vue {
         CSSVariable.setValue('--themeBaseColorAlpha80', baseColorAlpha80);
         CSSVariable.setValue('--themeBaseColorTint20', baseColorTint20);
         CSSVariable.setValue('--themeBaseColorTint10', baseColorTint10);
-        CSSVariable.setValue('--themeListToolBgColorTint', listToolBgColorTint);
+        CSSVariable.setValue('--themeListToolBgColor', baseColorAlpha50);
         CSSVariable.setValue('--themePageItemHoverColor', pageItemHoverColor);
         CSSVariable.setValue('--themePageItemBreathColor1', pageItemBreathColor1);
         CSSVariable.setValue('--themePageItemBreathColor2', pageItemBreathColor2);

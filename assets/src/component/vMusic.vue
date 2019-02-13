@@ -108,7 +108,9 @@ export default class VMusic extends Vue {
 
     public loadSong(): void {
         this.clearance();
-        const { track, title, pic, artist } = this.songList[this.songIndex];
+        const song = this.songList[this.songIndex];
+        if (!song) return;
+        const { track, title, pic, artist } = song;
         this.audio.src = track;
         this.audioTitle = title;
         this.audioArtist = artist;

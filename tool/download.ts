@@ -35,7 +35,9 @@ Netease.playlistDetail(USERID, start, length)
             const res: AxiosResponse<Buffer> = await axios.get(track, {
                 responseType: 'stream'
             });
-            const image: AxiosResponse<Buffer> = await axios.get(pic);
+            const image: AxiosResponse<Buffer> = await axios.get(pic, {
+                responseType: 'stream'
+            });
             archive.append(image.data, { name: `${id}${path.extname(pic)}` });
             archive.append(res.data, { name: `${id}.mp3` });
         }
