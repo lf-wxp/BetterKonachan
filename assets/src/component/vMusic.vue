@@ -30,7 +30,7 @@
     </section>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Watch, Vue } from 'vue-property-decorator';
 import { getMusic } from '~service';
 import { Mutation, State } from 'vuex-class';
 import Bubble from '~cModule/bubble';
@@ -63,6 +63,13 @@ export default class VMusic extends Vue {
     @State('themeColor') public themeColor: string;
 
     @Mutation('SETBG') public setBg!: Function;
+
+    @Watch('themeColor')
+    public onThemeColorChange(val: string): void {
+        if (this.audioLine) {
+            this.audioLine.strokeColor = val;
+        }
+    }
 
     public parseTime(time: number): string {
         const is2b: (n: number) => string = (num: number): string => (num < 10 ? `0${num}` : `${num}`);
@@ -108,8 +115,10 @@ export default class VMusic extends Vue {
 
     public loadSong(): void {
         this.clearance();
-        const song = this.songList[this.songIndex];
-        if (!song) return;
+        const song: ISong = this.songList[this.songIndex];
+        if (!song) {
+            return;
+        }
         const { track, title, pic, artist } = song;
         this.audio.src = track;
         this.audioTitle = title;
