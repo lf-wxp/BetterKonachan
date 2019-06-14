@@ -1,0 +1,17 @@
+.progress {
+  block-size: var(--themeProgressHeight);
+  border-radius: 4px;
+  inline-size: 100%;
+  position: relative;
+  display: block;
+  background-color: var(--themeProgressBg);
+  overflow: hidden;
+
+  & span {
+    position: absolute;
+    transition: width 0.2s ease;
+    background-color: var(--themeProgressInner);
+    block-size: 100%;
+    inline-size: 100%;
+  }
+}

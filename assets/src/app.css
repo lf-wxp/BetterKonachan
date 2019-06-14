@@ -1,0 +1,28 @@
+#root {
+  block-size: 100vh;
+  overflow: hidden;
+  background: none;
+  display: flex;
+  justify-content: flex-start;
+}
+.wrapLeft {
+  display: flex;
+  flex: 0 0 auto;
+  flex-flow: column nowrap;
+  max-inline-size: var(--themeMaxLeftWidth);
+  min-inline-size: var(--themeMinLeftWidth);
+  background: linear-gradient(rgba(20, 30, 48, 0.6), rgba(36, 59, 85, 0.6));
+  border-top-left-radius: var(--themeRadius);
+  border-bottom-left-radius: var(--themeRadius);
+  & > section {
+    margin: 10px;
+    margin-block-start: 0;
+    box-sizing: border-box;
+  }
+}
+.wrapRight {
+  flex: 1 1 auto;
+  block-size: 100vh;
+  overflow-y: auto;
+  background: none;
+}

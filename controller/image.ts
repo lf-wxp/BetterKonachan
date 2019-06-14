@@ -5,7 +5,9 @@ import { IImage } from '~model/image';
 import { TFunc1 } from '~type';
 import { EStateType } from '~model/message';
 
-export const imageTotalPage: TFunc1<void, Promise<number>> = async (): Promise<number> => {
+export const imageTotalPage: TFunc1<void, Promise<number>> = async (): Promise<
+    number
+> => {
     return Image.getPage();
 };
 

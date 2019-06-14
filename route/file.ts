@@ -1,4 +1,4 @@
-import * as Router from 'koa-router';
+import Router from 'koa-router';
 import { fileExtract, fileList, fileUpload } from '~controller/file';
 
 export const file: Router = new Router({

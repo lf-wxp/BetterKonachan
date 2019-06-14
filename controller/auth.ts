@@ -1,5 +1,5 @@
-import * as md5 from 'md5';
-import { User } from '~db';
+import md5 from 'md5';
+import { User } from 'database/user';
 import { createConnection, Connection, Repository } from 'typeorm';
 
 import { IContext } from '~model/context';
@@ -39,13 +39,17 @@ export const userList: TFunc1<IContext, Promise<void>> = async (
 export const userAuth: TFunc1<IContext, Promise<void>> = async (
     ctx: IContext
 ): Promise<void> => {
-    const { name, persistent }: Pick<IAuthReqData, 'name' | 'persistent'> = <IAuthReqData>ctx.request.body;
-    let { password }: Pick<IAuthReqData, 'password'> = <IAuthReqData>ctx.request.body;
+    const { name, persistent }: Pick<IAuthReqData, 'name' | 'persistent'> = <
+        IAuthReqData
+    >ctx.request.body;
+    let { password }: Pick<IAuthReqData, 'password'> = <IAuthReqData>(
+        ctx.request.body
+    );
     password = persistent ? password : md5(password);
     const result: TQueryResult<IUser> = await User.findOne({ name, password });
     const data: IAuthRes = {
         state: EStateType.Fail,
-        data: null ,
+        data: null,
         msg: 'login fail'
     };
     if (result) {
@@ -60,10 +64,12 @@ export const userCreate: TFunc1<IContext, Promise<void>> = async (
     ctx: IContext
 ): Promise<void> => {
     const { name }: Pick<IAuthReqData, 'name'> = <IAuthReqData>ctx.request.body;
-    let { password }: Pick<IAuthReqData, 'password'> = <IAuthReqData>ctx.request.body;
+    let { password }: Pick<IAuthReqData, 'password'> = <IAuthReqData>(
+        ctx.request.body
+    );
     let userData: IUser;
     password = md5(password);
-    const userRepository: Repository<IUser> = connection.getRepository(User);
+    const userRepository: Repository<User> = connection.getRepository(User);
     const user: IUser = new User();
     user.name = name;
     user.password = password;

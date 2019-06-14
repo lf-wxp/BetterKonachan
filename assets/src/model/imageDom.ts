@@ -1,11 +1,9 @@
 import { IImage } from '~model/image';
+import { CSSProperties } from 'react';
 
 export interface IImageDom extends IImage {
   styleH?: number;
   styleW?: number;
-  style?: {
-    height: string;
-    width: string;
-    transform: string;
-  };
+  style?: CSSProperties;
+  full?: boolean;
 }

@@ -52,7 +52,7 @@ class Player implements IPlayer {
             }
             handler = window.setTimeout(() => {
                 this.resize();
-            },                          500);
+            }, 500);
         });
     }
     public nextSong(): boolean | void {
@@ -106,8 +106,7 @@ class Player implements IPlayer {
             canvas: <HTMLCanvasElement>document.querySelector('.mCanvas'),
             activeData: this.vueData
         });
-        this.CAC.end()
-        .then((result: string) => {
+        this.CAC.end().then((result: string) => {
             if (result === 'auto') {
                 this.nextSong();
             }

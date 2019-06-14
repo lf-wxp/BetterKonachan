@@ -1,16 +1,14 @@
-import * as Koa from 'koa';
-import * as bodyParser from 'koa-bodyparser';
-import * as logger from 'koa-logger';
-import * as assets from 'koa-static';
-import * as views from 'koa-views';
-import * as path from 'path';
-import * as websockify from 'koa-websocket';
-//tslint:disable no-import-side-effect
+import Koa from 'koa';
+import bodyParser from 'koa-bodyparser';
+import logger from 'koa-logger';
+import assets from 'koa-static';
+import views from 'koa-views';
+import path from 'path';
+import websockify from 'koa-websocket';
 import 'reflect-metadata';
 
 import { fileInit } from '~controller/file';
 import { PORT } from '~config';
-
 import { router, ws } from '~route/index';
 
 fileInit();
@@ -25,8 +23,7 @@ const viewConf: Koa.Middleware = views(
 );
 
 //@ts-ignore
-app.ws.use(ws.routes())
-    .use(ws.allowedMethods());
+app.ws.use(ws.routes()).use(ws.allowedMethods());
 
 app.use(logger())
     .use(bodyParser())

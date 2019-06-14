@@ -1,4 +1,4 @@
-import * as Router from 'koa-router';
+import Router from 'koa-router';
 import { userAuth, userCreate, userList } from '~controller/auth';
 
 export const auth: Router = new Router({

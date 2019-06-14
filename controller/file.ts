@@ -1,5 +1,5 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import fs from 'fs';
+import path from 'path';
 import { mkdirsSync, extractFile } from '~util';
 import { UPLOADPATH, EXTRACTPATH } from '~config';
 
@@ -20,7 +20,9 @@ export const fileInit: TFuncVoid = (): void => {
     }
 };
 
-export const fileList: TFunc1<IContext, Promise<void>> = async (ctx: IContext): Promise<void> => {
+export const fileList: TFunc1<IContext, Promise<void>> = async (
+    ctx: IContext
+): Promise<void> => {
     const result: string[] = fs.readdirSync(UPLOADPATH);
     ctx.body = {
         state: EStateType.Success,
@@ -29,7 +31,9 @@ export const fileList: TFunc1<IContext, Promise<void>> = async (ctx: IContext): 
     };
 };
 
-export const fileExtract: TFunc1<IContext, Promise<void>> = async (ctx: IContext): Promise<void> => {
+export const fileExtract: TFunc1<IContext, Promise<void>> = async (
+    ctx: IContext
+): Promise<void> => {
     const { name }: IZipFile = <IZipFile>ctx.request.body;
     const newPath: string = path.resolve(UPLOADPATH, name);
     if (fs.existsSync(newPath)) {
@@ -48,7 +52,10 @@ export const fileUpload: TFunc1<IContext, void> = (ctx: IContext): void => {
         if (typeof message === 'string') {
             if (message === '') {
                 ctx.websocket.send(
-                    JSON.stringify({ state: EFileState.Complete, data: 'upload file successfully' })
+                    JSON.stringify({
+                        state: EFileState.Complete,
+                        data: 'upload file successfully'
+                    })
                 );
             } else {
                 ctx.websocket.send(
@@ -63,7 +70,7 @@ export const fileUpload: TFunc1<IContext, void> = (ctx: IContext): void => {
                     message
                 );
                 ctx.websocket.send(
-                    JSON.stringify({ state: EFileState.ChunkAdded})
+                    JSON.stringify({ state: EFileState.ChunkAdded })
                 );
             } catch (error) {
                 ctx.websocket.send(

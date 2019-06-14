@@ -1,0 +1,5 @@
+dist/
+mock/
+node_modules/
+jest.config.js
+test-setup.js

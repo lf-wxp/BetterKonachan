@@ -1,12 +1,11 @@
 import axios, { AxiosResponse } from 'axios';
-import * as archiver from 'archiver';
-import * as fs from 'fs';
-import * as path from 'path';
+import archiver from 'archiver';
+import fs from 'fs';
+import path from 'path';
 
 import { Netease } from '~module/netease';
 import { mkdirsSync } from '~util';
 import { USERID } from '~config';
-
 import { ISong } from '~model/song';
 
 const basePath: string = path.resolve(__dirname, '../media');
@@ -28,8 +27,7 @@ const archive: archiver.Archiver = archiver('zip', {
 });
 archive.pipe(outFile);
 
-Netease.playlistDetail(USERID, start, length)
-.then(
+Netease.playlistDetail(USERID, start, length).then(
     async (data: ISong[]): Promise<void> => {
         for (const { track, id, pic } of data) {
             const res: AxiosResponse<Buffer> = await axios.get(track, {
@@ -46,7 +44,9 @@ Netease.playlistDetail(USERID, start, length)
                 data.map(
                     (item: ISong): ISong => {
                         item.track = `/assets/dist/media/${item.id}.mp3`;
-                        item.pic = `/assets/dist/media/${item.id}${path.extname(item.pic)}`;
+                        item.pic = `/assets/dist/media/${item.id}${path.extname(
+                            item.pic
+                        )}`;
 
                         return item;
                     }

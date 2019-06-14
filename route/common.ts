@@ -1,4 +1,4 @@
-import * as Router from 'koa-router';
+import Router from 'koa-router';
 
 import { index } from '~controller/common';
 export const common: Router = new Router();

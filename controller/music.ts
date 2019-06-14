@@ -7,7 +7,6 @@ import { TFunc1 } from '~type';
 import { ISong } from '~model/song';
 import { EStateType } from '~model/message';
 
-// tslint:disable export-name
 export const musicList: TFunc1<IContext, Promise<void>> = async (
     ctx: IContext
 ): Promise<void> => {
@@ -15,8 +14,7 @@ export const musicList: TFunc1<IContext, Promise<void>> = async (
     ctx.type = 'json';
     const jsonPath: string = path.resolve(EXTRACTPATH, 'data.json');
     if (fs.existsSync(jsonPath)) {
-        data = JSON.parse(fs.readFileSync(jsonPath)
-        .toString());
+        data = JSON.parse(fs.readFileSync(jsonPath).toString());
     }
     ctx.body = {
         state: EStateType.Success,

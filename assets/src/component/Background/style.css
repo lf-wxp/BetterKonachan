@@ -1,0 +1,25 @@
+.bg {
+  position: fixed;
+  border-radius: var(--themeRadius);
+  background-color: var(--themeBackgroundColor);
+  inset-inline-start: 0;
+  inset-block-start: 0;
+  block-size: 100vh;
+  margin: 0;
+  padding: 0;
+  inline-size: 100%;
+  box-sizing: border-box;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.bgImage {
+  display: block;
+  inline-size: 100%;
+  filter: blur(5px);
+  block-size: 100%;
+  object-fit: cover;
+  border-radius: var(--themeRadius);
+  object-position: top center;
+  transition: opacity 0.5s;
+}

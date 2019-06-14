@@ -1,5 +1,3 @@
 export interface IZipFile {
-  name: string;
+    name: string;
 }
-
-

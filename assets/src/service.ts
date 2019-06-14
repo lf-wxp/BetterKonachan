@@ -24,8 +24,7 @@ class Service<Q> {
             cancelToken: new CancelToken((c: TFuncVoid): void => {
                 this.cancelToken = c;
             })
-        })
-        .catch((e: Error) => {
+        }).catch((e: Error) => {
             return e;
         });
     }

@@ -14,7 +14,17 @@ class Song implements ISong {
     public bufferSource!: AudioBufferSourceNode;
     public activeData: IVueData;
     public stopStatus: boolean = true;
-    constructor({ volume, id, canvas, activeData }: { volume: number; id: number; canvas: HTMLCanvasElement; activeData: IVueData }) {
+    constructor({
+        volume,
+        id,
+        canvas,
+        activeData
+    }: {
+        volume: number;
+        id: number;
+        canvas: HTMLCanvasElement;
+        activeData: IVueData;
+    }) {
         this.id = id;
         this.canvas = canvas;
         this.volume = volume;
@@ -42,7 +52,7 @@ class Song implements ISong {
             return result;
         };
         const min: number = Math.floor(t / 60);
-        const sec: number = Math.floor(t - (min * 60));
+        const sec: number = Math.floor(t - min * 60);
 
         return `${is2b(min)}:${is2b(sec)}`;
     }
@@ -85,9 +95,13 @@ class Song implements ISong {
         });
     }
     public async load(): Promise<void> {
-        const res: IServiceHttpRes<IResponse<Buffer>> = await getStream.http({ params: { id: this.id }});
+        const res: IServiceHttpRes<IResponse<Buffer>> = await getStream.http({
+            params: { id: this.id }
+        });
         if (isValidRes<Buffer>(res) && res.status && res.status === 200) {
-            const buffer: AudioBuffer = await this.ac.decodeAudioData(res.data.data);
+            const buffer: AudioBuffer = await this.ac.decodeAudioData(
+                res.data.data
+            );
             this.bufferSource.connect(this.analyserNode);
             this.bufferSource.buffer = buffer;
             this.bufferSource.start();
@@ -98,13 +112,19 @@ class Song implements ISong {
         }
     }
     public visualizer(): void {
-        const arr: Uint8Array = new Uint8Array(this.analyserNode.frequencyBinCount);
+        const arr: Uint8Array = new Uint8Array(
+            this.analyserNode.frequencyBinCount
+        );
         const anima: () => void = (): boolean | void => {
-            if (this.stopStatus || (this.ac.currentTime > this.duration)) { return false; }
+            if (this.stopStatus || this.ac.currentTime > this.duration) {
+                return false;
+            }
             this.analyserNode.getByteFrequencyData(arr);
             this.draw(arr);
             this.activeData.playedTime = Song.parseTime(this.ac.currentTime);
-            this.activeData.playedPercentage.width = `${this.ac.currentTime / this.duration * 100}%`;
+            this.activeData.playedPercentage.width = `${(this.ac.currentTime /
+                this.duration) *
+                100}%`;
             requestAnimationFrame(anima);
         };
         requestAnimationFrame(anima);
@@ -125,14 +145,20 @@ class Song implements ISong {
         ctx.fillStyle = '#39CCCC';
         ctx.clearRect(0, 0, width, height);
         arr.forEach((item: number, i: number) => {
-            const h: number = item / (Song.size * 2) * height;
+            const h: number = (item / (Song.size * 2)) * height;
             ctx.fillRect(w * i, height - h, w * 0.6, h);
         });
     }
-    private getCtx(): { width: number; height: number; ctx: CanvasRenderingContext2D} {
+    private getCtx(): {
+        width: number;
+        height: number;
+        ctx: CanvasRenderingContext2D;
+    } {
         const width: number = this.canvas.clientWidth;
         const height: number = this.canvas.clientHeight;
-        const ctx: CanvasRenderingContext2D = <CanvasRenderingContext2D>this.canvas.getContext('2d');
+        const ctx: CanvasRenderingContext2D = <CanvasRenderingContext2D>(
+            this.canvas.getContext('2d')
+        );
 
         return { width, height, ctx };
     }

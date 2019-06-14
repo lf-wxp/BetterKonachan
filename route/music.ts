@@ -1,4 +1,4 @@
-import * as Router from 'koa-router';
+import Router from 'koa-router';
 import { musicList } from '~controller/music';
 
 export const music: Router = new Router({

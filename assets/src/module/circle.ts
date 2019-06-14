@@ -27,7 +27,14 @@ class Circle implements ICircle {
         this.pos.y -= this.velocity;
         this.alpha -= 0.0005;
         this.ctx.beginPath();
-        this.ctx.arc(this.pos.x, this.pos.y, this.scale * 10, 0, Math.PI * 2, false);
+        this.ctx.arc(
+            this.pos.x,
+            this.pos.y,
+            this.scale * 10,
+            0,
+            Math.PI * 2,
+            false
+        );
         this.ctx.fillStyle = `rgba(255,255,255,${this.alpha})`;
         this.ctx.fill();
     }

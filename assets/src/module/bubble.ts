@@ -48,5 +48,4 @@ class Bubble implements IBubble {
     }
 }
 
-
 export default Bubble;

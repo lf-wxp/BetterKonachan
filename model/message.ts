@@ -1,10 +1,10 @@
 export enum EStateType {
-  Fail = 1,
-  Success = 0,
-  Notice = 2
+    Fail = 1,
+    Success = 0,
+    Notice = 2
 }
 
 export interface IMsg {
-  state: EStateType;
-  msg: string;
+    state: EStateType;
+    msg: string;
 }
