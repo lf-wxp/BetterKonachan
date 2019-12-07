@@ -10,7 +10,6 @@ module.exports = {
         require('postcss-color-function'),
         require('postcss-preset-env')({
             stage: 0,
-            browsers: ' > 3%'
         })
     ]
 };

@@ -36,7 +36,9 @@
             "~css/*": [ "assets/src/css" ],
             "~src/*": [ "assets/src/*" ],
             "~image/*": [ "assets/src/image/*" ],
-            "~hook/*": [ "assets/src/hook/*" ]
+            "~hook/*": [ "assets/src/hook/*" ],
+            "~controller/*": [ "controller/*" ],
+            "~route/*": [ "route/*" ],
         }
     },
     "exclude": ["node_modules", "**/*.test.ts",]

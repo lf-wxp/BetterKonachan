@@ -3,7 +3,7 @@ import * as fs from 'fs';
 
 import { EXTRACTPATH } from '~config';
 import { IContext } from '~model/context';
-import { TFunc1 } from '~type';
+import { TFunc1 } from '~util';
 import { ISong } from '~model/song';
 import { EStateType } from '~model/message';
 

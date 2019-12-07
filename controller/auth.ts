@@ -7,7 +7,7 @@ import { IUser } from '~model/user';
 import { TQueryResult } from '~model/database';
 import { IAuthRes, IAuthReqData } from '~model/authData';
 import { EStateType } from '~model/message';
-import { TFuncVoid, TFunc1 } from '~type';
+import { TFuncVoid, TFunc1 } from '~util';
 
 let connection: Connection;
 

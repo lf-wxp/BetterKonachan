@@ -1,6 +1,6 @@
 import axios, { Canceler, CancelTokenStatic, AxiosResponse } from 'axios';
 
-import { TFuncVoid } from '~type';
+import { TFuncVoid } from '~util';
 import { ISong } from '~model/song';
 import { IImageList } from '~model/image';
 // import { IAuthRes } from '~model/authData';
@@ -18,12 +18,15 @@ class Service<Q> {
         this.opts = { method, ...opts };
     }
     public async http(data: IServiceOpt): Promise<AxiosResponse<Q> | Error> {
-        return axios({
+        const option = {
             ...this.opts,
             ...(<object>data),
             cancelToken: new CancelToken((c: TFuncVoid): void => {
                 this.cancelToken = c;
             })
+        }
+        return axios({
+            ...option,
         }).catch((e: Error) => {
             return e;
         });

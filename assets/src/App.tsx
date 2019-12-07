@@ -1,10 +1,9 @@
 import React from 'react';
-import ImageList from '~component/ImageList';
+// import ImageList from '~component/ImageList';
 import Background from '~component/Background';
 import Bar from '~component/Bar';
 import Page from '~component/Page';
 import Setting from '~component/Setting';
-import Download from '~component/Download';
 import Service from '~component/Service';
 import Loading from '~component/Loading';
 import { Provider } from '~src/context';
@@ -47,11 +46,10 @@ const App: React.MemoExoticComponent<() => React.ReactElement> = React.memo(
             <Bar />
             <Page />
             <Setting />
-            <Download />
           </div>
           <div className='wrapRight'>
             <Background />
-            <ImageList />
+            {/* <ImageList /> */}
             <Loading />
           </div>
         </Provider>

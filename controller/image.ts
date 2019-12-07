@@ -2,7 +2,7 @@ import { Image } from '~module/image';
 
 import { IContext } from '~model/context';
 import { IImage } from '~model/image';
-import { TFunc1 } from '~type';
+import { TFunc1 } from '~util';
 import { EStateType } from '~model/message';
 
 export const imageTotalPage: TFunc1<void, Promise<number>> = async (): Promise<

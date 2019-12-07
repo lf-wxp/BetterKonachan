@@ -7,7 +7,7 @@ import { EFileState } from '~model/uploadMsg';
 import { IMsg, EStateType } from '~model/message';
 import { IContext } from '~model/context';
 import { IZipFile } from '~model/zipFile';
-import { TFunc1, TFuncVoid } from '~type';
+import { TFunc1, TFuncVoid } from '~util';
 
 let currenUploadFile: string = '';
 export const fileInit: TFuncVoid = (): void => {

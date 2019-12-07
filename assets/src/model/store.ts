@@ -1,4 +1,4 @@
-import { TFunc1 } from '~type';
+import { TFunc1 } from '~util';
 
 export namespace store {
     export type TGetterFun<T> = TFunc1<IState, T>;
