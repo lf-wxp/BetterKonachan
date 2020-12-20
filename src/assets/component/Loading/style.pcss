@@ -1,0 +1,31 @@
+.bk-loading {
+  position: fixed;
+  inline-size: calc(100vw - var(--themeMaxLeftWidth));
+  block-size: 100vh;
+  inset-inline-end: 0;
+  inset-block-start: 0;
+
+  & .sk-spinner {
+    color: var(--themeBaseColor);
+    inline-size: var(--themePageLoadingSize);
+    block-size: var(--themePageLoadingSize);
+    position: absolute;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
+    inset-block-start: 0;
+    inset-block-end: 0;
+    margin: auto;
+
+    & > div {
+      block-size: 100%!important;
+      inline-size: 100%!important;
+      & > div {
+        background-color: currentColor!important;
+      }
+    }
+  }
+
+  & .sk-fade-in {
+    animation: sk-fade-in 0.5s;
+  }
+}

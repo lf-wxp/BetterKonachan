@@ -1,0 +1,109 @@
+.bk-setting {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.bk-setting__security{
+  flex: 0 0 auto;
+  inline-size: 24px;
+  block-size: 24px;
+  position: relative;
+  border: 4px solid var(--themeBaseColor);
+  animation: breathSet 2s ease-in-out 0.5s infinite alternate-reverse both;
+  &.active {
+    & .bk-setting__fake {
+      transform: translate(100%, 100%);
+    }
+  }
+}
+
+.bk-setting__toggle {
+  display: block;
+  block-size: 100%;
+  cursor: pointer;
+}
+
+.bk-setting__fake {
+  position: absolute;
+  inline-size: 50%;
+  block-size: 50%;
+  transition: transform 0.2s ease;
+  animation: breathItem 2s ease-in-out infinite alternate-reverse both;
+}
+
+.bk-setting__refresh {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  inline-size: 32px;
+  block-size: 32px;
+  position: relative;
+  transition: all 0.1s linear;
+  cursor: pointer;
+  border: 4px solid var(--themeBaseColor);
+  box-sizing: border-box;
+  animation: breathSet 2s ease-in-out infinite alternate-reverse both;
+
+  & > div {
+    height: 100%;
+    width: 6px;
+    display: inline-block;
+  }
+
+  &.active {
+    border-width: 0;
+    cursor: default;
+
+    & > div {
+      background-color: var(--themeBaseColor);
+      animation: sk-stretchdelay 1.2s infinite ease-in-out;
+
+      &:nth-child(2) {
+        animation-delay: -1.1s;
+      }
+
+      &:nth-child(3) {
+        animation-delay: -1s;
+      }
+
+      &:nth-child(4) {
+        animation-delay: -0.9s;
+      }
+
+      &:nth-child(5) {
+        animation-delay: -0.8s;
+      }
+    }
+  }
+}
+
+@keyframes sk-stretchdelay {
+  0%,
+  40%,
+  100% {
+    transform: scaleY(0.4);
+  }
+  20% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes breathSet {
+  0% {
+    border-color: transparent;
+  }
+  100% {
+    border-color: var(--themeBaseColorTint20);
+  }
+}
+
+@keyframes breathItem {
+  0% {
+    background: transparent;
+  }
+  100% {
+    background: var(--themeBaseColorTint20);
+  }
+}

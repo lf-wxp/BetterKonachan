@@ -1,7 +1,7 @@
 {
     "watch": ["app.ts"],
     "ext": "ts",
-    "ignore": ["assets/"],
+    "ignore": ["src/assets/"],
     "exec": "ts-node -r tsconfig-paths/register app.ts ",
     "env": {
         "NODE_ENV": "development"
