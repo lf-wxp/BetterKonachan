@@ -16,6 +16,8 @@ export class HomeService {
         .toPromise();
       return data;
     }
-    return fs.readFileSync(path.relative(__dirname, '../assets/index.html'));
+    return fs
+      .readFileSync(path.resolve(__dirname, '../assets/index.html'))
+      .toString('utf-8');
   }
 }

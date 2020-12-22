@@ -59,7 +59,8 @@ export default {
   output: {
     filename: '[name].js',
     chunkFilename: '[name].js',
-    publicPath: isDev ? 'http://localhost:9999/' : '/',
+    publicPath: isDev ? 'http://localhost:9999/' : '/assets/',
+    path: resolve(__dirname, '../../dist/assets'),
     globalObject: 'this',
   },
   ...(isDev

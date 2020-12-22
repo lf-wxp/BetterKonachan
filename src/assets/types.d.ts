@@ -24,3 +24,7 @@ declare module '*.jpg' {
   const value: string;
   export default value;
 }
+
+declare module 'node-vibrant/dist/vibrant.worker.min';
+
+declare module 'better-react-spinkit';

@@ -38,7 +38,7 @@ export const parseXmlData = (xmlData: string): ImageResData => {
   );
   const images: ImageDetail[] = [];
   $('post').map((__, post) => {
-    const attrs = post.attribs;
+    const attrs = (post as cheerio.TagElement).attribs;
     images.push({
       id: attrs.id,
       url: attrs.file_url,

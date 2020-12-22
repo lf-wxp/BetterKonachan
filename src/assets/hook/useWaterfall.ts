@@ -58,7 +58,7 @@ const calcColumnWidth = (mW: number) => (
             width: w,
           }),
           (w) => ({
-            column: divide(w, mW),
+            column: Math.ceil(w / mW),
             colWidth: mW,
             width: w,
           }),

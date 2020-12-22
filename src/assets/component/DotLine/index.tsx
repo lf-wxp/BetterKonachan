@@ -13,6 +13,7 @@ import {
   SafePred,
   test,
   flip,
+  T,
 } from 'ramda';
 import React, { useEffect, useRef, useState } from 'react';
 import { useMeasure } from 'react-use';
@@ -28,10 +29,8 @@ interface DotLineProps {
   height?: string | number;
 }
 
-const judge = (
-  fn: SafePred<unknown> | SafePred<unknown>,
-  idx: number,
-): ((x: unknown) => boolean) => pipe(nth(idx), fn);
+const judge = (fn: SafePred<any>, idx: number): ((x: any) => boolean) =>
+  pipe(nth(idx), fn);
 
 const int = curry(Number.parseInt);
 
@@ -43,11 +42,11 @@ const percent2number = pipe(
   multiply,
 );
 
-const parseWidthPercent = ([percent, width]: [string, number]): number =>
-  percent2number(percent)(width);
+const parseWidthPercent = ([percent, width]: [unknown, number]): number =>
+  percent2number(percent as string)(width);
 
-const getSize = cond([
-  [judge(is(Number), 0), nth(0)],
+const getSize = cond<[unknown, number], number>([
+  [judge(is(Number), 0), nth(0) as (...a: any) => number],
   [
     allPass([
       judge(is(String), 0),
@@ -61,7 +60,7 @@ const getSize = cond([
 export default React.memo<DotLineProps>(
   ({ width = '100%', height = '100%' }) => {
     const canvas = useRef((null as unknown) as HTMLCanvasElement);
-    const [realH, setRealH] = useState(0);
+    const [realH, setRealH] = useState<number>(0);
     const [realW, setRealW] = useState(0);
     const bgObj = useRef((null as unknown) as DotLine);
     const [

@@ -13,12 +13,12 @@ const imagePromise = (url: string): Promise<string> =>
     img.src = url;
   });
 
-class ImagePool<T> {
-  private images: T[];
-  private urls: string[];
+class ImagePool<T extends Record<string, any>> {
+  private images: T[] = [];
+  private urls: string[] = [];
   private limit: number;
   private pool: Map<string, unknown>;
-  private prop: string;
+  private prop = '';
   private onLoad: (image: T) => void;
   private onError: (err: Event | string) => void;
 
@@ -38,7 +38,7 @@ class ImagePool<T> {
   }
 
   start(images: T[], prop: string): void {
-    this.urls = images.map((imgs) => imgs[prop]);
+    this.urls = images.map((imgs) => imgs[prop] as string);
     this.images = images;
     this.prop = prop;
     this.pool.clear();
@@ -55,7 +55,8 @@ class ImagePool<T> {
       )
       .subscribe(
         (url) => {
-          this.onLoad(this.images.find((image) => image[this.prop] === url));
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          this.onLoad(this.images.find((image) => image[this.prop] === url)!);
         },
         (err) => {
           this.onError(err);

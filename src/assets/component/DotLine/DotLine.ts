@@ -30,8 +30,8 @@ const intersect2lines = (l1: Line, l2: Line): Point | undefined => {
 
 class Line {
   private flag: Flag;
-  private va: number;
-  private vb: number;
+  private va!: number;
+  private vb!: number;
   private w: number;
   private h: number;
   public b: Point;
