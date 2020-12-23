@@ -1,6 +1,9 @@
 import { resolve } from 'path';
+import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
+import { InjectManifest } from 'workbox-webpack-plugin';
+import pwaManifest from 'webpack-pwa-manifest';
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -59,7 +62,7 @@ export default {
   output: {
     filename: '[name].js',
     chunkFilename: '[name].js',
-    publicPath: isDev ? 'http://localhost:9999/' : '/assets/',
+    publicPath: isDev ? 'http://localhost:9999/' : '/',
     path: resolve(__dirname, '../../dist/assets'),
     globalObject: 'this',
   },
@@ -91,7 +94,32 @@ export default {
   plugins: [
     new HtmlWebpackPlugin({
       template: resolve(__dirname, '../assets/index.html'),
+      favicon: resolve(__dirname, '../assets/image/favicon.jpg'),
     }),
+    new webpack.EnvironmentPlugin('NODE_ENV'),
+    !isDev &&
+      new pwaManifest({
+        name: 'BetterKonachan',
+        short_name: 'BetterKonachan',
+        description: 'BetterKonachan',
+        background_color: '#ffffff',
+        crossorigin: 'use-credentials', //can be null, use-credentials or anonymous
+        start_url: '/',
+        ios: true,
+        publicPath: '/',
+        icons: [
+          {
+            src: resolve(__dirname, '../assets/image/icon.jpg'),
+            sizes: [96, 128, 192, 256, 384, 512], // multiple sizes
+          },
+        ],
+      }),
+    !isDev &&
+      new InjectManifest({
+        swSrc: resolve(__dirname, '../assets/sw.ts'),
+        swDest: resolve(__dirname, '../../dist/assets/sw.js'),
+        maximumFileSizeToCacheInBytes: 20000000,
+      }),
     isDev &&
       new ReactRefreshWebpackPlugin({
         overlay: false,

@@ -10,7 +10,7 @@ import { HomeModule } from './home/home.module';
     HomeModule,
     ServeStaticModule.forRoot({
       rootPath: resolve(__dirname, 'assets'),
-      serveRoot: '/assets',
+      serveRoot: '/',
       exclude: ['/api*'],
     }),
   ],
