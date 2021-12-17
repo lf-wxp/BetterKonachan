@@ -28,6 +28,7 @@ export default React.memo(() => {
         params: {
           tags,
           page,
+          isSafe: true,
           refresh,
         },
       })

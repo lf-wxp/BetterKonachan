@@ -7,8 +7,12 @@ export class FetchController {
   constructor(private readonly fetchService: FetchService) {}
 
   @Get('post')
-  getImages(@Query('page') page: string, @Query('tags') tags: string) {
-    return this.fetchService.getImages(page, tags);
+  getImages(
+    @Query('page') page: string,
+    @Query('tags') tags: string,
+    @Query('isSafe') isSafe: boolean,
+  ) {
+    return this.fetchService.getImages(page, tags, isSafe);
   }
 
   @Get('image')

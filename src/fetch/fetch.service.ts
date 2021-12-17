@@ -20,7 +20,7 @@ export class FetchService {
     return res;
   }
 
-  async getImages(page: string, tags: string) {
+  async getImages(page: string, tags: string, isSafe: boolean) {
     const searchParams = new URLSearchParams();
     searchParams.append('page', page);
     searchParams.append('tags', tags);
@@ -63,7 +63,8 @@ export class FetchService {
           previewWidth: actual_preview_width,
           security: rating === 's',
         };
-      });
+      })
+      .filter(({ security }) => (isSafe ? security : true));
     return {
       total,
       images,
