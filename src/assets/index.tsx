@@ -1,18 +1,22 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { RecoilRoot } from 'recoil';
 import App from './App';
 
-ReactDOM.render(
+import './css/_var.pcss';
+import './css/_base.pcss';
+
+const container = document.getElementById('root');
+const root = createRoot(container!);
+root.render(
   <RecoilRoot>
     <App />
   </RecoilRoot>,
-  document.getElementById('root'),
 );
 
 if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
   // Use the window load event to keep the page load performant
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js');
+    navigator.serviceWorker.register('/sw.js' );
   });
 }

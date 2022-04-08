@@ -1,22 +1,23 @@
 import cheerio from 'cheerio';
 import { last } from 'ramda';
-import { Injectable, HttpService } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '../config/config.service';
 import { AxiosResponse } from 'axios';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class FetchService {
   constructor(
     private readonly httpService: HttpService,
     private readonly configService: ConfigService,
-  ) {}
+  ) { }
 
   async getImage(url: string): Promise<AxiosResponse<any>> {
-    const res = await this.httpService
+    const res = await lastValueFrom(this.httpService
       .get(url, {
         responseType: 'stream',
-      })
-      .toPromise();
+      }))
     return res;
   }
 
@@ -24,9 +25,8 @@ export class FetchService {
     const searchParams = new URLSearchParams();
     searchParams.append('page', page);
     searchParams.append('tags', tags);
-    const { data } = await this.httpService
-      .get(`${this.configService.xmlImageUrl}?${searchParams.toString()}`)
-      .toPromise();
+    const { data } = await lastValueFrom(this.httpService
+      .get(`${this.configService.xmlImageUrl}?${searchParams.toString()}`));
     const $ = cheerio.load(data);
     const total = Math.ceil(
       Number.parseInt($('posts').attr('count')!, 10) / 21,

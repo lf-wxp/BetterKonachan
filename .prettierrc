@@ -1,4 +1,6 @@
 {
+  "tabWidth": 2,
+  "proseWrap": "never",
   "singleQuote": true,
   "trailingComma": "all"
 }

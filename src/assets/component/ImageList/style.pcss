@@ -16,11 +16,11 @@
   background-clip: content-box;
 
   &:hover {
-    @nest & :matches(.bk-list__img, .bk-list__tool) {
+    @nest & :is(.bk-list__img, .bk-list__tool) {
       transform: translateY(calc(var(--themeListToolHeight) * -1));
     }
 
-    @nest & :matches(.bk-list__down) {
+    @nest & :is(.bk-list__down) {
       transform: scale(1);
       opacity: 1;
       visibility: visible;
@@ -59,7 +59,6 @@
   color: var(--themeBaseColor);
   line-height: var(--themeListToolHeight);
   text-align: center;
-  font-family: 'NanoCore';
 
   & span {
     font-family: Arial;

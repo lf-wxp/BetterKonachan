@@ -73,7 +73,6 @@ export default {
           port: 9999,
           host: '0.0.0.0',
           historyApiFallback: true,
-          publicPath: 'http://localhost:9999/',
           headers: {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods':
@@ -83,7 +82,7 @@ export default {
           },
           proxy: {
             '/api/**': {
-              target: 'http://localhost:3000/',
+              target: 'http://localhost:8888/',
               changeOrigin: true,
             },
           },

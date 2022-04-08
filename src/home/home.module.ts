@@ -1,4 +1,5 @@
-import { Module, HttpModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
+import { HttpModule } from '@nestjs/axios';
 import { HomeController } from './home.controller';
 import { HomeService } from './home.service';
 import { ConfigModule } from '../config/config.module';

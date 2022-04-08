@@ -1,5 +1,7 @@
-import { Injectable, HttpService } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '../config/config.service';
+import { lastValueFrom } from 'rxjs';
 import fs from 'fs';
 import path from 'path';
 
@@ -11,9 +13,9 @@ export class HomeService {
   ) {}
   async index() {
     if (this.configService.isDEV) {
-      const { data } = await this.httpService
-        .get('http://localhost:9999')
-        .toPromise();
+      // const { data } = await this.httpService.get('http://localhost:9999')
+      // return data;
+      const { data } = await lastValueFrom(this.httpService.get('http://localhost:9999'));
       return data;
     }
     return fs
