@@ -69,8 +69,7 @@ export default React.memo(() => {
                 />
                 <div className="bk-list__tool">
                   <p className="bk-list__info">
-                    <span>{item.width}</span> /
-                    <span>{item.height}</span>
+                    <span>{item.width}</span> / <span>{item.height}</span>
                   </p>
                 </div>
                 <a

@@ -9,8 +9,6 @@ import DotLine from './component/DotLine';
 import Search from './component/Search';
 
 import './app.pcss';
-import './css/_var.pcss';
-import './css/_base.pcss';
 
 const App: React.MemoExoticComponent<() => React.ReactElement> = React.memo(
   () => {
